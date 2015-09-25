@@ -12,10 +12,12 @@
 	const HEIGHT_DEF = 50,
 				WIDTH_DEF = 50,
 				SCALE_DEF = 8,
-				SIZE_POINTER_DEF = 5 * SCALE_DEF,
+				SIZE_POINTER_REL_DEF = 5,
+				SIZE_POINTER_DEF = SIZE_POINTER_REL_DEF * SCALE_DEF,
 				COLOR_POINTER_PREW_DEF = 'rgba(255,255,255,0.5)';
 
-	var sizePointer	= SIZE_POINTER_DEF;
+	var sizePointerRel = SIZE_POINTER_REL_DEF,
+			sizePointer	= SIZE_POINTER_DEF;
 
 	var cv,
 			ctx,
@@ -50,7 +52,7 @@
 		},
 		paint : function(ctx,y,x) {
 			ctx.strokeRect(this.x,this.y,this.width,this.height);
-			for (var i = 0; i < (this.relW/(sizePointer/SCALE_DEF)); i++) {
+			for (var i = 0; i < (this.relW/(sizePointerRel)); i++) {
 					ctx.beginPath();
 					ctx.moveTo((i*sizePointer) + this.x,this.y);
 					ctx.lineTo((i*sizePointer) + this.x, this.height + this.y);
@@ -69,12 +71,21 @@
 			clean();
 			this.paint(ctx);
 			if(x < this.x  || x > this.x+this.width  || y < this.y || y > this.y+this.height  ) return;
-			var tempX = x - this.relX,
-					tempY = y - this.relY;
+			var tempX = x - this.x,
+					tempY = y - this.y;
+			x = this.x + (tempX - (tempX%sizePointer));
+			y =	this.y + (tempY - (tempY%sizePointer));
+			//console.log(tempX,tempY);
+			ctx.fillStyle = COLOR_POINTER_PREW_DEF;
+			ctx.fillRect(x,y,sizePointer,sizePointer);
 
- 			ctx.fillStyle = COLOR_POINTER_PREW_DEF;
-			ctx.fillRect(x-(sizePointer/2),y-(sizePointer/2),sizePointer,sizePointer);
-			//ctx.restore();
+			// if(tempX < sizePointer && tempY < sizePointer){
+			// 	x = this.x + (sizePointer / 2);
+			// 	y = this.y + (sizePointer / 2);
+			// 	ctx.fillStyle = COLOR_POINTER_PREW_DEF;
+			// 	ctx.fillRect(x-(sizePointer/2),y-(sizePointer/2),sizePointer,sizePointer);
+			// }
+
 		}
 	}
 
