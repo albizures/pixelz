@@ -1,0 +1,42 @@
+@import 'normalize.css'
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body{
+  background grey
+	position: absolute;
+	height : 100%;
+	overflow : hidden;
+}
+.canvas,.preview
+  position absolute
+  top 0
+  left 0
+
+
+
+.frame-preview
+	border 1px solid
+#panel,#frames
+  position fixed
+
+#panel
+	bottom 200px
+	height 0px
+	width 100%
+	background black
+
+#frames
+  z-index 2
+  top 0
+  left 0
+  height 100%
+  width 150px
+  background rgba(0,0,0,.5);
+  ul
+    list-style: none;

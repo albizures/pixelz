@@ -6,22 +6,21 @@ html
 		title
 		meta(name='description', content='')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
-		link(rel='stylesheet', href='css/normalize.css')
-		//link(rel='stylesheet', href='css/main.css')
-		style.
-			body{
-				position: absolute;
-				height : 100%;
-				overflow : hidden;  
-			}
-			canvas{
-				background: grey;
-			}
-		body
-			//if lt IE 7
-				p.browsehappy
-					| You are using an <strong>outdated</strong> browser.
-					| Please <a href="http://browsehappy.com/">upgrade your browser</a>
-					| to improve your experience.	
-			canvas#canvas
-			script(src="main.js")
+		link(rel='stylesheet', href='css/main.css')
+	body
+		//if lt IE 7
+			p.browsehappy
+				| You are using an <strong>outdated</strong> browser.
+				| Please <a href="http://browsehappy.com/">upgrade your browser</a>
+				| to improve your experience.	
+		//canvas#canvas
+		#panel.fixed
+		#frames.fixed
+			button#add-frame add frame
+			ul#list-preview-frames
+		script(src="http://localhost:35729/livereload.js")
+		script(src="js/init.js")
+		script(src="js/prototypes/Frame.js")
+		script(src="js/prototypes/Sprite.js")
+		script(src="js/prototypes/Canvas.js")
+		script(src="main.js")
