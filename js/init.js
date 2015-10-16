@@ -69,10 +69,11 @@ HTMLElement.prototype.off = function (name) {
 				}
 			},
 			addFrame(){
-				Editor.setCurrentFrame(sprite.addFrame());
+				Editor.setCurrentFrame(sprite.addFrame(true));
 			},
-			setCurrentFrame(i){
-				index = i;
+			setCurrentFrame(f){
+				index = f.index;
+				canvas.frame = f;
 			},
 			handlers : {
 				onScroll(evt){

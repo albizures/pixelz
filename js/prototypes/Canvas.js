@@ -46,6 +46,10 @@
 					width = this.relW * this.scale;
 					height = this.relH * this.scale;
 				},
+				set frame(val){
+					frame = val;
+					this.draw();
+				},
 				get relH(){ return relH},
 				set relH(val){
 					relH = val;
@@ -91,6 +95,7 @@
 			};
 			Canvas.prototype.draw = function () {
 				this.cleanMain();
+				var a = 1;
 				for(let i in frame.bitmap){
 					for(let a in frame.bitmap[i]){
 						if(hasVal(frame.bitmap[i][a])){

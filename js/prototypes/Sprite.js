@@ -7,7 +7,8 @@
 			function Sprite(w,h) {
 				width = w;
 				height = h;
-				this.addFrame();
+				frames.push(Frame(this,0));
+				//this.addFrame();
 			}
 			Sprite.prototype = {
 				constructor : Sprite,
@@ -17,10 +18,16 @@
 				set height(val){height = val},
 				get frames(){return frames}
 			};
-			Sprite.prototype.addFrame = function () {
-				let index  = frames.length;
-				frames.push(Frame(this,frames.length));
-				return index;
+			Sprite.prototype.addFrame = function (clone,i) {
+				let index = i || frames.length - 1;
+
+				let bitmap;
+				if(clone && hasVal(frames[index])){
+					bitmap = frames[index].clone();
+				}
+				let frame = Frame(this,index + 1,bitmap);
+				frames.push(frame);
+				return frame;
 			};
 			return new Sprite(params[0],params[1]);
 		})();

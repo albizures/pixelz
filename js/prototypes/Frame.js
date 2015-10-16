@@ -27,13 +27,16 @@
 		let params = arguments;
 		return (function () {
 			var index,bitmap,cx , sprite;
-			function Frame(s,i) {
+			function Frame(s,i,b) {
 				sprite = s;
 				index = i;
-				bitmap = new Array(sprite.width);
-				for(let i = 0 ; i < bitmap.length ; i++){
-					bitmap[i] = new Array(sprite.height);
+				bitmap = b || new Array(sprite.width);
+				if(!hasVal(b)){
+					for(let i = 0 ; i < bitmap.length ; i++){
+						bitmap[i] = new Array(sprite.height);
+					}
 				}
+
 			}
 			Frame.prototype = {
 				constructor : Frame,
@@ -43,23 +46,6 @@
 				set index(val){
 					index = val;
 				},
-				generatePreview(scale){
-					let newCanvas = $.createElement('canvas');
-					newCanvas.width = sprite.width * scale;
-					newCanvas.height = sprite.height * scale;
-					let newCtx = newCanvas.getContext('2d');
-					for(let i in bitmap){
-						for(let a in bitmap[i]){
-							if(hasVal(bitmap[i][a])){
-								newCtx.fillStyle = bitmap[i][a];
-								let x = i * scale;
-								let y = a * scale;
-								newCtx.fillRect(x,y,scale,scale);
-							}
-						}
-					}
-					return newCanvas;
-				},
 				get bitmap(){return bitmap},
 				get cv(){ return cv},
 				set cv(val){canvas = val},
@@ -68,7 +54,31 @@
 				get width(){return sprite.width},
 				get height(){return sprite.height}
 			}
-			return new Frame(params[0],params[1]);
+			Frame.prototype.clone = function () {
+				var newBitmap = [];
+				for (let i of bitmap) {
+					newBitmap.push(i.slice(0));
+				}
+				return newBitmap;
+			};
+			Frame.prototype.generatePreview = function (scale) {
+				let newCanvas = $.createElement('canvas');
+				newCanvas.width = sprite.width * scale;
+				newCanvas.height = sprite.height * scale;
+				let newCtx = newCanvas.getContext('2d');
+				for(let i in bitmap){
+					for(let a in bitmap[i]){
+						if(hasVal(bitmap[i][a])){
+							newCtx.fillStyle = bitmap[i][a];
+							let x = i * scale;
+							let y = a * scale;
+							newCtx.fillRect(x,y,scale,scale);
+						}
+					}
+				}
+				return newCanvas;
+			}
+			return new Frame(params[0],params[1],params[2]);
 		})();
 	}
 
