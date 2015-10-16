@@ -54,26 +54,25 @@ HTMLElement.prototype.off = function (name) {
 				index = -1,
 				canvas;
 
+		let ul = $.getElementById('list-preview-frames'),
+				addFrame = $.getElementById('add-frame');
 		return  {
 			previewFrames (){
-				let ul = $.getElementById('list-preview-frames');
+
+				ul.textContent = '';
 				for(let item of sprite.frames){
 					let li = $.createElement('li');
-					let cv = $.createElement('canvas');
-					cv.width = sprite.width;
-					cv.height = sprite.height;
+					let cv = item.generatePreview(7);
 					cv.classList.add('frame-preview');
-
 					li.appendChild(cv);
 					ul.appendChild(li);
 				}
 			},
-			addFrame(frame){
-				frames.push(frame);
-				return frames.length - 1;
+			addFrame(){
+				Editor.setCurrentFrame(sprite.addFrame());
 			},
-			setCurrentFrame(indexF){
-				index = indexF;
+			setCurrentFrame(i){
+				index = i;
 			},
 			handlers : {
 				onScroll(evt){
@@ -84,12 +83,12 @@ HTMLElement.prototype.off = function (name) {
 						tipo = 1;
 					}
 					canvas.scale += tipo;
-					console.log(canvas.scale);
 				},
 				onClick(evt){
 					let pos = canvas.calcPos(evt.clientX,evt.clientY);
 					if(hasVal(pos)){
 						canvas.drawAt(pos.x,pos.y);
+						Editor.previewFrames();//change with a event
 					}
 				},
 				onMouseDown(){
@@ -121,6 +120,8 @@ HTMLElement.prototype.off = function (name) {
 				return frames[indexF];
 			},
 			setEvents(){
+				addFrame.on('click.preview',this.addFrame);
+
 				canvas.on('mousewheel.canvas',this.handlers.onScroll)
 					.on('mousedown.canvas',this.handlers.onMouseDown)
 					.on('mousemove.canvas',this.handlers.onMouseMove)
@@ -131,8 +132,8 @@ HTMLElement.prototype.off = function (name) {
 				//var canvas = $.createElement('canvas');
 				//canvas.id = 'main-cv';
 				sprite = Sprite(WIDTH_DEF,HEIGHT_DEF);
-
-				canvas = Canvas(sprite.frames[0],SCALE_DEF,window.innerWidth/2,window.innerHeight/2);
+				index = 0
+				canvas = Canvas(sprite.frames[index],SCALE_DEF,window.innerWidth/2,window.innerHeight/2);
 				//canvas.height = window.innerHeight;
 				//canvas.width = window.innerWidth;
 

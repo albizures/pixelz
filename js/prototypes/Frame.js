@@ -44,7 +44,21 @@
 					index = val;
 				},
 				generatePreview(scale){
-					var newCanvas = $.createElement('canvas');
+					let newCanvas = $.createElement('canvas');
+					newCanvas.width = sprite.width * scale;
+					newCanvas.height = sprite.height * scale;
+					let newCtx = newCanvas.getContext('2d');
+					for(let i in bitmap){
+						for(let a in bitmap[i]){
+							if(hasVal(bitmap[i][a])){
+								newCtx.fillStyle = bitmap[i][a];
+								let x = i * scale;
+								let y = a * scale;
+								newCtx.fillRect(x,y,scale,scale);
+							}
+						}
+					}
+					return newCanvas;
 				},
 				get bitmap(){return bitmap},
 				get cv(){ return cv},

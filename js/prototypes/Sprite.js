@@ -18,7 +18,9 @@
 				get frames(){return frames}
 			};
 			Sprite.prototype.addFrame = function () {
-				frames.push(Frame(this,0));
+				let index  = frames.length;
+				frames.push(Frame(this,frames.length));
+				return index;
 			};
 			return new Sprite(params[0],params[1]);
 		})();
