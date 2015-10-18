@@ -1,5 +1,7 @@
 (function ($) {
 	'use strict';
+	const SCALE_DEF = 7;
+	let ul = $.getById('list-preview-frames');
 
 	function Frame() {
 		var index,
@@ -26,17 +28,21 @@
 	function createFrame() {
 		let params = arguments;
 		return (function () {
-			var index,bitmap,cx , sprite;
-			function Frame(s,i,b) {
+			var index,bitmap,cx ,cv, sprite,li,scale,status;
+			function Frame(s,i,b,sc) {
 				sprite = s;
 				index = i;
 				bitmap = b || new Array(sprite.width);
+				scale = sc || SCALE_DEF;
+
 				if(!hasVal(b)){
 					for(let i = 0 ; i < bitmap.length ; i++){
 						bitmap[i] = new Array(sprite.height);
 					}
 				}
 
+				Editor.events.on('change.frame' + index,this.onChange,this);
+				this.init();
 			}
 			Frame.prototype = {
 				constructor : Frame,
@@ -54,6 +60,21 @@
 				get width(){return sprite.width},
 				get height(){return sprite.height}
 			}
+			Frame.prototype.init = function () {
+				cv = $.createElement('canvas');
+				li = $.createElement('li');
+
+				cv.width = sprite.width * scale;
+				cv.height = sprite.height * scale;
+				cv.classList.add('frame-preview');
+				cv.id = "f"+index;
+				cx = cv.getContext('2d');
+				var self = this;
+				li.on('click.selectFrame',function () {
+					Editor.events.fire('selectFrame',self);
+				});
+				this.append();
+			};
 			Frame.prototype.clone = function () {
 				var newBitmap = [];
 				for (let i of bitmap) {
@@ -61,22 +82,32 @@
 				}
 				return newBitmap;
 			};
-			Frame.prototype.generatePreview = function (scale) {
-				let newCanvas = $.createElement('canvas');
-				newCanvas.width = sprite.width * scale;
-				newCanvas.height = sprite.height * scale;
-				let newCtx = newCanvas.getContext('2d');
+			Frame.prototype.append = function () {
+				if(!hasVal($.getById('f'+index))){
+					li.appendChild(cv);
+					ul.appendChild(li);
+				}
+			};
+			Frame.prototype.remove = function () {
+				li.remove();
+			};
+			Frame.prototype.onSelect = function () {
+
+			};
+			Frame.prototype.onChange = function () {
 				for(let i in bitmap){
 					for(let a in bitmap[i]){
 						if(hasVal(bitmap[i][a])){
-							newCtx.fillStyle = bitmap[i][a];
+							cx.fillStyle = bitmap[i][a];
 							let x = i * scale;
 							let y = a * scale;
-							newCtx.fillRect(x,y,scale,scale);
+							cx.fillRect(x,y,scale,scale);
 						}
 					}
 				}
-				return newCanvas;
+			};
+			Frame.prototype.generatePreview = function (scale) {
+				return cv;
 			}
 			return new Frame(params[0],params[1],params[2]);
 		})();

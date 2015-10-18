@@ -115,6 +115,7 @@
 				x = (x - this.x)/this.scale;
 				y = (y - this.y)/this.scale;
 				frame.bitmap[x][y] = 'black';
+				Editor.events.fire('change.frame'+frame.index);
 				this.draw();
 				//console.log(, ;
 			};

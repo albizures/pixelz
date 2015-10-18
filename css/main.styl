@@ -13,15 +13,19 @@ body{
 	height : 100%;
 	overflow : hidden;
 }
-.canvas,.preview
+.canvas,.preview,.content-preview-animate
   position absolute
   top 0
   left 0
 
-
+.content-preview-animate
+  left auto
+  right 0
 
 .frame-preview
-	border 1px solid
+  border 1px solid
+  &.active
+    outline 5px solid yellow
 #panel,#frames
   position fixed
 
