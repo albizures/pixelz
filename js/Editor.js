@@ -7,8 +7,8 @@
 
 		let frames = [],
 				index = -1,
-				canvas;
-
+				canvas,
+				tools = {};
 		let addFrame = $.getElementById('add-frame');
 		return  {
 			previewAnimate(){
@@ -20,6 +20,13 @@
 			setCurrentFrame(f){
 				index = f.index;
 				canvas.frame = f;
+			},
+			addTool(tool){
+				if(hasVal(tools[tool.name]))return console.error("Invalid name tool");
+				tools[tool.name] = tool;
+			},
+			setTool(name){
+				canvas.tool = tools[name];
 			},
 			handlers : {
 				onScroll(evt){
@@ -101,17 +108,13 @@
 				addFrame.on('click.preview',this.addFrame);
 
 				canvas.on('mousewheel.canvas',this.handlers.onScroll)
-					.on('mousedown.canvas',this.handlers.onMouseDown)
-					.on('mousemove.canvas',this.handlers.onMouseMove)
-					.on('mouseup.canvas',this.handlers.onMouseUp)
-					.on('click.canvas',this.handlers.onClick);
 			},
 			init(){
 				//var canvas = $.createElement('canvas');
 				//canvas.id = 'main-cv';
 				sprite = Sprite(WIDTH_DEF,HEIGHT_DEF);
-				index = 0
-				canvas = Canvas(sprite.frames[index],SCALE_DEF,window.innerWidth/2,window.innerHeight/2);
+				index = 0;
+				canvas = Canvas(sprite.frames[index],SCALE_DEF,window.innerWidth/2,window.innerHeight/2,tools.pencil);
 				//canvas.height = window.innerHeight;
 				//canvas.width = window.innerWidth;
 				this.events.on('selectFrame.editor',this.setCurrentFrame);

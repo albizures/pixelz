@@ -8,12 +8,6 @@ html
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		link(rel='stylesheet', href='css/main.css')
 	body
-		//if lt IE 7
-			p.browsehappy
-				| You are using an <strong>outdated</strong> browser.
-				| Please <a href="http://browsehappy.com/">upgrade your browser</a>
-				| to improve your experience.	
-		//canvas#canvas
 		#panel.fixed
 		#frames.fixed
 			button#add-frame add frame
@@ -26,4 +20,7 @@ html
 		script(src="js/prototypes/Frame.js")
 		script(src="js/prototypes/Sprite.js")
 		script(src="js/prototypes/Canvas.js")
+		script(src="js/prototypes/Vector.js")
+		script(src="js/prototypes/Tool.js")
+		script(src="js/tools/pencil.js")
 		script(src="main.js")

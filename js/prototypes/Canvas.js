@@ -3,6 +3,7 @@
 	function createCanvas() {
 		let params = arguments;
 		return (function () {
+			let tool;
 			//canvas
 			let mnCv, mnCx,prCv, prCx
 			//status
@@ -13,18 +14,17 @@
 
 			let sizePointer;
 
-			function Canvas(f,s,posX,posY,sp) {
+			function Canvas(f,s,posX,posY,t,sp) {
 				scale = s || SCALE_DEF;
 				frame = f;
 				x = posX || 0;
 				y = posY || 0;
 				sizePointer = (sp || SIZE_POINTER_DEF) * scale;
+				this.tool = t;
 				this.init();
 			}
 			Canvas.prototype = {
 				constructor : Canvas,
-				get clicked(){return clicked},
-				set clicked(val){clicked = val},
 				get scale(){return scale},
 				set scale(val){
 					if(val < 1) return;
@@ -32,6 +32,11 @@
 					scale = val;
 					this.cleanPrev();
 					this.draw();
+				},
+				get tool() {return tool},
+				set tool(val){
+					tool = val;
+					tool.canvas = this;
 				},
 				get width(){return frame.width * scale},
 				get height(){return frame.height * scale},
@@ -63,15 +68,27 @@
 				return this;
 			};
 			Canvas.prototype.calcPos = function (x,y) {
-				if(x < this.x  || x > this.x+this.width  || y < this.y || y > this.y+this.height  ) return;
-				let tempX = x - this.x,
-						tempY = y - this.y;
-				x = this.x + (tempX - (tempX%sizePointer));
-				y =	this.y + (tempY - (tempY%sizePointer));
-				return {
-					x : x,
-					y : y
+				let cord = {};
+				let tempX,
+						tempY;
+				if(x < this.x  || x > this.x+this.width){
+					cord.x = x < this.x? 0 : this.width;
+					cord.relX = cord.x / scale == 0? 0 : 19;
+				}else{
+					tempX = x - this.x;
+					cord.x = this.x + (tempX - (tempX%sizePointer));
+					cord.relX = (cord.x - this.x) / scale;
 				}
+				if(y < this.y || y > this.y+this.height){
+					console.log();
+					cord.y = y < this.y? 0 : this.height;
+					cord.relY = cord.y / scale == 0? 0 : 19;
+				}else{
+					tempY = y - this.y;
+					cord.y =	this.y + (tempY - (tempY%sizePointer));
+					cord.relY = (cord.y - this.y) / scale;
+				}
+				return cord;
 			};
 			Canvas.prototype.init = function () {
 				mnCv = $.createElement('canvas');
@@ -92,6 +109,11 @@
 				var self = this;
 				this.cleanPrev();
 				this.cleanMain();
+				window.on('mousedown.tool',tool.onMouseDown)
+						.on('mousemove.tool',tool.onMouseMove)
+						.on('mouseup.tool',tool.onMouseUp)
+						.on('mouseleave.tool',tool.onMouseLeave)
+						.on('click.tool',tool.onClick);
 			};
 			Canvas.prototype.draw = function () {
 				this.cleanMain();
@@ -109,11 +131,11 @@
 				}
 			};
 			Canvas.prototype.drawAt = function (x,y) {
+				console.log(x,y,!hasVal(frame.bitmap[x]) , !hasVal(frame.bitmap[x][y]));
 				//mnCx.fillStyle = '#000';
 				//mnCx.fillRect(x,y,sizePointer,sizePointer);
 				//console.log(frame.bitmap);
-				x = (x - this.x)/this.scale;
-				y = (y - this.y)/this.scale;
+				if(!hasVal(x) || !hasVal(y) || !hasVal(frame.bitmap[x])) return;
 				frame.bitmap[x][y] = 'black';
 				Editor.events.fire('change.frame'+frame.index);
 				this.draw();
@@ -147,7 +169,7 @@
 		      prCx.stroke();
 				}
 			};
-			return new Canvas(params[0],params[1],params[2],params[3]);
+			return new Canvas(params[0],params[1],params[2],params[3],params[4]);
 		})();
 	}
 
