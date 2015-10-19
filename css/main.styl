@@ -22,10 +22,7 @@ body{
   left auto
   right 0
 
-.frame-preview
-  border 1px solid
-  &.active
-    outline 5px solid yellow
+
 #panel,#frames
   position fixed
 
@@ -40,9 +37,26 @@ body{
   top 0
   left 0
   height 100%
-  width 150px
+  width 120px
   background rgba(0,0,0,.5);
+  .content-add-frame
+    position relative
+    height 10%
+    width 100%
+    padding: 10px
+    box-sizing: border-box;
+    button
+      width: 100%;
+      height: 100%;
   ul
+    height 90%
     list-style: none;
-    marging 0
-    padding 0
+    padding 10px
+    margin: 0;
+    overflow auto
+    li
+      border 1px solid
+      margin-bottom 10px
+      .frame-preview
+        &.active
+          outline 5px solid yellow

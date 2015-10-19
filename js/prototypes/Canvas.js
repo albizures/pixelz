@@ -74,6 +74,7 @@
 				if(x < this.x  || x > this.x+this.width){
 					cord.x = x < this.x? 0 : this.width;
 					cord.relX = cord.x / scale == 0? 0 : 19;
+					cord.out = true;
 				}else{
 					tempX = x - this.x;
 					cord.x = this.x + (tempX - (tempX%sizePointer));
@@ -83,6 +84,7 @@
 					console.log();
 					cord.y = y < this.y? 0 : this.height;
 					cord.relY = cord.y / scale == 0? 0 : 19;
+					cord.out = true;
 				}else{
 					tempY = y - this.y;
 					cord.y =	this.y + (tempY - (tempY%sizePointer));
@@ -118,8 +120,8 @@
 			Canvas.prototype.draw = function () {
 				this.cleanMain();
 				var a = 1;
-				for(let i in frame.bitmap){
-					for(let a in frame.bitmap[i]){
+				for(let i = 0; i < frame.bitmap.length; i++){
+					for(let a = 0; a < frame.bitmap[i].length; a++){
 						if(hasVal(frame.bitmap[i][a])){
 							mnCx.fillStyle = frame.bitmap[i][a];
 							let x = this.x + i * this.scale;
@@ -131,7 +133,7 @@
 				}
 			};
 			Canvas.prototype.drawAt = function (x,y) {
-				console.log(x,y,!hasVal(frame.bitmap[x]) , !hasVal(frame.bitmap[x][y]));
+				//console.log(x,y,frame.bitmap[x]);
 				//mnCx.fillStyle = '#000';
 				//mnCx.fillRect(x,y,sizePointer,sizePointer);
 				//console.log(frame.bitmap);

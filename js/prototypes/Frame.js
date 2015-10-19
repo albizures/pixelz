@@ -1,30 +1,8 @@
 (function ($) {
 	'use strict';
-	const SCALE_DEF = 7;
+	const SCALE_DEF = 4;
 	let ul = $.getById('list-preview-frames');
 
-	function Frame() {
-		var index,
-				canvas,
-				cx;
-
-		this.cv = $.createElement('canvas');
-		this.cx = this.cv.getContext('2d');
-
-		Frame.prototype = {
-			constructor : Frame,
-			get index(){
-				return index;
-			},
-			set index(val){
-				index = val;
-			},
-			get cv(){ return cv},
-			set cv(val){canvas = val},
-			get cx(){return cx},
-			set cx(val){cx = val;}
-		}
-	}
 	function createFrame() {
 		let params = arguments;
 		return (function () {
@@ -87,6 +65,7 @@
 					li.appendChild(cv);
 					ul.appendChild(li);
 				}
+				this.onChange();
 			};
 			Frame.prototype.remove = function () {
 				li.remove();
@@ -95,8 +74,8 @@
 
 			};
 			Frame.prototype.onChange = function () {
-				for(let i in bitmap){
-					for(let a in bitmap[i]){
+				for(let i = 0; i < bitmap.length; i++){
+					for(let a = 0; a < bitmap[i].length; a++){
 						if(hasVal(bitmap[i][a])){
 							cx.fillStyle = bitmap[i][a];
 							let x = i * scale;
