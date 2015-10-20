@@ -1,4 +1,4 @@
-(function ($) {
+(function (_) {
 	'use strict';
 	function createCanvas() {
 		let params = arguments;
@@ -10,7 +10,7 @@
 			let scale, relW, relH, x, y, clicked,frame;
 			let grid = true;
 
-			let parent = $.body;
+			let parent = _.body;
 
 			let sizePointer;
 
@@ -64,7 +64,7 @@
 				}
 			};
 			Canvas.prototype.on = function (name,handler) {
-				prCv.on(name,handler);
+				$(prCv).on(name,handler);
 				return this;
 			};
 			Canvas.prototype.calcPos = function (x,y) {
@@ -93,10 +93,10 @@
 				return cord;
 			};
 			Canvas.prototype.init = function () {
-				mnCv = $.createElement('canvas');
+				mnCv = _.createElement('canvas');
 				mnCx = mnCv.getContext('2d');
 
-				prCv = $.createElement('canvas');
+				prCv = _.createElement('canvas');
 				prCx = prCv.getContext('2d');
 
 				prCv.height = mnCv.height = window.innerHeight;
@@ -111,11 +111,11 @@
 				var self = this;
 				this.cleanPrev();
 				this.cleanMain();
-				window.on('mousedown.tool',tool.onMouseDown)
-						.on('mousemove.tool',tool.onMouseMove)
-						.on('mouseup.tool',tool.onMouseUp)
-						.on('mouseleave.tool',tool.onMouseLeave)
-						.on('click.tool',tool.onClick);
+				$(window).on('mousedown.tool',tool.onMouseDown)
+					.on('mousemove.tool',tool.onMouseMove)
+					.on('mouseup.tool',tool.onMouseUp)
+					.on('mouseleave.tool',tool.onMouseLeave)
+					.on('click.tool',tool.onClick);
 			};
 			Canvas.prototype.draw = function () {
 				this.cleanMain();

@@ -1,21 +1,32 @@
 
-(function ($) {
+(function (_) {
 	'use strict';
 	let Editor = (function () {
 		let sprite,
 				scale = SCALE_DEF;
 
 		let frames = [],
+				panels = [],
 				index = -1,
 				canvas,
 				tools = {};
-		let addFrame = $.getElementById('add-frame');
+		let addFrame = $('#add-frame');
 		return  {
+			get sprite(){return sprite},
 			previewAnimate(){
 
 			},
 			addFrame(){
 				Editor.setCurrentFrame(sprite.addFrame(true));
+			},
+			addPanel(panel){;
+				panel.parent = document.body;
+				panels.push(panel);
+			},
+			initPanels(){
+				for (var i = 0; i < panels.length; i++) {
+					panels[i].init();
+				}
 			},
 			setCurrentFrame(f){
 				index = f.index;
@@ -110,13 +121,14 @@
 				canvas.on('mousewheel.canvas',this.handlers.onScroll)
 			},
 			init(){
-				//var canvas = $.createElement('canvas');
+				//var canvas = _.createElement('canvas');
 				//canvas.id = 'main-cv';
-				sprite = Sprite(WIDTH_DEF,HEIGHT_DEF);
+				sprite = Sprite(WIDTH_DEF * 2,HEIGHT_DEF);
 				index = 0;
 				canvas = Canvas(sprite.frames[index],SCALE_DEF,window.innerWidth/2,window.innerHeight/2,tools.pencil);
 				//canvas.height = window.innerHeight;
 				//canvas.width = window.innerWidth;
+				this.initPanels();
 				this.events.on('selectFrame.editor',this.setCurrentFrame);
 
 				// var frame = new Frame(canvas);
@@ -130,11 +142,11 @@
 		}
 	})();
 
-	// this.preview = $.createElement('canvas');
+	// this.preview = _.createElement('canvas');
 	// this.previewCx = this.cv.getContext('2d');
 	// this.preview.height = window.innerHeight;
 	// this.preview.width = window.innerWidth;
 	// cv.classList.add('preview');
-	// $.body.appendChild(this.preview);
+	// _.body.appendChild(this.preview);
 	window.Editor = Editor
 })(document);
