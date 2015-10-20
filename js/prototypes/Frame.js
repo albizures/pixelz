@@ -1,30 +1,8 @@
-(function ($) {
+(function (_) {
 	'use strict';
-	const SCALE_DEF = 7;
-	let ul = $.getById('list-preview-frames');
+	const SCALE_DEF = 4;
+	let ul = $('#list-preview-frames');
 
-	function Frame() {
-		var index,
-				canvas,
-				cx;
-
-		this.cv = $.createElement('canvas');
-		this.cx = this.cv.getContext('2d');
-
-		Frame.prototype = {
-			constructor : Frame,
-			get index(){
-				return index;
-			},
-			set index(val){
-				index = val;
-			},
-			get cv(){ return cv},
-			set cv(val){canvas = val},
-			get cx(){return cx},
-			set cx(val){cx = val;}
-		}
-	}
 	function createFrame() {
 		let params = arguments;
 		return (function () {
@@ -61,8 +39,8 @@
 				get height(){return sprite.height}
 			}
 			Frame.prototype.init = function () {
-				cv = $.createElement('canvas');
-				li = $.createElement('li');
+				cv = _.createElement('canvas');
+				li = _.createElement('li');
 
 				cv.width = sprite.width * scale;
 				cv.height = sprite.height * scale;
@@ -70,10 +48,15 @@
 				cv.id = "f"+index;
 				cx = cv.getContext('2d');
 				var self = this;
-				li.on('click.selectFrame',function () {
+				$(li).on('click.selectFrame',function () {
 					Editor.events.fire('selectFrame',self);
 				});
 				this.append();
+			};
+			Frame.prototype.getIMG = function () {
+				let image = document.createElement("img")
+				image.src = cv.toDataURL();
+				return image;
 			};
 			Frame.prototype.clone = function () {
 				var newBitmap = [];
@@ -83,10 +66,11 @@
 				return newBitmap;
 			};
 			Frame.prototype.append = function () {
-				if(!hasVal($.getById('f'+index))){
-					li.appendChild(cv);
-					ul.appendChild(li);
+				if($('#f'+index).length === 0){
+					$(li).append(cv);
+					$(ul).append(li);
 				}
+				this.onChange();
 			};
 			Frame.prototype.remove = function () {
 				li.remove();
@@ -95,8 +79,8 @@
 
 			};
 			Frame.prototype.onChange = function () {
-				for(let i in bitmap){
-					for(let a in bitmap[i]){
+				for(let i = 0; i < bitmap.length; i++){
+					for(let a = 0; a < bitmap[i].length; a++){
 						if(hasVal(bitmap[i][a])){
 							cx.fillStyle = bitmap[i][a];
 							let x = i * scale;
@@ -107,7 +91,7 @@
 				}
 			};
 			Frame.prototype.generatePreview = function (scale) {
-				return cv;
+				return cx;
 			}
 			return new Frame(params[0],params[1],params[2]);
 		})();
