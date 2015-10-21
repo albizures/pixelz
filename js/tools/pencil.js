@@ -2,7 +2,9 @@
 	'use strict';
 	let lastP;
 	let pencil = Tool('pencil');
-	pencil.onClick = function () {};
+	pencil.onClick = function () {
+		console.log('click');
+	};
 	pencil.onMouseDown = function () {
 		pencil.clicked = true;
 	};

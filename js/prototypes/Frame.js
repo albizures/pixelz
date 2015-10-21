@@ -1,7 +1,7 @@
-(function ($) {
+(function (_) {
 	'use strict';
 	const SCALE_DEF = 4;
-	let ul = $.getById('list-preview-frames');
+	let ul = $('#list-preview-frames');
 
 	function createFrame() {
 		let params = arguments;
@@ -39,8 +39,8 @@
 				get height(){return sprite.height}
 			}
 			Frame.prototype.init = function () {
-				cv = $.createElement('canvas');
-				li = $.createElement('li');
+				cv = _.createElement('canvas');
+				li = _.createElement('li');
 
 				cv.width = sprite.width * scale;
 				cv.height = sprite.height * scale;
@@ -48,10 +48,15 @@
 				cv.id = "f"+index;
 				cx = cv.getContext('2d');
 				var self = this;
-				li.on('click.selectFrame',function () {
+				$(li).on('click.selectFrame',function () {
 					Editor.events.fire('selectFrame',self);
 				});
 				this.append();
+			};
+			Frame.prototype.getIMG = function () {
+				let image = document.createElement("img")
+				image.src = cv.toDataURL();
+				return image;
 			};
 			Frame.prototype.clone = function () {
 				var newBitmap = [];
@@ -61,9 +66,9 @@
 				return newBitmap;
 			};
 			Frame.prototype.append = function () {
-				if(!hasVal($.getById('f'+index))){
-					li.appendChild(cv);
-					ul.appendChild(li);
+				if($('#f'+index).length === 0){
+					$(li).append(cv);
+					$(ul).append(li);
 				}
 				this.onChange();
 			};
@@ -86,7 +91,7 @@
 				}
 			};
 			Frame.prototype.generatePreview = function (scale) {
-				return cv;
+				return cx;
 			}
 			return new Frame(params[0],params[1],params[2]);
 		})();
