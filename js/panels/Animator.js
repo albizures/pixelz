@@ -1,6 +1,6 @@
 (function () {
 	'use strict';
-	let preview, time = 1 * 1000,loop,index = 0,ctx;
+	let preview, time = 0.5 * 1000,loop,index = 0,ctx;
 	let Animator = new Panel('Animator');
 	Animator.mainInit = function () {
 		let perc;

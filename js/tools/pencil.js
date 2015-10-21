@@ -3,7 +3,7 @@
 	let lastP;
 	let pencil = Tool('pencil');
 	pencil.onClick = function () {
-		console.log('click');
+		//console.log('click');
 	};
 	pencil.onMouseDown = function () {
 		pencil.clicked = true;
@@ -50,6 +50,10 @@
 		// lastP = undefined;
 	}
 	pencil.onMouseUp = function (evt) {
+		let cord = pencil.canvas.calcPos(evt.clientX,evt.clientY);
+		if(!cord.out){
+			pencil.canvas.drawAt(cord.relX,cord.relY);
+		}
 		pencil.clicked = false;
 		lastP = undefined;
 	};
