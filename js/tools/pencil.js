@@ -3,7 +3,7 @@
 	let lastP;
 	let pencil = Tool('pencil');
 	pencil.onClick = function () {
-		console.log('click');
+		//console.log('click');
 	};
 	pencil.onMouseDown = function () {
 		pencil.clicked = true;
@@ -14,13 +14,6 @@
 			let cord = pencil.canvas.calcPos(evt.clientX,evt.clientY);
 			let newP = Vector(cord.relX,cord.relY);
 			newP.out = cord.out;
-			// if( hasVal(lastP) && (lastP.x == 0 || lastP.x == 19 || lastP.y == 0 || lastP.y == 19)){
-			// 	if(cord.out){
-			// 		return;
-			// 	}else{
-			// 		lastP = newP;
-			// 	}
-			// }
 			if(cord.out && !hasVal(lastP) ) return;
 			if(newP.out && lastP && lastP.out){return}
 			if(!newP.out && lastP && lastP.out){
@@ -50,6 +43,10 @@
 		// lastP = undefined;
 	}
 	pencil.onMouseUp = function (evt) {
+		let cord = pencil.canvas.calcPos(evt.clientX,evt.clientY);
+		if(!cord.out){
+			pencil.canvas.drawAt(cord.relX,cord.relY);
+		}
 		pencil.clicked = false;
 		lastP = undefined;
 	};

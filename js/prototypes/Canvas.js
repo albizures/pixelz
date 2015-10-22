@@ -73,7 +73,7 @@
 						tempY;
 				if(x < this.x  || x > this.x+this.width){
 					cord.x = x < this.x? 0 : this.width;
-					cord.relX = cord.x / scale == 0? 0 : 19;
+					cord.relX = cord.x / scale == 0? 0 : (this.width / this.scale) - 1;
 					cord.out = true;
 				}else{
 					tempX = x - this.x;
@@ -81,9 +81,9 @@
 					cord.relX = (cord.x - this.x) / scale;
 				}
 				if(y < this.y || y > this.y+this.height){
-					console.log();
+					debugger;
 					cord.y = y < this.y? 0 : this.height;
-					cord.relY = cord.y / scale == 0? 0 : 19;
+					cord.relY = cord.y / scale == 0? 0 : (this.height / this.scale) - 1;
 					cord.out = true;
 				}else{
 					tempY = y - this.y;
@@ -132,13 +132,14 @@
 					}
 				}
 			};
-			Canvas.prototype.drawAt = function (x,y) {
+			Canvas.prototype.drawAt = function (x,y,color) {
+
 				//console.log(x,y,frame.bitmap[x]);
 				//mnCx.fillStyle = '#000';
 				//mnCx.fillRect(x,y,sizePointer,sizePointer);
 				//console.log(frame.bitmap);
 				if(!hasVal(x) || !hasVal(y) || !hasVal(frame.bitmap[x])) return;
-				frame.bitmap[x][y] = 'black';
+				frame.bitmap[x][y] = color || 'black';
 				Editor.events.fire('change.frame'+frame.index);
 				this.draw();
 				//console.log(, ;

@@ -123,7 +123,7 @@
 			init(){
 				//var canvas = _.createElement('canvas');
 				//canvas.id = 'main-cv';
-				sprite = Sprite(WIDTH_DEF * 2,HEIGHT_DEF);
+				sprite = Sprite(WIDTH_DEF ,HEIGHT_DEF);
 				index = 0;
 				canvas = Canvas(sprite.frames[index],SCALE_DEF,window.innerWidth/2,window.innerHeight/2,tools.pencil);
 				//canvas.height = window.innerHeight;

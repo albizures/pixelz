@@ -1,8 +1,8 @@
 console.time('canvas');
 
-const HEIGHT_DEF = 20,
-			WIDTH_DEF = 20,
-			SCALE_DEF = 22,
+const HEIGHT_DEF = 40,
+			WIDTH_DEF = 40,
+			SCALE_DEF = 15,
 			SIZE_POINTER_DEF = 1,
 			COLOR_POINTER_PREW_DEF = 'rgba(255,255,255,0.2)';
 (function () {
