@@ -1,0 +1,97 @@
+/**
+ * App entry point
+ */
+
+window.HEIGHT_DEF = 40,
+window.WIDTH_DEF = 40,
+window.SCALE_DEF = 15,
+window.SIZE_POINTER_DEF = 1,
+window.COLOR_POINTER_PREW_DEF = 'rgba(255,255,255,0.2)';
+
+import './common/init.js';
+window.onmessage = function(event) {
+  //let css = document.querySelector('link[rel=stylesheet]');
+  //css.href = css.href.replace('http://localhost:8080','').split('?')[0]  + '?' + event.timeStamp
+  //window.location.reload();
+}
+// Polyfill
+import bcore from 'babel-core/polyfill';
+
+// Libraries
+import React from 'react';
+import Router from 'react-router';
+
+// Common utilities
+import Session from './common/session';
+
+// Base styling
+import './common/base.styl';
+
+// Routers
+import LoggedOutRouter from './routers/logged_out';
+import LoggedInRouter from './routers/logged_in';
+
+
+// ID of the DOM element to mount app on
+const DOM_APP_EL_ID = 'app';
+
+
+// Initialize routes depending on session
+let routes;
+
+if (Session.isLoggedIn()) {
+  routes = LoggedInRouter.getRoutes();
+} else {
+  routes = LoggedOutRouter.getRoutes();
+}
+
+/**
+ * Given a set of routes and params associated with the current active state,
+ * call #fetchData(params) on all Route Handlers that define that static method.
+ *
+ * This is the main mechanism by which a route handler (page)
+ * requests its data.
+ *
+ * @example Defining a route handler that requests data
+ *
+ *  var SomePage = React.createClass({
+ *    statics: {
+ *      fetchData(params) {
+ *        return getData({
+ *          data: {...}
+ *        })
+ *      }
+ *    }
+ *  })
+ *
+ *  Given a Route handler:
+ *    <Route name='some-page' handler={SomePage} />
+ *
+ *  when it becomes activated, it will be passed a {data} prop containing the response:
+ *    <SomePage data='...' />
+ *
+ *
+ * @param  {[Route]} routes list of activated routes
+ * @param  {[Param]} params route params
+ *
+ * @return {Promise}        data containing responses mapped by route name
+ */
+let fetchData = function(routes, params) {
+  let data = {};
+
+  return Promise.all(routes
+    .filter(route => route.handler.fetchData)
+    .map(route => {
+      return route.handler.fetchData(params).then(resp => {
+        data[route.name] = resp;
+      })
+    })
+  ).then(() => data);
+}
+
+// Start the router
+Router.run(routes, Router.HistoryLocation, function(Handler, state) {
+  fetchData(state.routes, state.params).then((data) => {
+    React.render(<Handler data={data} />, document.getElementById(DOM_APP_EL_ID));
+  });
+});

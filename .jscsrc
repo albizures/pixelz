@@ -1,0 +1,8 @@
+{
+	"fileExtensions": [".js", ".jsx"],
+	"esnext": true,
+	"excludeFiles": [
+    "dist/**",
+    "node_modules/**"
+  ]
+}
