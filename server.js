@@ -1,21 +1,7 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
 
-/************************************************************
- *
- * Express routes for:
- *   - app.js
- *   - style.css
- *   - index.html
- *
- *   Sample endpoints to demo async data fetching:
- *     - POST /landing
- *     - POST /home
- *
- ************************************************************/
-
-// Serve application file depending on environment
 app.get('/app.js', function(req, res) {
   if (process.env.PRODUCTION) {
     res.sendFile(__dirname + '/build/app.js');
@@ -24,42 +10,21 @@ app.get('/app.js', function(req, res) {
   }
 });
 
-// Serve aggregate stylesheet depending on environment
-app.get('/style.css', function(req, res) {
+
+app.get('/main.css', function(req, res) {
   if (process.env.PRODUCTION) {
     res.sendFile(__dirname + '/build/style.css');
   } else {
-    res.redirect('//localhost:9090/build/style.css');
+    res.redirect('//localhost:9090/build/main.css');
   }
 });
 
-// Serve index page
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(__dirname + '/build/index.html');
 });
 
-app.post('/landing', function(req, res) {
-  res.json({
-    title: "Landing Page"
-  });
-});
-
-app.post('/home', function(req, res) {
-  res.json({
-    title: "Home Page"
-  });
-});
-
-
-/*************************************************************
- *
- * Webpack Dev Server
- *
- * See: http://webpack.github.io/docs/webpack-dev-server.html
- *
- *************************************************************/
-
 if (!process.env.PRODUCTION) {
+  console.log('webpack');
   var webpack = require('webpack');
   var WebpackDevServer = require('webpack-dev-server');
   var config = require('./webpack.local.config');
@@ -67,7 +32,7 @@ if (!process.env.PRODUCTION) {
   new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     hot: true,
-    noInfo: true,
+    noInfo: false,
     historyApiFallback: true
   }).listen(9090, 'localhost', function (err, result) {
     if (err) {
@@ -77,11 +42,7 @@ if (!process.env.PRODUCTION) {
 }
 
 
-/******************
- *
- * Express server
- *
- *****************/
+
 
 var port = process.env.PORT || 8080;
 var server = app.listen(port, function () {

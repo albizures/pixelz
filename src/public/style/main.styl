@@ -1,0 +1,76 @@
+@import 'normalize.css'
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body{
+  background grey
+	position: relative;
+	height : 100%;
+	overflow : hidden;
+}
+.canvas,.preview,.content-preview-animate
+  position absolute
+  top 0
+  left 0
+
+.content-preview-animate
+  left auto
+  right 0
+
+
+#panel,#frames
+  position fixed
+
+#panel
+	bottom 200px
+	height 0px
+	width 100%
+	background black
+
+#frames
+  z-index 2
+  top 0
+  left 0
+  height 100%
+  width 120px
+  background rgba(0,0,0,.5);
+  .content-add-frame
+    position relative
+    height 63px
+    width 100%
+    padding: 10px
+    box-sizing: border-box;
+    button
+      width: 100%;
+      height: 43px;
+  ul
+    height 90%
+    list-style: none;
+    padding 10px
+    margin: 0;
+    overflow auto
+    li
+      border 1px solid
+      width 100px
+      height 100px
+      margin-bottom 10px
+      .frame-preview
+        &.active
+          outline 5px solid yellow
+
+.panel
+  position absolute
+
+.panel-animator
+  width 200px
+  height 200px
+  right 0
+  top 0
+  background-color orange
+  canvas
+    border 1px solid
