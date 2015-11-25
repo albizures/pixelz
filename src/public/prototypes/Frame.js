@@ -72,6 +72,9 @@ function createFrame() {
       }
       this.onChange();
     };
+    Frame.prototype.appendTo = function (el) {
+      $(el).append(li);
+    };
     Frame.prototype.remove = function () {
       li.remove();
     };

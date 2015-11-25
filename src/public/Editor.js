@@ -6,7 +6,7 @@ const Editor = (function () {
 			scale = SCALE_DEF;
 
 	let frames = [],
-			panels = [],
+			panels = {},
 			index = -1,
 			canvas,
 			tools = {};
@@ -16,17 +16,22 @@ const Editor = (function () {
 		previewAnimate(){
 
 		},
-		addFrame(){
-			this.setCurrentFrame(sprite.addFrame(true));
-		},
-		addPanel(panel){;
+		// panel area
+		addPanel(panel){
 			panel.parent = document.body;
-			panels.push(panel);
+			panels[panel.name] = panel;
 		},
 		initPanels(){
-			for (var i = 0; i < panels.length; i++) {
+			for (var i in panels) {
 				panels[i].init();
 			}
+		},
+		get panels() {
+			return panels;
+		},
+		// frame area
+		addFrame(){
+			Editor.setCurrentFrame(sprite.addFrame(true));
 		},
 		setCurrentFrame(f){
 			index = f.index;

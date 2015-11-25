@@ -10,12 +10,15 @@ Frames.mainInit = function () {
   btnAdd.textContent = 'add frame';
   $(btnAdd).on('click.add',Editor.addFrame.bind(Editor));
   ul.id = 'preview-frames';
-  
+
   this.div.appendChild(btnAdd);
   this.div.appendChild(ul);
-
+  Editor.events.on('addFrame.frame',this.onAddFrame,this);
 }
 Frames.addPreview = function () {
+
+}
+Frames.onAddFrame = function (frame) {
 
 }
 Frames.updateAll = function () {

@@ -28,6 +28,8 @@ function createSprite() {
 			}
 			let frame = Frame(this,index + 1,bitmap);
 			frames.push(frame);
+			console.log('add');
+			Editor.events.fire('addFrame.frame',frame);
 			return frame;
 		};
 		return new Sprite(params[0],params[1]);
