@@ -81,7 +81,6 @@ function createCanvas() {
 				cord.relX = (cord.x - this.x) / scale;
 			}
 			if(y < this.y || y > this.y+this.height){
-				debugger;
 				cord.y = y < this.y? 0 : this.height;
 				cord.relY = cord.y / scale == 0? 0 : (this.height / this.scale) - 1;
 				cord.out = true;

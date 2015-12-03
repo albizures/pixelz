@@ -5,7 +5,7 @@ const Panel = require("../prototypes/Panel.js");
 const Frames = Panel('Frames');
 const ul =  document.createElement('ul'),
       btnAdd = document.createElement('button');
-let item = [];
+let frames = [];
 Frames.mainInit = function () {
   btnAdd.textContent = 'add frame';
   $(btnAdd).on('click.add',Editor.addFrame.bind(Editor));
@@ -19,7 +19,9 @@ Frames.addPreview = function () {
 
 }
 Frames.onAddFrame = function (frame) {
-
+  console.info(frame);
+  frames[frame.index];
+  frame.appendTo(ul);
 }
 Frames.updateAll = function () {
 

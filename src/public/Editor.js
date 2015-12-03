@@ -134,6 +134,7 @@ const Editor = (function () {
 			//canvas.height = window.innerHeight;
 			//canvas.width = window.innerWidth;
 			this.initPanels();
+			Editor.events.fire('addFrame.frame',sprite.frames[index]);
 			this.events.on('selectFrame.editor',this.setCurrentFrame);
 
 			// var frame = new Frame(canvas);

@@ -21,7 +21,6 @@ Animator.mainInit = function () {
 	preview.height =  Editor.sprite.height * perc;
 	preview.style.marginTop = (($(this.div).height() - preview.height) / 2) + 'px';
 	preview.style.marginLeft = (($(this.div).width() - preview.width) / 2) + 'px';
-	console.log(preview.style.marginTop);
 	this.div.appendChild(preview);
 	this.start();
 }

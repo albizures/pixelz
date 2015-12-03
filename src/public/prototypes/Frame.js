@@ -1,7 +1,6 @@
 'use strict';
 const _ = document;
 const SCALE_DEF = 4;
-let ul = $('#list-preview-frames');
 
 function createFrame() {
   let params = arguments;
@@ -30,6 +29,7 @@ function createFrame() {
       set index(val){
         index = val;
       },
+      get cv(){return cv},
       get bitmap(){return bitmap},
       get cv(){ return cv},
       set cv(val){canvas = val},
@@ -50,8 +50,9 @@ function createFrame() {
       var self = this;
       $(li).on('click.selectFrame',function () {
         Editor.events.fire('selectFrame',self);
-      });
-      this.append();
+      }).append(cv);
+      this.onChange();
+      Editor.events.fire('addFrame.frame',this);
     };
     Frame.prototype.getIMG = function () {
       let image = document.createElement("img")
@@ -64,13 +65,6 @@ function createFrame() {
         newBitmap.push(i.slice(0));
       }
       return newBitmap;
-    };
-    Frame.prototype.append = function () {
-      if($('#f'+index).length === 0){
-        $(li).append(cv);
-        $(ul).append(li);
-      }
-      this.onChange();
     };
     Frame.prototype.appendTo = function (el) {
       $(el).append(li);

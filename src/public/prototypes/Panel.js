@@ -16,7 +16,6 @@ function createPanel() {
       set div(val){div = val;}
     }
     Panel.prototype.init = function () {
-      console.log('init',name);
       if(!hasVal(parent)) return console.error('parent undefined');
       div = document.createElement('div');
       div.classList.add('panel');
