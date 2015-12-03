@@ -16,6 +16,12 @@ const Editor = (function () {
 		previewAnimate(){
 
 		},
+		set color(value){
+			canvas.color = value;
+		},
+		get color(){
+			return canvas.color;
+		},
 		// panel area
 		addPanel(panel){
 			panel.parent = document.body;
