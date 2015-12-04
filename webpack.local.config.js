@@ -5,24 +5,19 @@ const webpack = require('webpack'),
 const ROOT_PATH = path.resolve(__dirname),
       APP_PATH = path.resolve(ROOT_PATH, 'src','public','init.js'),
       BUILD_PATH = path.resolve(ROOT_PATH, 'build');
-console.log(APP_PATH);
+
 module.exports = {
   devtool : 'eval-source-map',
-  entry:  [
-    "webpack-dev-server/client?http://localhost:9090",
-    "webpack/hot/only-dev-server",
-    APP_PATH
-    ],
+  entry:  APP_PATH,
   output: {
     path: BUILD_PATH,
-    filename: "app.js",
-    publicPath: "http://localhost:9090/build/"
+    filename: "app.js"
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     //new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('main.css', { allChunks: true })
+    new ExtractTextPlugin('style.css', { allChunks: true })
   ],
 
   // Transform source code using Babel and React Hot Loader
