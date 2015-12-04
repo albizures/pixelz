@@ -1,4 +1,5 @@
 'use strict';
+const RIGHT_CLICK = 3, LEFT_CLICK = 1, MIDDLE_CLICK = 2;
 const Tool = require("../prototypes/Tool.js");
 const Vector = require("../prototypes/Vector.js");
 let lastP;
@@ -6,12 +7,14 @@ let pencil = Tool('pencil');
 pencil.onClick = function () {
   //console.log('click');
 };
-pencil.onMouseDown = function () {
-  pencil.clicked = true;
+pencil.onMouseDown = function (evt) {
+  if(evt.target.nodeName == 'CANVAS'){
+    pencil.clicked = true;
+  }
 };
 pencil.onMouseMove = function (evt) {
-  if(pencil.clicked){
 
+  if(pencil.clicked && evt.which == LEFT_CLICK){
     let cord = pencil.canvas.calcPos(evt.clientX,evt.clientY);
     let newP = Vector(cord.relX,cord.relY);
     newP.out = cord.out;
@@ -26,7 +29,6 @@ pencil.onMouseMove = function (evt) {
       pencil.canvas.drawAt(cord.relX,cord.relY);
     }
     lastP = newP;
-
   }
 };
 pencil.onMouseLeave = function (evt) {
@@ -44,11 +46,13 @@ pencil.onMouseLeave = function (evt) {
   // lastP = undefined;
 }
 pencil.onMouseUp = function (evt) {
-  let cord = pencil.canvas.calcPos(evt.clientX,evt.clientY);
-  if(!cord.out){
-    pencil.canvas.drawAt(cord.relX,cord.relY);
+  if(pencil.clicked){
+    let cord = pencil.canvas.calcPos(evt.clientX,evt.clientY);
+    if(!cord.out){
+      pencil.canvas.drawAt(cord.relX,cord.relY);
+    }
+    pencil.clicked = false;
+    lastP = undefined;
   }
-  pencil.clicked = false;
-  lastP = undefined;
 };
 module.exports = () => Editor.addTool(pencil);

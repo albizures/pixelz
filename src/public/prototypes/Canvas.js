@@ -7,7 +7,7 @@ function createCanvas() {
 		//canvas
 		let mnCv, mnCx,prCv, prCx
 		//status
-		let scale, relW, relH, x, y, clicked,frame;
+		let scale, relW, relH, x, y, clicked,frame,color;
 		let grid = true;
 
 		let parent = _.body;
@@ -37,6 +37,12 @@ function createCanvas() {
 			set tool(val){
 				tool = val;
 				tool.canvas = this;
+			},
+			set color(value){
+				color = value;
+			},
+			get color(){
+				return color;
 			},
 			get width(){return frame.width * scale},
 			get height(){return frame.height * scale},
@@ -131,17 +137,11 @@ function createCanvas() {
 				}
 			}
 		};
-		Canvas.prototype.drawAt = function (x,y,color) {
-
-			//console.log(x,y,frame.bitmap[x]);
-			//mnCx.fillStyle = '#000';
-			//mnCx.fillRect(x,y,sizePointer,sizePointer);
-			//console.log(frame.bitmap);
+		Canvas.prototype.drawAt = function (x,y,optionalColor) {
 			if(!hasVal(x) || !hasVal(y) || !hasVal(frame.bitmap[x])) return;
-			frame.bitmap[x][y] = color || 'black';
+			frame.bitmap[x][y] = optionalColor || color;
 			Editor.events.fire('change.frame'+frame.index);
 			this.draw();
-			//console.log(, ;
 		};
 		Canvas.prototype.prevAt = function (x,y) {
 			prCx.fillStyle = COLOR_POINTER_PREW_DEF;
