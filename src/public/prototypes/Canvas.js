@@ -28,11 +28,7 @@ function createCanvas() {
 				preview = {},
 
 				clicked,imageData,
-				mouseDown = false,
-				lastMouseDownX,
-				lastMouseDownY,
-				lastDragX,
-				lastDragY,
+				mouseDown = false;
 
 				parent = document.body;
 
@@ -62,17 +58,14 @@ function createCanvas() {
 		};
 
 		Canvas.prototype.init = function () {
-			main.canvas = document.createElement('canvas');
-			main.context = main.canvas.getContext('2d');
+			main = document.createElement('canvas').getContext('2d');
 
-
-			preview.canvas = document.createElement('canvas');
-			preview.context = preview.canvas.getContext('2d');
-			imageSmoothingDisabled(preview.context);
+			preview = document.createElement('canvas').getContext('2d');
+			imageSmoothingDisabled(preview);
 
 			main.canvas.width = preview.canvas.width = window.innerWidth;
 			main.canvas.height = preview.canvas.height = window.innerHeight;
-			imageSmoothingDisabled(main.context);
+			imageSmoothingDisabled(main);
 
 			main.canvas.classList.add('canvas');
 			preview.canvas.classList.add('preview');
@@ -197,33 +190,33 @@ function createCanvas() {
 			return newCord;
 		};
 		Canvas.prototype.previewAt = function (cord,color) {
-			preview.context.fillStyle = color;
-			preview.context.fillRect(cord.x,cord.y,sizePointer,sizePointer);
+			preview.fillStyle = color;
+			preview.fillRect(cord.x,cord.y,sizePointer,sizePointer);
 		};
 		Canvas.prototype.drawPreview = function (evt) {
 			this.cleanPrev();
 			let temp = new Vector(Math.floor(((evt.clientX - artboard.cord.x) / artboard.scale) ),Math.floor(((evt.clientY - artboard.cord.y) / artboard.scale) ));
 			let cord = new Vector(temp.x * artboard.scale + artboard.cord.x, temp.y * artboard.scale + artboard.cord.y);
-			preview.context.strokeStyle = COLOR_POINTER_PREW_DEF;
-			preview.context.strokeRect(cord.x - 1,cord.y - 1,sizePointer + 2,sizePointer + 2);
+			preview.strokeStyle = COLOR_POINTER_PREW_DEF;
+			preview.strokeRect(cord.x - 1,cord.y - 1,sizePointer + 2,sizePointer + 2);
 		};
 		Canvas.prototype.paintMain = function () {
 			this.cleanMain();
-			imageSmoothingDisabled(main.context);
-			main.context.drawImage(artboard.frame.canvas,
+			imageSmoothingDisabled(main);
+			main.drawImage(artboard.frame.canvas,
 				0,0, artboard.frame.width, artboard.frame.height,
 				artboard.cord.x,artboard.cord.y,artboard.frame.width * artboard.scale, artboard.frame.height * artboard.scale
 			);
 		};
 		Canvas.prototype.drawAt = function (cord,color) {
-			main.context.fillStyle = color;
-			main.context.fillRect(cord.x,cord.y,sizePointer,sizePointer);
+			main.fillStyle = color;
+			main.fillRect(cord.x,cord.y,sizePointer,sizePointer);
 		};
 		Canvas.prototype.cleanMain = function () {
 			main.canvas.height = main.canvas.height;
 			main.canvas.width = main.canvas.width;
-			main.context.fillStyle = 'rgba(0 ,0 , 0, 0.3)';
-			main.context.fillRect(artboard.cord.x,artboard.cord.y,this.width,this.height);
+			main.fillStyle = 'rgba(0 ,0 , 0, 0.3)';
+			main.fillRect(artboard.cord.x,artboard.cord.y,this.width,this.height);
 		};
 		Canvas.prototype.cleanPrev = function () {
 			preview.canvas.height = preview.canvas.height;
