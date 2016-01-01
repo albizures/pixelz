@@ -15,7 +15,7 @@ function Selector() {
 function dimensions() {
 	let prop = arguments[0],
 		val = arguments[1],
-		suffix = window === this[0]? 'inner' : 'offset'
+		suffix = window === this[0]? 'inner' : 'offset';
 	if(hasVal(val)){
 		if(typeof arguments[0] === 'number' ){
 			let dim = arguments[1] || 'px';
@@ -51,11 +51,11 @@ Selector.prototype.on = function (name,handler) {
 			this[i]._events[name][suffix] =  handler.bind(this[i]);
 			this[i].addEventListener(name,this[i]._events[name][suffix]);
 		}else{
-			console.error('Event wrong name');
+			console.error('Event wrong name',arguments);
 		}
 	}
 	return this;
-}
+};
 Selector.prototype.off = function (name) {
 	var suffix = name.split('.')[1];
 	name = name.split('.')[0];
@@ -80,7 +80,7 @@ Selector.prototype.off = function (name) {
 		}
 	}
 	return this;
-}
+};
 Selector.prototype.append = function (child) {
 	for (let i = 0; i < this.length; i++) {
 		if(child instanceof Element){
@@ -88,11 +88,11 @@ Selector.prototype.append = function (child) {
 		}else{
 			for (let a = 0; a < child.length; a++) {
 				if(child[a] instanceof Element){
-					this[i].appendChild(child[a])
+					this[i].appendChild(child[a]);
 				}
 			}
 		}
 	}
 	return this;
-}
+};
 module.exports = Selector;

@@ -8,13 +8,13 @@ function createPanel() {
     }
     Panel.prototype = {
       constructor : Panel,
-      get name(){return name},
+      get name(){return name;},
       set name(val){name = val;},
-      get parent(){return parent},
+      get parent(){return parent;},
       set parent(val){parent = val;},
-      get div(){return div},
+      get div(){return div;},
       set div(val){div = val;}
-    }
+    };
     Panel.prototype.init = function () {
       if(!hasVal(parent)) return console.error('parent undefined');
       div = document.createElement('div');

@@ -1,234 +1,238 @@
 'use strict';
-const _ = document;
+const Vector = require('./Vector.js');
+const { imageSmoothingDisabled } = require('../utils.js');
+const {
+		SCALE_DEF,
+		SIZE_POINTER_DEF,
+		MIDDLE_CLICK,
+		RIGHT_CLICK,
+		LEFT_CLICK,
+		COLOR_POINTER_PREW_DEF
+	} = require('../constants.js');
+
 function createCanvas() {
 	let params = arguments;
 	return (function () {
-		let tool;
-		//canvas
-		let mnCv, mnCx,prCv, prCx
-		//status
-		let scale, relW, relH, x, y, clicked,frame,color;
-		let grid = true;
+		let artboard = {
+					get width(){
+						return this.frame.width * this.scale;
+					},
+					get height(){
+						return this.frame.height * this.scale;
+					}
+				},
+				sizePointer,
+				tool,
+				drag = false,
+				main = {},
+				preview = {},
 
-		let parent = _.body;
+				clicked,imageData,
+				mouseDown = false,
+				lastMouseDownX,
+				lastMouseDownY,
+				lastDragX,
+				lastDragY,
 
-		let sizePointer;
+				parent = document.body;
 
-		function Canvas(f,s,posX,posY,t,sp) {
-			scale = s || SCALE_DEF;
-			frame = f;
-			x = posX || 0;
-			y = posY || 0;
-			sizePointer = (sp || SIZE_POINTER_DEF) * scale;
-			this.tool = t;
+
+		function Canvas(frame,scale,cord,tool,sizePointer) {
+			this.artboard.scale = scale || SCALE_DEF;
+			this.artboard.frame = frame;
+			this.artboard.cord = cord;
+			this.sizePointer = (sizePointer || SIZE_POINTER_DEF) * scale;
+			this.tool = tool;
 			this.init();
 		}
 		Canvas.prototype = {
 			constructor : Canvas,
-			get scale(){return scale},
-			set scale(val){
-				if(val < 1) return;
-				sizePointer = (sizePointer/scale) * val;
-				scale = val;
-				this.cleanPrev();
-				this.draw();
-			},
-			get tool() {return tool},
+			get artboard(){return artboard;},
+			get tool (){return tool;},
 			set tool(val){
 				tool = val;
 				tool.canvas = this;
 			},
-			set color(value){
-				color = value;
+			get sizePointer (){return sizePointer;},
+			set sizePointer(val){
+				sizePointer = val;
 			},
-			get color(){
-				return color;
-			},
-			get width(){return frame.width * scale},
-			get height(){return frame.height * scale},
-			get x(){ return x - (this.width/2)},
-			set x(val){x = val},
-			get y(){ return y - (this.height/2)},
-			set y(val){y = val},
-			get relW(){ return relW},
-			set relW(val){
-				relW = val;
-				if(!hasVal(this.relH) || !hasVal(this.scale)) return;
-				width = this.relW * this.scale;
-				height = this.relH * this.scale;
-			},
-			set frame(val){
-				frame = val;
-				this.draw();
-			},
-			get relH(){ return relH},
-			set relH(val){
-				relH = val;
-				if(!hasVal(this.relW) || !hasVal(this.scale)) return;
-				width = this.relW * this.scale;
-				height = this.relH * this.scale;
-			}
+			get width(){return artboard.frame.width * artboard.scale;},
+			get height(){return artboard.frame.height * artboard.scale;},
 		};
-		Canvas.prototype.on = function (name,handler) {
-			$(prCv).on(name,handler);
-			return this;
-		};
-		Canvas.prototype.calcPos = function (x,y) {
-			let cord = {};
-			let tempX,
-					tempY;
-			if(x < this.x  || x > this.x+this.width){
-				cord.x = x < this.x? 0 : this.width;
-				cord.relX = cord.x / scale == 0? 0 : (this.width / this.scale) - 1;
-				cord.out = true;
-			}else{
-				tempX = x - this.x;
-				cord.x = this.x + (tempX - (tempX%sizePointer));
-				cord.relX = (cord.x - this.x) / scale;
-			}
-			if(y < this.y || y > this.y+this.height){
-				cord.y = y < this.y? 0 : this.height;
-				cord.relY = cord.y / scale == 0? 0 : (this.height / this.scale) - 1;
-				cord.out = true;
-			}else{
-				tempY = y - this.y;
-				cord.y =	this.y + (tempY - (tempY%sizePointer));
-				cord.relY = (cord.y - this.y) / scale;
-			}
-			return cord;
-		};
+
 		Canvas.prototype.init = function () {
-			mnCv = _.createElement('canvas');
-			mnCx = mnCv.getContext('2d');
+			main.canvas = document.createElement('canvas');
+			main.context = main.canvas.getContext('2d');
 
-			prCv = _.createElement('canvas');
-			prCx = prCv.getContext('2d');
 
-			prCv.height = mnCv.height = window.innerHeight;
-			prCv.width = mnCv.width = window.innerWidth;
+			preview.canvas = document.createElement('canvas');
+			preview.context = preview.canvas.getContext('2d');
+			imageSmoothingDisabled(preview.context);
 
-			mnCv.classList.add('canvas');
-			prCv.classList.add('preview');
+			main.canvas.width = preview.canvas.width = window.innerWidth;
+			main.canvas.height = preview.canvas.height = window.innerHeight;
+			imageSmoothingDisabled(main.context);
 
-			parent.appendChild(mnCv);
-			parent.appendChild(prCv);
+			main.canvas.classList.add('canvas');
+			preview.canvas.classList.add('preview');
 
-			var self = this;
+			parent.appendChild(main.canvas);
+			parent.appendChild(preview.canvas);
+
 			this.cleanPrev();
 			this.cleanMain();
-			$(window).on('mousedown.tool',tool.onMouseDown)
-				.on('mousemove.tool',tool.onMouseMove)
-				.on('mouseup.tool',tool.onMouseUp)
-				.on('mouseleave.tool',tool.onMouseLeave)
-				.on('click.tool',tool.onClick);
+			$(preview.canvas).on('mousewheel.canvas',this.onScroll.bind(this));
+			$(preview.canvas).on('mousedown.canvas',this.onMouseDown.bind(this));
+			$(preview.canvas).on('mouseup.canvas',this.onMouseUp.bind(this));
+			$(preview.canvas).on('mousemove.canvas',this.onMouseMove.bind(this));
+
+			Editor.events.on('paint.canvas',this.drawAt,this);
 		};
-		Canvas.prototype.draw = function () {
-			this.cleanMain();
-			var a = 1;
-			for(let i = 0; i < frame.bitmap.length; i++){
-				for(let a = 0; a < frame.bitmap[i].length; a++){
-					if(hasVal(frame.bitmap[i][a])){
-						mnCx.fillStyle = frame.bitmap[i][a];
-						let x = this.x + i * this.scale;
-						let y = this.y + a * this.scale;
-						mnCx.fillRect(x,y,sizePointer,sizePointer);
-					}
-					//console.log(a);
+		Canvas.prototype.onChange = function (evt) {
+			console.log(evt);
+		};
+		Canvas.prototype.onScroll = function (evt) {
+			let diff = 1;
+			if(evt.deltaY > 0){
+				diff = -1;//0.9;
+			}else if(evt.deltaY < 0){
+				diff = 1;//1.1;
+			}
+			this.scaleTo(artboard.scale + diff);
+			//this.scaleTo(artboard.scale * diff);
+		};
+		Canvas.prototype.scaleTo = function (scale) {
+			if(scale < 1) return;
+			sizePointer = (sizePointer/artboard.scale) * scale;
+			artboard.scale = scale;
+			this.cleanPrev();
+
+			// TODO: scale from center
+			this.paintMain();
+
+		};
+		Canvas.prototype.onMouseDown = function (evt) {
+			if (evt.which === LEFT_CLICK) {
+				mouseDown = true;
+				this.cleanPrev();
+				tool.onMouseDown(evt);
+			}else if(evt.which === MIDDLE_CLICK){
+				evt.preventDefault();
+				drag = true;
+				this.cleanPrev();
+			}else if(evt.which === RIGHT_CLICK){
+				// TODO: add acction with right click
+			}
+		};
+		Canvas.prototype.onMouseUp = function (evt) {
+			if(evt.which === LEFT_CLICK){
+				mouseDown = false;
+				tool.onMouseUp(evt);
+			}else if(evt.which === MIDDLE_CLICK){
+				drag = false;
+				evt.preventDefault();
+			}else if(evt.which === RIGHT_CLICK){
+				// TODO: add acction with right click
+			}
+		};
+		Canvas.prototype.onMouseMove = function (evt) {
+			if(drag){
+				let diffX = evt.clientX - lastDragX;
+				let diffY = evt.clientY - lastDragY;
+				lastDragX = evt.clientX;
+				lastDragY = evt.clientY;
+				this.shiftDiff(new Vector(isNaN(diffX)? 0 : diffX,diffY = isNaN(diffY)? 0 : diffY));
+			}else{
+				if(mouseDown){
+					tool.onMouseMove(evt);
+				}else{
+					this.drawPreview(evt);
 				}
 			}
 		};
-		Canvas.prototype.drawAt = function (x,y,optionalColor) {
-			if(!hasVal(x) || !hasVal(y) || !hasVal(frame.bitmap[x])) return;
-			frame.bitmap[x][y] = optionalColor || color;
-			Editor.events.fire('change.frame'+frame.index);
-			this.draw();
+		Canvas.prototype.shiftDiff = function (cord) {
+			artboard.cord.sum(cord);
+			this.paintMain();
 		};
-		Canvas.prototype.prevAt = function (x,y) {
-			prCx.fillStyle = COLOR_POINTER_PREW_DEF;
-			prCx.fillRect(x,y,sizePointer,sizePointer);
+		Canvas.prototype.calculatePosition = function (cord) {
+			let outside = false;
+			let diffTemp;
+			let relativeTemp;
+			let framePosition = new Vector(),
+					paintPosition = new Vector();
+			if (cord.x <= artboard.cord.x || cord.x >= artboard.cord.x + artboard.width ) {
+				outside = true;
+				cord.x = cord.x < artboard.cord.x? artboard.cord.x  + (sizePointer / 2)  : artboard.cord.x + artboard.width  - (sizePointer / 2) ;
+
+			}//else{
+				diffTemp = cord.x - artboard.cord.x;
+				relativeTemp = diffTemp - (diffTemp % sizePointer );
+				paintPosition.x = relativeTemp + artboard.cord.x;
+				framePosition.x = Math.round(relativeTemp / artboard.scale);
+			//}
+			if (cord.y <= artboard.cord.y || cord.y >= artboard.cord.y + artboard.height ) {
+				outside = true;
+				cord.y = cord.y < artboard.cord.y? artboard.cord.y + (sizePointer / 2)  : artboard.cord.y + artboard.height - (sizePointer / 2) ;
+			}//else{
+				diffTemp = cord.y - artboard.cord.y;
+				relativeTemp = diffTemp - (diffTemp % sizePointer );
+				paintPosition.y = relativeTemp + artboard.cord.y;
+				framePosition.y = Math.round(relativeTemp / artboard.scale);
+			//}
+			if(framePosition.x < 0 || framePosition.y < 0 || framePosition.x > 59 || framePosition.y > 59){
+				debugger;
+			}
+			return {
+				out : outside,
+				frame : framePosition,
+				paint : paintPosition
+			};
+		};
+		Canvas.prototype.cordFrameToPaint = function (cord) {
+			let newCord = new Vector(
+				(cord.x * artboard.scale) + artboard.cord.x,
+				(cord.y * artboard.scale) + artboard.cord.y
+			);
+			return newCord;
+		};
+		Canvas.prototype.previewAt = function (cord,color) {
+			preview.context.fillStyle = color;
+			preview.context.fillRect(cord.x,cord.y,sizePointer,sizePointer);
+		};
+		Canvas.prototype.drawPreview = function (evt) {
+			this.cleanPrev();
+			let temp = new Vector(Math.floor(((evt.clientX - artboard.cord.x) / artboard.scale) ),Math.floor(((evt.clientY - artboard.cord.y) / artboard.scale) ));
+			let cord = new Vector(temp.x * artboard.scale + artboard.cord.x, temp.y * artboard.scale + artboard.cord.y);
+			preview.context.strokeStyle = COLOR_POINTER_PREW_DEF;
+			preview.context.strokeRect(cord.x - 1,cord.y - 1,sizePointer + 2,sizePointer + 2);
+		};
+		Canvas.prototype.paintMain = function () {
+			this.cleanMain();
+			imageSmoothingDisabled(main.context);
+			main.context.drawImage(artboard.frame.canvas,
+				0,0, artboard.frame.width, artboard.frame.height,
+				artboard.cord.x,artboard.cord.y,artboard.frame.width * artboard.scale, artboard.frame.height * artboard.scale
+			);
+		};
+		Canvas.prototype.drawAt = function (cord,color) {
+			main.context.fillStyle = color;
+			main.context.fillRect(cord.x,cord.y,sizePointer,sizePointer);
 		};
 		Canvas.prototype.cleanMain = function () {
-			mnCv.height = mnCv.height;
-			mnCv.width = mnCv.width;
+			main.canvas.height = main.canvas.height;
+			main.canvas.width = main.canvas.width;
+			main.context.fillStyle = 'rgba(0 ,0 , 0, 0.3)';
+			main.context.fillRect(artboard.cord.x,artboard.cord.y,this.width,this.height);
 		};
-		Canvas.prototype.cleanPrev = function (type) {
-			prCv.height = prCv.height;
-			prCv.width = prCv.width;
-			if(grid){
-				prCx.strokeStyle = "white";
-				prCx.strokeRect(this.x,this.y,this.width,this.height);
-				prCx.beginPath();
-
-				for(let r = 0  ; r < frame.width ; r++){
-					prCx.moveTo(this.x + r * this.scale, this.y);
-		      prCx.lineTo(this.x + r * this.scale, this.y + this.height);
-				}
-				for(let r = 0;  r < frame.height ; r++){
-					prCx.moveTo(this.x , this.y + r * this.scale);
-		      prCx.lineTo(this.x +this.width, this.y + r * this.scale);
-				}
-				prCx.lineWidth = 1;
-	      prCx.stroke();
-			}
+		Canvas.prototype.cleanPrev = function () {
+			preview.canvas.height = preview.canvas.height;
+			preview.canvas.width = preview.canvas.width;
 		};
-		return new Canvas(params[0],params[1],params[2],params[3],params[4]);
+		return new Canvas(...params);
 	})();
 }
 
 
-/*
-Canvas.prototype = {
-	contruct : Canvas,
-	get relW (){
-		return this._w;
-	},
-	set relW (value){
-		this._w = value;
-		this.width = value * this.scale;
-	},
-	get relH (){
-		return this._h;
-	},
-	set relH (value){
-		this._h = value;
-		this.height = value * this.scale;
-	},
-	repaint : function(ctx,y,x) {
-		ctx.strokeRect(this.x,this.y,this.width,this.height);
-		for (var i = 0; i < (this.relW/(sizePointerRel)); i++) {
-				ctx.beginPath();
-				ctx.moveTo((i*sizePointer) + this.x,this.y);
-				ctx.lineTo((i*sizePointer) + this.x, this.height + this.y);
-				ctx.stroke();
 
-				ctx.beginPath();
-				ctx.moveTo(this.x,(i*sizePointer) + this.y);
-				ctx.lineTo(this.x+this.width, (i*sizePointer) + this.y);
-				ctx.stroke();
-			}
-	},
-	pointerPreview : function(ctx,x,y){
-			//console.log(ctx,x,y,COLOR_POINTER_PREW_DEF);
-		//ctx.save();
-		//console.log(x,y);
-		clean();
-		this.repaint(ctx);
-		if(x < this.x  || x > this.x+this.width  || y < this.y || y > this.y+this.height  ) return;
-		var tempX = x - this.x,
-				tempY = y - this.y;
-		x = this.x + (tempX - (tempX%sizePointer));
-		y =	this.y + (tempY - (tempY%sizePointer));
-		//console.log(tempX,tempY);
-		ctx.fillStyle = COLOR_POINTER_PREW_DEF;
-		ctx.fillRect(x,y,sizePointer,sizePointer);
-
-		// if(tempX < sizePointer && tempY < sizePointer){
-		// 	x = this.x + (sizePointer / 2);
-		// 	y = this.y + (sizePointer / 2);
-		// 	ctx.fillStyle = COLOR_POINTER_PREW_DEF;
-		// 	ctx.fillRect(x-(sizePointer/2),y-(sizePointer/2),sizePointer,sizePointer);
-		// }
-
-	}
-}*/
 module.exports = createCanvas;

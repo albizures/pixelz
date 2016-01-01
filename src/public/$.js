@@ -1,5 +1,5 @@
 'use strict';
-const Selector = require("./prototypes/Selector.js")
+const Selector = require('./prototypes/Selector.js');
 function createProp(name,ob,val) {
 	if(hasVal(ob[name])) return;
 	Object.defineProperty(ob, name, {
@@ -15,7 +15,7 @@ const $ = function () {
 		return new Selector(params[0]);
 	}else if(typeof params[0] === 'string'){
 		let selector = params[0].trim();
-		let element
+		let element;
 		let simple = true;
 		simple == selector.indexOf(' ') !== -1 && simple;
 		simple == selector.split('.').length > 1 && simple;
@@ -34,5 +34,5 @@ const $ = function () {
 		}
 		return new Selector(element);
 	}
-}
+};
 module.exports = $;

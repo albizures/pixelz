@@ -1,31 +1,44 @@
 'use strict';
-const Canvas = require("./prototypes/Canvas.js");
-const Sprite = require("./prototypes/Sprite.js");
-const Editor = (function () {
+const {
+		SCALE_DEF,
+		WIDTH_DEF,
+		HEIGHT_DEF,
+		PALETTE,
+		FRAMES
+	} = require('./constants.js');
+const { CHANGE_SPRITE	} = require('./constants.js').sprite;
+const { CHANGE_FRAME,ADD	} = require('./constants.js').frames;
+const Canvas = require('./prototypes/Canvas.js'),
+			Sprite = require('./prototypes/Sprite.js'),
+			Vector = require('./prototypes/Vector.js'),
+ 			Editor = (function () {
 	let sprite,
 			scale = SCALE_DEF;
 
-	let frames = [],
-			panels = {},
-			index = -1,
+	let panels = {},
 			canvas,
 			tools = {};
 	let addFrame = $('#add-frame');
 	return  {
-		get sprite(){return sprite},
-		previewAnimate(){
-
+		get sprite(){return sprite;},
+		set sprite(val){
+			sprite = val;
+			Editor.events.fire(CHANGE_SPRITE,sprite);
+			Editor.events.fire(CHANGE_FRAME,ADD,0,sprite);
 		},
-		set color(value){
-			canvas.color = value;
+		get palette(){
+			return this.getPanel(PALETTE);
 		},
-		get color(){
-			return canvas.color;
+		get frames(){
+			return this.getPanel(FRAMES);
 		},
 		// panel area
 		addPanel(panel){
 			panel.parent = document.body;
 			panels[panel.name] = panel;
+		},
+		getPanel(name){
+			return panels[name];
 		},
 		initPanels(){
 			for (var i in panels) {
@@ -36,67 +49,12 @@ const Editor = (function () {
 			return panels;
 		},
 		// frame area
-		addFrame(){
-			Editor.setCurrentFrame(sprite.addFrame(true));
-		},
-		setCurrentFrame(f){
-			index = f.index;
-			canvas.frame = f;
-		},
 		addTool(tool){
-			if(hasVal(tools[tool.name]))return console.error("Invalid name tool");
+			if(hasVal(tools[tool.name])) return console.error('Invalid name tool');
 			tools[tool.name] = tool;
 		},
 		setTool(name){
 			canvas.tool = tools[name];
-		},
-		handlers : {
-			onScroll(evt){
-				let tipo = 0;
-				if(evt.deltaY > 0){
-					tipo = -1;
-				}else if(evt.deltaY < 0){
-					tipo = 1;
-				}
-				canvas.scale += tipo;
-			},
-			onClick(evt){
-				// let pos = canvas.calcPos(evt.clientX,evt.clientY);
-				// if(hasVal(pos)){
-				// 	canvas.drawAt(pos.x,pos.y);
-				// }
-			},
-			onMouseDown(){
-				//console.log('down');
-				canvas.clicked = true;
-
-			},
-			onMouseUp(){
-				//console.log('up');
-				canvas.clicked = false;
-			},
-			onMouseMove(evt){
-				if(canvas.clicked){
-					console.log(evt.clientX,evt.clientY);
-					let pos = canvas.calcPos(evt.clientX,evt.clientY);
-					if(hasVal(pos)){
-						canvas.drawAt(pos.x,pos.y);
-					}
-				}else{
-					canvas.cleanPrev();
-					let pos = canvas.calcPos(evt.clientX,evt.clientY);
-					if(hasVal(pos)){
-						canvas.prevAt(pos.x,pos.y);
-					}
-				}
-			}
-		},
-		getCurrentFrame (){
-			return frames[index];
-		},
-		getFrame(indexF){
-			if(hasVal(frames[indexF])) return console.error('wrong index');
-			return frames[indexF];
 		},
 		events : {
 			_events : {},
@@ -115,49 +73,31 @@ const Editor = (function () {
 			off(){
 			},
 			fire(name,val){
+				if(arguments.length > 2){
+					val = Array.prototype.slice.call(arguments,1);
+				}else if (arguments.length == 2){
+					val = [val];
+				}
 				var suffix = name.split('.')[1];
 				name = name.split('.')[0];
 				if(!hasVal(suffix) && hasVal(this._events[name])) {
 					for(let i in this._events[name]){
-						this._events[name][i](val);
+						this._events[name][i](...val);
 					}
 				}else if(hasVal(this._events[name]) && hasVal(this._events[name][suffix])){
-					this._events[name][suffix](val);
+					this._events[name][suffix](...val);
 				}
 			}
 		},
-		setEvents(){
-			addFrame.on('click.preview',this.addFrame);
-
-			canvas.on('mousewheel.canvas',this.handlers.onScroll)
-		},
 		init(){
-			//var canvas = _.createElement('canvas');
-			//canvas.id = 'main-cv';
-			sprite = Sprite(WIDTH_DEF ,HEIGHT_DEF);
-			index = 0;
-			canvas = Canvas(sprite.frames[index],SCALE_DEF,window.innerWidth/2,window.innerHeight/2,tools.pencil);
-			//canvas.height = window.innerHeight;
-			//canvas.width = window.innerWidth;
 			this.initPanels();
-			Editor.events.fire('addFrame.frame',sprite.frames[index]);
-			this.events.on('selectFrame.editor',this.setCurrentFrame);
+			this.sprite = Sprite(WIDTH_DEF ,HEIGHT_DEF);
+			let index  = this.frames.getIndex();
+			index = 0;
+			canvas = Canvas(this.sprite.frames[index],SCALE_DEF, new Vector(Math.round(window.innerWidth/4),Math.round(window.innerHeight/16)),tools.pencil);
 
-			// var frame = new Frame(canvas);
-			// frame.index = this.addFrame(frame);
-			//this.setCurrentFrame(frame.index);
-			//this.previewFrames();
-
-			this.setEvents();
 			console.timeEnd('canvas');
 		}
-	}
+	};
 })();
-
-// this.preview = _.createElement('canvas');
-// this.previewCx = this.cv.getContext('2d');
-// this.preview.height = window.innerHeight;
-// this.preview.width = window.innerWidth;
-// cv.classList.add('preview');
-// _.body.appendChild(this.preview);
 module.exports = Editor;

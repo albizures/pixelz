@@ -1,38 +1,50 @@
 'use strict';
-const Frame = require("./Frame.js");
-
+const Frame = require('./Frame.js');
+const {
+	ADD,
+	DELETE,
+	UPDATE,
+	CHANGE_FRAME	} = require('../constants.js').frames;
 function createSprite() {
 	let params = arguments;
 	return (function () {
 		let width, height,frames = [];
-		function Sprite(w,h) {
-			width = w;
-			height = h;
+		function Sprite(width,height) {
+			this.width = width;
+			this.height = height;
 			frames.push(Frame(this,0));
 			//this.addFrame();
 		}
 		Sprite.prototype = {
 			constructor : Sprite,
-			get width(){return width},
-			set width(val){width = val},
-			get height(){return height},
-			set height(val){height = val},
-			get frames(){return frames}
+			get width(){return width;},
+			set width(val){width = val;},
+			get height(){return height;},
+			set height(val){height = val;},
+			get frames(){return frames;}
 		};
-		Sprite.prototype.addFrame = function (clone,i) {
-			let index = i || frames.length - 1;
+		Sprite.prototype.getFrame = function (index) {
+			return frames[index];
+		};
+		Sprite.prototype.addFrame = function (indexClone, newIndex) {
+			let bitmap, frame, index;
 
-			let bitmap;
-			if(clone && hasVal(frames[index])){
+			if(hasVal(indexClone) && hasVal(frames[indexClone])){
 				bitmap = frames[index].clone();
 			}
-			let frame = Frame(this,index + 1,bitmap);
-			frames.push(frame);
-			console.log('add');
-			//Editor.events.fire('addFrame.frame',frame);
+
+			if(hasVal(newIndex)){
+				// TODO: Add frame in a specific index
+			}else{
+				index = frames.length;
+				console.log(index);
+				frame = Frame(this,index + 1,bitmap);
+				frames[index] = frame;
+			}
+			Editor.events.fire(CHANGE_FRAME,ADD,index,this);
 			return frame;
 		};
-		return new Sprite(params[0],params[1]);
+		return new Sprite(...params);
 	})();
 }
 module.exports = createSprite;

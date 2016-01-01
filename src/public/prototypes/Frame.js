@@ -1,24 +1,24 @@
 'use strict';
-const _ = document;
-const SCALE_DEF = 4;
-
+const { imageSmoothing } = require('../utils.js');
+const {
+	ADD,
+	DELETE,
+	UPDATE,
+	CHANGE_FRAME} = require('../constants.js').frames;
 function createFrame() {
   let params = arguments;
   return (function () {
-    var index,bitmap,cx ,cv, sprite,li,scale,status;
-    function Frame(s,i,b,sc) {
-      sprite = s;
-      index = i;
-      bitmap = b || new Array(sprite.width);
-      scale = sc || SCALE_DEF;
+    let index,bitmap,context , sprite,li,status;
+    function Frame(sprite,index,bitmap) {
+      this.sprite = sprite;
+      this.index = index;
+      this.bitmap = bitmap || new Array(sprite.width);
 
-      if(!hasVal(b)){
-        for(let i = 0 ; i < bitmap.length ; i++){
-          bitmap[i] = new Array(sprite.height);
+      if(!hasVal(bitmap)){
+        for(let i = 0 ; i < this.bitmap.length ; i++){
+          this.bitmap[i] = new Array(sprite.height);
         }
       }
-
-      Editor.events.on('change.frame' + index,this.onChange,this);
       this.init();
     }
     Frame.prototype = {
@@ -29,34 +29,37 @@ function createFrame() {
       set index(val){
         index = val;
       },
-      get cv(){return cv},
-      get bitmap(){return bitmap},
-      get cv(){ return cv},
-      set cv(val){canvas = val},
-      get cx(){return cx},
-      set cx(val){cx = val;},
-      get width(){return sprite.width},
-      get height(){return sprite.height}
-    }
+      get sprite(){
+        return sprite;
+      },
+      set sprite(val){
+        sprite = val;
+      },
+      get context(){
+        return context;
+      },
+      get canvas(){
+        return context.canvas;
+      },
+      get bitmap(){return bitmap;},
+      set bitmap(val){
+        bitmap = val;
+      },
+      get imageData(){
+        return context.getImageData(0,0,sprite.width,sprite.height);
+      },
+      get width(){return sprite.width;},
+      get height(){return sprite.height;}
+    };
     Frame.prototype.init = function () {
-      cv = _.createElement('canvas');
-      li = _.createElement('li');
-
-      cv.width = sprite.width * scale;
-      cv.height = sprite.height * scale;
-      cv.classList.add('frame-preview');
-      cv.id = "f"+index;
-      cx = cv.getContext('2d');
-      var self = this;
-      $(li).on('click.selectFrame',function () {
-        Editor.events.fire('selectFrame',self);
-      }).append(cv);
-      this.onChange();
-      Editor.events.fire('addFrame.frame',this);
+      context = document.createElement('canvas').getContext('2d');
+      imageSmoothing(context,false);
+      context.canvas.width = sprite.width;
+      context.canvas.height = sprite.height;
     };
     Frame.prototype.getIMG = function () {
-      let image = document.createElement("img")
-      image.src = cv.toDataURL();
+      let image = document.createElement('img');
+      image.src = context.canvas.toDataURL();
       return image;
     };
     Frame.prototype.clone = function () {
@@ -66,31 +69,26 @@ function createFrame() {
       }
       return newBitmap;
     };
-    Frame.prototype.appendTo = function (el) {
-      $(el).append(li);
+    Frame.prototype.validCord = function (cord) {
+      return cord.x >= 0 && cord.x < this.width && cord.y >= 0 && cord.y < this.height;
     };
-    Frame.prototype.remove = function () {
-      li.remove();
+    Frame.prototype.paintAt = function (cord,color,realCord) {
+      if( !this.validCord(cord) ) return;
+      bitmap[cord.x][cord.y] = color;
+      context.fillStyle = color;
+      context.fillRect(cord.x,cord.y,1,1);
+      Editor.events.fire('paint',realCord,color);
     };
-    Frame.prototype.onSelect = function () {
-
-    };
-    Frame.prototype.onChange = function () {
-      for(let i = 0; i < bitmap.length; i++){
-        for(let a = 0; a < bitmap[i].length; a++){
-          if(hasVal(bitmap[i][a])){
-            cx.fillStyle = bitmap[i][a];
-            let x = i * scale;
-            let y = a * scale;
-            cx.fillRect(x,y,scale,scale);
-          }
-        }
+    Frame.prototype.paintStroke = function (listCords) {
+      for (let i = 0; i < listCords.length; i++) {
+        this.paintAt(listCords[i].frame,listCords[i].color,listCords[i].paint);
       }
+			Editor.events.fire(CHANGE_FRAME,UPDATE,index,sprite);
     };
     Frame.prototype.generatePreview = function (scale) {
-      return cx;
-    }
-    return new Frame(params[0],params[1],params[2]);
+      return context;
+    };
+    return new Frame(...params);
   })();
 }
 

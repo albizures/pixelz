@@ -1,14 +1,17 @@
 'use strict';
-
-const Panel = require("../prototypes/Panel.js");
+const {
+		TRANSPARENT_COLOR,
+		PALETTE
+	} = require('../constants.js');
+const Panel = require('../prototypes/Panel.js'),
+			utils = require("../utils.js");
 
 let time = 0.5 * 1000,loop,index = 0,ctx;
-let colors = ['#53664d','red'];
+let colors = ['red','#53664d'], mainColor = colors[0], secondColor = TRANSPARENT_COLOR;
 const inputColor = document.createElement('input');
 const divColors = document.createElement('div');
-const Palette = new Panel('Palette');
+const Palette = Panel(PALETTE);
 Palette.mainInit = function () {
-  Editor.color = colors[0];
   inputColor.id = 'palette';
 
   divColors.style.height = '50px';
@@ -19,7 +22,7 @@ Palette.mainInit = function () {
   this.div.appendChild(divColors);
   this.div.appendChild(inputColor);
   this.generateColors();
-}
+};
 Palette.generateColors = function () {
   for (let i = 0; i < colors.length; i++) {
     let color = document.createElement('div');
@@ -29,14 +32,16 @@ Palette.generateColors = function () {
     divColors.appendChild(color);
     $(color).on('click.color',this.changeColor);
   }
-}
+};
 Palette.changeColor = function (e) {
   e.stopImmediatePropagation();
   //e.preventDefault();
   //debugger;
   Editor.color = this.style.background;
   return false;
-}
-
+};
+Palette.getMainColor = function () {
+	return mainColor;
+};
 
 module.exports = () => Editor.addPanel(Palette);

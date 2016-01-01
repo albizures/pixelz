@@ -1,9 +1,9 @@
 {
   "verbose": true,
   "watch" : [
-    "server.js",
-    "webpack.local.config.js",
-    "src/server/**"
+    "src/server/**",
+    "src/app.js",
+    "src/webpack.local.config"
   ],
   "ignore":[
     "node_modules/**",
