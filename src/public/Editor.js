@@ -26,6 +26,9 @@ const Canvas = require('./prototypes/Canvas.js'),
 			Editor.events.fire(CHANGE_SPRITE,sprite);
 			Editor.events.fire(CHANGE_FRAME,ADD,0,sprite);
 		},
+		get canvas(){
+			return canvas;
+		},
 		get palette(){
 			return this.getPanel(PALETTE);
 		},

@@ -13,6 +13,7 @@ const {
 function createCanvas() {
 	let params = arguments;
 	return (function () {
+		// TODO: create the prototype of the artboard
 		let artboard = {
 					get width(){
 						return this.frame.width * this.scale;
@@ -82,8 +83,10 @@ function createCanvas() {
 
 			Editor.events.on('paint.canvas',this.drawAt,this);
 		};
-		Canvas.prototype.onChange = function (evt) {
-			console.log(evt);
+		Canvas.prototype.changeFrame = function (newFrame) {
+			console.log(newFrame);
+			artboard.frame = newFrame;
+			this.paintMain();
 		};
 		Canvas.prototype.onScroll = function (evt) {
 			let diff = 1;
@@ -149,6 +152,7 @@ function createCanvas() {
 			this.paintMain();
 		};
 		Canvas.prototype.calculatePosition = function (cord) {
+			// TODO: Add support many sizes pointer
 			let outside = false;
 			let diffTemp;
 			let relativeTemp;
@@ -158,21 +162,19 @@ function createCanvas() {
 				outside = true;
 				cord.x = cord.x < artboard.cord.x? artboard.cord.x  + (sizePointer / 2)  : artboard.cord.x + artboard.width  - (sizePointer / 2) ;
 
-			}//else{
-				diffTemp = cord.x - artboard.cord.x;
-				relativeTemp = diffTemp - (diffTemp % sizePointer );
-				paintPosition.x = relativeTemp + artboard.cord.x;
-				framePosition.x = Math.round(relativeTemp / artboard.scale);
-			//}
+			}
+			diffTemp = cord.x - artboard.cord.x;
+			relativeTemp = diffTemp - (diffTemp % sizePointer );
+			paintPosition.x = relativeTemp + artboard.cord.x;
+			framePosition.x = Math.round(relativeTemp / artboard.scale);
 			if (cord.y <= artboard.cord.y || cord.y >= artboard.cord.y + artboard.height ) {
 				outside = true;
 				cord.y = cord.y < artboard.cord.y? artboard.cord.y + (sizePointer / 2)  : artboard.cord.y + artboard.height - (sizePointer / 2) ;
-			}//else{
-				diffTemp = cord.y - artboard.cord.y;
-				relativeTemp = diffTemp - (diffTemp % sizePointer );
-				paintPosition.y = relativeTemp + artboard.cord.y;
-				framePosition.y = Math.round(relativeTemp / artboard.scale);
-			//}
+			}
+			diffTemp = cord.y - artboard.cord.y;
+			relativeTemp = diffTemp - (diffTemp % sizePointer );
+			paintPosition.y = relativeTemp + artboard.cord.y;
+			framePosition.y = Math.round(relativeTemp / artboard.scale);
 			if(framePosition.x < 0 || framePosition.y < 0 || framePosition.x > 59 || framePosition.y > 59){
 				debugger;
 			}

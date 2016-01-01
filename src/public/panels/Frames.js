@@ -11,7 +11,7 @@ const {
 
 const ul =  document.createElement('ul'),
       btnAdd = document.createElement('button');
-let index = 1,frames = {};
+let index = 0,frames = {};
 Frames.mainInit = function () {
   btnAdd.textContent = 'add frame';
   ul.id = 'preview-frames';
@@ -40,6 +40,7 @@ Frames.changeFrame = function (type,index,sprite) {
   }
 };
 Frames.updateFrame = function (index,sprite) {
+	console.log(sprite.frames,frames);
 	frames[index].context.drawImage(sprite.frames[index].getIMG(),0,0,sprite.width,sprite.height);
 };
 Frames.addPreview = function () {
@@ -52,6 +53,7 @@ Frames.addFrame = function (index,sprite) {
   let li = document.createElement('li');
   let context = document.createElement('canvas').getContext('2d');
   li.appendChild(context.canvas);
+	$(li).on('click.frame',changeFrame(sprite.frames[index]).bind(Editor.canvas));
 	context.canvas.width = sprite.width;
 	context.canvas.height = sprite.height;
   ul.appendChild(li);
@@ -63,5 +65,10 @@ Frames.addFrame = function (index,sprite) {
 Frames.updateAll = function () {
 
 };
-
+function changeFrame(frame) {
+	index = frame.index;
+	return function (evt) {
+		Editor.canvas.changeFrame(frame);
+	};
+}
 module.exports = () => Editor.addPanel(Frames);

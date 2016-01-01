@@ -38,7 +38,7 @@ function createSprite() {
 			}else{
 				index = frames.length;
 				console.log(index);
-				frame = Frame(this,index + 1,bitmap);
+				frame = Frame(this,index,bitmap);
 				frames[index] = frame;
 			}
 			Editor.events.fire(CHANGE_FRAME,ADD,index,this);
