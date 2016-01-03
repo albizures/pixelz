@@ -4,7 +4,7 @@ const {
 	ADD,
 	DELETE,
 	UPDATE,
-	CHANGE_FRAME} = require('../constants.js').frames;
+	CHANGE_FRAME} = require('../constants').frames;
 function createFrame() {
   let params = arguments;
   return (function () {
@@ -76,6 +76,7 @@ function createFrame() {
       if( !this.validCord(cord) ) return;
       bitmap[cord.x][cord.y] = color;
       context.fillStyle = color;
+			context.clearRect(cord.x,cord.y,1,1);
       context.fillRect(cord.x,cord.y,1,1);
       Editor.events.fire('paint',realCord,color);
     };
