@@ -8,7 +8,7 @@ const {
 		RIGHT_CLICK,
 		LEFT_CLICK,
 		COLOR_POINTER_PREW_DEF
-	} = require('../constants.js');
+	} = require('../constants');
 
 function createCanvas() {
 	let params = arguments;
@@ -29,8 +29,9 @@ function createCanvas() {
 				preview = {},
 
 				clicked,imageData,
-				mouseDown = false;
-
+				mouseDown = false,
+				lastDragX,
+				lastDragY,
 				parent = document.body;
 
 
@@ -160,8 +161,7 @@ function createCanvas() {
 					paintPosition = new Vector();
 			if (cord.x <= artboard.cord.x || cord.x >= artboard.cord.x + artboard.width ) {
 				outside = true;
-				cord.x = cord.x < artboard.cord.x? artboard.cord.x  + (sizePointer / 2)  : artboard.cord.x + artboard.width  - (sizePointer / 2) ;
-
+				cord.x = cord.x <= artboard.cord.x? artboard.cord.x  + (sizePointer / 2)  : artboard.cord.x + artboard.width  - (sizePointer / 2) ;
 			}
 			diffTemp = cord.x - artboard.cord.x;
 			relativeTemp = diffTemp - (diffTemp % sizePointer );
@@ -169,7 +169,7 @@ function createCanvas() {
 			framePosition.x = Math.round(relativeTemp / artboard.scale);
 			if (cord.y <= artboard.cord.y || cord.y >= artboard.cord.y + artboard.height ) {
 				outside = true;
-				cord.y = cord.y < artboard.cord.y? artboard.cord.y + (sizePointer / 2)  : artboard.cord.y + artboard.height - (sizePointer / 2) ;
+				cord.y = cord.y <= artboard.cord.y? artboard.cord.y + (sizePointer / 2)  : artboard.cord.y + artboard.height - (sizePointer / 2) ;
 			}
 			diffTemp = cord.y - artboard.cord.y;
 			relativeTemp = diffTemp - (diffTemp % sizePointer );
@@ -193,6 +193,8 @@ function createCanvas() {
 		};
 		Canvas.prototype.previewAt = function (cord,color) {
 			preview.fillStyle = color;
+			preview.clearRect(cord.x,cord.y,sizePointer,sizePointer);
+			main.clearRect(cord.x,cord.y,sizePointer,sizePointer);
 			preview.fillRect(cord.x,cord.y,sizePointer,sizePointer);
 		};
 		Canvas.prototype.drawPreview = function (evt) {
@@ -212,12 +214,14 @@ function createCanvas() {
 		};
 		Canvas.prototype.drawAt = function (cord,color) {
 			main.fillStyle = color;
+			main.clearRect(cord.x,cord.y,sizePointer,sizePointer);
 			main.fillRect(cord.x,cord.y,sizePointer,sizePointer);
 		};
 		Canvas.prototype.cleanMain = function () {
 			main.canvas.height = main.canvas.height;
 			main.canvas.width = main.canvas.width;
 			main.fillStyle = 'rgba(0 ,0 , 0, 0.3)';
+			// TODO: create canvas background
 			main.fillRect(artboard.cord.x,artboard.cord.y,this.width,this.height);
 		};
 		Canvas.prototype.cleanPrev = function () {
