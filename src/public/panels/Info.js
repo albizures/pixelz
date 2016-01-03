@@ -1,7 +1,7 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js');
-const { CHANGE_SPRITE	} = require('../constants.js').sprite;
+const { CHANGE_SPRITE	} = require('../constants').sprite;
 const Info = Panel('Info');
 
 Info.mainInit = function () {

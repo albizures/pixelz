@@ -2,8 +2,8 @@
 
 const Panel = require('../prototypes/Panel.js');
 const { imageSmoothingDisabled } = require('../utils.js');
-const { CHANGE_FRAME	} = require('../constants.js').frames;
-const { CHANGE_SPRITE	} = require('../constants.js').sprite;
+const { CHANGE_FRAME	} = require('../constants').frames;
+const { CHANGE_SPRITE	} = require('../constants').sprite;
 const preview = document.createElement('canvas');
 let time = 0.5 * 1000,loop,index = 0,ctx;
 

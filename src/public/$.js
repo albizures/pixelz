@@ -1,5 +1,6 @@
 'use strict';
 const Selector = require('./prototypes/Selector.js');
+const AppendObject = require('./prototypes/AppendObject.js');
 function createProp(name,ob,val) {
 	if(hasVal(ob[name])) return;
 	Object.defineProperty(ob, name, {
@@ -13,6 +14,8 @@ const $ = function () {
 	let params = arguments;
 	if(params[0] instanceof Element || params[0] === window){
 		return new Selector(params[0]);
+	}else if(params[0] instanceof AppendObject){
+		return new Selector(params[0].el);
 	}else if(typeof params[0] === 'string'){
 		let selector = params[0].trim();
 		let element;

@@ -2,12 +2,12 @@
 
 const Panel = require('../prototypes/Panel.js');
 const Frames = Panel('Frames');
-const { CHANGE_SPRITE	} = require('../constants.js').sprite;
+const { CHANGE_SPRITE	} = require('../constants').sprite;
 const {
 	ADD,
 	DELETE,
 	UPDATE,
-  CHANGE_FRAME	} = require('../constants.js').frames;
+  CHANGE_FRAME	} = require('../constants').frames;
 
 const ul =  document.createElement('ul'),
       btnAdd = document.createElement('button');
@@ -40,7 +40,6 @@ Frames.changeFrame = function (type,index,sprite) {
   }
 };
 Frames.updateFrame = function (index,sprite) {
-	console.log(sprite.frames,frames);
 	frames[index].context.drawImage(sprite.frames[index].getIMG(),0,0,sprite.width,sprite.height);
 };
 Frames.addPreview = function () {
