@@ -3,7 +3,7 @@
   "watch" : [
     "src/server/**",
     "src/app.js",
-    "src/webpack.local.config"
+    "src/webpack.local.config.js"
   ],
   "ignore":[
     "node_modules/**",
