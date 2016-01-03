@@ -22,6 +22,7 @@ module.exports.colors = {
   HSL : 'hsl',
   NAC : 'NaC'
 };
+module.exports.palette  = require("./palette.js");
 module.exports.frames = {
   ADD : 1,
   DELETE : 2,

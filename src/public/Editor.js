@@ -5,9 +5,9 @@ const {
 		HEIGHT_DEF,
 		PALETTE,
 		FRAMES
-	} = require('./constants.js');
-const { CHANGE_SPRITE	} = require('./constants.js').sprite;
-const { CHANGE_FRAME,ADD	} = require('./constants.js').frames;
+	} = require('./constants');
+const { CHANGE_SPRITE	} = require('./constants').sprite;
+const { CHANGE_FRAME,ADD	} = require('./constants').frames;
 const Canvas = require('./prototypes/Canvas.js'),
 			Sprite = require('./prototypes/Sprite.js'),
 			Vector = require('./prototypes/Vector.js'),
@@ -84,6 +84,7 @@ const Canvas = require('./prototypes/Canvas.js'),
 				var suffix = name.split('.')[1];
 				name = name.split('.')[0];
 				if(!hasVal(suffix) && hasVal(this._events[name])) {
+					// TODO: Change for a Object.keys
 					for(let i in this._events[name]){
 						this._events[name][i](...val);
 					}

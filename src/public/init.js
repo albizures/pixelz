@@ -1,6 +1,5 @@
 // console.time('canvas');
 'use strict';
-
 require('./style/main.styl');
 
 window.hasVal = (val) =>{

@@ -2,7 +2,7 @@
 
 const Editor = require('./Editor');
 const Animator = require('./panels/Animator.js');
-const Palette = require('./panels/Palette.js');
+const Palette = require('./panels/Palette');
 const Frames = require('./panels/Frames.js');
 const Info = require('./panels/Info.js');
 
