@@ -38,7 +38,7 @@ Palette.generateColors = function () {
   }
 };
 Palette.onClickColor = function (evt) {
-	e.stopImmediatePropagation();
+	evt.stopImmediatePropagation();
 	Editor.events.fire(CHANGE_COLOR,this.color);
   mainColor = this.color;
   return false;

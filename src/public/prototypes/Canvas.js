@@ -54,9 +54,7 @@ function createCanvas() {
 			get sizePointer (){return sizePointer;},
 			set sizePointer(val){
 				sizePointer = val;
-			},
-			get width(){return artboard.frame.width * artboard.scale;},
-			get height(){return artboard.frame.height * artboard.scale;},
+			}
 		};
 
 		Canvas.prototype.init = function () {
@@ -220,9 +218,10 @@ function createCanvas() {
 		Canvas.prototype.cleanMain = function () {
 			main.canvas.height = main.canvas.height;
 			main.canvas.width = main.canvas.width;
-			main.fillStyle = 'rgba(0 ,0 , 0, 0.3)';
+			main.fillStyle = 'rgba(0 ,0 , 0, 0.1)';
+			console.log('clean');
 			// TODO: create canvas background
-			main.fillRect(artboard.cord.x,artboard.cord.y,this.width,this.height);
+			main.fillRect(artboard.cord.x,artboard.cord.y,artboard.width,artboard.height);
 		};
 		Canvas.prototype.cleanPrev = function () {
 			preview.canvas.height = preview.canvas.height;
