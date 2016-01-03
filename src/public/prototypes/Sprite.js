@@ -4,7 +4,7 @@ const {
 	ADD,
 	DELETE,
 	UPDATE,
-	CHANGE_FRAME	} = require('../constants.js').frames;
+	CHANGE_FRAME	} = require('../constants').frames;
 function createSprite() {
 	let params = arguments;
 	return (function () {
