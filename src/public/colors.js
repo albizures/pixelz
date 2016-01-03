@@ -6,7 +6,7 @@ const {
     NAC,
     DEFAULT_COLOR,
 		HSL
-	} = require('./constants.js').colors;
+	} = require('./constants').colors;
 const abbrHex =  /^#([a-fA-F0-9]{3})$/,
       hex =  /^#([a-fA-F0-9]{6})$/,
       rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/,
@@ -15,7 +15,7 @@ const abbrHex =  /^#([a-fA-F0-9]{3})$/,
 
 function isValid (color) {
     return NAC !== detectType(color);
-};
+}
 function detectType (color) {
   if(isAbbrHex(color)){
     return ABBR_HEX;
@@ -30,19 +30,27 @@ function detectType (color) {
   }else{
     return NAC;
   }
-};
+}
 function isAbbrHex (color) {
   return color.match(abbrHex) || false;
-};
+}
 function isHex (color) {
   return color.match(hex) || false;
-};
+}
 function isRGBA (color) {
   return color.match(rgba) || false;
-};
+}
 function isRGBAPer (color) {
   return color.match(perRgba) || false;
-};
+}
 function isHSL (color) {
 	return color.match(hsl) || false;
+}
+function colorIsLight (r, g, b) {
+  var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  console.log(a);
+  return (a < 0.5);
+}
+module.exports = {
+	colorIsLight
 };
