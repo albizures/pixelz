@@ -4,14 +4,14 @@ const express = require('express'),
       BUILD_PATH = path.resolve(__dirname,'..' ,'build');
 require("./server/config")(app);
 
-app.get('/app.js', function(req, res) {
-  res.sendFile(path.resolve(BUILD_PATH,'app.js'));
-});
-
-
-app.get('/style.css', function(req, res) {
-  res.sendFile(path.resolve(BUILD_PATH,'style.css'));
-});
+// app.get('/app.js', function(req, res) {
+//   res.sendFile(path.resolve(BUILD_PATH,'app.js'));
+// });
+//
+//
+// app.get('/style.css', function(req, res) {
+//   res.sendFile(path.resolve(BUILD_PATH,'style.css'));
+// });
 
 app.get('/', function(req, res) {
   res.sendFile(path.resolve(BUILD_PATH,'index.html'));
