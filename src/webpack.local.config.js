@@ -6,7 +6,8 @@ const webpack = require('webpack'),
 const ROOT_PATH = path.resolve(__dirname),
       APP_PATH = path.resolve(ROOT_PATH,'public','init.js'),
       PUBLIC_PATH = path.resolve(ROOT_PATH,'public'),
-      BUILD_PATH = path.resolve(ROOT_PATH,'..' ,'build');
+      BUILD_PATH = path.resolve(ROOT_PATH,'..' ,'build'),
+      ASSETS_PATH = path.resolve(BUILD_PATH ,'assets');
 
 module.exports = {
   devtool : 'eval',//'eval-source-map',
@@ -28,6 +29,13 @@ module.exports = {
       {
         test: /\.js$/, include: PUBLIC_PATH,
         loader: "babel-loader"//?stage=0"]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+            'file?name=/assets/images/[name].[ext]',
+            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
       },
       {
         test: /\.css?$/,
