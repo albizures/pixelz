@@ -14,6 +14,15 @@ function createSpan(text) {
    }
    return newSpan;
 }
+function createBtn(text) {
+   let newBtn = document.createElement('button');
+   newBtn.textContent = text;
+   let classes = Array.prototype.slice.call(arguments,1);
+   for (var i = 0; i < classes.length; i++) {
+     newBtn.classList.add(classes[i]);
+   }
+   return newBtn;
+}
 function createDiv() {
    let newDiv = document.createElement('div');
    for (var i = 0; i < arguments.length; i++) {
@@ -35,6 +44,7 @@ function createInputRange(value,min,max) {
 }
 module.exports = {
   imageSmoothing,
+  createBtn,
   createSpan,
   createDiv,
   createInputRange,
