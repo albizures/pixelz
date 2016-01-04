@@ -1,6 +1,7 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js');
+const PreviewFrame = require('../prototypes/Frames/PreviewFrame.js');
 const Frames = Panel('Frames');
 const { CHANGE_SPRITE	} = require('../constants').sprite;
 const {
@@ -8,7 +9,6 @@ const {
 	DELETE,
 	UPDATE,
   CHANGE_FRAME	} = require('../constants').frames;
-
 const ul =  document.createElement('ul'),
       btnAdd = document.createElement('button');
 let index = 0,frames = {};
@@ -40,7 +40,9 @@ Frames.changeFrame = function (type,index,sprite) {
   }
 };
 Frames.updateFrame = function (index,sprite) {
-	frames[index].context.drawImage(sprite.frames[index].getIMG(),0,0,sprite.width,sprite.height);
+	//imageSmoothingDisabled(frames[index].context);
+	frames[index].updatePreview();
+
 };
 Frames.addPreview = function () {
   sprite.addFrame(true);
@@ -49,17 +51,25 @@ Frames.getIndex = function () {
   return index;
 };
 Frames.addFrame = function (index,sprite) {
-  let li = document.createElement('li');
-  let context = document.createElement('canvas').getContext('2d');
-  li.appendChild(context.canvas);
-	$(li).on('click.frame',changeFrame(sprite.frames[index]).bind(Editor.canvas));
-	context.canvas.width = sprite.width;
-	context.canvas.height = sprite.height;
-  ul.appendChild(li);
-	frames[index] = {
-		li,
-		context
-	};
+  //let li = document.createElement('li');
+	//ul.appendChild(li);
+	//let context = document.createElement('canvas').getContext('2d');
+	//console.log(new PreviewFrame(sprite.frames[index],ul.clientWidth));
+	// if(sprite.width > sprite.height){
+	// 	context.canvas.width = sizePreview;
+	// 	percentPreview = sizePreview / sprite.width;
+	// 	context.canvas.height = sprite.height * percentPreview;
+	// }else {
+	// 	context.canvas.height = sizePreview;
+	// 	percentPreview = sizePreview / sprite.height;
+	// 	context.canvas.width = sprite.width * percentPreview;
+	// }
+  //li.appendChild(context.canvas);
+	//$(li).on('click.frame',changeFrame(sprite.frames[index]).bind(Editor.canvas));
+	//context.canvas.width = sprite.width;
+	//context.canvas.height = sprite.height;
+	frames[index] = new PreviewFrame(sprite.frames[index]);
+	frames[index].appendTo(ul);
 };
 Frames.updateAll = function () {
 
