@@ -1,11 +1,11 @@
 const AppendObject = require('../../prototypes/AppendObject.js');
 const {inheritanceObject,createSpan,createInputRange} = require('../../utils.js');
 function Range(value,min,max,type,callback) {
+  AppendObject.call(this,'preview-frame');
   this.value = value,
   this.max = max;
   this.min = min;
   this.type = type;
-  this.el = document.createElement('div');
   this.input = createInputRange(0,this.min,this.max);
   this.spanName = createSpan(this.type);
   this.spanValue = createSpan(this.value);

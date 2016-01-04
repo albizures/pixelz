@@ -4,9 +4,8 @@ const {
 	SIZE_COLOR_BLOCK,CHANGE_COLOR
 } = require('../../constants').palette;
 function Color(color,active) {
+	AppendObject.call(this,'palette-color');
   this.color = color;
-  this.el = document.createElement('div');
-  this.el.classList.add('palette-color');
 	if(active) this.el.classList.add('active');
   this.el.style.background = color;
 	this.active = active;

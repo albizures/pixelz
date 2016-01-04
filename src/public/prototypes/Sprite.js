@@ -12,8 +12,7 @@ function createSprite() {
 		function Sprite(width,height) {
 			this.width = width;
 			this.height = height;
-			frames.push(Frame(this,0));
-			//this.addFrame();
+			frames.push(new Frame(this,0,undefined,true));
 		}
 		Sprite.prototype = {
 			constructor : Sprite,
@@ -38,7 +37,7 @@ function createSprite() {
 			}else{
 				index = frames.length;
 				console.log(index);
-				frame = Frame(this,index,bitmap);
+				frame = new Frame(this,index,bitmap,true);
 				frames[index] = frame;
 			}
 			Editor.events.fire(CHANGE_FRAME,ADD,index,this);

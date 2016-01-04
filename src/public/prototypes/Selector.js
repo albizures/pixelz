@@ -12,15 +12,13 @@ function Selector() {
 		}
 	}
 }
-function dimensions() {
-	let prop = arguments[0],
-		val = arguments[1],
-		suffix = window === this[0]? 'inner' : 'offset';
+function dimensions(prop,val,type) {
+	let suffix = window === this[0]? 'inner' : (type? 'client' : 'offset');
 	if(hasVal(val)){
-		if(typeof arguments[0] === 'number' ){
-			let dim = arguments[1] || 'px';
+		if(typeof val === 'number' ){
+			let dim = 'px';
 			for (let i = 0; i < this.length; i++) {
-				this[i].style.width = arguments[0] + dim;
+				this[i].style.width = val + dim;
 			}
 		}
 	}else{
@@ -28,11 +26,17 @@ function dimensions() {
 	}
 }
 Selector.prototype = Object.create(Array.prototype);
-Selector.prototype.width = function () {
-	return dimensions.bind(this)('Width',arguments[0]);
+Selector.prototype.width = function (val) {
+	return dimensions.bind(this)('Width',val);
 };
-Selector.prototype.height = function () {
-	return dimensions.bind(this)('Height',arguments[0]);
+Selector.prototype.height = function (val) {
+	return dimensions.bind(this)('Height',val);
+};
+Selector.prototype.contentWidth = function (val) {
+	return dimensions.bind(this)('Width',val,true);
+};
+Selector.prototype.contentHeight = function (val) {
+	return dimensions.bind(this)('Height',val,true);
 };
 Selector.prototype.on = function (name,handler) {
 
