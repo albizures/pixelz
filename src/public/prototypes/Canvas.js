@@ -205,7 +205,7 @@ function createCanvas() {
 		Canvas.prototype.paintMain = function () {
 			this.cleanMain();
 			imageSmoothingDisabled(main);
-			main.drawImage(artboard.frame.canvas,
+			main.drawImage(artboard.frame.context.canvas,
 				0,0, artboard.frame.width, artboard.frame.height,
 				artboard.cord.x,artboard.cord.y,artboard.frame.width * artboard.scale, artboard.frame.height * artboard.scale
 			);
