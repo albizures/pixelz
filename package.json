@@ -1,0 +1,43 @@
+{
+  "name": "p-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albizures/p-editor.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/albizures/p-editor/issues"
+  },
+  "homepage": "https://github.com/albizures/p-editor#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "nodemon": "^1.8.1",
+    "serve-favicon": "^2.3.0",
+    "webpack": "^1.12.8"
+  },
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-eslint": "^4.1.5",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.3.15",
+    "css-loader": "^0.23.0",
+    "eslint": "^1.10.1",
+    "eslint-loader": "^1.1.1",
+    "express-livereload": "0.0.24",
+    "extract-text-webpack-plugin": "^0.9.1",
+    "image-webpack-loader": "^1.6.2",
+    "jscs": "^2.6.0",
+    "jscs-loader": "^0.2.0",
+    "style-loader": "^0.13.0",
+    "stylus": "^0.52.4",
+    "stylus-loader": "^1.4.2",
+    "webpack-dev-server": "^1.12.1"
+  }
+}

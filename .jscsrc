@@ -1,0 +1,12 @@
+{
+	"fileExtensions": [".js"],
+	"esnext": true,
+	"preset": "crockford",
+	"requireCurlyBraces": true,
+  "requireParenthesesAroundIIFE": true,
+	"excludeFiles": [
+    "dist/**",
+		"bundle/**",
+    "node_modules/**"
+  ]
+}

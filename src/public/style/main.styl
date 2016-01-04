@@ -1,0 +1,106 @@
+  @import './vendor/normalize.css'
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+canvas {
+  image-rendering: optimizeSpeed;             /* Older versions of FF          */
+  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+  image-rendering: -webkit-optimize-contrast; /* Safari                        */
+  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+  image-rendering: pixelated;                 /* Awesome future-browsers       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+}
+body{
+  background grey
+	position: absolute
+  width : 100%
+	height : 100%;
+	overflow : hidden;
+}
+.canvas,.preview,.content-preview-animate
+  position absolute
+  top 0
+  left 0
+
+.content-preview-animate
+  left auto
+  right 0
+
+
+#panel,#frames
+  position fixed
+
+#panel
+	bottom 200px
+	height 0px
+	width 100%
+	background black
+
+#frames,.panel-frames
+  z-index 2
+  top 0
+  left 0
+  height 100%
+  width 120px
+  background rgba(0,0,0,.5);
+  .content-add-frame
+    position relative
+    height 63px
+    width 100%
+    padding: 10px
+    box-sizing: border-box;
+    button
+      width: 100%;
+      height: 43px;
+  ul
+    height 90%
+    list-style: none;
+    padding 10px
+    margin: 0;
+    overflow auto
+    li
+      border 1px solid
+      width 100px
+      height 100px
+      margin-bottom 10px
+      .frame-preview
+        &.active
+          outline 5px solid yellow
+
+.panel
+  position absolute
+  margin-top 20px
+  .drag-bar
+    position absolute
+    top -20px
+    background whitesmoke
+    width 100%
+    height 20px
+    left 0
+    cursor move
+
+.panel-animator
+  width 200px
+  height 200px
+  right 0
+  top 0
+  background-color orange
+  canvas
+    border 1px solid
+.panel-palette
+  padding 10px
+  background whitesmoke
+  .input-color
+    background-image url(../assets/image/transparent.png)
+    background-size: 7%;
+  .palette-color
+    display inline-block
+    cursor pointer
+    &.active
+      transform scale(1.1)
+      box-shadow 0 0 5px rgba(0,0,0,0.7);
+      transform-origin 50%
