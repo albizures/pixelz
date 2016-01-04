@@ -1,8 +1,8 @@
 
 module.exports = {
-  HEIGHT_DEF : 60,
-  WIDTH_DEF : 60,
-  SCALE_DEF : 7,
+  HEIGHT_DEF : 10,
+  WIDTH_DEF : 10,
+  SCALE_DEF : 40,
   TRANSPARENT_COLOR : 'rgba(0,0,0,0)',
   TRANSPARENT_COLOR_VALUE : '',
   SIZE_POINTER_DEF : 1,

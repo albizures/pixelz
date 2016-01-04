@@ -44,6 +44,7 @@ const Canvas = require('./prototypes/Canvas.js'),
 			return panels[name];
 		},
 		initPanels(){
+			// TODO: Change for a Object.keys
 			for (var i in panels) {
 				panels[i].init();
 			}
@@ -74,6 +75,7 @@ const Canvas = require('./prototypes/Canvas.js'),
 				}
 			},
 			off(){
+				// TODO: make off of events
 			},
 			fire(name,val){
 				if(arguments.length > 2){
