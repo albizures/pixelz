@@ -1,4 +1,4 @@
-
+'use strict';
 module.exports = {
   HEIGHT_DEF : 10,
   WIDTH_DEF : 10,

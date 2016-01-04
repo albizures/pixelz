@@ -1,3 +1,4 @@
+'use strict';
 const {
 		HEX,
 		RGBA_PER,

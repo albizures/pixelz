@@ -1,3 +1,4 @@
+'use strict';
 module.exports = {
   SIZE_COLOR_BLOCK : 20,
   CHANGE_COLOR : 'changeColor'

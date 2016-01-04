@@ -1,3 +1,4 @@
+'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js');
 const {inheritanceObject,createBtn,imageSmoothingDisabled} = require('../../utils.js');
 

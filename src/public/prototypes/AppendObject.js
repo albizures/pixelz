@@ -1,3 +1,4 @@
+'use strict';
 function AppendObject() {
   this.el = document.createElement(this.$type);
   for (var i = 0; i < arguments.length; i++) {

@@ -1,3 +1,4 @@
+'use strict';
 const Range = require('./Range.js');
 const AppendObject = require('../../prototypes/AppendObject.js');
 const {inheritanceObject} = require('../../utils.js');

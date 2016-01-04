@@ -1,3 +1,4 @@
+'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js');
 const {inheritanceObject,createSpan,createInputRange} = require('../../utils.js');
 function Range(value,min,max,type,callback) {

@@ -1,4 +1,4 @@
-
+'use strict';
 var imageSmoothing = function (ctx,value){
   ctx.imageSmoothingEnabled = value;
   ctx.mozImageSmoothingEnabled = value;
