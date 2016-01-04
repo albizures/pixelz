@@ -18,15 +18,16 @@ if (!process.env.PRODUCTION) {
     // pass a number to set the polling interval
   }, function(err, stats) {
     console.log('termino');
-    if(err){
-    }else{
+    console.log(stats.toString({colors : true}));
+    /*if(err){
+    /}else{
       var jsonStats = stats.toJson();
       if(jsonStats.errors.length > 0)
         for(item of jsonStats.errors){
           console.log(item);
         }
       //console.log('termino');
-    }
+    }*/
   });
 }
 
