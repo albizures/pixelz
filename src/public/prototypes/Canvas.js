@@ -98,6 +98,7 @@ function createCanvas() {
 			//this.scaleTo(artboard.scale * diff);
 		};
 		Canvas.prototype.scaleTo = function (scale) {
+			// TODO: stabilize speed of scaling
 			if(scale < 1) return;
 			sizePointer = (sizePointer/artboard.scale) * scale;
 			artboard.scale = scale;
