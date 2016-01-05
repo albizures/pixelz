@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon index.js",
-    "text" : "webpack"
+    "test" : "webpack"
   },
   "repository": {
     "type": "git",
