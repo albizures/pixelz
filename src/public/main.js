@@ -1,24 +1,23 @@
 'use strict';
 
-const Editor = require('./Editor');
-const Animator = require('./panels/Animator.js');
-const Palette = require('./panels/Palette');
-const Frames = require('./panels/Frames.js');
-const Info = require('./panels/Info.js');
-
-const pencil = require('./tools/pencil.js');
+const Editor = require('./Editor'),
+			Animator = require('./panels/Animator.js'),
+			Palette = require('./panels/Palette'),
+			Frames = require('./panels/Frames.js'),
+			Info = require('./panels/Info.js'),
+			pencil = require('./tools/pencil.js');
 
 window.onload = () => {
-  window.Editor = Editor;
-  //tools
-  pencil();
+	window.Editor = Editor;
+	//tools
+	pencil();
 
-  //panels
-  Animator();
-  Frames();
-  Palette();
-  Info();
+	//panels
+	Animator();
+	Frames();
+	Palette();
+	Info();
 
-  //init
-  Editor.init();
+	//init
+	Editor.init();
 };

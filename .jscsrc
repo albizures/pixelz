@@ -2,6 +2,8 @@
 	"fileExtensions": [".js"],
 	"esnext": true,
 	"preset": "crockford",
+	"validateIndentation": "\t",
+	"disallowDanglingUnderscores" : false,
 	"requireCurlyBraces": true,
   "requireParenthesesAroundIIFE": true,
 	"excludeFiles": [

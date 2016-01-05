@@ -1,33 +1,22 @@
 'use strict';
-const {createDiv,createSpan} = require('../utils.js');
+const {createDiv, createSpan} = require('../utils.js');
 // IDEA: http://codepen.io/zz85/pen/gbOoVP?editors=001
-function createPanel() {
-  let params = arguments;
-  return (function () {
-    let zIndex, name,position,width,height,div,parent,dragBar;
-    function Panel(name) {
-      this.name = name;
-    }
-    Panel.prototype = {
-      constructor : Panel,
-      get name(){return name;},
-      set name(val){name = val;},
-      get parent(){return parent;},
-      set parent(val){parent = val;},
-      get div(){return div;},
-      set div(val){div = val;}
-    };
-    Panel.prototype.init = function () {
-      if(!hasVal(parent)) return console.error('parent undefined');
-      div = document.createElement('div');
-      div = createDiv('panel','panel-'+name.toLowerCase());
-      dragBar = createDiv('drag-bar');
-      dragBar.appendChild(createSpan(name));
-      parent.appendChild(div);
-      div.appendChild(dragBar);
-      if(hasVal(this.mainInit)) this.mainInit();
-    };
-    return new Panel(params[0]);
-  })();
+function Panel(name) {
+	this.name = name;
 }
-module.exports = createPanel;
+Panel.prototype.init = function () {
+	if (!hasVal(this.parent)) {
+		return console.error('parent undefined');
+	}
+	this.div = document.createElement('div');
+	this.div = createDiv('panel', 'panel-' + this.name.toLowerCase());
+	this.dragBar = createDiv('drag-bar');
+	this.dragBar.appendChild(createSpan(this.name));
+	this.parent.appendChild(this.div);
+	this.div.appendChild(this.dragBar);
+	if (hasVal(this.mainInit)) {
+		this.mainInit();
+	}
+};
+
+module.exports = Panel;
