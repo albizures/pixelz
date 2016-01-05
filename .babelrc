@@ -1,3 +1,6 @@
 {
-  "plugins": ["transform-es2015-destructuring"]
+  "plugins": [
+    "transform-es2015-destructuring",
+    "syntax-object-rest-spread"
+  ]
 }
