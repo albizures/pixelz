@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test" : "webpack"
+    "test": "webpack"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "eslint-loader": "^1.1.1",
     "express-livereload": "0.0.24",
     "extract-text-webpack-plugin": "^0.9.1",
+    "file-loader": "^0.8.5",
     "image-webpack-loader": "^1.6.2",
     "jscs": "^2.6.0",
     "jscs-loader": "^0.2.0",
