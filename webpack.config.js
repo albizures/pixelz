@@ -7,6 +7,7 @@ const ROOT_PATH = path.resolve(__dirname),
       APP_PATH = path.resolve(ROOT_PATH,'src','public','init.js'),
       PUBLIC_PATH = path.resolve(ROOT_PATH,'src','public'),
       BUILD_PATH = path.resolve(ROOT_PATH,'build'),
+      MODULES_PATH = path.resolve(__dirname ,'node_modules');
       ASSETS_PATH = path.resolve(BUILD_PATH ,'assets');
 
 module.exports = {
@@ -57,5 +58,8 @@ module.exports = {
   resolve: {
     extensions: ['', '.js','.css', '.styl']
   },
+  resolveLoader : {
+    root : MODULES_PATH
+  }
 
 }
