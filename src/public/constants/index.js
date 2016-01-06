@@ -1,8 +1,11 @@
 'use strict';
+var img = document.createElement("img");
+img.src = '/assets/images/transparent.png';
 module.exports = {
 	HEIGHT_DEF : 60,
 	WIDTH_DEF : 60,
 	SCALE_DEF : 10,
+	TRANSPARENT_IMG : img,
 	TRANSPARENT_COLOR : 'rgba(0,0,0,0)',
 	TRANSPARENT_COLOR_VALUE : '',
 	SIZE_POINTER_DEF : 1,

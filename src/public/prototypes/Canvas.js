@@ -1,7 +1,7 @@
 'use strict';
 const Vector = require('./Vector.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
-			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK,
+			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants');
 // TODO: create the prototype of the artboard
 let artboard = {
@@ -26,17 +26,22 @@ function Canvas(frame, scale, cord, tool, sizePointer) {
 }
  Canvas.prototype.init = function () {
 	this.main = document.createElement('canvas').getContext('2d');
-
 	this.preview = document.createElement('canvas').getContext('2d');
-	imageSmoothingDisabled(this.preview);
+	this.background = document.createElement('canvas').getContext('2d');
 
-	this.main.canvas.width = this.preview.canvas.width = window.innerWidth;
-	this.main.canvas.height = this.preview.canvas.height = window.innerHeight;
+
+	this.background.canvas.width = this.main.canvas.width = this.preview.canvas.width = window.innerWidth;
+	this.background.canvas.height = this.main.canvas.height = this.preview.canvas.height = window.innerHeight;
+
 	imageSmoothingDisabled(this.main);
+	imageSmoothingDisabled(this.preview);
+	imageSmoothingDisabled(this.background);
 
 	this.main.canvas.classList.add('canvas');
 	this.preview.canvas.classList.add('preview');
+	this.background.canvas.classList.add('background');
 
+	this.parent.appendChild(this.background.canvas);
 	this.parent.appendChild(this.main.canvas);
 	this.parent.appendChild(this.preview.canvas);
 
@@ -183,11 +188,20 @@ Canvas.prototype.drawPreview = function (evt) {
 };
 Canvas.prototype.paintMain = function () {
 	this.cleanMain();
+	this.paintBackground();
 	imageSmoothingDisabled(this.main);
 	this.main.drawImage(this.artboard.frame.context.canvas,
 		0, 0, this.artboard.frame.width, this.artboard.frame.height,
 		this.artboard.cord.x, this.artboard.cord.y, this.artboard.frame.width * this.artboard.scale, this.artboard.frame.height * this.artboard.scale
 	);
+};
+Canvas.prototype.paintBackground = function () {
+	this.cleanBackground();
+	imageSmoothingDisabled(this.background);
+	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
+	this.background.rect(this.artboard.cord.x, this.artboard.cord.y, this.artboard.frame.width * this.artboard.scale, this.artboard.frame.height * this.artboard.scale);
+	this.background.fillStyle = pattern;
+	this.background.fill();
 };
 Canvas.prototype.drawAt = function (cord,color) {
 	this.main.fillStyle = color;
@@ -197,10 +211,10 @@ Canvas.prototype.drawAt = function (cord,color) {
 Canvas.prototype.cleanMain = function () {
 	this.main.canvas.height = this.main.canvas.height;
 	this.main.canvas.width = this.main.canvas.width;
-	this.main.fillStyle = 'rgba(0 ,0 , 0, 0.1)';
-	console.log('clean');
-	// TODO: create canvas background
-	this.main.fillRect(artboard.cord.x, this.artboard.cord.y, this.artboard.width, this.artboard.height);
+};
+Canvas.prototype.cleanBackground = function () {
+	this.background.canvas.height = this.background.canvas.height;
+	this.background.canvas.width = this.background.canvas.width;
 };
 Canvas.prototype.cleanPrev = function () {
 	this.preview.canvas.height = this.preview.canvas.height;
