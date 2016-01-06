@@ -14,7 +14,7 @@ pencil.onMouseMove = function (evt) {
 	if (pencil.clicked) {
 		console.log(evt);
 		let positions = pencil.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
-		positions.color = evt.which === RIGHT_CLICK ? TRANSPARENT_COLOR : Editor.palette.getMainColor();
+		positions.color = evt.which === RIGHT_CLICK ? Editor.palette.getSecondColor() : Editor.palette.getMainColor();
 		if (positions.out && this.stroke.length == 0) {
 			return;
 		}
@@ -33,7 +33,7 @@ pencil.onMouseMove = function (evt) {
 pencil.onMouseUp = function (evt) {
 	if (pencil.clicked) {
 		let positions = pencil.canvas.calculatePosition(new Vector (evt.clientX, evt.clientY));
-		positions.color = evt.which === RIGHT_CLICK ? TRANSPARENT_COLOR : Editor.palette.getMainColor();
+		positions.color = evt.which === RIGHT_CLICK ? Editor.palette.getSecondColor() : Editor.palette.getMainColor();
 		if (!positions.out) {
 			this.addPointStroke(positions);
 		}

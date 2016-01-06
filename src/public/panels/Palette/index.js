@@ -43,6 +43,9 @@ Palette.onClickColor = function (evt) {
 Palette.changeColor = function (color) {
 	mainColor = inputColor.style.background = inputColor.value = color;
 };
+Palette.getSecondColor = function () {
+	return secondColor;
+};
 Palette.getMainColor = function () {
 	return mainColor;
 };
