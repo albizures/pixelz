@@ -78,6 +78,7 @@ Canvas.prototype.scaleTo = function (scale) {
 
 };
 Canvas.prototype.onMouseDown = function (evt) {
+	evt.preventDefault();
 	if (evt.which === LEFT_CLICK) {
 		this.mouseDown = true;
 		this.cleanPrev();
@@ -87,23 +88,28 @@ Canvas.prototype.onMouseDown = function (evt) {
 		this.drag = true;
 		this.cleanPrev();
 	}else if (evt.which === RIGHT_CLICK) {
-		// TODO: add acction with right click
-		console.log('right click down');
+		this.mouseDown = true;
+		this.cleanPrev();
+		this.tool.onMouseDown(evt);
 	}
+	return false;
 };
 Canvas.prototype.onMouseUp = function (evt) {
+	evt.preventDefault();
 	if (evt.which === LEFT_CLICK) {
 		this.mouseDown = false;
 		this.tool.onMouseUp(evt);
 	}else if (evt.which === MIDDLE_CLICK) {
 		this.drag = false;
-		evt.preventDefault();
 	}else if (evt.which === RIGHT_CLICK) {
-		// TODO: add acction with right click
-		console.log('right click up');
+		this.mouseDown = false;
+		this.cleanPrev();
+		this.tool.onMouseUp(evt);
 	}
+	return false;
 };
 Canvas.prototype.onMouseMove = function (evt) {
+	evt.preventDefault();
 	if (this.drag) {
 		let diffX = evt.clientX - this.lastDragX;
 		let diffY = evt.clientY - this.lastDragY;
@@ -117,6 +123,7 @@ Canvas.prototype.onMouseMove = function (evt) {
 			this.drawPreview(evt);
 		}
 	}
+	return false;
 };
 Canvas.prototype.shiftDiff = function (cord) {
 	this.artboard.cord.sum(cord);

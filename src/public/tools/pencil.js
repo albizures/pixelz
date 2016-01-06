@@ -1,5 +1,6 @@
 'use strict';
 const Tool = require('../prototypes/Tool.js'),
+		{MIDDLE_CLICK,RIGHT_CLICK,LEFT_CLICK,TRANSPARENT_COLOR} = require('../constants'),
 			Vector = require('../prototypes/Vector.js');
 let lastP,
 		pencil = new Tool('pencil');
@@ -11,30 +12,28 @@ pencil.onMouseDown = function (evt) {
 pencil.onMouseMove = function (evt) {
 
 	if (pencil.clicked) {
-		//console.log('tool,mousemove');
-
+		console.log(evt);
 		let positions = pencil.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
-		positions.color = Editor.palette.getMainColor();
+		positions.color = evt.which === RIGHT_CLICK ? TRANSPARENT_COLOR : Editor.palette.getMainColor();
 		if (positions.out && this.stroke.length == 0) {
 			return;
 		}
 		if (positions.out && this.stroke.length > 1 && this.stroke[this.stroke.length - 1].out) {
 			return;
 		}
-		if (this.stroke.length !== 0 && this.stroke[this.stroke.length - 1].frame.importantDiff(positions.frame)) {
+		if (this.stroke.length !== 0 && !this.stroke[this.stroke.length - 1].out && this.stroke[this.stroke.length - 1].frame.importantDiff(positions.frame)) {
 			this.getLineBetween(this.stroke[this.stroke.length - 1], positions);
 		}else {
-			//pencil.canvas.drawAt(cord.relX,cord.relY);
-			console.log();
+			pencil.canvas.previewAt(positions.paint, positions.color);
+			this.addPointStroke(positions);
 		}
-		pencil.canvas.previewAt(positions.paint, positions.color);
-		this.addPointStroke(positions);
+
 	}
 };
 pencil.onMouseUp = function (evt) {
 	if (pencil.clicked) {
 		let positions = pencil.canvas.calculatePosition(new Vector (evt.clientX, evt.clientY));
-		positions.color = Editor.palette.getMainColor();
+		positions.color = evt.which === RIGHT_CLICK ? TRANSPARENT_COLOR : Editor.palette.getMainColor();
 		if (!positions.out) {
 			this.addPointStroke(positions);
 		}
