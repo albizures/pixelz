@@ -1,7 +1,7 @@
 'use strict';
 const Vector = require('./Vector.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
-			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG,
+			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants');
 // TODO: create the prototype of the artboard
 let artboard = {
@@ -40,13 +40,16 @@ function Canvas(frame, scale, cord, tool, sizePointer) {
 	this.main.canvas.classList.add('canvas');
 	this.preview.canvas.classList.add('preview');
 	this.background.canvas.classList.add('background');
-
+	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
 	this.parent.appendChild(this.background.canvas);
 	this.parent.appendChild(this.main.canvas);
 	this.parent.appendChild(this.preview.canvas);
 
 	this.cleanPrev();
 	this.cleanMain();
+	this.cleanBackground();
+
+	this.paintBackground();
 	$(this.preview.canvas).on('mousewheel.canvas', this.onScroll.bind(this));
 	$(this.preview.canvas).on('mousedown.canvas', this.onMouseDown.bind(this));
 	$(this.preview.canvas).on('mouseup.canvas', this.onMouseUp.bind(this));
@@ -184,7 +187,9 @@ Canvas.prototype.drawPreview = function (evt) {
 	let temp = new Vector(Math.floor(((evt.clientX - this.artboard.cord.x) / this.artboard.scale)), Math.floor(((evt.clientY - this.artboard.cord.y) / this.artboard.scale)));
 	let cord = new Vector(temp.x * this.artboard.scale + this.artboard.cord.x, temp.y * this.artboard.scale + this.artboard.cord.y);
 	this.preview.strokeStyle = COLOR_POINTER_PREW_DEF;
+	this.preview.fillStyle = SECOND_COLOR_POINTER_PREW_DEF;
 	this.preview.strokeRect(cord.x - 1, cord.y - 1, this.sizePointer + 2, this.sizePointer + 2);
+	this.preview.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
 Canvas.prototype.paintMain = function () {
 	this.cleanMain();

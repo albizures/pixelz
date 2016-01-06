@@ -1,15 +1,25 @@
 'use strict';
-var img = document.createElement("img");
+let img = document.createElement("img"),
+		backgroundTransparent = document.createElement('canvas').getContext('2d'),
+		scala = 0.3;
+img.addEventListener('load', function () {
+	console.log('load');
+	let width = backgroundTransparent.canvas.width = this.width * scala,
+			height = backgroundTransparent.canvas.height = this.height * scala;
+	backgroundTransparent.drawImage(this, 0, 0, this.width, this.height, 0, 0, width, height);
+});
+backgroundTransparent.canvas.img = img;
 img.src = '/assets/images/transparent.png';
 module.exports = {
 	HEIGHT_DEF : 60,
 	WIDTH_DEF : 60,
 	SCALE_DEF : 10,
-	TRANSPARENT_IMG : img,
+	TRANSPARENT_IMG : backgroundTransparent.canvas,
 	TRANSPARENT_COLOR : 'rgba(0,0,0,0)',
 	TRANSPARENT_COLOR_VALUE : '',
 	SIZE_POINTER_DEF : 1,
 	COLOR_POINTER_PREW_DEF : 'rgba(255,255,255,0.6)',
+	SECOND_COLOR_POINTER_PREW_DEF : 'rgba(0,0,0,0.2)',
 	RIGHT_CLICK : 3,
 	LEFT_CLICK : 1,
 	MIDDLE_CLICK : 2,
