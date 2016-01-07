@@ -1,26 +1,40 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
+			{SELECT_FRAME} = require('../../constants').frames,
 			{inheritanceObject, createBtn, imageSmoothingDisabled} = require('../../utils.js');
 
-function PreviewFrame(frame) {
+function PreviewFrame(frame,selected) {
 	this.$type = 'li';
 	AppendObject.call(this, 'preview-frame');
 	this.frame = frame;
+	this.frame.selected = selected;
 	this.context = document.createElement('canvas').getContext('2d');
 	//this.el.style.width = this.el.style.width = size;
-	this.btnClone = createBtn('C', 'btn-clone');// TODO: Create action clone frame
-	this.btnHidden = createBtn('H', 'btn-hidden');// TODO: Create action hidden frame
-	this.btnDelete = createBtn('D', 'btn-delete');// TODO: Create action delete frame
+	this.btnClone = createBtn('C', 'btn-clone', 'btn');// TODO: Create action clone frame
+	this.btnHidden = createBtn('H', 'btn-hidden', 'btn');// TODO: Create action hidden frame
+	this.btnDelete = createBtn('D', 'btn-delete', 'btn');// TODO: Create action delete frame
 	this.el.appendChild(this.context.canvas);
 	this.el.appendChild(this.btnClone);
 	this.el.appendChild(this.btnHidden);
 	this.el.appendChild(this.btnDelete);
+
+	if (selected) {
+		this.el.classList.add('active');
+	}
 	$(this.el).on('click.frame', this.onClick.bind(this));
-	//this.context.height = this.context.width
+	$(this.btnDelete).on('click.frame', this.deleteFrame.bind(this));
 }
 inheritanceObject(PreviewFrame, AppendObject);
 PreviewFrame.prototype.onClick = function (evt) {
-	Editor.canvas.changeFrame(this.frame);
+	Editor.events.fire(SELECT_FRAME, this.frame);
+};
+PreviewFrame.prototype.deleteFrame = function (evt) {
+	evt.stopPropagation();
+	this.frame.delete();
+};
+PreviewFrame.prototype.selectFrame = function () {
+	this.frame.selected = !this.frame.selected;
+	this.el.classList.toggle('active');
 };
 PreviewFrame.prototype.appendTo = function (el) {
 	el.appendChild(this.el);

@@ -12,7 +12,6 @@ pencil.onMouseDown = function (evt) {
 pencil.onMouseMove = function (evt) {
 
 	if (pencil.clicked) {
-		console.log(evt);
 		let positions = pencil.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
 		positions.color = evt.which === RIGHT_CLICK ? Editor.palette.getSecondColor() : Editor.palette.getMainColor();
 		if (positions.out && this.stroke.length == 0) {

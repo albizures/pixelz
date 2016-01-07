@@ -36,6 +36,9 @@ Frame.prototype.init = function () {
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
 };
+Frame.prototype.delete = function () {
+	this.sprite.deleteFrame(this.index);
+};
 Frame.prototype.getIMG = function () {
 	let image = document.createElement('img');
 	image.src = this.context.canvas.toDataURL();

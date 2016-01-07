@@ -40,7 +40,8 @@ module.exports.frames = {
 	ADD : 1,
 	DELETE : 2,
 	UPDATE : 3,
-	CHANGE_FRAME : 'changeFrame'
+	CHANGE_FRAME : 'changeFrame',
+	SELECT_FRAME : 'selectFrame'
 };
 module.exports.sprite = {
 	CHANGE_SPRITE : 'changeSprite'

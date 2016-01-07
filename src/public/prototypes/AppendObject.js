@@ -8,5 +8,8 @@ function AppendObject() {
 AppendObject.prototype.appendTo = function (el) {
 	el.appendChild(this.el);
 };
+AppendObject.prototype.remove = function () {
+	this.el.remove();
+};
 AppendObject.prototype.$type = 'div';
 module.exports = AppendObject;

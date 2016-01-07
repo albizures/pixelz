@@ -1,0 +1,23 @@
+size-btn-preview = 20px
+size-font-preview = 0.65em
+.preview-frame
+	cursor move
+	position relative
+	.btn
+		font-size size-font-preview
+		opacity 0
+		position absolute
+		width size-btn-preview
+		height size-btn-preview
+		top 0
+		left 0
+		transition opacity 0.3s
+	.btn-clone
+		left size-btn-preview
+	.btn-hidden
+		left size-btn-preview * 2
+	&:hover
+		.btn
+			opacity 1
+	&.active
+		outline 2px yellow solid

@@ -2,7 +2,7 @@
 
 const Panel = require('../prototypes/Panel.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
-			{CHANGE_FRAME} = require('../constants').frames,
+			{CHANGE_FRAME, DELETE} = require('../constants').frames,
 			{CHANGE_SPRITE} = require('../constants').sprite,
 			preview = document.createElement('canvas'),
 			Animator = new Panel('Animator');
@@ -16,7 +16,13 @@ Animator.mainInit = function () {
 
 	this.div.appendChild(preview);
 	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
+	Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
 
+};
+Animator.changeFrame = function (type) {
+	if (type == DELETE) {
+		index = 0;
+	}
 };
 Animator.changeSprite = function (sprite) {
 	let perc; //percent

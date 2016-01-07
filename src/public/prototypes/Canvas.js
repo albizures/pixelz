@@ -2,7 +2,8 @@
 const Vector = require('./Vector.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
-				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants');
+				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
+				{SELECT_FRAME} = require('../constants').frames;
 // TODO: create the prototype of the artboard
 let artboard = {
 	get width() {
@@ -55,10 +56,10 @@ function Canvas(frame, scale, cord, tool, sizePointer) {
 	$(this.preview.canvas).on('mouseup.canvas', this.onMouseUp.bind(this));
 	$(this.preview.canvas).on('mousemove.canvas', this.onMouseMove.bind(this));
 
+	Editor.events.on(SELECT_FRAME + '.canvas', this.changeFrame, this);
 	Editor.events.on('paint.canvas', this.drawAt, this);
 };
 Canvas.prototype.changeFrame = function (newFrame) {
-	console.log(newFrame);
 	this.artboard.frame = newFrame;
 	this.paintMain();
 };
