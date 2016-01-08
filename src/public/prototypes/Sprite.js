@@ -41,7 +41,6 @@ Sprite.prototype.addFrame = function (indexClone, newIndex) {
 		console.log('specific index');
 	}else {
 		index = this.frames.length;
-		console.log(index);
 		frame = new Frame(this, index, bitmap, true);
 		this.frames[index] = frame;
 	}

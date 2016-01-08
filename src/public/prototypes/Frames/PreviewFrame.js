@@ -36,9 +36,9 @@ PreviewFrame.prototype.selectFrame = function () {
 	this.frame.selected = !this.frame.selected;
 	this.el.classList.toggle('active');
 };
-PreviewFrame.prototype.appendTo = function (el) {
-	el.appendChild(this.el);
+PreviewFrame.prototype.resize = function () {
 	let size = this.el.clientWidth;
+	this.el.style.height = size + 'px';
 	if (this.frame.width > this.frame.height) {
 		this.context.canvas.width = size;
 		this.scale = size / this.frame.width;
@@ -48,6 +48,11 @@ PreviewFrame.prototype.appendTo = function (el) {
 		this.scale = size / this.frame.height;
 		this.context.canvas.width = this.frame.width * this.scale;
 	}
+	this.updatePreview();
+};
+PreviewFrame.prototype.appendTo = function (el) {
+	el.appendChild(this.el);
+	this.resize();
 };
 PreviewFrame.prototype.updatePreview = function () {
 	imageSmoothingDisabled(this.context);

@@ -4,20 +4,17 @@ const Panel = require('../prototypes/Panel.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
 			{CHANGE_FRAME, DELETE} = require('../constants').frames,
 			{CHANGE_SPRITE} = require('../constants').sprite,
-			preview = document.createElement('canvas'),
 			Animator = new Panel('Animator');
 let time = 0.5 * 1000, loop, index = 0, ctx;
 
 
 Animator.mainInit = function () {
-
-	preview.id = 'preview-animate';
-	ctx = preview.getContext('2d');
-
-	this.div.appendChild(preview);
+	this.preview = document.createElement('canvas').getContext('2d');
+	this.div.appendChild(this.preview.canvas);
 	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 	Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
 
+	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
 };
 Animator.changeFrame = function (type) {
 	if (type == DELETE) {
@@ -25,24 +22,33 @@ Animator.changeFrame = function (type) {
 	}
 };
 Animator.changeSprite = function (sprite) {
-	let perc; //percent
+	this.scale;
 	if (sprite.width > sprite.height) {
-		perc = $(this.div).width() / sprite.width;
+		this.scale = $(this.div).width() / sprite.width;
 	}else {
-		perc = $(this.div).height() / sprite.height;
+		this.scale = $(this.div).height() / sprite.height;
 	}
-	preview.width =  sprite.width * perc;
-	preview.height =  sprite.height * perc;
-	preview.style.marginTop = (($(this.div).height() - preview.height) / 2) + 'px';
-	preview.style.marginLeft = (($(this.div).width() - preview.width) / 2) + 'px';
+	this.preview.canvas.width =  sprite.width * this.scale;
+	this.preview.canvas.height =  sprite.height * this.scale;
+	this.preview.canvas.style.marginTop = (($(this.div).height() - this.preview.canvas.height) / 2) + 'px';
+	this.preview.canvas.style.marginLeft = (($(this.div).width() - this.preview.canvas.width) / 2) + 'px';
 	this.start();
 };
 Animator.start = function () {
+	this.started = true;
 	loop = setInterval(function () {
 		Animator.loop();
 	}, time);
 };
+Animator.changeStatus = function () {
+	if (this.started) {
+		this.stop();
+	}else {
+		this.start();
+	}
+};
 Animator.stop = function () {
+	this.started = false;
 	clearInterval(loop);
 };
 Animator.loop = function () {
@@ -51,10 +57,10 @@ Animator.loop = function () {
 	}
 	index++;
 	this.clean();
-	imageSmoothingDisabled(ctx);
-	ctx.drawImage(Editor.sprite.frames[index].getIMG(), 0, 0, preview.width, preview.height);
+	imageSmoothingDisabled(this.preview);
+	this.preview.drawImage(Editor.sprite.frames[index].getIMG(), 0, 0, this.preview.canvas.width, this.preview.canvas.height);
 };
 Animator.clean = function () {
-	preview.height = preview.height;
+	this.preview.canvas.height = this.preview.canvas.height;
 };
 module.exports = () => Editor.addPanel(Animator);
