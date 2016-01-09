@@ -1,13 +1,12 @@
 size-btn-preview = 20px
 size-font-preview = 0.65em
 
-.panel-frames
+.panel.panel-frames
 	z-index 2
 	top 0
 	left 0
 	height 100%
 	width 120px
-	background rgba(0,0,0,.5)
 	button.add-frame
 		width 94%
 		margin 3%
@@ -20,15 +19,14 @@ size-font-preview = 0.65em
 		li
 			border 1px solid
 			width 100%
-			//height 100px
 			margin-bottom 10px
-			.frame-preview
-				&.active
-					outline 5px solid yellow
 
 .preview-frame
 	cursor move
 	position relative
+	canvas
+		position absolute
+		top 0
 	.btn,.index
 		position absolute
 		width size-btn-preview

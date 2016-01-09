@@ -1,6 +1,8 @@
 @import './vendor/normalize.css'
+@import './variables.styl'
 @import './Frames.styl'
 @import './Animator.styl'
+
 * {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -45,8 +47,11 @@ body{
 
 
 .panel
+	box-sizing border-box
 	position absolute
 	margin-top 20px
+	padding padding-panel
+	background rgba(0,0,0,.5)
 	.drag-bar
 		position absolute
 		top -20px
