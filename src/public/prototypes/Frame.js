@@ -1,9 +1,7 @@
 'use strict';
 const { imageSmoothing } = require('../utils.js'),
-{
-	UPDATE,
-	CHANGE_FRAME
-} = require('../constants').frames;
+			{ TRANSPARENT_COLOR } = require('../constants'),
+			{ UPDATE, CHANGE_FRAME } = require('../constants').frames;
 
 function Frame(sprite, index, bitmap, status) {
 	this.sprite = sprite;
@@ -35,6 +33,7 @@ Frame.prototype.init = function () {
 	imageSmoothing(this.context, false);
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
+	this.paint();
 };
 Frame.prototype.delete = function () {
 	this.sprite.deleteFrame(this.index);
@@ -44,7 +43,7 @@ Frame.prototype.getIMG = function () {
 	image.src = this.context.canvas.toDataURL();
 	return image;
 };
-Frame.prototype.clone = function () {
+Frame.prototype.cloneBitmap = function () {
 	let newBitmap = [];
 	for (let i = 0; i < this.bitmap.length; i++) {
 		newBitmap.push(this.bitmap[i].slice(0));
@@ -63,6 +62,15 @@ Frame.prototype.paintAt = function (cord, color, realCord) {
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
 	Editor.events.fire('paint', realCord, color);
+};
+Frame.prototype.paint = function () {
+	for (let x = 0; x < this.bitmap.length; x++) {
+		for (let y = 0; y < this.bitmap[x].length; y++) {
+			this.context.fillStyle = this.bitmap[x][y] || TRANSPARENT_COLOR;
+			this.context.clearRect(x, y, 1, 1);
+			this.context.fillRect(x, y, 1, 1);
+		}
+	}
 };
 Frame.prototype.paintStroke = function (listCords) {
 	for (let i = 0; i < listCords.length; i++) {

@@ -8,15 +8,9 @@ size-font-preview = 0.65em
 	height 100%
 	width 120px
 	background rgba(0,0,0,.5)
-	.content-add-frame
-		position relative
-		height 63px
-		width 100%
-		padding 10px
-		box-sizing border-box
-		button
-			width 100%
-			height 43px
+	button.add-frame
+		width 94%
+		margin 3%
 	ul
 		overflow-y scroll
 		height 90%
@@ -35,15 +29,19 @@ size-font-preview = 0.65em
 .preview-frame
 	cursor move
 	position relative
-	.btn
-		font-size size-font-preview
-		opacity 0
+	.btn,.index
 		position absolute
 		width size-btn-preview
 		height size-btn-preview
+	.index
+		bottom 0
+		right 0
+	.btn
+		opacity 0
+		transition opacity 0.3s
+		font-size size-font-preview
 		top 0
 		left 0
-		transition opacity 0.3s
 	.btn-clone
 		left size-btn-preview
 	.btn-hidden

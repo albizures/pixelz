@@ -8,8 +8,10 @@ const Panel = require('../prototypes/Panel.js'),
 			ul =  document.createElement('ul'),
 			btnAdd = document.createElement('button');
 let index = 0, frames = [], currentFrame = 0;
+btnAdd.textContent = 'add frame';
+btnAdd.classList.add('add-frame');
 Frames.mainInit = function () {
-	btnAdd.textContent = 'add frame';
+
 	ul.id = 'preview-frames';
 
 	this.div.appendChild(btnAdd);
@@ -30,6 +32,7 @@ Frames.changeFrame = function (type, index, sprite) {
 		case DELETE : {
 			frames[index].remove();
 			frames.splice(index, 1);
+			this.reAppend();
 			break;
 		}
 		case UPDATE : {
@@ -44,9 +47,9 @@ Frames.updateFrame = function (index, sprite) {
 Frames.addPreview = function () {
 	sprite.addFrame(true);
 };
-Frames.selectFrame = function (frame,remove) {
-	if (!remove) {
-		frames[currentFrame].selectFrame();
+Frames.selectFrame = function (frame) {
+	if (frames[currentFrame]) {
+		frames[currentFrame].unSelectFrame();
 	}
 	frames[frame.index].selectFrame();
 	currentFrame = frame.index;
@@ -55,7 +58,19 @@ Frames.getIndex = function () {
 	return index;
 };
 Frames.addFrame = function (index, sprite) {
-	frames[index] = new PreviewFrame(sprite.frames[index],index == currentFrame);
+	let newFrame = new PreviewFrame(sprite.frames[index], index == currentFrame);
+	if (frames[index]) {
+		let tempFrames = frames.splice(index);
+		frames = frames.concat([newFrame], tempFrames);
+		return this.reAppend();
+	}
+	frames[index] = newFrame;
 	frames[index].appendTo(ul);
+};
+Frames.reAppend = function () {
+	for (let i = 0; i < frames.length; i++) {
+		frames[i].remove();
+		frames[i].appendTo(ul);
+	}
 };
 module.exports = () => Editor.addPanel(Frames);

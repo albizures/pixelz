@@ -1,7 +1,7 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
 			{SELECT_FRAME} = require('../../constants').frames,
-			{inheritanceObject, createBtn, imageSmoothingDisabled} = require('../../utils.js');
+			{inheritanceObject, createBtn, createSpan, imageSmoothingDisabled} = require('../../utils.js');
 
 function PreviewFrame(frame,selected) {
 	this.$type = 'li';
@@ -12,29 +12,42 @@ function PreviewFrame(frame,selected) {
 	//this.el.style.width = this.el.style.width = size;
 	this.btnClone = createBtn('C', 'btn-clone', 'btn');// TODO: Create action clone frame
 	this.btnHidden = createBtn('H', 'btn-hidden', 'btn');// TODO: Create action hidden frame
-	this.btnDelete = createBtn('D', 'btn-delete', 'btn');// TODO: Create action delete frame
-	this.el.appendChild(this.context.canvas);
+	this.btnDelete = createBtn('D', 'btn-delete', 'btn');
+	this.spanIndex = createSpan(this.frame.index + 1, 'index');
+
+
 	this.el.appendChild(this.btnClone);
+	this.el.appendChild(this.context.canvas);
 	this.el.appendChild(this.btnHidden);
 	this.el.appendChild(this.btnDelete);
+	this.el.appendChild(this.spanIndex);
 
 	if (selected) {
 		this.el.classList.add('active');
 	}
 	$(this.el).on('click.frame', this.onClick.bind(this));
 	$(this.btnDelete).on('click.frame', this.deleteFrame.bind(this));
+	$(this.btnClone).on('click.frame', this.cloneFrame.bind(this));
 }
 inheritanceObject(PreviewFrame, AppendObject);
 PreviewFrame.prototype.onClick = function (evt) {
 	Editor.events.fire(SELECT_FRAME, this.frame);
+};
+PreviewFrame.prototype.cloneFrame = function (evt) {
+	evt.stopPropagation();
+	this.frame.sprite.addFrame(this.frame.index);
 };
 PreviewFrame.prototype.deleteFrame = function (evt) {
 	evt.stopPropagation();
 	this.frame.delete();
 };
 PreviewFrame.prototype.selectFrame = function () {
-	this.frame.selected = !this.frame.selected;
-	this.el.classList.toggle('active');
+	this.frame.selected = true;
+	this.el.classList.add('active');
+};
+PreviewFrame.prototype.unSelectFrame = function () {
+	this.frame.selected = false;
+	this.el.classList.remove('active');
 };
 PreviewFrame.prototype.resize = function () {
 	let size = this.el.clientWidth;
@@ -53,6 +66,8 @@ PreviewFrame.prototype.resize = function () {
 PreviewFrame.prototype.appendTo = function (el) {
 	el.appendChild(this.el);
 	this.resize();
+	this.el.classList.remove('active');
+	this.spanIndex.textContent = this.frame.index + 1;
 };
 PreviewFrame.prototype.updatePreview = function () {
 	imageSmoothingDisabled(this.context);
