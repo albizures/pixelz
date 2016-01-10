@@ -59,10 +59,12 @@ PreviewFrame.prototype.resize = function () {
 		this.background.canvas.width = this.context.canvas.width = size;
 		this.scale = size / this.frame.width;
 		this.background.canvas.height = this.context.canvas.height = this.frame.height * this.scale;
+		this.background.canvas.style.marginTop = this.context.canvas.style.marginTop = (size - this.background.canvas.height) / 2 + 'px';
 	}else {
 		this.background.canvas.height = this.context.canvas.height = size;
 		this.scale = size / this.frame.height;
 		this.background.canvas.width = this.context.canvas.width = this.frame.width * this.scale;
+		this.background.canvas.style.marginLeft = this.context.canvas.style.marginLeft = (size - this.background.canvas.width) / 2 + 'px';
 	}
 	this.paintBackground();
 	this.updatePreview();
