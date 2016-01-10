@@ -82,6 +82,7 @@ PreviewFrame.prototype.appendTo = function (el) {
 	this.spanIndex.textContent = this.frame.index + 1;
 };
 PreviewFrame.prototype.updatePreview = function () {
+	this.context.canvas.width = this.context.canvas.width;
 	imageSmoothingDisabled(this.context);
 	this.context.drawImage(this.frame.context.canvas, 0, 0, this.frame.width * this.scale, this.frame.height * this.scale);
 };

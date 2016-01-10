@@ -24,6 +24,7 @@ Frames.changeSprite = function (sprite) {
 	$(btnAdd).on('click.add', sprite.addFrame.bind(sprite));
 };
 Frames.changeFrame = function (type, index, sprite) {
+	console.log(arguments);
 	switch (type) {
 		case ADD : {
 			this.addFrame(index, sprite);
