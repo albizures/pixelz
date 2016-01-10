@@ -5,22 +5,22 @@ const Panel = require('../prototypes/Panel.js'),
 			Info = new Panel('Info');
 
 Info.mainInit = function () {
-	this.div.style['z-index'] = '9999';
-	this.div.style.height = '50px';
-	this.div.style.width = '100px';
-	this.div.style.right = '0';
-	this.div.style.bottom = '0';
+	this.el.style['z-index'] = '9999';
+	this.el.style.height = '50px';
+	this.el.style.width = '100px';
+	this.el.style.right = '0';
+	this.el.style.bottom = '0';
 	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 };
 Info.changeSprite = function (sprite) {
 	var p = document.createElement('div');
 	p.textContent = 'Width: ' + sprite.width;
-	this.div.appendChild(p);
+	this.el.appendChild(p);
 	p = document.createElement('div');
 	p.textContent = 'Height: ' + sprite.height;
-	this.div.appendChild(p);
+	this.el.appendChild(p);
 	p = document.createElement('div');
 	p.textContent = 'Frames: ' + sprite.frames.length;
-	this.div.appendChild(p);
+	this.el.appendChild(p);
 };
 module.exports = () => Editor.addPanel(Info);

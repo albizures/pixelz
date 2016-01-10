@@ -14,8 +14,8 @@ Frames.mainInit = function () {
 
 	ul.id = 'preview-frames';
 
-	this.div.appendChild(btnAdd);
-	this.div.appendChild(ul);
+	this.el.appendChild(btnAdd);
+	this.el.appendChild(ul);
 	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 	Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
 	Editor.events.on(SELECT_FRAME + '.' + this.name, this.selectFrame, this);
@@ -24,7 +24,6 @@ Frames.changeSprite = function (sprite) {
 	$(btnAdd).on('click.add', sprite.addFrame.bind(sprite));
 };
 Frames.changeFrame = function (type, index, sprite) {
-	console.log(arguments);
 	switch (type) {
 		case ADD : {
 			this.addFrame(index, sprite);

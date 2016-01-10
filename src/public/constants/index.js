@@ -46,3 +46,4 @@ module.exports.frames = {
 module.exports.sprite = {
 	CHANGE_SPRITE : 'changeSprite'
 };
+module.exports.events = require("./events.js");

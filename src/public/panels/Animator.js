@@ -21,7 +21,7 @@ Animator.mainInit = function () {
 
 	this.contentPreview.appendChild(this.background.canvas);
 	this.contentPreview.appendChild(this.preview.canvas);
-	this.div.appendChild(this.contentPreview);
+	this.el.appendChild(this.contentPreview);
 
 	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 	Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);

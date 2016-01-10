@@ -1,8 +1,22 @@
 'use strict';
+const AppendObject = require('../prototypes/AppendObject.js'),
+		{ SELECT_TOOL } = require('../constants').events,
+		{ inheritanceObject, defineGetter} = require('../utils.js');
 function Tool(name) {
+	this.$type = 'button';
+	AppendObject.call(this, 'tool');
 	this.name = name;
+	this.el.textContent = this.name;
 	this.stroke = [];
+	this.el.addEventListener('click', this.selectTool.bind(this));
 }
+inheritanceObject(Tool, AppendObject);
+defineGetter(Tool.prototype, 'canvas', function () {
+	return Editor.canvas;
+});
+Tool.prototype.selectTool = function () {
+	Editor.events.fire(SELECT_TOOL, this.name);
+};
 Tool.prototype.addPointStroke = function (point) {
 	if (this.stroke.length == 0) {
 		this.stroke.push(point);
@@ -26,6 +40,14 @@ Tool.prototype.clonePoint = function (point) {
 		out : point.out,
 		color : point.color
 	};
+};
+Tool.prototype.getConnectedColors = function (cord) {
+	const dy = [-1, 0, 1, 0], dx = [0, 1, 0, -1], color = this.canvas.artboard.frame[cord.x][cord.y];
+	for (let x = 0; x < dx.length; x++) {
+		for (let y = 0; y < dy.length; y++) {
+			console.log(dx[x], dy[y]);
+		}
+	}
 };
 Tool.prototype.getLineBetween = function (point1, point2) {
 	point1 = this.clonePoint(point1);

@@ -49,15 +49,16 @@ body{
 .panel
 	box-sizing border-box
 	position absolute
-	margin-top 20px
-	padding padding-panel
-	background rgba(0,0,0,.5)
+	margin-top drag-bar-panel-size
+	z-index 1
+	padding panel-padding
+	background panel-background
 	.drag-bar
 		position absolute
-		top -20px
+		top - drag-bar-panel-size
 		background whitesmoke
 		width 100%
-		height 20px
+		height drag-bar-panel-size
 		left 0
 		cursor move
 

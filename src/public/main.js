@@ -5,18 +5,21 @@ const Editor = require('./Editor'),
 			Palette = require('./panels/Palette'),
 			Frames = require('./panels/Frames.js'),
 			Info = require('./panels/Info.js'),
+			Tools = require('./panels/Tools.js'),
+			bucket = require('./tools/bucket.js'),
 			pencil = require('./tools/pencil.js');
 
 window.onload = () => {
 	window.Editor = Editor;
-	//tools
-	pencil();
-
 	//panels
 	Animator();
+	Tools();
 	Frames();
 	Palette();
 	Info();
+
+	//tools
+	pencil();
 
 	//init
 	Editor.init();

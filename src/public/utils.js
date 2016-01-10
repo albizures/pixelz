@@ -42,7 +42,15 @@ function createInputRange(value, min, max) {
 	}
 	return newInput;
 }
+function defineGetter(obj, name, fn) {
+	Object.defineProperty(obj, name, {
+		get: fn,
+		enumerable: true,
+		configurable: true
+	});
+}
 module.exports = {
+	defineGetter,
 	imageSmoothing,
 	createBtn,
 	createSpan,

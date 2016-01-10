@@ -18,14 +18,14 @@ Palette.mainInit = function () {
 	divColors.style.height = '50px';
 	divColors.style.width = '200px';
 
-	this.div.style.bottom = '100px';
-	this.div.style.right = '300px';
-	this.div.appendChild(divColors);
-	this.div.appendChild(inputColor);
+	this.el.style.bottom = '100px';
+	this.el.style.right = '300px';
+	this.el.appendChild(divColors);
+	this.el.appendChild(inputColor);
 	inputColor.style.background = mainColor = colors[0];
 	this.generateColors();
 	pickers.callbackUpdate = this.changeColor;
-	pickers.appendTo(this.div);
+	pickers.appendTo(this.el);
 };
 Palette.generateColors = function () {
 	for (let i = 0; i < colors.length; i++) {

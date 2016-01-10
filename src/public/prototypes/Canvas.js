@@ -13,19 +13,22 @@ let artboard = {
 		return this.frame.height * this.scale;
 	}
 };
-function Canvas(frame, scale, cord, tool, sizePointer) {
+function Canvas(frame, scale, cord, sizePointer) {
 	this.artboard = artboard;
-	tool.canvas = this;
-	this.tool = tool;
 	this.parent = document.body;
 	this.artboard.scale = scale || SCALE_DEF;
 	this.artboard.frame = frame;
 	this.artboard.cord = cord;
 	this.sizePointer = (sizePointer || SIZE_POINTER_DEF) * scale;
-	this.tool = tool;
 	this.init();
 }
- Canvas.prototype.init = function () {
+Canvas.prototype = {
+	contructor : Canvas,
+	get tool () {
+		return Editor.panels.Tools.currentTool;
+	}
+};
+Canvas.prototype.init = function () {
 	this.main = document.createElement('canvas').getContext('2d');
 	this.preview = document.createElement('canvas').getContext('2d');
 	this.background = document.createElement('canvas').getContext('2d');

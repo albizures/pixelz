@@ -39,8 +39,7 @@ let Editor = (function () {
 		},
 		// panel area
 		addPanel (panel) {
-			panel.parent = document.body;
-			panels[panel.name] = panel;
+			panels[panel.name] = panel.appendTo(document.body);
 		},
 		getPanel (name) {
 			return panels[name];
@@ -54,15 +53,9 @@ let Editor = (function () {
 		get panels () {
 			return panels;
 		},
-		// frame area
 		addTool (tool) {
-			if (hasVal(tools[tool.name])) {
-				return console.error('Invalid name tool');
-			}
-			tools[tool.name] = tool;
-		},
-		setTool (name) {
-			canvas.tool = tools[name];
+			console.log(panels);
+			panels.Tools.addTool(tool);
 		},
 		events : {
 			_events : {},
@@ -108,7 +101,7 @@ let Editor = (function () {
 			this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
 			let index = this.frames.getIndex();
 			index = 0;
-			canvas = new Canvas(this.sprite.frames[index], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)), tools.pencil);
+			canvas = new Canvas(this.sprite.frames[index], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)));
 			this.initPanels();
 			Editor.events.fire(CHANGE_SPRITE, sprite);
 			Editor.events.fire(CHANGE_FRAME, ADD, 0, sprite);
