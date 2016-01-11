@@ -41,7 +41,6 @@ Animator.changeFrame = function (type) {
 };
 Animator.changeSprite = function (sprite) {
 	this.scale;
-	console.log(this.contentPreview.clientWidth);
 	if (sprite.width > sprite.height) {
 		this.scale = this.contentPreview.clientWidth / sprite.width;
 	}else {

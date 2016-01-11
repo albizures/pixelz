@@ -9,7 +9,6 @@ pickers.init = function () {
 	this.rgbaPicker.rangeA.input.min = 0;
 	this.rgbaPicker.rangeA.input.max = 100;
 	this.rgbaPicker.rangeA.spanValue.textContent = this.rgbaPicker.rangeA.value = this.rgbaPicker.rangeA.input.value = 100;
-	console.log(this.rgbaPicker);
 	this.rgbaPicker.appendTo(this.el);
 	return this;
 };

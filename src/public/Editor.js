@@ -54,7 +54,6 @@ let Editor = (function () {
 			return panels;
 		},
 		addTool (tool) {
-			console.log(panels);
 			panels.Tools.addTool(tool);
 		},
 		events : {

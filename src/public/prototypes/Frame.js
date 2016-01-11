@@ -7,17 +7,14 @@ function Frame(sprite, index, bitmap, status) {
 	this.sprite = sprite;
 	this.index = index;
 	this.status = status;
-	this.bitmap = bitmap || new Array(this.sprite.width);
-
-	if (!hasVal(bitmap)) {
-		for (let i = 0 ; i < this.bitmap.length ; i++) {
-			this.bitmap[i] = new Array(this.sprite.height);
-		}
-	}
+	this.bitmap = bitmap || this.newEmptyBitmap();
 	this.init();
 }
 Frame.prototype = {
 	constructor : Frame,
+	get canvas () {
+		return Editor.canvas;
+	},
 	get imageData() {
 		return this.context.getImageData(0, 0, this.sprite.width, this.sprite.height);
 	},
@@ -43,6 +40,14 @@ Frame.prototype.getIMG = function () {
 	image.src = this.context.canvas.toDataURL();
 	return image;
 };
+Frame.prototype.newEmptyBitmap = function () {
+	let newBitmap = new Array(this.sprite.width);
+
+	for (let i = 0 ; i < newBitmap.length ; i++) {
+		newBitmap[i] = new Array(this.sprite.height);
+	}
+	return newBitmap;
+};
 Frame.prototype.cloneBitmap = function () {
 	let newBitmap = [];
 	for (let i = 0; i < this.bitmap.length; i++) {
@@ -61,6 +66,9 @@ Frame.prototype.paintAt = function (cord, color, realCord) {
 	this.context.fillStyle = color;
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
+	if (!realCord) {
+		realCord = this.canvas.cordFrameToPaint(cord);
+	}
 	Editor.events.fire('paint', realCord, color);
 };
 Frame.prototype.paint = function () {

@@ -20,6 +20,7 @@ window.onload = () => {
 
 	//tools
 	pencil();
+	bucket();
 
 	//init
 	Editor.init();

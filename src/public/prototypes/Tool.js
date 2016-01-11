@@ -1,7 +1,10 @@
 'use strict';
-const AppendObject = require('../prototypes/AppendObject.js'),
-		{ SELECT_TOOL } = require('../constants').events,
-		{ inheritanceObject, defineGetter} = require('../utils.js');
+const AppendObject = require('./AppendObject.js'),
+			Vector = require('./Vector.js'),
+			{ TRANSPARENT_COLOR } = require('../constants'),
+			{ CHANGE_FRAME, UPDATE } = require('../constants').frames,
+			{ SELECT_TOOL } = require('../constants').events,
+			{ inheritanceObject, defineGetter} = require('../utils.js');
 function Tool(name) {
 	this.$type = 'button';
 	AppendObject.call(this, 'tool');
@@ -13,6 +16,9 @@ function Tool(name) {
 inheritanceObject(Tool, AppendObject);
 defineGetter(Tool.prototype, 'canvas', function () {
 	return Editor.canvas;
+});
+defineGetter(Tool.prototype, 'frame', function () {
+	return Editor.canvas.artboard.frame;
 });
 Tool.prototype.selectTool = function () {
 	Editor.events.fire(SELECT_TOOL, this.name);
@@ -41,13 +47,36 @@ Tool.prototype.clonePoint = function (point) {
 		color : point.color
 	};
 };
-Tool.prototype.getConnectedColors = function (cord) {
-	const dy = [-1, 0, 1, 0], dx = [0, 1, 0, -1], color = this.canvas.artboard.frame[cord.x][cord.y];
-	for (let x = 0; x < dx.length; x++) {
-		for (let y = 0; y < dy.length; y++) {
-			console.log(dx[x], dy[y]);
+Tool.prototype.getConnectedColors = function (cord, paintColor) {
+	const dx = [0, 1, 0, -1],
+				dy = [-1, 0, 1, 0],
+				bitmap = this.frame.bitmap,
+				color = bitmap[cord.x][cord.y];//|| TRANSPARENT_COLOR;
+	let newStroke = [],
+			frameClone = this.frame.newEmptyBitmap(),
+			queueMatch = [cord],
+			loopCount = 0,
+			cellCount = this.frame.width * this.frame.height;
+	while (queueMatch.length > 0) {
+		loopCount++;
+		let currentMatch = queueMatch.pop();
+		this.frame.paintAt(currentMatch, paintColor);
+		for (let i = 0; i < 4; i++) {
+			let x = currentMatch.x + dx[i],
+					y = currentMatch.y + dy[i];
+			if (this.frame.validCord(new Vector(x, y)) && color == bitmap[x][y] && frameClone[x][y] !== paintColor) {
+				//console.log(x, y,queueMatch);
+				let position = new Vector(x, y);
+				frameClone[x][y] = paintColor;
+				queueMatch.push(position);
+			}
+		}
+		if (loopCount > 3 * cellCount) {
+			console.log("loop breaker called");
+			break;
 		}
 	}
+	Editor.events.fire(CHANGE_FRAME, UPDATE, this.frame.index, this.frame.sprite);
 };
 Tool.prototype.getLineBetween = function (point1, point2) {
 	point1 = this.clonePoint(point1);

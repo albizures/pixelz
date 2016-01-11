@@ -3,7 +3,6 @@ let img = document.createElement("img"),
 		backgroundTransparent = document.createElement('canvas').getContext('2d'),
 		scala = 0.3;
 img.addEventListener('load', function () {
-	console.log('load');
 	let width = backgroundTransparent.canvas.width = this.width * scala,
 			height = backgroundTransparent.canvas.height = this.height * scala;
 	backgroundTransparent.drawImage(this, 0, 0, this.width, this.height, 0, 0, width, height);

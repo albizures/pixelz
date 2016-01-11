@@ -17,7 +17,6 @@ Tools.mainInit = function () {
 	Editor.events.on(SELECT_TOOL + '.' + this.name, this.changeCurrentTool, this);
 };
 Tools.changeCurrentTool = function (name) {
-	console.log(name);
 	this.currentTool = this.tools[name];
 };
 Tools.addTool = function (tool) {

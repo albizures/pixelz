@@ -1,7 +1,7 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
-  {inheritanceObject,createSpan,createInputRange} = require('../../utils.js');
-function Range(value,min,max,type,callback) {
+			{ inheritanceObject, createSpan, createInputRange } = require('../../utils.js');
+function Range(value, min, max, type, callback) {
 	AppendObject.call(this, 'preview-frame');
 	this.value = value,
 	this.max = max;
@@ -23,5 +23,4 @@ Range.prototype.onChange = function () {
 		this.callback(this.type, this.value);
 	}
 };
-console.log(Range.prototype);
 module.exports = Range;
