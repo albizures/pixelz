@@ -18,7 +18,7 @@ pencil.onMouseMove = function (evt) {
 		if (positions.out && this.stroke.length > 1 && this.stroke[this.stroke.length - 1].out) {
 			return;
 		}
-		if (this.stroke.length !== 0 && !this.stroke[this.stroke.length - 1].out && this.stroke[this.stroke.length - 1].frame.importantDiff(positions.frame)) {
+		if (this.stroke.length !== 0 && !this.stroke[this.stroke.length - 1].out && this.stroke[this.stroke.length - 1].layer.importantDiff(positions.layer)) {
 			this.getLineBetween(this.stroke[this.stroke.length - 1], positions);
 		}else {
 			this.canvas.previewAt(positions.paint, positions.color);
@@ -34,7 +34,7 @@ pencil.onMouseUp = function (evt) {
 		if (!positions.out) {
 			this.addPointStroke(positions);
 		}
-		this.canvas.artboard.frame.paintStroke(this.cleanStroke());
+		this.canvas.artboard.layer.paintStroke(this.cleanStroke());
 		this.clicked = false;
 	}
 };

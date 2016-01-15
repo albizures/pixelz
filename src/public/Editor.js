@@ -100,7 +100,7 @@ let Editor = (function () {
 			this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
 			let index = this.frames.getIndex();
 			index = 0;
-			canvas = new Canvas(this.sprite.frames[index], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)));
+			canvas = new Canvas(this.sprite.frames[index].layers[0], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)));
 			this.initPanels();
 			Editor.events.fire(CHANGE_SPRITE, sprite);
 			Editor.events.fire(CHANGE_FRAME, ADD, 0, sprite);

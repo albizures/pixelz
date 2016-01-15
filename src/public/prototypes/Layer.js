@@ -1,18 +1,17 @@
 'use strict';
 const { imageSmoothing } = require('../utils.js'),
 			{ TRANSPARENT_COLOR } = require('../constants'),
-			Layer = require('./Layer.js'),
 			{ UPDATE, CHANGE_FRAME } = require('../constants').frames;
-
-function Frame(sprite, index, status, layers) {
-	this.sprite = sprite;
+//console.log(new Frame(), Frame.prototype);
+function Layer(frame, index, bitmap, status) {
+	this.frame = frame;
 	this.index = index;
 	this.status = status;
-	this.layers = layers || [new Layer(this, 0)];
+	this.bitmap = bitmap || this.newEmptyBitmap();
 	this.init();
 }
-Frame.prototype = {
-	constructor : Frame,
+Layer.prototype = {
+	constructor : Layer,
 	get canvas () {
 		return Editor.canvas;
 	},
@@ -20,28 +19,31 @@ Frame.prototype = {
 		return this.context.getImageData(0, 0, this.sprite.width, this.sprite.height);
 	},
 	get width() {
-		return this.sprite.width;
+		return this.frame.width;
 	},
 	get height() {
-		return this.sprite.height;
+		return this.frame.height;
+	},
+	get sprite() {
+		return this.frame.sprite;
 	}
 };
-Frame.prototype.init = function () {
+Layer.prototype.init = function () {
 	this.context = document.createElement('canvas').getContext('2d');
 	imageSmoothing(this.context, false);
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
 	this.paint();
 };
-Frame.prototype.delete = function () {
-	this.sprite.deleteFrame(this.index);
+Layer.prototype.delete = function () {
+	this.frame.deleteLayer(this.index);
 };
-Frame.prototype.getIMG = function () {
+Layer.prototype.getIMG = function () {
 	let image = document.createElement('img');
 	image.src = this.context.canvas.toDataURL();
 	return image;
 };
-Frame.prototype.newEmptyBitmap = function () {
+Layer.prototype.newEmptyBitmap = function () {
 	let newBitmap = new Array(this.sprite.width);
 
 	for (let i = 0 ; i < newBitmap.length ; i++) {
@@ -49,17 +51,17 @@ Frame.prototype.newEmptyBitmap = function () {
 	}
 	return newBitmap;
 };
-Frame.prototype.cloneBitmap = function (index) {
+Layer.prototype.cloneBitmap = function () {
 	let newBitmap = [];
 	for (let i = 0; i < this.bitmap.length; i++) {
 		newBitmap.push(this.bitmap[i].slice(0));
 	}
 	return newBitmap;
 };
-Frame.prototype.validCord = function (cord) {
+Layer.prototype.validCord = function (cord) {
 	return cord.x >= 0 && cord.x < this.width && cord.y >= 0 && cord.y < this.height;
 };
-Frame.prototype.paintAt = function (cord, color, realCord,index) {
+Layer.prototype.paintAt = function (cord, color, realCord) {
 	if (!this.validCord(cord)) {
 		return;
 	}
@@ -72,23 +74,22 @@ Frame.prototype.paintAt = function (cord, color, realCord,index) {
 	}
 	Editor.events.fire('paint', realCord, color);
 };
-Frame.prototype.paint = function () {
-	for (let i = 0; i < this.layers.length; i++) {
-		let layer = this.layers[i];
-		this.context.drawImage(layer.context.canvas,
-			0, 0, this.width, this.height,
-			0, 0, this.width, this.height
-		);
+Layer.prototype.paint = function () {
+	for (let x = 0; x < this.bitmap.length; x++) {
+		for (let y = 0; y < this.bitmap[x].length; y++) {
+			this.context.fillStyle = this.bitmap[x][y] || TRANSPARENT_COLOR;
+			this.context.clearRect(x, y, 1, 1);
+			this.context.fillRect(x, y, 1, 1);
+		}
 	}
-	Editor.events.fire(CHANGE_FRAME, UPDATE, this.index, this.sprite);
 };
-Frame.prototype.paintStroke = function (listCords,index) {
+Layer.prototype.paintStroke = function (listCords) {
 	for (let i = 0; i < listCords.length; i++) {
-		this.paintAt(listCords[i].frame, listCords[i].color, listCords[i].paint);
+		this.paintAt(listCords[i].layer, listCords[i].color, listCords[i].paint);
 	}
-	Editor.events.fire(CHANGE_FRAME, UPDATE, this.index, this.sprite);
+	this.frame.paint();
 };
-Frame.prototype.generatePreview = function (scale) {
+Layer.prototype.generatePreview = function (scale) {
 	return this.context;
 };
-module.exports = Frame;
+module.exports = Layer;

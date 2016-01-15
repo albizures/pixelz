@@ -7,17 +7,17 @@ const Vector = require('./Vector.js'),
 // TODO: create the prototype of the artboard
 let artboard = {
 	get width() {
-		return this.frame.width * this.scale;
+		return this.layer.width * this.scale;
 	},
 	get height() {
-		return this.frame.height * this.scale;
+		return this.layer.height * this.scale;
 	}
 };
-function Canvas(frame, scale, cord, sizePointer) {
+function Canvas(layer, scale, cord, sizePointer) {
 	this.artboard = artboard;
 	this.parent = document.body;
 	this.artboard.scale = scale || SCALE_DEF;
-	this.artboard.frame = frame;
+	this.artboard.layer = layer;
 	this.artboard.cord = cord;
 	this.sizePointer = (sizePointer || SIZE_POINTER_DEF) * scale;
 	this.init();
@@ -63,7 +63,7 @@ Canvas.prototype.init = function () {
 	Editor.events.on('paint.canvas', this.drawAt, this);
 };
 Canvas.prototype.changeFrame = function (newFrame) {
-	this.artboard.frame = newFrame;
+	this.artboard.layer = newFrame;
 	this.paintMain();
 };
 Canvas.prototype.onScroll = function (evt) {
@@ -146,7 +146,7 @@ Canvas.prototype.calculatePosition = function (cord) {
 	let outside = false,
 			diffTemp,
 			relativeTemp,
-			framePosition = new Vector (),
+			layerPosition = new Vector (),
 			paintPosition = new Vector ();
 	if (cord.x <= this.artboard.cord.x || cord.x >= this.artboard.cord.x + this.artboard.width) {
 		outside = true;
@@ -155,7 +155,7 @@ Canvas.prototype.calculatePosition = function (cord) {
 	diffTemp = cord.x - this.artboard.cord.x;
 	relativeTemp = diffTemp - (diffTemp % this.sizePointer);
 	paintPosition.x = relativeTemp + this.artboard.cord.x;
-	framePosition.x = Math.round(relativeTemp / this.artboard.scale);
+	layerPosition.x = Math.round(relativeTemp / this.artboard.scale);
 	if (cord.y <= this.artboard.cord.y || cord.y >= this.artboard.cord.y + this.artboard.height) {
 		outside = true;
 		cord.y = cord.y <= this.artboard.cord.y ? this.artboard.cord.y + (this.sizePointer / 2)  : this.artboard.cord.y + this.artboard.height - (this.sizePointer / 2) ;
@@ -163,13 +163,13 @@ Canvas.prototype.calculatePosition = function (cord) {
 	diffTemp = cord.y - this.artboard.cord.y;
 	relativeTemp = diffTemp - (diffTemp % this.sizePointer);
 	paintPosition.y = relativeTemp + this.artboard.cord.y;
-	framePosition.y = Math.round(relativeTemp / this.artboard.scale);
-	if (framePosition.x < 0 || framePosition.y < 0 || framePosition.x > 59 || framePosition.y > 59) {
+	layerPosition.y = Math.round(relativeTemp / this.artboard.scale);
+	if (layerPosition.x < 0 || layerPosition.y < 0 || layerPosition.x > 59 || layerPosition.y > 59) {
 		debugger;
 	}
 	return {
 		out : outside,
-		frame : framePosition,
+		layer : layerPosition,
 		paint : paintPosition
 	};
 };
@@ -199,16 +199,17 @@ Canvas.prototype.paintMain = function () {
 	this.cleanMain();
 	this.paintBackground();
 	imageSmoothingDisabled(this.main);
-	this.main.drawImage(this.artboard.frame.context.canvas,
-		0, 0, this.artboard.frame.width, this.artboard.frame.height,
-		this.artboard.cord.x, this.artboard.cord.y, this.artboard.frame.width * this.artboard.scale, this.artboard.frame.height * this.artboard.scale
+	// TODO: create get for "this.artboard.layer.width * this.artboard.scale" and "this.artboard.layer.height * this.artboard.scale"
+	this.main.drawImage(this.artboard.layer.context.canvas,
+		0, 0, this.artboard.layer.width, this.artboard.layer.height,
+		this.artboard.cord.x, this.artboard.cord.y, this.artboard.layer.width * this.artboard.scale, this.artboard.layer.height * this.artboard.scale
 	);
 };
 Canvas.prototype.paintBackground = function () {
 	this.cleanBackground();
 	imageSmoothingDisabled(this.background);
 	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
-	this.background.rect(this.artboard.cord.x, this.artboard.cord.y, this.artboard.frame.width * this.artboard.scale, this.artboard.frame.height * this.artboard.scale);
+	this.background.rect(this.artboard.cord.x, this.artboard.cord.y, this.artboard.layer.width * this.artboard.scale, this.artboard.layer.height * this.artboard.scale);
 	this.background.fillStyle = pattern;
 	this.background.fill();
 };

@@ -5,7 +5,7 @@ function Sprite(width, height) {
 	this.width = width;
 	this.height = height;
 	this.frames = [];
-	this.frames.push(new Frame(this, 0, undefined, true));
+	this.frames.push(new Frame(this, 0, true));
 }
 Sprite.prototype.getFrame = function (index) {
 	return this.frames[index];
