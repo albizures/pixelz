@@ -84,7 +84,7 @@ Selector.prototype.off = function (name) {
 					}
 				}
 			}
-		}else if (hasVal(this._events[name]) && hasVal(this._events[name][suffix])) {
+		}else if (hasVal(this._events) && hasVal(this._events[name]) && hasVal(this._events[name][suffix])) {
 			this.removeEventListener(name, this._events[name][suffix]);
 			delete this._events[name][suffix];
 		}

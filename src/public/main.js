@@ -6,6 +6,7 @@ const Editor = require('./Editor'),
 			Frames = require('./panels/Frames.js'),
 			Info = require('./panels/Info.js'),
 			Tools = require('./panels/Tools.js'),
+			Layers = require('./panels/Layers.js'),
 			bucket = require('./tools/bucket.js'),
 			pencil = require('./tools/pencil.js');
 
@@ -17,6 +18,7 @@ window.onload = () => {
 	Frames();
 	Palette();
 	Info();
+	Layers();
 
 	//tools
 	pencil();

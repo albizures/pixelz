@@ -21,7 +21,7 @@ Frames.mainInit = function () {
 	Editor.events.on(SELECT_FRAME + '.' + this.name, this.selectFrame, this);
 };
 Frames.changeSprite = function (sprite) {
-	$(btnAdd).on('click.add', sprite.addFrame.bind(sprite));
+	$(btnAdd).off('click.add').on('click.add', sprite.addFrame.bind(sprite));
 };
 Frames.changeFrame = function (type, index, sprite) {
 	switch (type) {
