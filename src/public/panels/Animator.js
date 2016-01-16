@@ -2,8 +2,7 @@
 
 const Panel = require('../prototypes/Panel.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
-			{ CHANGE_FRAME, DELETE } = require('../constants').frames,
-			{ CHANGE_SPRITE } = require('../constants').sprite,
+			{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
 			{ TRANSPARENT_IMG } = require('../constants'),
 			Animator = new Panel('Animator');
 let time = 0.5 * 1000, loop, index = 0, ctx;
@@ -24,7 +23,7 @@ Animator.mainInit = function () {
 	this.el.appendChild(this.contentPreview);
 
 	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
-	Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
+	Editor.events.on(DELETE_FRAME + '.' + this.name, this.changeFrame, this);
 
 	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
 };
@@ -35,9 +34,7 @@ Animator.paintBackground = function () {
 	this.background.fill();
 };
 Animator.changeFrame = function (type) {
-	if (type == DELETE) {
-		index = 0;
-	}
+	index = 0;
 };
 Animator.changeSprite = function (sprite) {
 	this.scale;
@@ -54,12 +51,16 @@ Animator.changeSprite = function (sprite) {
 	this.paintBackground();
 };
 Animator.start = function () {
+	if (this.started) {
+		return;
+	}
 	this.started = true;
 	loop = setInterval(function () {
 		Animator.loop();
 	}, time);
 };
 Animator.changeStatus = function () {
+	console.log(this.started);
 	if (this.started) {
 		this.stop();
 	}else {

@@ -1,6 +1,6 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
-			{ SELECT_FRAME } = require('../../constants').frames,
+			{ SELECT_FRAME } = require('../../constants').events,
 			{ TRANSPARENT_IMG } = require('../../constants'),
 			{inheritanceObject, createBtn, createSpan, imageSmoothingDisabled} = require('../../utils.js');
 

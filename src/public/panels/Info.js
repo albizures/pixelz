@@ -10,7 +10,7 @@ Info.mainInit = function () {
 	this.el.style.width = '100px';
 	this.el.style.right = '0';
 	this.el.style.bottom = '0';
-	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
+	//Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 };
 Info.changeSprite = function (sprite) {
 	var p = document.createElement('div');

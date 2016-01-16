@@ -76,7 +76,7 @@ Tool.prototype.getConnectedColors = function (cord, paintColor) {
 			break;
 		}
 	}
-	Editor.events.fire(CHANGE_FRAME, UPDATE, this.layer.index, this.layer.sprite);
+	//Editor.events.fire(CHANGE_FRAME, UPDATE, this.layer.index, this.layer.sprite);
 };
 Tool.prototype.getLineBetween = function (point1, point2) {
 	point1 = this.clonePoint(point1);

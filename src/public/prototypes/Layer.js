@@ -1,7 +1,7 @@
 'use strict';
 const { imageSmoothing } = require('../utils.js'),
 			{ TRANSPARENT_COLOR } = require('../constants'),
-			{ UPDATE, CHANGE_FRAME } = require('../constants').frames;
+			{ UPDATE_LAYER } = require('../constants').events;
 //console.log(new Frame(), Frame.prototype);
 function Layer(frame, index, bitmap, status) {
 	this.frame = frame;
@@ -72,7 +72,8 @@ Layer.prototype.paintAt = function (cord, color, realCord) {
 	if (!realCord) {
 		realCord = this.canvas.cordFrameToPaint(cord);
 	}
-	Editor.events.fire('paint', realCord, color);
+	this.canvas.drawAt(realCord, color);
+	//Editor.events.fire('paint', realCord, color);
 };
 Layer.prototype.paint = function () {
 	for (let x = 0; x < this.bitmap.length; x++) {
@@ -82,6 +83,7 @@ Layer.prototype.paint = function () {
 			this.context.fillRect(x, y, 1, 1);
 		}
 	}
+	this.frame.paint(true);
 };
 Layer.prototype.paintStroke = function (listCords) {
 	for (let i = 0; i < listCords.length; i++) {

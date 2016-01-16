@@ -2,13 +2,11 @@
 
 const Panel = require('../prototypes/Panel.js'),
 			//{CHANGE_LAYER} = require('../constants').sprite
-			{ defineGetter, createBtn, createSpan} = require('../utils.js'),
+			{createBtn, createSpan} = require('../utils.js'),
 			btnAddLayer = createBtn('add layer'),
 			Layers = new Panel('Layers');
 
-defineGetter(Layers, 'layers', function () {
-	return Editor.canvas.artboard.layer.frame.layers;
-});
+
 Layers.mainInit = function () {
 	this.el.style['z-index'] = '9999';
 	this.el.style.height = '50px';
@@ -17,6 +15,11 @@ Layers.mainInit = function () {
 	this.el.style.top = '0';
 	this.el.appendChild(btnAddLayer);
 	this.createPreviewLayer();
+
+	$(btnAddLayer).on('click.add', this.createLayer);
+};
+Layers.createLayer = function () {
+	this.frame.addLayer();
 };
 Layers.createPreviewLayer = function () {
 	for (let i = 0; i < this.layers.length; i++) {

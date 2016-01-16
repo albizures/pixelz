@@ -3,11 +3,10 @@
 const Panel = require('../prototypes/Panel.js'),
 			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
 			Frames = new Panel('Frames'),
-			{CHANGE_SPRITE} = require('../constants').sprite,
-			{ADD, DELETE, UPDATE, CHANGE_FRAME, SELECT_FRAME} = require('../constants').frames,
+			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events,
 			ul =  document.createElement('ul'),
 			btnAdd = document.createElement('button');
-let index = 0, frames = [], currentFrame = 0;
+let index = 0, previewFrames = [], currentFrame = 0;
 btnAdd.textContent = 'add frame';
 btnAdd.classList.add('add-frame');
 Frames.mainInit = function () {
@@ -16,12 +15,16 @@ Frames.mainInit = function () {
 
 	this.el.appendChild(btnAdd);
 	this.el.appendChild(ul);
-	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
-	Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
+	//Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
+	//Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
+	Editor.events.on(DELETE_FRAME + '.' + this.name, this.deleteFrame, this);
+	Editor.events.on(UPDATE_FRAME + '.' + this.name, this.updateFrame, this);
 	Editor.events.on(SELECT_FRAME + '.' + this.name, this.selectFrame, this);
+	Editor.events.on(ADD_FRAME + '.' + this.name, this.addPreview, this);
+	$(btnAdd).on('click.add', this.createFrame.bind(this));
 };
-Frames.changeSprite = function (sprite) {
-	$(btnAdd).off('click.add').on('click.add', sprite.addFrame.bind(sprite));
+Frames.createFrame = function () {
+	this.sprite.addFrame();
 };
 Frames.changeFrame = function (type, index, sprite) {
 	switch (type) {
@@ -30,9 +33,7 @@ Frames.changeFrame = function (type, index, sprite) {
 			break;
 		}
 		case DELETE : {
-			frames[index].remove();
-			frames.splice(index, 1);
-			this.reAppend();
+
 			break;
 		}
 		case UPDATE : {
@@ -41,36 +42,43 @@ Frames.changeFrame = function (type, index, sprite) {
 		}
 	}
 };
-Frames.updateFrame = function (index, sprite) {
-	frames[index].updatePreview();
+Frames.deleteFrame = function (index) {
+	previewFrames[index].remove();
+	previewFrames.splice(index, 1);
+	this.reAppend();
 };
-Frames.addPreview = function () {
+Frames.updateFrame = function (index, sprite) {
+	previewFrames[index].updatePreview();
+};
+Frames.addFrame = function () {
+	console.info('addFrame');
 	sprite.addFrame(true);
 };
 Frames.selectFrame = function (frame) {
-	if (frames[currentFrame]) {
-		frames[currentFrame].unSelectFrame();
+	if (previewFrames[currentFrame]) {
+		previewFrames[currentFrame].unSelectFrame();
 	}
-	frames[frame.index].selectFrame();
+	previewFrames[frame.index].selectFrame();
 	currentFrame = frame.index;
 };
 Frames.getIndex = function () {
 	return index;
 };
-Frames.addFrame = function (index, sprite) {
+Frames.addPreview = function (index, sprite) {
 	let newFrame = new PreviewFrame(sprite.frames[index], index == currentFrame);
-	if (frames[index]) {
-		let tempFrames = frames.splice(index);
-		frames = frames.concat([newFrame], tempFrames);
+	if (previewFrames[index]) {
+		let tempFrames = previewFrames.splice(index);
+		previewFrames = previewFrames.concat([newFrame], tempFrames);
 		return this.reAppend();
 	}
-	frames[index] = newFrame;
-	frames[index].appendTo(ul);
+	previewFrames[index] = newFrame;
+	previewFrames[index].appendTo(ul);
+	previewFrames[index].updatePreview();
 };
 Frames.reAppend = function () {
-	for (let i = 0; i < frames.length; i++) {
-		frames[i].remove();
-		frames[i].appendTo(ul);
+	for (let i = 0; i < previewFrames.length; i++) {
+		previewFrames[i].remove();
+		previewFrames[i].appendTo(ul);
 	}
 };
 module.exports = () => Editor.addPanel(Frames);

@@ -6,7 +6,7 @@ const {
 		PALETTE,
 		FRAMES
 	} = require('./constants'),
-	{CHANGE_SPRITE} = require('./constants').sprite,
+	{CHANGE_SPRITE, ADD_FRAME, SELECT_FRAME} = require('./constants').events,
 	{CHANGE_FRAME, ADD} = require('./constants').frames,
 	Canvas = require('./prototypes/Canvas.js'),
 	Sprite = require('./prototypes/Sprite.js'),
@@ -25,8 +25,8 @@ let Editor = (function () {
 		},
 		set sprite (val) {
 			sprite = val;
-			Editor.events.fire(CHANGE_SPRITE, sprite);
-			Editor.events.fire(CHANGE_FRAME, ADD, 0, sprite);
+			//Editor.events.fire(CHANGE_SPRITE, sprite);
+			//Editor.events.fire(CHANGE_FRAME, ADD, 0, sprite);
 		},
 		get canvas () {
 			return canvas;
@@ -78,7 +78,8 @@ let Editor = (function () {
 				// TODO: make off of events
 			},
 			fire (name, val) {
-				var suffix = name.split('.')[1];
+				//console.log(arguments);
+				let suffix = name.split('.')[1];
 				if (arguments.length > 2) {
 					val = Array.prototype.slice.call(arguments, 1);
 				}else if (arguments.length == 2) {
@@ -103,7 +104,8 @@ let Editor = (function () {
 			canvas = new Canvas(this.sprite.frames[index].layers[0], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)));
 			this.initPanels();
 			Editor.events.fire(CHANGE_SPRITE, sprite);
-			Editor.events.fire(CHANGE_FRAME, ADD, 0, sprite);
+			Editor.events.fire(ADD_FRAME, 0, sprite);
+			Editor.events.fire(SELECT_FRAME, this.sprite.frames[index]);
 			console.timeEnd('canvas');
 		}
 	};

@@ -1,11 +1,11 @@
 'use strict';
 const Frame = require('./Frame.js'),
-			{ADD, DELETE, UPDATE, CHANGE_FRAME,SELECT_FRAME} = require('../constants').frames;
+			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events;
 function Sprite(width, height) {
 	this.width = width;
 	this.height = height;
 	this.frames = [];
-	this.frames.push(new Frame(this, 0, true));
+	this.frames.push(new Frame(this, 0, undefined, true));
 }
 Sprite.prototype.getFrame = function (index) {
 	return this.frames[index];
@@ -16,9 +16,9 @@ Sprite.prototype.deleteFrame = function (index) {
 		alert('can\'t delete last frames');
 	}else {
 		let frameDelete = this.frames.splice(index, 1),
-				currentIndex = Editor.canvas.artboard.frame.index;
+				currentIndex = Editor.canvas.artboard.layer.frame.index;
 		this.reIndexing();
-		Editor.events.fire(CHANGE_FRAME, DELETE, index, this);
+		Editor.events.fire(DELETE_FRAME, index, this);
 		if (frameDelete[0] && frameDelete[0].selected) {
 			if (index !== 0) {
 				Editor.events.fire(SELECT_FRAME, this.frames[index - 1]);
@@ -37,26 +37,28 @@ Sprite.prototype.reIndexing = function () {
 	}
 };
 Sprite.prototype.addFrame = function (indexClone, newIndex) {
-	let bitmap, frame;
+	let frame;
 
 	if (hasVal(indexClone) && hasVal(this.frames[indexClone])) {
-		bitmap = this.frames[indexClone].cloneBitmap();
 		if (!hasVal(newIndex)) {
-			newIndex = ++indexClone;
+			newIndex = indexClone + 1;
 		}
 	}
 
 	if (hasVal(newIndex)) {
-		frame = new Frame(this, newIndex, bitmap, true);
+		// TODO: clone layers
+		frame = new Frame(this, newIndex);
+		frame.layers = this.frames[indexClone].cloneLayers(frame);
 		let tempFrames = this.frames.splice(newIndex);
 		this.frames = this.frames.concat([frame], tempFrames);
 		this.reIndexing();
 	}else {
 		newIndex = this.frames.length;
-		frame = new Frame(this, newIndex, bitmap, true);
+		frame = new Frame(this, newIndex, bitmap);
 		this.frames[newIndex] = frame;
 	}
-	Editor.events.fire(CHANGE_FRAME, ADD, newIndex, this);
+	frame.paint(true);
+	Editor.events.fire(ADD_FRAME, newIndex, this);
 	Editor.events.fire(SELECT_FRAME, this.frames[newIndex]);
 	return frame;
 };
