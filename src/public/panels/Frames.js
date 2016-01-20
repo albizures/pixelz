@@ -1,9 +1,11 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
-			Frames = new Panel('Frames'),
 			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events,
+			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
+			Vector = require('../prototypes/Vector.js'),
+			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 140, 70, TL),
 			ul =  document.createElement('ul'),
 			btnAdd = document.createElement('button');
 let index = 0, previewFrames = [], currentFrame = 0;

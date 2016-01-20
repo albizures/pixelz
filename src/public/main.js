@@ -1,8 +1,8 @@
 'use strict';
 
-const Editor = require('./Editor'),
+const Editor = require('./Editor/index.js'),
 			Animator = require('./panels/Animator.js'),
-			Palette = require('./panels/Palette'),
+			Palette = require('./panels/Palette/index.js'),
 			Frames = require('./panels/Frames.js'),
 			Info = require('./panels/Info.js'),
 			Tools = require('./panels/Tools.js'),
@@ -12,7 +12,7 @@ const Editor = require('./Editor'),
 
 window.onload = () => {
 	window.Editor = Editor;
-	//panels
+	// panels
 	Animator();
 	Tools();
 	Frames();

@@ -61,6 +61,7 @@ Selector.prototype.on = function (name, handler) {
 			this[i]._events[name][suffix] =  handler.bind(this[i]);
 			this[i].addEventListener(name, this[i]._events[name][suffix]);
 		}else {
+			console.log(this[i]._events[name][suffix]);
 			console.error('Event wrong name', arguments);
 		}
 	}
@@ -84,9 +85,9 @@ Selector.prototype.off = function (name) {
 					}
 				}
 			}
-		}else if (hasVal(this._events) && hasVal(this._events[name]) && hasVal(this._events[name][suffix])) {
-			this.removeEventListener(name, this._events[name][suffix]);
-			delete this._events[name][suffix];
+		}else if (hasVal(this[i]._events) && hasVal(this[i]._events[name]) && hasVal(this[i]._events[name][suffix])) {
+			this[i].removeEventListener(name, this[i]._events[name][suffix]);
+			delete this[i]._events[name][suffix];
 		}
 	}
 	return this;

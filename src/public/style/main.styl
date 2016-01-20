@@ -47,23 +47,52 @@ body{
 
 
 .panel
-	box-sizing border-box
+	//box-sizing border-box
 	position absolute
-	margin-top drag-bar-panel-size
+	border 1px solid rgba(245, 245, 245, 0.7)
+	//margin-top drag-bar-panel-size
 	z-index 1
-	padding panel-padding
+	//padding panel-padding
 	background panel-background
 	.drag-bar
-		position absolute
-		top - drag-bar-panel-size
+		//position absolute
+		//top - drag-bar-panel-size
 		background whitesmoke
 		width 100%
-		height drag-bar-panel-size
-		left 0
+		//left 0
 		cursor move
+	.resize-bar
+		background rgba(255, 0, 0, 0.1)
+		position absolute
+		&.T, &.B
+			height resize-bar-panel-size
+			width 100%
+			cursor n-resize
+		&.T, &.TL, &.TR
+			top resize-bar-panel-margin
+		&.B, &.BL, &.BR
+			bottom resize-bar-panel-margin
+		&.L, &.R
+			cursor e-resize
+			width resize-bar-panel-size
+			height 100%
+		&.L, &.TL, &.BL
+			left resize-bar-panel-margin
+		&.R, &.TR, &.BR
+			right resize-bar-panel-margin
+		&.TL, &.TR, &.BL, &.BR
+			height resize-bar-panel-size
+			width resize-bar-panel-size
+		&.TR
+			cursor ne-resize
+		&.TL
+			cursor nw-resize
+		&.BR
+			cursor se-resize
+		&.BL
+			cursor sw-resize
 
 .panel-palette
-	padding 10px
 	background whitesmoke
 	.input-color
 		background-image url(../assets/image/transparent.png)
@@ -75,3 +104,10 @@ body{
 			transform scale(1.1)
 			box-shadow 0 0 5px rgba(0,0,0,0.7);
 			transform-origin 50%
+	.picker
+		input[type=range]
+			width 70%
+.panel-layers
+	button.add-layer
+		width 94%
+		margin 3%

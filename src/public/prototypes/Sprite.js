@@ -54,7 +54,7 @@ Sprite.prototype.addFrame = function (indexClone, newIndex) {
 		this.reIndexing();
 	}else {
 		newIndex = this.frames.length;
-		frame = new Frame(this, newIndex, bitmap);
+		frame = new Frame(this, newIndex);
 		this.frames[newIndex] = frame;
 	}
 	frame.paint(true);

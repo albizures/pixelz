@@ -35,14 +35,5 @@ module.exports.colors = {
 	NAC : 'NaC'
 };
 module.exports.palette  = require("./palette.js");
-module.exports.frames = {
-	// ADD : 1,
-	// DELETE : 2,
-	// UPDATE : 3,
-	// CHANGE_FRAME : 'changeFrame',
-	// SELECT_FRAME : 'selectFrame'
-};
-module.exports.sprite = {
-	// CHANGE_SPRITE : 'changeSprite'
-};
+module.exports.panels = require('./panels.js');
 module.exports.events = require("./events.js");

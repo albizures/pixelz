@@ -3,7 +3,7 @@ const Range = require('./Range.js'),
 			AppendObject = require('../../prototypes/AppendObject.js'),
 			{inheritanceObject} = require('../../utils.js');
 function Picker(name,callback) {
-	AppendObject.call(this, 'preview-frame');
+	AppendObject.call(this, 'picker');
 	this.name = name + 'Picker';
 	this.types = Array.prototype.slice.call(arguments, 2);
 	for (let i = 0; i < this.types.length; i++) {

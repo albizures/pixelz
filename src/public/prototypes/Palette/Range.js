@@ -2,7 +2,7 @@
 const AppendObject = require('../../prototypes/AppendObject.js'),
 			{ inheritanceObject, createSpan, createInputRange } = require('../../utils.js');
 function Range(value, min, max, type, callback) {
-	AppendObject.call(this, 'preview-frame');
+	AppendObject.call(this);
 	this.value = value,
 	this.max = max;
 	this.min = min;

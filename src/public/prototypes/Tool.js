@@ -2,7 +2,6 @@
 const AppendObject = require('./AppendObject.js'),
 			Vector = require('./Vector.js'),
 			{ TRANSPARENT_COLOR } = require('../constants'),
-			{ CHANGE_FRAME, UPDATE } = require('../constants').frames,
 			{ SELECT_TOOL } = require('../constants').events,
 			{ inheritanceObject, defineGetter} = require('../utils.js');
 function Tool(name) {
