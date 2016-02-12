@@ -1,4 +1,4 @@
-
+'use strict';
 module.exports = {
 	_events : {},
 	on (name, handler, that) {

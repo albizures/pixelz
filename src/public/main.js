@@ -1,6 +1,7 @@
 'use strict';
 
-const Editor = require('./Editor/index.js'),
+const make = require('./utils.js').make,
+			Editor = require('./Editor/index.js'),
 			Animator = require('./panels/Animator.js'),
 			Palette = require('./panels/Palette/index.js'),
 			Frames = require('./panels/Frames.js'),

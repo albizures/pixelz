@@ -1,7 +1,7 @@
 build/app.js
 build/style.css
 build/assets
-
+.vscode
 
 # Logs
 logs
