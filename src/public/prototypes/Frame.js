@@ -34,8 +34,10 @@ Frame.prototype.init = function () {
 	this.context.canvas.height = this.sprite.height;
 	this.paint(true);
 };
-Frame.prototype.addLayer = function () {
+Frame.prototype.addLayer = function (indexClone, newIndex) {
+	// TODO: add layers
 
+	this.layers.push(new Layer(this, this.layers.length));
 };
 Frame.prototype.delete = function () {
 	this.sprite.deleteFrame(this.index);
@@ -114,7 +116,8 @@ Frame.prototype.getIMG = function () {
 // 	Editor.events.fire('paint', realCord, color);
 // };
 Frame.prototype.paint = function (init) {
-	for (let i = 0; i < this.layers.length; i++) {
+	for (let i = this.layers.length - 1 ; -1 < i ; i--) {
+		console.log('lele');
 		let layer = this.layers[i];
 		this.context.drawImage(layer.context.canvas,
 			0, 0, this.width, this.height,

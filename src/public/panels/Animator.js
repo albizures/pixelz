@@ -3,7 +3,7 @@
 const Panel = require('../prototypes/Panel.js'),
 			{imageSmoothingDisabled, make} = require('../utils.js'),
 			{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
-			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+			{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 			{ TRANSPARENT_IMG } = require('../constants'),
 			Animator = new Panel('Animator', SNAP, undefined, 230, 40, TR);
 let time = 0.5 * 1000, loop, index = 0, ctx;

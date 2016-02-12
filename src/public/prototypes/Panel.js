@@ -25,7 +25,7 @@ function Panel(name, type, position, width, height, snapType) {
 	// for (let i = 0; i < resizeBars.length; i++) {
 	// 	new ResizeBar(this, resizeBars[i]);
 	// }
-	console.trace(type);
+	//console.trace(type);
 
 }
 inheritanceObject(Panel, AppendObject);
@@ -53,7 +53,6 @@ Panel.prototype.init = function (width, height) {
 		return console.error('parent undefined');
 	}
 	if (SNAP === this.type) {
-		console.log(this.name, arguments, this);
 		this.setSnapPosition();
 	}else {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
@@ -156,7 +155,6 @@ Panel.prototype.onResize = function (evt) {
 			return;
 		}
 	}
-	console.log('lele');
 };
 Panel.prototype.changeSize = function (width, height, x, y) {
 	width = width || this.width;

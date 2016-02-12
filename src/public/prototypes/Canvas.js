@@ -3,7 +3,7 @@ const Vector = require('./Vector.js'),
 			{imageSmoothingDisabled} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
-				{SELECT_FRAME} = require('../constants').events;
+				{SELECT_FRAME, SELECT_LAYER} = require('../constants').events;
 // TODO: create the prototype of the artboard
 let artboard = {
 	get width() {
@@ -49,6 +49,7 @@ Canvas.prototype.init = function () {
 	$(this.preview.canvas).on('mousemove.canvas', this.onMouseMove.bind(this));
 
 	Editor.events.on(SELECT_FRAME + '.canvas', this.changeFrame, this);
+	Editor.events.on(SELECT_LAYER + '.canvas', this.changeLayer, this);
 	//Editor.events.on('paint.canvas', this.drawAt, this);
 
 	$(window).on('resize.canvas', this.resize.bind(this));
@@ -69,7 +70,11 @@ Canvas.prototype.resize = function () {
 	this.paintMain();
 };
 Canvas.prototype.changeFrame = function (frame) {
-	this.artboard.layer = frame.layers[0];
+	this.changeLayer(frame.layers[0]);
+};
+Canvas.prototype.changeLayer = function (layer) {
+	console.log('change');
+	this.artboard.layer = layer;
 	this.paintMain();
 };
 Canvas.prototype.onScroll = function (evt) {

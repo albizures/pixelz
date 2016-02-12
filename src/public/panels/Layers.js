@@ -1,31 +1,32 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
+			PreviewLayer = require('../prototypes/Layers/PreviewLayer.js'),
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
-			{createBtn, createSpan} = require('../utils.js'),
+			{createBtn, createSpan, make} = require('../utils.js'),
 			btnAddLayer = createBtn('add layer', 'add-layer'),
 			Layers = new Panel('Layers', SNAP, undefined, 120, undefined, BL);
 
 
 Layers.mainInit = function () {
 	this.el.style['z-index'] = '9999';
-	// this.el.style.height = '50px';
-	// this.el.style.width = '200px';
-	// this.el.style.left = '600px';
-	// this.el.style.top = '0';
 	this.el.appendChild(btnAddLayer);
+	this.ul = document.createElement('ul');
+	this.ul = make(['ul', {className : 'layers-list', parent : this.el}]);
 	this.createPreviewLayer();
-
-	$(btnAddLayer).on('click.add', this.createLayer);
+	$(btnAddLayer).on('click.add', this.createLayer.bind(this));
 };
 Layers.createLayer = function () {
+	console.log(this);
 	this.frame.addLayer();
+	this.createPreviewLayer();
 };
 Layers.createPreviewLayer = function () {
+	this.ul.innerHTML = '';
 	for (let i = 0; i < this.layers.length; i++) {
 		//this.layers[i];
-
-		this.el.appendChild(createSpan(this.layers[i].index + 1));
+		new PreviewLayer(this.layers[i]).appendTo(this.ul);
+		//this.el.appendChild(createSpan(this.layers[i].index + 1));
 	}
 };
 module.exports = () => Editor.addPanel(Layers);
