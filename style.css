@@ -612,7 +612,7 @@ body {
   background: #f5f5f5;
 }
 .panel-palette .input-color {
-  background-image: url(/assets/images/transparent.png);
+  background-image: url(assets/images/transparent.png);
   background-size: 7%;
 }
 .panel-palette .palette-color {
