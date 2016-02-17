@@ -1,6 +1,7 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
+      { make } = require('../utils.js'),
 			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events,
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
@@ -12,11 +13,11 @@ let index = 0, previewFrames = [], currentFrame = 0;
 btnAdd.textContent = 'add frame';
 btnAdd.classList.add('add-frame');
 Frames.mainInit = function () {
-
-	ul.id = 'preview-frames';
-
-	this.el.appendChild(btnAdd);
-	this.el.appendChild(ul);
+  make([this.el,
+    btnAdd,
+    [ul, { id : 'preview-frames'}]
+  ]);
+  
 	//Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 	//Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
 	Editor.events.on(DELETE_FRAME + '.' + this.name, this.deleteFrame, this);
