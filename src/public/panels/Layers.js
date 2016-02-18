@@ -7,7 +7,7 @@ const Panel = require('../prototypes/Panel.js'),
 			btnAddLayer = createBtn('add layer', 'add-layer'),
 			Layers = new Panel('Layers', SNAP, undefined, 120, undefined, BL);
 
-
+let currentLayer = 0, layersPreview = [];
 Layers.mainInit = function () {
 	this.el.style['z-index'] = '9999';
 	this.el.appendChild(btnAddLayer);
@@ -17,16 +17,24 @@ Layers.mainInit = function () {
 	$(btnAddLayer).on('click.add', this.createLayer.bind(this));
 };
 Layers.createLayer = function () {
-	console.log(this);
 	this.frame.addLayer();
-	this.createPreviewLayer();
 };
 Layers.createPreviewLayer = function () {
 	this.ul.innerHTML = '';
 	for (let i = 0; i < this.layers.length; i++) {
 		//this.layers[i];
-		new PreviewLayer(this.layers[i]).appendTo(this.ul);
+		layersPreview[this.layers[i].index] = new PreviewLayer(this.layers[i]).appendTo(this.ul);
 		//this.el.appendChild(createSpan(this.layers[i].index + 1));
 	}
+};
+Layers.selectLayer = function (index) {
+	if (layersPreview[currentLayer]) {
+		layersPreview[currentLayer].unSelectLayer();
+	}
+	layersPreview[index].selectLayer();
+	currentLayer = index;
+}
+Layers.updateLayers = function () {
+	this.createPreviewLayer();
 };
 module.exports = () => Editor.addPanel(Layers);

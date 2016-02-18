@@ -1,20 +1,19 @@
 'use strict';
 const { imageSmoothing } = require('../utils.js'),
-			{ TRANSPARENT_COLOR } = require('../constants'),
-			Layer = require('./Layer.js'),
-			{UPDATE_FRAME} = require('../constants').events;
+	{ TRANSPARENT_COLOR } = require('../constants'),
+	Layer = require('./Layer.js'),
+	{ UPDATE_FRAME } = require('../constants').events;
 
-function Frame(sprite, index, layers, status) {
+function Frame(sprite, index, status, layers) {
 	this.sprite = sprite;
 	this.index = index;
 	this.status = status;
-	this.layers = [];
 	this.layers = layers || [new Layer(this, 0)];
 	this.init();
 }
 Frame.prototype = {
 	constructor : Frame,
-	get canvas () {
+	get canvas() {
 		return Editor.canvas;
 	},
 	get imageData() {
@@ -50,78 +49,61 @@ Frame.prototype.reIndexing = function () {
 Frame.prototype.cloneLayers = function (frame) {
 	let layers = [];
 	frame = frame || this;
-	console.log(this.index, frame.index);
 	for (let i = 0; i < this.layers.length; i++) {
-		let newLayer = new Layer(frame, this.layers[i].index, this.layers[i].cloneBitmap());
+		let newLayer = this.layers[i].clone(frame);
+		console.trace(newLayer.context.canvas.toDataURL());
 		layers.push(newLayer);
 	}
 	return layers;
 };
-Frame.prototype.addFrame = function (indexClone, newIndex) {
-	let bitmap, layer;
-
-	if (hasVal(indexClone) && hasVal(this.frames[indexClone])) {
-		bitmap = this.layers[indexClone].cloneBitmap();
-		if (!hasVal(newIndex)) {
-			newIndex = ++indexClone;
-		}
+Frame.prototype.select = function () {
+	Editor.getPanel('Frames').selectFrame(this.index);
+	this.layers[0].select();
+};
+Frame.prototype.clone = function (sprite) {
+	sprite = sprite || this.sprite;
+	return new Frame(sprite, this.index, this.status);
+};
+Frame.prototype.addLayer = function (layerClone, newIndex) {
+	let clone = false,
+		newLayer;
+	if (layerClone instanceof Layer) {
+		clone = true;
+	} else if (Number.isInteger(layerClone)) {
+		clone = true;
+		layerClone = this.layers[layerClone];
+	}
+	if (!Number.isInteger(newIndex)) {
+		newIndex = clone? layerClone.index + 1 : this.layers.length;
+	}
+	newLayer = clone? layerClone.clone() : new Layer(this, newIndex, true);
+	if (clone) {
+		newLayer.index = newIndex;
+		newLayer.context = layerClone.cloneContext(newLayer);
 	}
 
-	if (hasVal(newIndex)) {
-		layer = new Layer(this, newIndex, bitmap, true);
-		let tempLayer = this.frames.splice(newIndex);
-		this.layers = this.frames.concat([layer], tempFrames);
+	let tempLayers = this.layers.splice(newIndex);
+	this.layers = this.layers.concat([newLayer], tempLayers);
+
+	if (tempLayers.length !== 0) {
 		this.reIndexing();
-	}else {
-		newIndex = this.layer.length;
-		layer = new Layer(this, newIndex, bitmap, true);
-		this.layer[newIndex] = layer;
 	}
-	return frame;
+	Editor.getPanel('Layers').updateLayers();
+	return newLayer;
 };
 Frame.prototype.getIMG = function () {
 	let image = document.createElement('img');
 	image.src = this.context.canvas.toDataURL();
 	return image;
 };
-// Frame.prototype.newEmptyBitmap = function () {
-// 	let newBitmap = new Array(this.sprite.width);
-//
-// 	for (let i = 0 ; i < newBitmap.length ; i++) {
-// 		newBitmap[i] = new Array(this.sprite.height);
-// 	}
-// 	return newBitmap;
-// };
-// Frame.prototype.cloneBitmap = function (index) {
-// 	let newBitmap = [];
-// 	for (let i = 0; i < this.bitmap.length; i++) {
-// 		newBitmap.push(this.bitmap[i].slice(0));
-// 	}
-// 	return newBitmap;
-// };
-// Frame.prototype.validCord = function (cord) {
-// 	return cord.x >= 0 && cord.x < this.width && cord.y >= 0 && cord.y < this.height;
-// };
-// Frame.prototype.paintAt = function (cord, color, realCord,index) {
-// 	if (!this.validCord(cord)) {
-// 		return;
-// 	}
-// 	this.bitmap[cord.x][cord.y] = color;
-// 	this.context.fillStyle = color;
-// 	this.context.clearRect(cord.x, cord.y, 1, 1);
-// 	this.context.fillRect(cord.x, cord.y, 1, 1);
-// 	if (!realCord) {
-// 		realCord = this.canvas.cordFrameToPaint(cord);
-// 	}
-// 	Editor.events.fire('paint', realCord, color);
-// };
 Frame.prototype.paint = function (init) {
-	for (let i = this.layers.length - 1 ; -1 < i ; i--) {
+	for (let i = this.layers.length - 1; -1 < i; i--) {
 		let layer = this.layers[i];
-		this.context.drawImage(layer.context.canvas,
-			0, 0, this.width, this.height,
-			0, 0, this.width, this.height
-		);
+		// this.context.drawImage(layer.context.canvas,
+		// 	0, 0, this.width, this.height,
+		// 	0, 0, this.width, this.height
+		// );
+		this.context.drawImage(layer.context.canvas, 0, 0);
 	}
 	if (!init) {
 		Editor.events.fire(UPDATE_FRAME, this.index, this.sprite);

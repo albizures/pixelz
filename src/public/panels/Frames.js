@@ -1,28 +1,26 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-      { make } = require('../utils.js'),
+			{ make } = require('../utils.js'),
 			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events,
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
 			Vector = require('../prototypes/Vector.js'),
 			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 140, 70, TL),
-			ul =  document.createElement('ul'),
+			ul =	document.createElement('ul'),
 			btnAdd = document.createElement('button');
-let index = 0, previewFrames = [], currentFrame = 0;
+let previewFrames = [], currentFrame = 0;
 btnAdd.textContent = 'add frame';
 btnAdd.classList.add('add-frame');
 Frames.mainInit = function () {
-  make([this.el,
-    btnAdd,
-    [ul, { id : 'preview-frames'}]
-  ]);
-  
+	make([this.el,
+		btnAdd,
+		[ul, { id : 'preview-frames'}]
+	]);
 	//Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 	//Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
 	Editor.events.on(DELETE_FRAME + '.' + this.name, this.deleteFrame, this);
 	Editor.events.on(UPDATE_FRAME + '.' + this.name, this.updateFrame, this);
-	Editor.events.on(SELECT_FRAME + '.' + this.name, this.selectFrame, this);
 	Editor.events.on(ADD_FRAME + '.' + this.name, this.addPreview, this);
 	$(btnAdd).on('click.add', this.createFrame.bind(this));
 };
@@ -57,15 +55,13 @@ Frames.addFrame = function () {
 	console.info('addFrame');
 	sprite.addFrame(true);
 };
-Frames.selectFrame = function (frame) {
+Frames.selectFrame = function (index) {
+	console.log(previewFrames, index);
 	if (previewFrames[currentFrame]) {
 		previewFrames[currentFrame].unSelectFrame();
 	}
-	previewFrames[frame.index].selectFrame();
-	currentFrame = frame.index;
-};
-Frames.getIndex = function () {
-	return index;
+	previewFrames[index].selectFrame();
+	currentFrame = index;
 };
 Frames.addPreview = function (index, sprite) {
 	let newFrame = new PreviewFrame(sprite.frames[index], index == currentFrame);

@@ -5,7 +5,7 @@ function Sprite(width, height) {
 	this.width = width;
 	this.height = height;
 	this.frames = [];
-	this.frames.push(new Frame(this, 0, undefined, true));
+	this.frames.push(new Frame(this, 0, true));
 }
 Sprite.prototype.getFrame = function (index) {
 	return this.frames[index];
@@ -36,31 +36,44 @@ Sprite.prototype.reIndexing = function () {
 		this.frames[i].index = i;
 	}
 };
-Sprite.prototype.addFrame = function (indexClone, newIndex) {
-	let frame;
-
-	if (hasVal(indexClone) && hasVal(this.frames[indexClone])) {
-		if (!hasVal(newIndex)) {
-			newIndex = indexClone + 1;
-		}
+Sprite.prototype.selectFrame = function (frame) {
+	if (frame instanceof Frame) {
+		index = frame.index;
+	} else if (Number.isInteger(frame)) {
+		frame = this.frames[frame];
+	} else {
+		throw new Error();
+	}
+	frame.select();
+};
+Sprite.prototype.addFrame = function (frameClone, newIndex) {
+	let clone = false,
+		newFrame;
+	if (frameClone instanceof Frame) {
+		clone = true;
+	} else if (Number.isInteger(frameClone)) {
+		clone = true;
+		frameClone = this.frames[frameClone];
+	}
+	if (!Number.isInteger(newIndex)) {
+		newIndex = clone? frameClone.index + 1 : this.frames.length;
+	}
+	newFrame = clone? frameClone.clone() : new Frame(this, newIndex, true);
+	if (clone) {
+		newFrame.index = newIndex;
+		newFrame.layers = frameClone.cloneLayers(newFrame);
 	}
 
-	if (hasVal(newIndex)) {
-		// TODO: clone layers
-		frame = new Frame(this, newIndex);
-		frame.layers = this.frames[indexClone].cloneLayers(frame);
-		let tempFrames = this.frames.splice(newIndex);
-		this.frames = this.frames.concat([frame], tempFrames);
+	let tempFrames = this.frames.splice(newIndex);
+	this.frames = this.frames.concat([newFrame], tempFrames);
+
+	if (tempFrames.length !== 0) {
 		this.reIndexing();
-	}else {
-		newIndex = this.frames.length;
-		frame = new Frame(this, newIndex);
-		this.frames[newIndex] = frame;
 	}
-	frame.paint(true);
 	Editor.events.fire(ADD_FRAME, newIndex, this);
-	Editor.events.fire(SELECT_FRAME, this.frames[newIndex]);
-	return frame;
+	newFrame.select();
+	newFrame.paint();
+	return newFrame;
 };
 
 module.exports = Sprite;

@@ -48,8 +48,6 @@ Canvas.prototype.init = function () {
 	$(this.preview.canvas).on('mouseup.canvas', this.onMouseUp.bind(this));
 	$(this.preview.canvas).on('mousemove.canvas', this.onMouseMove.bind(this));
 
-	Editor.events.on(SELECT_FRAME + '.canvas', this.changeFrame, this);
-	Editor.events.on(SELECT_LAYER + '.canvas', this.changeLayer, this);
 	//Editor.events.on('paint.canvas', this.drawAt, this);
 
 	$(window).on('resize.canvas', this.resize.bind(this));
@@ -69,11 +67,8 @@ Canvas.prototype.resize = function () {
 
 	this.paintMain();
 };
-Canvas.prototype.changeFrame = function (frame) {
-	this.changeLayer(frame.layers[0]);
-};
 Canvas.prototype.changeLayer = function (layer) {
-	console.log('change');
+	console.log('change',layer);
 	this.artboard.layer = layer;
 	this.paintMain();
 };
