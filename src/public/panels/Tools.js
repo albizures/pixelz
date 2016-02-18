@@ -5,10 +5,18 @@ const Panel = require('../prototypes/Panel.js'),
 			Vector = require('../prototypes/Vector.js'),
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
 			{ SELECT_TOOL } = require('../constants').events,
-			Tools = new Panel('Tools', FLOAT, new Vector(500, 500), 100, 100);
+			Tools = new Panel('Tools', FLOAT, new Vector(500, 500), 60);
 Tools.tools = {};
 Tools.mainInit = function () {
 	this.el.style['z-index'] = '9999';
+
+	let parentColors = make('div', {parent : this.el, className : 'colors'});
+	this.primaryColor = {};
+	this.secondaryColor = {};
+	this.secondaryColor.el = make('div', {className : 'secondary', parent : parentColors});
+	this.primaryColor.el = make('div', {className : 'primary', parent : parentColors});
+
+
 	this.changePosition(new Vector(100, 100));
 
 	this.currentTool = this.tools.pencil;
