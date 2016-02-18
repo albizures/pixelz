@@ -8,7 +8,7 @@ function Tool(name) {
 	this.$type = 'button';
 	AppendObject.call(this, 'tool');
 	this.name = name;
-	this.el.textContent = this.name;
+	this.el.textContent = this.name[0];
 	this.stroke = [];
 	this.el.addEventListener('click', this.selectTool.bind(this));
 }
