@@ -1,6 +1,7 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
+			{ make } = require('../utils.js'),
 			Vector = require('../prototypes/Vector.js'),
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
 			{ SELECT_TOOL } = require('../constants').events,
@@ -9,10 +10,7 @@ Tools.tools = {};
 Tools.mainInit = function () {
 	this.el.style['z-index'] = '9999';
 	this.changePosition(new Vector(100, 100));
-	// this.el.style.height = '50px';
-	// this.el.style.width = '100px';
-	// this.el.style.right = '100px';
-	// this.el.style.bottom = '300px';
+
 	this.currentTool = this.tools.pencil;
 	for (let i = 0, keys = Object.keys(this.tools); i < keys.length; i++) {
 		this.tools[keys[i]].appendTo(this.el);
