@@ -1,24 +1,22 @@
 {
-  "name": "p-editor",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "simple-template-webpack-express",
+  "version": "0.1.0",
+  "description": "A simple template with webpack and express",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "grunt"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/albizures/p-editor.git"
-  },
-  "author": "",
-  "license": "",
-  "bugs": {
-    "url": "https://github.com/albizures/p-editor/issues"
-  },
-  "homepage": "https://github.com/albizures/p-editor#readme",
+  "keywords": [
+    "express",
+    "webpack",
+    "template"
+  ],
+  "author": "albizures <albizures3601@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
+    "lodash": "^4.5.0",
     "nodemon": "^1.8.1",
     "serve-favicon": "^2.3.0",
     "webpack": "^1.12.8"
@@ -35,9 +33,16 @@
     "express-livereload": "0.0.24",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",
+    "grunt": "^0.4.5",
+    "grunt-concurrent": "^2.0.0",
+    "grunt-injector": "^0.6.0",
+    "grunt-nodemon": "^0.4.0",
+    "html-webpack-plugin": "^2.7.2",
     "image-webpack-loader": "^1.6.2",
+    "jade-loader": "^0.8.0",
     "jscs": "^2.6.0",
     "jscs-loader": "^0.2.0",
+    "load-grunt-tasks": "^3.4.0",
     "style-loader": "^0.13.0",
     "stylus": "^0.52.4",
     "stylus-loader": "^1.4.2",

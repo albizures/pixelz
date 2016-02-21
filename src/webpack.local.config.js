@@ -1,26 +1,32 @@
 const webpack = require('webpack'),
       util = require('util'),
       path = require('path'),
+			config = require('./server/config/environment'),
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
       ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const ROOT_PATH = path.resolve(__dirname),
-      APP_PATH = path.resolve(ROOT_PATH,'public','init.js'),
-      PUBLIC_PATH = path.resolve(ROOT_PATH,'public'),
-      BUILD_PATH = path.resolve(ROOT_PATH,'..' ,'build'),
-      MODULES_PATH = path.resolve(__dirname , '..','node_modules');
-      ASSETS_PATH = path.resolve(BUILD_PATH ,'assets');
-
+const ROOT_PATH = config.ROOT_PATH,
+      APP_PATH = config.APP_PATH,
+      CLIENT_PATH = config.CLIENT_PATH,
+      PUBLIC_PATH = config.PUBLIC_PATH,
+      MODULES_PATH = config.MODULES_PATH,
+			MAIN_TEMPLATE = config.MAIN_TEMPLATE,
+      ASSETS_PATH = config.ASSETS_PATH;
 module.exports = {
   devtool : 'eval',//'eval-source-map',
   entry:  APP_PATH,
   output: {
-    path: BUILD_PATH,
+    path: PUBLIC_PATH,
     filename: "app.js"
   },
-
   plugins: [
     //new webpack.HotModuleReplacementPlugin(),
     //new webpack.NoErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Pixelz Studio',
+      filename: 'index.html',
+      template: MAIN_TEMPLATE
+    }),
     new ExtractTextPlugin('style.css', { allChunks: true })
   ],
 
@@ -28,7 +34,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/, include: PUBLIC_PATH,
+        test: /\.js$/, include: CLIENT_PATH,
         loader: "babel-loader"//?stage=0"]
       },
       {
@@ -37,6 +43,10 @@ module.exports = {
             'file?name=/assets/images/[name].[ext]',
             'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
+      },
+      {
+        test: /\.jade$/,
+        loader: 'jade-loader'
       },
       {
         test: /\.css?$/,
@@ -57,9 +67,23 @@ module.exports = {
   },
   // Automatically transform files with these extensions
   resolve: {
-    extensions: ['', '.js','.css', '.styl']
+    extensions: ['', '.js','.css', '.styl', '.jade']
   },
   resolveLoader : {
     root : MODULES_PATH
   }
+}
+
+if (!process.env.PRODUCTION) {
+  const compiler = webpack(module.exports);
+	compiler.apply();
+  compiler.watch({ // watch options:
+    errorDetails : true,
+    aggregateTimeout: 300, // wait so long for more changes
+    poll: true // use polling instead of native watchers
+    // pass a number to set the polling interval
+  }, function(err, stats) {
+    console.log('ended');
+    console.log(stats.toString({colors : true}));
+  });
 }

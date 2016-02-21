@@ -1,0 +1,113 @@
+@import './vendor/normalize.css'
+@import './variables.styl'
+@import './Frames.styl'
+@import './Animator.styl'
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+::-webkit-scrollbar {
+		 width: 10px;
+		 height: 10px;
+ }
+
+ ::-webkit-scrollbar-thumb {
+		 background: rgba(255,255,255,.5);
+ }
+
+ ::-webkit-scrollbar-track {
+		 background: rgba(0,0,0,.5);
+ }
+canvas {
+	image-rendering: optimizeSpeed;             /* Older versions of FF          */
+	image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+	image-rendering: -webkit-optimize-contrast; /* Safari                        */
+	image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+	image-rendering: pixelated;                 /* Awesome future-browsers       */
+	-ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+}
+body{
+	background grey
+	position: absolute
+	width : 100%
+	height : 100%;
+	overflow : hidden;
+}
+.canvas,.preview,.content-preview-animate
+	position absolute
+	top 0
+	left 0
+
+.content-preview-animate
+	left auto
+	right 0
+
+
+.panel
+	//box-sizing border-box
+	position absolute
+	border 1px solid rgba(245, 245, 245, 0.7)
+	//margin-top drag-bar-panel-size
+	z-index 1
+	//padding panel-padding
+	background panel-background
+	.drag-bar
+		//position absolute
+		//top - drag-bar-panel-size
+		background whitesmoke
+		width 100%
+		//left 0
+		cursor move
+	.resize-bar
+		background rgba(255, 0, 0, 0.1)
+		position absolute
+		&.T, &.B
+			height resize-bar-panel-size
+			width 100%
+			cursor n-resize
+		&.T, &.TL, &.TR
+			top resize-bar-panel-margin
+		&.B, &.BL, &.BR
+			bottom resize-bar-panel-margin
+		&.L, &.R
+			cursor e-resize
+			width resize-bar-panel-size
+			height 100%
+		&.L, &.TL, &.BL
+			left resize-bar-panel-margin
+		&.R, &.TR, &.BR
+			right resize-bar-panel-margin
+		&.TL, &.TR, &.BL, &.BR
+			height resize-bar-panel-size
+			width resize-bar-panel-size
+		&.TR
+			cursor ne-resize
+		&.TL
+			cursor nw-resize
+		&.BR
+			cursor se-resize
+		&.BL
+			cursor sw-resize
+
+.panel-palette
+	background whitesmoke
+	.input-color
+		background-image url(../assets/image/transparent.png)
+		background-size: 7%;
+	.palette-color
+		display inline-block
+		cursor pointer
+		&.active
+			transform scale(1.1)
+			box-shadow 0 0 5px rgba(0,0,0,0.7);
+			transform-origin 50%
+	.picker
+		input[type=range]
+			width 70%
+.panel-layers
+	button.add-layer
+		width 94%
+		margin 3%
