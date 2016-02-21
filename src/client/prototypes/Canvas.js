@@ -1,6 +1,6 @@
 'use strict';
 const Vector = require('./Vector.js'),
-			{imageSmoothingDisabled} = require('../utils.js'),
+			{imageSmoothingDisabled, make} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
 				{SELECT_FRAME, SELECT_LAYER} = require('../constants').events;
@@ -29,18 +29,21 @@ Canvas.prototype = {
 	}
 };
 Canvas.prototype.init = function () {
-	this.main = document.createElement('canvas').getContext('2d');
-	this.preview = document.createElement('canvas').getContext('2d');
-	this.background = document.createElement('canvas').getContext('2d');
-
-
-	this.main.canvas.classList.add('canvas');
-	this.preview.canvas.classList.add('preview');
-	this.background.canvas.classList.add('background');
+	this.background = make('canvas', { parent : this.parent, className : 'background'}).getContext('2d');
+	this.main = make('canvas', { parent : this.parent, className : 'canvas'}).getContext('2d');
+	this.preview = make('canvas', { parent : this.parent, className : 'preview'}).getContext('2d');
+	// this.main = document.createElement('canvas').getContext('2d');
+	// this.preview = document.createElement('canvas').getContext('2d');
+	// this.background = document.createElement('canvas').getContext('2d');
+	//
+	//
+	// this.main.canvas.classList.add('canvas');
+	// this.preview.canvas.classList.add('preview');
+	// this.background.canvas.classList.add('background');
 	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
-	this.parent.appendChild(this.background.canvas);
-	this.parent.appendChild(this.main.canvas);
-	this.parent.appendChild(this.preview.canvas);
+	// this.parent.appendChild(this.background.canvas);
+	// this.parent.appendChild(this.main.canvas);
+	// this.parent.appendChild(this.preview.canvas);
 
 
 	$(this.preview.canvas).on('mousewheel.canvas', this.onScroll.bind(this));
