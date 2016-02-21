@@ -2,7 +2,7 @@
 
 const make = require('./utils.js').make,
 			Editor = require('./Editor/index.js'),
-			Animator = require('./panels/Animator.js'),
+			Preview = require('./panels/Preview.js'),
 			Palette = require('./panels/Palette/index.js'),
 			Frames = require('./panels/Frames.js'),
 			Info = require('./panels/Info.js'),
@@ -14,7 +14,7 @@ const make = require('./utils.js').make,
 window.onload = () => {
 	window.Editor = Editor;
 	// panels
-	Animator();
+	Preview();
 	Tools();
 	Frames();
 	Palette();
