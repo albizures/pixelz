@@ -1,6 +1,7 @@
 build/app.js
 build/style.css
 build/assets
+public
 
 # Logs
 logs
