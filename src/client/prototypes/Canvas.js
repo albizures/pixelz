@@ -60,7 +60,6 @@ Canvas.prototype.resize = function () {
 	this.paintMain();
 };
 Canvas.prototype.changeLayer = function (layer) {
-	console.info('change',layer);
 	this.artboard.layer = layer;
 	this.paintMain();
 };
@@ -228,8 +227,5 @@ Canvas.prototype.cleanPrev = function () {
 	this.preview.canvas.height = this.preview.canvas.height;
 	this.preview.canvas.width = this.preview.canvas.width;
 };
-
-
-
 
 module.exports = Canvas;
