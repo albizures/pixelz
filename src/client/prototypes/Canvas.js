@@ -32,19 +32,8 @@ Canvas.prototype.init = function () {
 	this.background = make('canvas', { parent : this.parent, className : 'background'}).getContext('2d');
 	this.main = make('canvas', { parent : this.parent, className : 'canvas'}).getContext('2d');
 	this.preview = make('canvas', { parent : this.parent, className : 'preview'}).getContext('2d');
-	// this.main = document.createElement('canvas').getContext('2d');
-	// this.preview = document.createElement('canvas').getContext('2d');
-	// this.background = document.createElement('canvas').getContext('2d');
-	//
-	//
-	// this.main.canvas.classList.add('canvas');
-	// this.preview.canvas.classList.add('preview');
-	// this.background.canvas.classList.add('background');
-	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
-	// this.parent.appendChild(this.background.canvas);
-	// this.parent.appendChild(this.main.canvas);
-	// this.parent.appendChild(this.preview.canvas);
 
+	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
 
 	$(this.preview.canvas).on('mousewheel.canvas', this.onScroll.bind(this));
 	$(this.preview.canvas).on('mousedown.canvas', this.onMouseDown.bind(this));
@@ -71,7 +60,7 @@ Canvas.prototype.resize = function () {
 	this.paintMain();
 };
 Canvas.prototype.changeLayer = function (layer) {
-	console.log('change',layer);
+	console.info('change',layer);
 	this.artboard.layer = layer;
 	this.paintMain();
 };
