@@ -54,7 +54,6 @@ Layer.prototype.select = function () {
 Layer.prototype.cloneContext = function () {
 	let clone = this.context.canvas.cloneNode().getContext('2d');
 	clone.drawImage(this.context.canvas, 0, 0);
-	console.trace(clone.canvas.toDataURL());
 	return clone;
 };
 Layer.prototype.validCord = function (cord) {
