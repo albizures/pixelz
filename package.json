@@ -15,7 +15,9 @@
   "author": "albizures <albizures3601@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "exports-loader": "^0.6.3",
     "express": "^4.13.3",
+    "imports-loader": "^0.6.5",
     "lodash": "^4.5.0",
     "nodemon": "^1.8.1",
     "serve-favicon": "^2.3.0",
