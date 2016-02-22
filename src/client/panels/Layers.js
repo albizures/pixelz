@@ -33,7 +33,7 @@ Layers.selectLayer = function (index) {
 	}
 	layersPreview[index].selectLayer();
 	currentLayer = index;
-}
+};
 Layers.updateLayers = function () {
 	this.createPreviewLayer();
 };

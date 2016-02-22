@@ -56,9 +56,9 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 		frameClone = this.frames[frameClone];
 	}
 	if (!Number.isInteger(newIndex)) {
-		newIndex = clone? frameClone.index + 1 : this.frames.length;
+		newIndex = clone ? frameClone.index + 1 : this.frames.length;
 	}
-	newFrame = clone? frameClone.clone() : new Frame(this, newIndex, true);
+	newFrame = clone ? frameClone.clone() : new Frame(this, newIndex, true);
 	if (clone) {
 		newFrame.index = newIndex;
 		newFrame.layers = frameClone.cloneLayers(newFrame);

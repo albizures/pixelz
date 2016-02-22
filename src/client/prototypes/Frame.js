@@ -74,9 +74,9 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 		layerClone = this.layers[layerClone];
 	}
 	if (!Number.isInteger(newIndex)) {
-		newIndex = clone? layerClone.index + 1 : this.layers.length;
+		newIndex = clone ? layerClone.index + 1 : this.layers.length;
 	}
-	newLayer = clone? layerClone.clone() : new Layer(this, newIndex, true);
+	newLayer = clone ? layerClone.clone() : new Layer(this, newIndex, true);
 	if (clone) {
 		newLayer.index = newIndex;
 		newLayer.context = layerClone.cloneContext(newLayer);
