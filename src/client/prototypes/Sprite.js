@@ -37,11 +37,9 @@ Sprite.prototype.reIndexing = function () {
 	}
 };
 Sprite.prototype.selectFrame = function (frame) {
-	if (frame instanceof Frame) {
-		index = frame.index;
-	} else if (Number.isInteger(frame)) {
+	if (Number.isInteger(frame)) {
 		frame = this.frames[frame];
-	} else {
+	} else if (!(frame instanceof Frame)) {
 		throw new Error();
 	}
 	frame.select();
@@ -56,21 +54,25 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 		frameClone = this.frames[frameClone];
 	}
 	if (!Number.isInteger(newIndex)) {
-		newIndex = clone ? frameClone.index + 1 : this.frames.length;
+		newIndex = clone? frameClone.index + 1 : this.frames.length;
 	}
-	newFrame = clone ? frameClone.clone() : new Frame(this, newIndex, true);
+	newFrame = clone? frameClone.clone() : new Frame(this, newIndex, true);
 	if (clone) {
 		newFrame.index = newIndex;
 		newFrame.layers = frameClone.cloneLayers(newFrame);
 	}
 
 	let tempFrames = this.frames.splice(newIndex);
-	this.frames = this.frames.concat([newFrame], tempFrames);
 
 	if (tempFrames.length !== 0) {
+    this.frames = this.frames.concat([newFrame], tempFrames);
 		this.reIndexing();
+	} else {
+	  this.frames.push(newFrame);
 	}
-	Editor.events.fire(ADD_FRAME, newIndex, this);
+
+  Editor.getPanel('Frames').addPreview(newFrame);
+	//Editor.events.fire(ADD_FRAME, newIndex, this);
 	newFrame.select();
 	newFrame.paint();
 	return newFrame;

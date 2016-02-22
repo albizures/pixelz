@@ -25,7 +25,8 @@ PreviewLayer.prototype.unSelectLayer = function () {
 
 };
 PreviewLayer.prototype.onClick = function () {
-	this.layer.select();
+  this.layer.frame.selectLayer(this.layer);
+	//Editor.events.fire(SELECT_LAYER, this.layer);
 };
 
 module.exports = PreviewLayer;

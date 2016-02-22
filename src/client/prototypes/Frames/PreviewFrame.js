@@ -4,11 +4,11 @@ const AppendObject = require('../../prototypes/AppendObject.js'),
 			{ TRANSPARENT_IMG } = require('../../constants'),
 			{inheritanceObject, createBtn, createSpan, imageSmoothingDisabled} = require('../../utils.js');
 
-function PreviewFrame(frame,selected) {
+function PreviewFrame(frame, selected) {
 	this.$type = 'li';
 	AppendObject.call(this, 'preview-frame');
 	this.frame = frame;
-	this.frame.selected = selected;
+	this.selected = selected;
 	this.context = document.createElement('canvas').getContext('2d');
 	this.background = document.createElement('canvas').getContext('2d');
 	//this.el.style.width = this.el.style.width = size;
@@ -45,11 +45,11 @@ PreviewFrame.prototype.deleteFrame = function (evt) {
 	this.frame.delete();
 };
 PreviewFrame.prototype.selectFrame = function () {
-	this.frame.selected = true;
+	this.selected = true;
 	this.el.classList.add('active');
 };
 PreviewFrame.prototype.unSelectFrame = function () {
-	this.frame.selected = false;
+	this.selected = false;
 	this.el.classList.remove('active');
 };
 PreviewFrame.prototype.resize = function () {

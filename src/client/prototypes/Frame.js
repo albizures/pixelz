@@ -56,9 +56,18 @@ Frame.prototype.cloneLayers = function (frame) {
 	}
 	return layers;
 };
+Frame.prototype.selectLayer = function (layer) {
+	if (Number.isInteger(layer)) {
+		layer = this.frames[layer];
+	} else if (!(layer instanceof Layer)) {
+		throw new Error();
+	}
+	layer.select();
+};
 Frame.prototype.select = function () {
 	Editor.getPanel('Frames').selectFrame(this.index);
 	this.layers[0].select();
+	Editor.getPanel('Layers').updateLayers();
 };
 Frame.prototype.clone = function (sprite) {
 	sprite = sprite || this.sprite;
