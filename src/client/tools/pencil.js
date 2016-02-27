@@ -18,10 +18,10 @@ pencil.onMouseMove = function (evt) {
 		if (positions.out && this.stroke.length > 1 && this.stroke[this.stroke.length - 1].out) {
 			return;
 		}
-		if (this.stroke.length !== 0 && !this.stroke[this.stroke.length - 1].out && this.stroke[this.stroke.length - 1].layer.importantDiff(positions.layer)) {
+		if (this.stroke.length !== 0 && !this.stroke[this.stroke.length - 1].out && this.stroke[this.stroke.length - 1].cord.importantDiff(positions.cord)) {
 			this.getLineBetween(this.stroke[this.stroke.length - 1], positions);
 		}else {
-			this.canvas.previewAt(positions.paint, positions.color);
+			this.canvas.previewAt(positions.cord, positions.color);
 			this.addPointStroke(positions);
 		}
 

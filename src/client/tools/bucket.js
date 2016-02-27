@@ -9,9 +9,9 @@ bucket.onMouseDown = function (evt) {
 		this.clicked = true;
 		let positions = this.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
 		positions.color = evt.which === RIGHT_CLICK ? Editor.palette.getSecondColor() : Editor.palette.getMainColor();
-		console.log(positions.color, this.layer.getColorPixel(positions.layer), positions.color !== this.layer.getColorPixel(positions.layer));
-		if (!positions.out && positions.color !== this.layer.getColorPixel(positions.layer)) {
-			this.fill(positions.layer, positions.color, this.layer.getColorPixel(positions.layer));
+		console.log(positions.color, this.layer.getColorPixel(positions.cord), positions.color !== this.layer.getColorPixel(positions.cord));
+		if (!positions.out && positions.color !== this.layer.getColorPixel(positions.cord)) {
+			this.fill(positions.cord, positions.color, this.layer.getColorPixel(positions.cord));
 			this.layer.frame.paint();
 		}
 	}

@@ -166,8 +166,8 @@ Canvas.prototype.calculatePosition = function (cord) {
 	}
 	return {
 		out : outside,
-		layer : layerPosition,
-		paint : paintPosition
+		cord : layerPosition//,
+		//paint : paintPosition
 	};
 };
 Canvas.prototype.cordLayerToPaint = function (cord) {
@@ -178,6 +178,7 @@ Canvas.prototype.cordLayerToPaint = function (cord) {
 	return newCord;
 };
 Canvas.prototype.previewAt = function (cord,color) {
+	cord = this.cordLayerToPaint(cord);
 	this.preview.fillStyle = color;
 	this.preview.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 	this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);

@@ -64,7 +64,7 @@ Layer.prototype.getColorPixel = function (cord) {
 
 	return 'rgba(' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ', ' + color.data[3] / 255 + ')';
 };
-Layer.prototype.paintAt = function (cord, color, realCord) {
+Layer.prototype.paintAt = function (cord, color) {
 	if (!this.validCord(cord)) {
 		return;
 	}
@@ -75,7 +75,7 @@ Layer.prototype.paintAt = function (cord, color, realCord) {
 };
 Layer.prototype.paintStroke = function (listCords) {
 	for (let i = 0; i < listCords.length; i++) {
-		this.paintAt(listCords[i].layer, listCords[i].color, listCords[i].paint);
+		this.paintAt(listCords[i].cord, listCords[i].color);
 	}
 	this.frame.paint();
 };

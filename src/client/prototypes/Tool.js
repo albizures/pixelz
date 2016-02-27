@@ -27,7 +27,7 @@ Tool.prototype.addPointStroke = function (point) {
 		this.stroke.push(point);
 	}else {
 		let lastPoint = this.stroke[this.stroke.length - 1];
-		if (point.layer.x !== lastPoint.layer.x || point.layer.y !== lastPoint.layer.y) {
+		if (point.cord.x !== lastPoint.cord.x || point.cord.y !== lastPoint.cord.y) {
 			this.stroke.push(point);
 		}
 	}
@@ -86,23 +86,23 @@ Tool.prototype.fill = function (initCord, newColor, oldColor) {
 Tool.prototype.getLineBetween = function (point1, point2) {
 	point1 = this.clonePoint(point1);
 	point2 = this.clonePoint(point2);
-	let diff = point1.layer.diffAbs(point2.layer, true),
+	let diff = point1.cord.diffAbs(point2.cord, true),
 			err = diff.x - diff.y;
 
 	while (true) {
 		let tempPoint = this.clonePoint(point1);
-		tempPoint.paint = this.canvas.cordLayerToPaint(tempPoint.layer);
-		this.canvas.previewAt(tempPoint.paint, tempPoint.color);
+		tempPoint.cord = this.canvas.cordLayerToPaint(tempPoint.cord);
+		this.canvas.previewAt(tempPoint.cord, tempPoint.color);
 		this.addPointStroke(tempPoint);  // Do what you need to for this
-		if ((point1.layer.x == point2.layer.x) && (point1.layer.y == point2.layer.y)) {
+		if ((point1.cord.x == point2.layer.x) && (point1.cord.y == point2.cord.y)) {
 			break;
 		}
 		let e2 = 2 * err;
 		if (e2 > -diff.y) {
-			err -= diff.y; point1.layer.x  += diff.sx;
+			err -= diff.y; point1.cord.x  += diff.sx;
 		}
 		if (e2 < diff.x) {
-			err += diff.x; point1.layer.y  += diff.sy;
+			err += diff.x; point1.cord.y  += diff.sy;
 		}
 	}
 };
