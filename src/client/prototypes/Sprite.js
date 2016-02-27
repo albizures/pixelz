@@ -54,9 +54,9 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 		frameClone = this.frames[frameClone];
 	}
 	if (!Number.isInteger(newIndex)) {
-		newIndex = clone? frameClone.index + 1 : this.frames.length;
+		newIndex = clone ? frameClone.index + 1 : this.frames.length;
 	}
-	newFrame = clone? frameClone.clone() : new Frame(this, newIndex, true);
+	newFrame = clone ? frameClone.clone() : new Frame(this, newIndex, true);
 	if (clone) {
 		newFrame.index = newIndex;
 		newFrame.layers = frameClone.cloneLayers(newFrame);
@@ -65,13 +65,13 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 	let tempFrames = this.frames.splice(newIndex);
 
 	if (tempFrames.length !== 0) {
-    this.frames = this.frames.concat([newFrame], tempFrames);
+		this.frames = this.frames.concat([newFrame], tempFrames);
 		this.reIndexing();
 	} else {
-	  this.frames.push(newFrame);
+		this.frames.push(newFrame);
 	}
 
-  Editor.getPanel('Frames').addPreview(newFrame);
+	Editor.getPanel('Frames').addPreview(newFrame);
 	//Editor.events.fire(ADD_FRAME, newIndex, this);
 	newFrame.select();
 	newFrame.paint();
