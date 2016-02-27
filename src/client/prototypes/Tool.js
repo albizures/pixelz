@@ -78,7 +78,7 @@ Tool.prototype.fill = function (initCord, newColor, oldColor) {
 					reachRight = false;
 				}
 			}
-		pixelPos += this.layer.width * 4;
+			pixelPos += this.layer.width * 4;
 		}
 	}
 
