@@ -87,7 +87,6 @@ module.exports = {
 		root: MODULES_PATH
 	}
 }
-console.log(module.exports.resolve);
 if (!process.env.PRODUCTION) {
 	const compiler = webpack(module.exports);
 	compiler.apply();

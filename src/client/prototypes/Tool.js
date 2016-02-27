@@ -54,10 +54,10 @@ Tool.prototype.fill = function (initCord, newColor, oldColor) {
 			pixelPos = (cord.y * this.layer.width + cord.x) * 4,
 			reachLeft = false,
 			reachRight = false;
-		while (this.layer.getColorPixel(cord) == oldColor && cord.less(0, 1).y/*--*/ >= 0 ) {
+		while (this.layer.getColorPixel(cord) == oldColor && cord.less(0, 1).y >= 0) {
 			pixelPos -= this.layer.width * 4;
 		}
-		while (cord.y/*++*/ < this.layer.height - 1 && this.layer.getColorPixel(cord.sum(0, 1)) == oldColor) {
+		while (cord.y < this.layer.height - 1 && this.layer.getColorPixel(cord.sum(0, 1)) == oldColor) {
 			// paint
 			this.layer.paintAt(cord.clone(), newColor);
 			if (cord.x > 0) {
