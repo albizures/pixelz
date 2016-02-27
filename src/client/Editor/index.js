@@ -83,7 +83,7 @@ let scale = SCALE_DEF,
 		this.panels.Tools.addTool(tool);
 	},
 	events : require('./events.js'),
-  init () {
+	init () {
 
 		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
 		let index = 0;
