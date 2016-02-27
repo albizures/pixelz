@@ -170,7 +170,7 @@ Canvas.prototype.calculatePosition = function (cord) {
 		paint : paintPosition
 	};
 };
-Canvas.prototype.cordFrameToPaint = function (cord) {
+Canvas.prototype.cordLayerToPaint = function (cord) {
 	let newCord = new Vector(
 		(cord.x * this.artboard.scale) + this.artboard.cord.x,
 		(cord.y * this.artboard.scale) + this.artboard.cord.y
@@ -209,6 +209,12 @@ Canvas.prototype.paintBackground = function () {
 	this.background.rect(this.artboard.cord.x, this.artboard.cord.y, this.artboard.layer.width * this.artboard.scale, this.artboard.layer.height * this.artboard.scale);
 	this.background.fillStyle = pattern;
 	this.background.fill();
+};
+Canvas.prototype.paintAt = function (cord, color) {
+	cord = this.cordLayerToPaint(cord);
+	this.main.fillStyle = color;
+	this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
+	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
 Canvas.prototype.drawAt = function (cord,color) {
 	this.main.fillStyle = color;

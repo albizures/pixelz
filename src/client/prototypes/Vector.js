@@ -3,13 +3,22 @@ function Vector(x, y) {
 	this.x = x || 0;
 	this.y = y || 0;
 }
+
 Vector.prototype.less = function (vector) {
+	if (arguments.length == 2) {
+		vector = new Vector(arguments[0], arguments[1]);
+	}
 	this.x -= vector.x;
 	this.y -= vector.y;
+	return this;
 };
 Vector.prototype.sum = function (vector) {
+	if (arguments.length == 2) {
+		vector = new Vector(arguments[0], arguments[1]);
+	}
 	this.x += vector.x;
 	this.y += vector.y;
+	return this;
 };
 Vector.prototype.diffAbs = function (vector) {
 	return this.diff(vector, true);

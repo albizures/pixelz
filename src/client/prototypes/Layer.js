@@ -59,6 +59,11 @@ Layer.prototype.cloneContext = function () {
 Layer.prototype.validCord = function (cord) {
 	return cord.x >= 0 && cord.x < this.width && cord.y >= 0 && cord.y < this.height;
 };
+Layer.prototype.getColorPixel = function (cord) {
+	let color = this.context.getImageData(cord.x, cord.y, 1, 2);
+
+	return 'rgba(' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ', ' + color.data[3] / 255 + ')';
+};
 Layer.prototype.paintAt = function (cord, color, realCord) {
 	if (!this.validCord(cord)) {
 		return;
@@ -66,11 +71,7 @@ Layer.prototype.paintAt = function (cord, color, realCord) {
 	this.context.fillStyle = color;
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
-	if (!realCord) {
-		realCord = this.canvas.cordFrameToPaint(cord);
-	}
-	this.canvas.drawAt(realCord, color);
-	//Editor.events.fire('paint', realCord, color);
+	this.canvas.paintAt(cord, color);
 };
 Layer.prototype.paintStroke = function (listCords) {
 	for (let i = 0; i < listCords.length; i++) {

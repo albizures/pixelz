@@ -46,36 +46,42 @@ Tool.prototype.clonePoint = function (point) {
 		color : point.color
 	};
 };
-Tool.prototype.getConnectedColors = function (cord, paintColor) {
-	const dx = [0, 1, 0, -1],
-				dy = [-1, 0, 1, 0],
-				bitmap = this.layer.bitmap,
-				color = bitmap[cord.x][cord.y];//|| TRANSPARENT_COLOR;
-	let newStroke = [],
-			layerClone = this.layer.newEmptyBitmap(),
-			queueMatch = [cord],
-			loopCount = 0,
-			cellCount = this.layer.width * this.layer.height;
-	while (queueMatch.length > 0) {
-		loopCount++;
-		let currentMatch = queueMatch.pop();
-		this.layer.paintAt(currentMatch, paintColor);
-		for (let i = 0; i < 4; i++) {
-			let x = currentMatch.x + dx[i],
-					y = currentMatch.y + dy[i];
-			if (this.layer.validCord(new Vector(x, y)) && color == bitmap[x][y] && layerClone[x][y] !== paintColor) {
-				//console.log(x, y,queueMatch);
-				let position = new Vector(x, y);
-				layerClone[x][y] = paintColor;
-				queueMatch.push(position);
-			}
+Tool.prototype.fill = function (initCord, newColor, oldColor) {
+	// NOTE: http://www.williammalone.com/articles/html5-canvas-javascript-paint-bucket-tool/
+	let stack = [initCord];
+	while (stack.length) {
+		let cord = stack.pop(),
+			pixelPos = (cord.y * this.layer.width + cord.x) * 4,
+			reachLeft = false,
+			reachRight = false;
+		while (this.layer.getColorPixel(cord) == oldColor && cord.less(0, 1).y/*--*/ >= 0 ) {
+			pixelPos -= this.layer.width * 4;
 		}
-		if (loopCount > 3 * cellCount) {
-			console.log("loop breaker called");
-			break;
+		while (cord.y/*++*/ < this.layer.height - 1 && this.layer.getColorPixel(cord.sum(0, 1)) == oldColor) {
+			// paint
+			this.layer.paintAt(cord.clone(), newColor);
+			if (cord.x > 0) {
+				if (this.layer.getColorPixel(cord.clone().less(1, 0)) == oldColor) {
+					if (!reachLeft) {
+						stack.push(cord.clone().less(1, 0));
+						reachLeft = true;
+					}
+				} else {
+					reachLeft = false;
+				}
+			}
+			if (cord.x < this.layer.width - 1) {
+				if (this.layer.getColorPixel(cord.clone().sum(1, 0)) == oldColor) {
+					stack.push(cord.clone().sum(1, 0));
+					reachRight = true;
+				} else {
+					reachRight = false;
+				}
+			}
+		pixelPos += this.layer.width * 4;
 		}
 	}
-	//Editor.events.fire(CHANGE_FRAME, UPDATE, this.layer.index, this.layer.sprite);
+
 };
 Tool.prototype.getLineBetween = function (point1, point2) {
 	point1 = this.clonePoint(point1);
@@ -85,7 +91,7 @@ Tool.prototype.getLineBetween = function (point1, point2) {
 
 	while (true) {
 		let tempPoint = this.clonePoint(point1);
-		tempPoint.paint = this.canvas.cordFrameToPaint(tempPoint.layer);
+		tempPoint.paint = this.canvas.cordLayerToPaint(tempPoint.layer);
 		this.canvas.previewAt(tempPoint.paint, tempPoint.color);
 		this.addPointStroke(tempPoint);  // Do what you need to for this
 		if ((point1.layer.x == point2.layer.x) && (point1.layer.y == point2.layer.y)) {
