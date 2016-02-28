@@ -143,31 +143,12 @@ Canvas.prototype.calculatePosition = function (cord) {
 	let outside = false,
 			diffTemp,
 			relativeTemp,
-			layerPosition = new Vector (),
-			paintPosition = new Vector ();
-	if (cord.x <= this.artboard.cord.x || cord.x >= this.artboard.cord.x + this.artboard.width) {
-		outside = true;
-		cord.x = cord.x <= this.artboard.cord.x ? this.artboard.cord.x  + (this.sizePointer / 2)  : this.artboard.cord.x + this.artboard.width  - (this.sizePointer / 2);
-	}
-	diffTemp = cord.x - this.artboard.cord.x;
-	relativeTemp = diffTemp - (diffTemp % this.sizePointer);
-	paintPosition.x = relativeTemp + this.artboard.cord.x;
-	layerPosition.x = Math.round(relativeTemp / this.artboard.scale);
-	if (cord.y <= this.artboard.cord.y || cord.y >= this.artboard.cord.y + this.artboard.height) {
-		outside = true;
-		cord.y = cord.y <= this.artboard.cord.y ? this.artboard.cord.y + (this.sizePointer / 2)  : this.artboard.cord.y + this.artboard.height - (this.sizePointer / 2) ;
-	}
-	diffTemp = cord.y - this.artboard.cord.y;
-	relativeTemp = diffTemp - (diffTemp % this.sizePointer);
-	paintPosition.y = relativeTemp + this.artboard.cord.y;
-	layerPosition.y = Math.round(relativeTemp / this.artboard.scale);
-	if (layerPosition.x < 0 || layerPosition.y < 0 || layerPosition.x > 59 || layerPosition.y > 59) {
-		debugger;
-	}
+			newCord = new Vector ();
+
+	newCord.x = Math.floor((cord.x - this.artboard.cord.x) / this.artboard.scale);
+	newCord.y = Math.floor((cord.y - this.artboard.cord.y) / this.artboard.scale);
 	return {
-		out : outside,
-		cord : layerPosition//,
-		//paint : paintPosition
+		cord : newCord
 	};
 };
 Canvas.prototype.cordLayerToPaint = function (cord) {

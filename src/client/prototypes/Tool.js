@@ -22,28 +22,10 @@ defineGetter(Tool.prototype, 'layer', function () {
 Tool.prototype.selectTool = function () {
 	Editor.events.fire(SELECT_TOOL, this.name);
 };
-Tool.prototype.addPointStroke = function (point) {
-	if (this.stroke.length == 0) {
-		this.stroke.push(point);
-	}else {
-		let lastPoint = this.stroke[this.stroke.length - 1];
-		if (point.cord.x !== lastPoint.cord.x || point.cord.y !== lastPoint.cord.y) {
-			this.stroke.push(point);
-		}
-	}
-
-};
-Tool.prototype.cleanStroke = function () {
-	let tempStroke = this.stroke;
-	this.stroke = [];
-	return tempStroke;
-};
-Tool.prototype.clonePoint = function (point) {
+Tool.prototype.clonePixel = function (pixel) {
 	return {
-		layer : point.layer.clone(),
-		paint : point.paint.clone(),
-		out : point.out,
-		color : point.color
+		cord : pixel.cord.clone(),
+		color : pixel.color
 	};
 };
 Tool.prototype.fill = function (initCord, newColor, oldColor) {
@@ -83,26 +65,24 @@ Tool.prototype.fill = function (initCord, newColor, oldColor) {
 	}
 
 };
-Tool.prototype.getLineBetween = function (point1, point2) {
-	point1 = this.clonePoint(point1);
-	point2 = this.clonePoint(point2);
-	let diff = point1.cord.diffAbs(point2.cord, true),
+Tool.prototype.paintLineBetween = function (pixel1, pixel2) {
+	pixel1 = this.clonePoint(pixel1);
+	pixel2 = this.clonePoint(pixel2);
+	let diff = pixel1.cord.diffAbs(pixel2.cord, true),
 			err = diff.x - diff.y;
 
 	while (true) {
-		let tempPoint = this.clonePoint(point1);
-		tempPoint.cord = this.canvas.cordLayerToPaint(tempPoint.cord);
-		this.canvas.previewAt(tempPoint.cord, tempPoint.color);
-		this.addPointStroke(tempPoint);  // Do what you need to for this
-		if ((point1.cord.x == point2.layer.x) && (point1.cord.y == point2.cord.y)) {
+		let tempPoint = this.clonePixel(pixel1);
+		this.layer.paintAt(tempPoint.cord, tempPoint.color); // Do what you need to for this
+		if ((pixel1.cord.x == pixel2.cord.x) && (pixel1.cord.y == pixel2.cord.y)) {
 			break;
 		}
 		let e2 = 2 * err;
 		if (e2 > -diff.y) {
-			err -= diff.y; point1.cord.x  += diff.sx;
+			err -= diff.y; pixel1.cord.x  += diff.sx;
 		}
 		if (e2 < diff.x) {
-			err += diff.x; point1.cord.y  += diff.sy;
+			err += diff.x; pixel1.cord.y  += diff.sy;
 		}
 	}
 };
