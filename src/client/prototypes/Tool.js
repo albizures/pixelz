@@ -20,7 +20,7 @@ defineGetter(Tool.prototype, 'layer', function () {
 	return Editor.canvas.artboard.layer;
 });
 Tool.prototype.selectTool = function () {
-	Editor.events.fire(SELECT_TOOL, this.name);
+	Editor.getPanel('Tools').changeCurrentTool(this.name);
 };
 Tool.prototype.clonePixel = function (pixel) {
 	return {

@@ -204,16 +204,13 @@ Canvas.prototype.drawAt = function (cord,color) {
 	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
 Canvas.prototype.cleanMain = function () {
-	this.main.canvas.height = this.main.canvas.height;
-	this.main.canvas.width = this.main.canvas.width;
+	this.main.clearRect(0, 0, this.main.canvas.width, this.main.canvas.height);
 };
 Canvas.prototype.cleanBackground = function () {
-	this.background.canvas.height = this.background.canvas.height;
-	this.background.canvas.width = this.background.canvas.width;
+	this.background.clearRect(0, 0, this.background.canvas.width, this.background.canvas.height);
 };
 Canvas.prototype.cleanPrev = function () {
-	this.preview.canvas.height = this.preview.canvas.height;
-	this.preview.canvas.width = this.preview.canvas.width;
+	this.preview.clearRect(0, 0, this.preview.canvas.width, this.preview.canvas.height);
 };
 
 module.exports = Canvas;

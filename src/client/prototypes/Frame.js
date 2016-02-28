@@ -111,7 +111,11 @@ Frame.prototype.getIMG = function () {
 	image.src = this.context.canvas.toDataURL();
 	return image;
 };
+Frame.prototype.clean = function () {
+	this.context.clearRect(0, 0,  this.context.canvas.width, this.context.canvas.height)
+};
 Frame.prototype.paint = function (init) {
+	this.clean();
 	for (let i = this.layers.length - 1; -1 < i; i--) {
 		let layer = this.layers[i];
 		this.context.drawImage(layer.context.canvas, 0, 0);

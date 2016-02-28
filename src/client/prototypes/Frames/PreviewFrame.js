@@ -87,8 +87,12 @@ PreviewFrame.prototype.appendTo = function (el) {
 	return this;
 };
 PreviewFrame.prototype.paint = function () {
-	this.context.canvas.width = this.context.canvas.width;
+	this.clean();
 	imageSmoothingDisabled(this.context);
 	this.context.drawImage(this.frame.context.canvas, 0, 0, this.frame.width * this.scale, this.frame.height * this.scale);
+};
+PreviewFrame.prototype.clean = function () {
+	this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+	//this.context.canvas.width = this.context.canvas.width;
 };
 module.exports = PreviewFrame;

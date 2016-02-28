@@ -76,6 +76,6 @@ Preview.loop = function () {
 	this.preview.drawImage(Editor.sprite.frames[index].context.canvas, 0, 0, this.preview.canvas.width, this.preview.canvas.height);
 };
 Preview.clean = function () {
-	this.preview.canvas.height = this.preview.canvas.height;
+	this.preview.clearRect(0, 0,  this.preview.canvas.width, this.preview.canvas.height);
 };
 module.exports = () => Editor.addPanel(Preview);
