@@ -19,11 +19,8 @@ Preview.mainInit = function () {
 		this.preview.canvas
 	]);
 
-
-	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
-	Editor.events.on(DELETE_FRAME + '.' + this.name, this.changeFrame, this);
-
 	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
+	this.start();
 };
 Preview.paintBackground = function () {
 	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
@@ -31,10 +28,10 @@ Preview.paintBackground = function () {
 	this.background.fillStyle = pattern;
 	this.background.fill();
 };
-Preview.changeFrame = function (type) {
+Preview.selectFrame = function (type) {
 	index = 0;
 };
-Preview.changeSprite = function (sprite) {
+Preview.selectSprite = function (sprite) {
 	this.scale;
 	if (sprite.width > sprite.height) {
 		this.scale = this.contentPreview.clientWidth / sprite.width;
