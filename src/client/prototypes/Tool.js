@@ -66,8 +66,8 @@ Tool.prototype.fill = function (initCord, newColor, oldColor) {
 
 };
 Tool.prototype.paintLineBetween = function (pixel1, pixel2) {
-	pixel1 = this.clonePoint(pixel1);
-	pixel2 = this.clonePoint(pixel2);
+	pixel1 = this.clonePixel(pixel1);
+	pixel2 = this.clonePixel(pixel2);
 	let diff = pixel1.cord.diffAbs(pixel2.cord, true),
 			err = diff.x - diff.y;
 
