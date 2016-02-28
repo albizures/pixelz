@@ -44,7 +44,8 @@ PreviewFrame.prototype.deleteFrame = function (evt) {
 	evt.stopPropagation();
 	this.frame.delete();
 };
-PreviewFrame.prototype.update = function () {
+PreviewFrame.prototype.changeFrame = function (frame) {
+	this.frame = frame;
 	this.paint();
 };
 PreviewFrame.prototype.selectFrame = function () {

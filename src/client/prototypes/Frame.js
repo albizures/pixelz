@@ -4,12 +4,14 @@ const { imageSmoothing } = require('../utils.js'),
 	Layer = require('./Layer.js'),
 	{ UPDATE_FRAME } = require('../constants').events;
 
-function Frame(sprite, index, status, layers) {
+function Frame(sprite, index, status, layers, clone) {
 	this.sprite = sprite;
 	this.index = index;
 	this.status = status;
 	this.layers = layers || [new Layer(this, 0)];
-	this.init();
+	if (!clone) {
+		this.init();
+	}
 }
 Frame.prototype = {
 	constructor : Frame,
@@ -52,7 +54,6 @@ Frame.prototype.cloneLayers = function (frame) {
 	frame = frame || this;
 	for (let i = 0; i < this.layers.length; i++) {
 		let newLayer = this.layers[i].clone(frame);
-		console.trace(newLayer.context.canvas.toDataURL());
 		layers.push(newLayer);
 	}
 	return layers;
@@ -71,7 +72,7 @@ Frame.prototype.select = function () {
 };
 Frame.prototype.clone = function (sprite) {
 	sprite = sprite || this.sprite;
-	return new Frame(sprite, this.index, this.status);
+	return new Frame(sprite, this.index + 1, this.status, this.cloneLayers(), true);
 };
 Frame.prototype.addLayer = function (layerClone, newIndex) {
 	let clone = false,
@@ -88,14 +89,19 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 	newLayer = clone ? layerClone.clone() : new Layer(this, newIndex, true);
 	if (clone) {
 		newLayer.index = newIndex;
-		newLayer.context = layerClone.cloneContext(newLayer);
+		//newLayer.context = layerClone.cloneContext();
 	}
 
 	let tempLayers = this.layers.splice(newIndex);
-	this.layers = this.layers.concat([newLayer], tempLayers);
 
 	if (tempLayers.length !== 0) {
+		this.layers = this.layers.concat([newLayer], tempLayers);
 		this.reIndexing();
+	} else {
+		this.layers.push(newLayer);
+	}
+	if (clone) {
+		newLayer.init();
 	}
 	Editor.getPanel('Layers').updateLayers();
 	return newLayer;
@@ -108,21 +114,11 @@ Frame.prototype.getIMG = function () {
 Frame.prototype.paint = function (init) {
 	for (let i = this.layers.length - 1; -1 < i; i--) {
 		let layer = this.layers[i];
-		// this.context.drawImage(layer.context.canvas,
-		// 	0, 0, this.width, this.height,
-		// 	0, 0, this.width, this.height
-		// );
 		this.context.drawImage(layer.context.canvas, 0, 0);
 	}
 	Editor.getPanel('Frames').paintFrame(this.index);
 	this.sprite.paint();
 };
-// Frame.prototype.paintStroke = function (listCords,index) {
-// 	for (let i = 0; i < listCords.length; i++) {
-// 		this.paintAt(listCords[i].frame, listCords[i].color, listCords[i].paint);
-// 	}
-// 	Editor.events.fire(CHANGE_FRAME, UPDATE, this.index, this.sprite);
-// };
 Frame.prototype.generatePreview = function (scale) {
 	return this.context;
 };

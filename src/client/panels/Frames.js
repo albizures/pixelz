@@ -59,17 +59,16 @@ Frames.selectFrame = function (index) {
 	currentFrame = index;
 };
 Frames.addPreview = function (frame) {
-	previewFrames[frame.index] = new PreviewFrame(frame, frame.index == currentFrame).appendTo(ul);;
-	// let newFrame = new PreviewFrame(frame, frame.index == currentFrame);
-	//
-	// if (previewFrames[frame.index]) {
-	// 	let tempFrames = previewFrames.splice(index);
-	// 	previewFrames = previewFrames.concat([newFrame], tempFrames);
-	// 	return this.reAppend();
-	// }
-	// previewFrames[frame.index] = newFrame;
-	// previewFrames[frame.index].appendTo(ul);
-	// previewFrames[frame.index].updatePreview();
+	if (previewFrames[frame.index]) {
+		if (previewFrames[frame.index].frame.index !== frame.index) {
+			this.addPreview(previewFrames[frame.index].frame);
+			previewFrames[frame.index].changeFrame(frame);
+		} else {
+			return;
+		}
+	} else {
+		previewFrames[frame.index] = new PreviewFrame(frame, frame.index == currentFrame).appendTo(ul);
+	}
 };
 Frames.reAppend = function () {
 	for (let i = 0; i < previewFrames.length; i++) {

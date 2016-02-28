@@ -72,6 +72,9 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 	} else {
 		this.frames.push(newFrame);
 	}
+	if (clone) {
+		newFrame.init();
+	}
 	newFrame.select();
 	newFrame.paint();
 	return newFrame;

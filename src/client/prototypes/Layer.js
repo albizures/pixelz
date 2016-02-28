@@ -31,9 +31,11 @@ Layer.prototype = {
 	}
 };
 Layer.prototype.init = function () {
+	let tempData = this.context.getImageData(0, 0, this.context.canvas.width, this.context.canvas.height);
 	imageSmoothing(this.context, false);
 	this.context.canvas.width = this.width;
 	this.context.canvas.height = this.height;
+	this.context.putImageData(tempData, 0, 0);
 	Editor.getPanel('Layers').addPreview(this);
 };
 Layer.prototype.delete = function () {

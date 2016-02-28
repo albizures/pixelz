@@ -29,7 +29,11 @@ Layers.createPreviewLayer = function () {
 };
 Layers.addPreview = function (layer) {
 	if (layersPreview[layer.index]) {
-		layersPreview[layer.index].changeLayer(layer);
+		if (layersPreview[layer.index].layer.index !== layer.index) {
+			layersPreview[layer.index].changeLayer(layer);
+		} else {
+			return;
+		}
 	} else {
 		layersPreview[layer.index] = new PreviewLayer(layer).appendTo(this.ul);
 	}
