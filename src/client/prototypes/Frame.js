@@ -31,6 +31,7 @@ Frame.prototype.init = function () {
 	imageSmoothing(this.context, false);
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
+	Editor.getPanel('Frames').addPreview(this);
 	this.paint(true);
 };
 Frame.prototype.addLayer = function (indexClone, newIndex) {
@@ -67,7 +68,6 @@ Frame.prototype.selectLayer = function (layer) {
 Frame.prototype.select = function () {
 	Editor.getPanel('Frames').selectFrame(this.index);
 	this.layers[0].select();
-	Editor.getPanel('Layers').updateLayers();
 };
 Frame.prototype.clone = function (sprite) {
 	sprite = sprite || this.sprite;
@@ -114,9 +114,8 @@ Frame.prototype.paint = function (init) {
 		// );
 		this.context.drawImage(layer.context.canvas, 0, 0);
 	}
-	if (!init) {
-		Editor.events.fire(UPDATE_FRAME, this.index, this.sprite);
-	}
+	Editor.getPanel('Frames').paintFrame(this.index);
+	this.sprite.paint();
 };
 // Frame.prototype.paintStroke = function (listCords,index) {
 // 	for (let i = 0; i < listCords.length; i++) {

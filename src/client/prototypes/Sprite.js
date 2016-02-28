@@ -6,6 +6,7 @@ function Sprite(width, height) {
 	this.height = height;
 	this.frames = [];
 	this.frames.push(new Frame(this, 0, true));
+	Editor.getPanel('Preview').selectSprite(this);
 }
 Sprite.prototype.getFrame = function (index) {
 	return this.frames[index];
@@ -36,6 +37,7 @@ Sprite.prototype.reIndexing = function () {
 		this.frames[i].index = i;
 	}
 };
+Sprite.prototype.paint = function () {};
 Sprite.prototype.selectFrame = function (frame) {
 	if (Number.isInteger(frame)) {
 		frame = this.frames[frame];
@@ -70,9 +72,6 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 	} else {
 		this.frames.push(newFrame);
 	}
-
-	Editor.getPanel('Frames').addPreview(newFrame);
-	//Editor.events.fire(ADD_FRAME, newIndex, this);
 	newFrame.select();
 	newFrame.paint();
 	return newFrame;

@@ -34,7 +34,7 @@ function PreviewFrame(frame, selected) {
 }
 inheritanceObject(PreviewFrame, AppendObject);
 PreviewFrame.prototype.onClick = function (evt) {
-	Editor.events.fire(SELECT_FRAME, this.frame);
+	this.frame.select();
 };
 PreviewFrame.prototype.cloneFrame = function (evt) {
 	evt.stopPropagation();
@@ -43,6 +43,9 @@ PreviewFrame.prototype.cloneFrame = function (evt) {
 PreviewFrame.prototype.deleteFrame = function (evt) {
 	evt.stopPropagation();
 	this.frame.delete();
+};
+PreviewFrame.prototype.update = function () {
+	this.paint();
 };
 PreviewFrame.prototype.selectFrame = function () {
 	this.selected = true;
@@ -67,7 +70,7 @@ PreviewFrame.prototype.resize = function () {
 		this.background.canvas.style.marginLeft = this.context.canvas.style.marginLeft = (size - this.background.canvas.width) / 2 + 'px';
 	}
 	this.paintBackground();
-	this.updatePreview();
+	this.paint();
 };
 PreviewFrame.prototype.paintBackground = function () {
 	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
@@ -80,8 +83,9 @@ PreviewFrame.prototype.appendTo = function (el) {
 	this.resize();
 	this.el.classList.remove('active');
 	this.spanIndex.textContent = this.frame.index + 1;
+	return this;
 };
-PreviewFrame.prototype.updatePreview = function () {
+PreviewFrame.prototype.paint = function () {
 	this.context.canvas.width = this.context.canvas.width;
 	imageSmoothingDisabled(this.context);
 	this.context.drawImage(this.frame.context.canvas, 0, 0, this.frame.width * this.scale, this.frame.height * this.scale);

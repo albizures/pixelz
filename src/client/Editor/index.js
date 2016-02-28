@@ -77,7 +77,7 @@ let scale = SCALE_DEF,
 				};
 			}
 		}
-		this.events.on(RESIZE_PANEL + '.editor', this.onResizePanel, this);
+		//this.events.on(RESIZE_PANEL + '.editor', this.onResizePanel, this);
 	},
 	addTool (tool) {
 		this.panels.Tools.addTool(tool);
@@ -85,12 +85,10 @@ let scale = SCALE_DEF,
 	events : require('./events.js'),
 	init () {
 
+		this.initPanels();
 		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
 		let index = 0;
 		this.canvas = new Canvas(this.sprite.frames[index].layers[0], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)));
-		this.initPanels();
-		Editor.events.fire(CHANGE_SPRITE, this.sprite);
-		this.getPanel('Frames').addPreview(this.sprite.frames[0]);
 		console.timeEnd('canvas');
 	}
 };

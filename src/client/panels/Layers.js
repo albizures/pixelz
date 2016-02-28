@@ -13,7 +13,7 @@ Layers.mainInit = function () {
 	this.el.appendChild(btnAddLayer);
 	this.ul = document.createElement('ul');
 	this.ul = make(['ul', {className : 'layers-list', parent : this.el}]);
-	this.createPreviewLayer();
+	//this.createPreviewLayer();
 	$(btnAddLayer).on('click.add', this.createLayer.bind(this));
 };
 Layers.createLayer = function () {
@@ -27,6 +27,13 @@ Layers.createPreviewLayer = function () {
 		//this.el.appendChild(createSpan(this.layers[i].index + 1));
 	}
 };
+Layers.addPreview = function (layer) {
+	if (layersPreview[layer.index]) {
+		layersPreview[layer.index].changeLayer(layer);
+	} else {
+		layersPreview[layer.index] = new PreviewLayer(layer).appendTo(this.ul);
+	}
+};
 Layers.selectLayer = function (index) {
 	if (layersPreview[currentLayer]) {
 		layersPreview[currentLayer].unSelectLayer();
@@ -37,4 +44,5 @@ Layers.selectLayer = function (index) {
 Layers.updateLayers = function () {
 	this.createPreviewLayer();
 };
+Layers.paintLayer = function () {};
 module.exports = () => Editor.addPanel(Layers);

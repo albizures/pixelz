@@ -17,11 +17,6 @@ Frames.mainInit = function () {
 		btnAdd,
 		[ul, { id : 'preview-frames'}]
 	]);
-	//Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
-	//Editor.events.on(CHANGE_FRAME + '.' + this.name, this.changeFrame, this);
-	Editor.events.on(DELETE_FRAME + '.' + this.name, this.deleteFrame, this);
-	Editor.events.on(UPDATE_FRAME + '.' + this.name, this.updateFrame, this);
-	//Editor.events.on(ADD_FRAME + '.' + this.name, this.addPreview, this);
 	$(btnAdd).on('click.add', this.createFrame.bind(this));
 };
 Frames.createFrame = function () {
@@ -48,8 +43,8 @@ Frames.deleteFrame = function (index) {
 	previewFrames.splice(index, 1);
 	this.reAppend();
 };
-Frames.updateFrame = function (index, sprite) {
-	previewFrames[index].updatePreview();
+Frames.paintFrame = function (index) {
+	previewFrames[index].paint();
 };
 Frames.addFrame = function () {
 	console.info('addFrame');
@@ -64,16 +59,17 @@ Frames.selectFrame = function (index) {
 	currentFrame = index;
 };
 Frames.addPreview = function (frame) {
-	let newFrame = new PreviewFrame(frame, frame.index == currentFrame);
-
-	if (previewFrames[frame.index]) {
-		let tempFrames = previewFrames.splice(index);
-		previewFrames = previewFrames.concat([newFrame], tempFrames);
-		return this.reAppend();
-	}
-	previewFrames[frame.index] = newFrame;
-	previewFrames[frame.index].appendTo(ul);
-	previewFrames[frame.index].updatePreview();
+	previewFrames[frame.index] = new PreviewFrame(frame, frame.index == currentFrame).appendTo(ul);;
+	// let newFrame = new PreviewFrame(frame, frame.index == currentFrame);
+	//
+	// if (previewFrames[frame.index]) {
+	// 	let tempFrames = previewFrames.splice(index);
+	// 	previewFrames = previewFrames.concat([newFrame], tempFrames);
+	// 	return this.reAppend();
+	// }
+	// previewFrames[frame.index] = newFrame;
+	// previewFrames[frame.index].appendTo(ul);
+	// previewFrames[frame.index].updatePreview();
 };
 Frames.reAppend = function () {
 	for (let i = 0; i < previewFrames.length; i++) {

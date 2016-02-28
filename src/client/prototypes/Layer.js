@@ -34,6 +34,7 @@ Layer.prototype.init = function () {
 	imageSmoothing(this.context, false);
 	this.context.canvas.width = this.width;
 	this.context.canvas.height = this.height;
+	Editor.getPanel('Layers').addPreview(this);
 };
 Layer.prototype.delete = function () {
 	this.frame.deleteLayer(this.index);
@@ -72,6 +73,8 @@ Layer.prototype.paintAt = function (cord, color) {
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
 	this.canvas.paintAt(cord, color);
+	Editor.getPanel('Layers').paintLayer(this.index);
+	this.frame.paint();
 };
 Layer.prototype.paintStroke = function (listCords) {
 	for (let i = 0; i < listCords.length; i++) {
