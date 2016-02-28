@@ -11,8 +11,7 @@ const {TRANSPARENT_COLOR, PALETTE} = require('../../constants/index.js'),
 			Palette = new Panel(PALETTE, SNAP, undefined, 300, 300, BR);
 
 let time = 0.5 * 1000, loop, index = 0, ctx,
-		colors = ['rgba(26, 188, 156, 1)', 'rgba(241, 196, 15, 1)', 'rgba(52, 152, 219, 1)', 'rgba(230, 126, 34, 1)', 'rgba(231, 76, 60, 1)', 'rgba(189, 195, 199, 1)', 'rgba(155, 89, 182, 1)', 'rgba(52, 73, 94, 1)', 'rgba(127, 140, 141, 1)'],
-		mainColor,secondColor = TRANSPARENT_COLOR;
+		colors = ['rgba(26, 188, 156, 1)', 'rgba(241, 196, 15, 1)', 'rgba(52, 152, 219, 1)', 'rgba(230, 126, 34, 1)', 'rgba(231, 76, 60, 1)', 'rgba(189, 195, 199, 1)', 'rgba(155, 89, 182, 1)', 'rgba(52, 73, 94, 1)', 'rgba(127, 140, 141, 1)'];
 inputColor.classList.add('input-color');
 
 Palette.mainInit = function () {
@@ -20,7 +19,8 @@ Palette.mainInit = function () {
 
 	this.el.appendChild(divColors);
 	this.el.appendChild(inputColor);
-	inputColor.style.background = mainColor = colors[0];
+	Editor.getPanel('Tools').setSecudaryColor(TRANSPARENT_COLOR);
+	inputColor.style.background = Editor.getPanel('Tools').setPrimaryColor(colors[0]);
 	this.generateColors();
 	pickers.callbackUpdate = this.changeColor;
 	pickers.appendTo(this.el);
@@ -34,18 +34,12 @@ Palette.generateColors = function () {
 };
 Palette.onClickColor = function (evt) {
 	evt.stopImmediatePropagation();
-	Editor.events.fire(CHANGE_COLOR, this.color);
-	mainColor = this.color;
+	inputColor.style.background = Editor.getPanel('Tools').setPrimaryColor(this.color);
+	this.changeColor(this.color);
 	return false;
 };
 Palette.changeColor = function (color) {
-	mainColor = inputColor.style.background = inputColor.value = color;
-};
-Palette.getSecondColor = function () {
-	return secondColor;
-};
-Palette.getMainColor = function () {
-	return mainColor;
+	inputColor.style.background = Editor.getPanel('Tools').setPrimaryColor(color);
 };
 
 module.exports = () => Editor.addPanel(Palette);
