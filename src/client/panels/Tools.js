@@ -23,7 +23,22 @@ Tools.mainInit = function () {
 	for (let i = 0, keys = Object.keys(this.tools); i < keys.length; i++) {
 		this.tools[keys[i]].appendTo(this.el);
 	}
-	Editor.events.on(SELECT_TOOL + '.' + this.name, this.changeCurrentTool, this);
+};
+Tools.getPrimaryColor = function () {
+	return this.primaryColor.color;
+};
+Tools.getSecondColor = function () {
+	return this.secondaryColor.color;
+};
+Tools.setPrimaryColor = function (color) {
+	this.primaryColor.color = color;
+	this.primaryColor.el.style.background = color;
+	return color;
+};
+Tools.setSecudaryColor = function (color) {
+	this.secondaryColor.color = color;
+	this.secondaryColor.el.style.background = color;
+	return color;
 };
 Tools.changeCurrentTool = function (name) {
 	this.currentTool = this.tools[name];

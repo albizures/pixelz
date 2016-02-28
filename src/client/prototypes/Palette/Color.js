@@ -11,10 +11,10 @@ function Color(color, active) {
 	this.el.style.background = color;
 	this.active = active;
 	this.el.style.height = this.el.style.width = SIZE_COLOR_BLOCK + 'px';
-	Editor.events.on(CHANGE_COLOR + '.' + this.color, this.changeColor, this);
 }
 inheritanceObject(Color, AppendObject);
 Color.prototype.changeColor = function (color) {
+	// TODO: remove this function and create select function
 	if (this.color == color) {
 		this.el.classList.add('active');
 		this.active = true;

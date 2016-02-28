@@ -8,13 +8,13 @@ pencil.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
 		this.clicked = true;
 		lastPixel = this.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
-		lastPixel.color = evt.which === RIGHT_CLICK ? Editor.palette.getSecondColor() : Editor.palette.getMainColor();
+		lastPixel.color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
 	}
 };
 pencil.onMouseMove = function (evt) {
 	if (this.clicked) {
 		let newPixel = this.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
-		newPixel.color = evt.which === RIGHT_CLICK ? Editor.palette.getSecondColor() : Editor.palette.getMainColor();
+		newPixel.color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
 		if (lastPixel.cord.importantDiff(newPixel.cord)) {
 			this.paintLineBetween(lastPixel, newPixel);
 		} else {
