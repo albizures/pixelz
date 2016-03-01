@@ -112,7 +112,7 @@ Frame.prototype.getIMG = function () {
 	return image;
 };
 Frame.prototype.clean = function () {
-	this.context.clearRect(0, 0,  this.context.canvas.width, this.context.canvas.height)
+	this.context.clearRect(0, 0,  this.context.canvas.width, this.context.canvas.height);
 };
 Frame.prototype.paint = function (init) {
 	this.clean();
