@@ -96,9 +96,13 @@ if (!process.env.PRODUCTION) {
 		poll: true // use polling instead of native watchers
 			// pass a number to set the polling interval
 	}, function (err, stats) {
-		console.log('ended');
-		console.log(stats.toString({
-			colors: true
-		}));
+    if (err) {
+      console.log('Error', err);
+    } else {
+      console.log('ended', err);
+      console.log(stats.toString({
+        colors: true
+      }));
+    }
 	});
 }
