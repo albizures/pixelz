@@ -36,11 +36,6 @@ Frame.prototype.init = function () {
 	Editor.getPanel('Frames').addPreview(this);
 	this.paint(true);
 };
-Frame.prototype.addLayer = function (indexClone, newIndex) {
-	// TODO: add layers
-
-	this.layers.push(new Layer(this, this.layers.length));
-};
 Frame.prototype.deleteLayer = function (index) {
 	if (this.layers.length == 1) {
 		// TODO: create alert
@@ -123,6 +118,7 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 	if (clone) {
 		newLayer.init();
 	}
+	newLayer.select();
 	Editor.getPanel('Layers').updateLayers();
 	return newLayer;
 };
