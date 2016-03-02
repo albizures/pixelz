@@ -10,7 +10,7 @@ function Tool(name) {
 	this.name = name;
 	this.el.textContent = this.name[0];
 	this.stroke = [];
-	this.el.addEventListener('click', this.selectTool.bind(this));
+	this.el.addEventListener('click', this.select.bind(this));
 }
 inheritanceObject(Tool, AppendObject);
 defineGetter(Tool.prototype, 'canvas', function () {
@@ -19,7 +19,7 @@ defineGetter(Tool.prototype, 'canvas', function () {
 defineGetter(Tool.prototype, 'layer', function () {
 	return Editor.canvas.artboard.layer;
 });
-Tool.prototype.selectTool = function () {
+Tool.prototype.select = function () {
 	Editor.getPanel('Tools').changeCurrentTool(this.name);
 };
 Tool.prototype.clonePixel = function (pixel) {
