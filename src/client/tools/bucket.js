@@ -6,7 +6,6 @@ const Tool = require('../prototypes/Tool.js'),
 
 bucket.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
-		this.clicked = true;
 		let newPixel = this.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
 		newPixel.color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
 		if (newPixel.color !== this.layer.getColorPixel(newPixel.cord)) {
