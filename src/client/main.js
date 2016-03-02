@@ -9,6 +9,7 @@ const make = require('./utils.js').make,
 			Tools = require('./panels/Tools.js'),
 			Layers = require('./panels/Layers.js'),
 			bucket = require('./tools/bucket.js'),
+			eraser = require('./tools/eraser.js'),
 			pencil = require('./tools/pencil.js');
 
 window.onload = () => {
@@ -24,6 +25,7 @@ window.onload = () => {
 	//tools
 	pencil();
 	bucket();
+	eraser();
 
 	//init
 	Editor.init();
