@@ -11,12 +11,18 @@ function PreviewLayer(layer, selected) {
 	this.layer.selected = selected;
 	this.el.textContent = 'layer ' +  (this.layer.index + 1);
 	this.btnClone = make('button', {parent : this.el}, 'c');
+	this.btnDelete = make('button', {parent : this.el}, 'd');
+
+	$(this.btnDelete).on('click.delete', this.onDelete.bind(this));
 	$(this.btnClone).on('click.clone', this.onClone.bind(this));
 	$(this.el).on('click.layer', this.onClick.bind(this));
 }
 inheritanceObject(PreviewLayer, AppendObject);
 PreviewLayer.prototype.onClone = function (evt) {
 	this.layer.frame.addLayer(this.layer);
+};
+PreviewLayer.prototype.onDelete = function (evt) {
+	this.layer.delete();
 };
 PreviewLayer.prototype.selectLayer = function () {
 

@@ -39,7 +39,9 @@ Layer.prototype.init = function () {
 	Editor.getPanel('Layers').addPreview(this);
 };
 Layer.prototype.delete = function () {
-	this.frame.deleteLayer(this.index);
+	if (this.frame.deleteLayer(this.index)) {
+		Editor.getPanel('Layers').deletePreview(this.index);
+	}
 };
 Layer.prototype.getIMG = function () {
 	let image = document.createElement('img');

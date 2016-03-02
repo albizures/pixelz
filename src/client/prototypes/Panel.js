@@ -31,7 +31,6 @@ function Panel(name, type, position, width, height, snapType) {
 inheritanceObject(Panel, AppendObject);
 
 defineGetter(Panel.prototype, 'layers', function () {
-	console.trace('lele');
 	return Editor.canvas.artboard.layer.frame.layers;
 });
 defineGetter(Panel.prototype, 'frame', function () {

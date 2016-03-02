@@ -6,7 +6,7 @@ const Panel = require('../prototypes/Panel.js'),
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
 			Vector = require('../prototypes/Vector.js'),
-			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 140, 70, TL),
+			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 180, 40, TL),
 			ul =	document.createElement('ul'),
 			btnAdd = document.createElement('button');
 let previewFrames = [], currentFrame = 0;

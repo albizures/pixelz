@@ -27,6 +27,18 @@ Layers.createPreviewLayer = function () {
 		//this.el.appendChild(createSpan(this.layers[i].index + 1));
 	}
 };
+Layers.deletePreview = function (index) {
+	if (!layersPreview[index]) {
+		return;
+	}
+	if (layersPreview[index + 1] && layersPreview[index + 1].layer.index == index) {
+		layersPreview[index].changeLayer(this.layers[index]);
+		this.deletePreview(index + 1);
+	} else {
+		layersPreview[index].remove();
+		layersPreview.splice(index, 1);
+	}
+};
 Layers.addPreview = function (layer) {
 	if (layersPreview[layer.index]) {
 		if (layersPreview[layer.index].layer.index !== layer.index) {

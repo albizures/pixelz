@@ -41,6 +41,24 @@ Frame.prototype.addLayer = function (indexClone, newIndex) {
 
 	this.layers.push(new Layer(this, this.layers.length));
 };
+Frame.prototype.deleteLayer = function (index) {
+	if (this.layers.length == 1) {
+		// TODO: create alert
+		alert('can\'t delete last frames');
+		return false;
+	}else {
+		let layerDelete = this.layers.splice(index, 1)[0];
+		this.reIndexing();
+		if (layerDelete && layerDelete.index == Editor.canvas.artboard.layer.index) {
+			if (this.layers.length <= index) {
+				index--;
+			}
+			this.layers[index].select();
+		}
+		this.paint();
+		return true;
+	}
+};
 Frame.prototype.delete = function () {
 	if (this.sprite.deleteFrame(this.index)) {
 		Editor.getPanel('Frames').deletePreview(this.index);
