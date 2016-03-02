@@ -15,20 +15,17 @@ Sprite.prototype.deleteFrame = function (index) {
 	if (this.frames.length == 1) {
 		// TODO: create alert
 		alert('can\'t delete last frames');
+		return false;
 	}else {
-		let frameDelete = this.frames.splice(index, 1),
-				currentIndex = Editor.canvas.artboard.layer.frame.index;
+		let frameDelete = this.frames.splice(index, 1)[0];
 		this.reIndexing();
-		Editor.events.fire(DELETE_FRAME, index, this);
-		if (frameDelete[0] && frameDelete[0].selected) {
-			if (index !== 0) {
-				Editor.events.fire(SELECT_FRAME, this.frames[index - 1]);
-			}else {
-				Editor.events.fire(SELECT_FRAME, this.frames[index]);
+		if (frameDelete && frameDelete.index == Editor.canvas.artboard.layer.frame.index) {
+			if (this.frames.length <= index) {
+				index--;
 			}
-		}else if (frameDelete[0] && frameDelete[0].index < currentIndex) {
-			Editor.events.fire(SELECT_FRAME, this.frames[currentIndex - 1]);
+			this.frames[index].select();
 		}
+		return true;
 	}
 };
 

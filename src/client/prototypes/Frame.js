@@ -42,7 +42,9 @@ Frame.prototype.addLayer = function (indexClone, newIndex) {
 	this.layers.push(new Layer(this, this.layers.length));
 };
 Frame.prototype.delete = function () {
-	this.sprite.deleteFrame(this.index);
+	if (this.sprite.deleteFrame(this.index)) {
+		Editor.getPanel('Frames').deletePreview(this.index);
+	}
 };
 Frame.prototype.reIndexing = function () {
 	for (let i = 0; i < this.layers.length; i++) {

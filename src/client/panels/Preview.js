@@ -67,7 +67,7 @@ Preview.stop = function () {
 	clearInterval(loop);
 };
 Preview.loop = function () {
-	if (index == Editor.sprite.frames.length - 1) {
+	if (index >= Editor.sprite.frames.length - 1) {
 		index = -1;
 	}
 	index++;

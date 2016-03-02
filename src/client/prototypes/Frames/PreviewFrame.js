@@ -11,8 +11,7 @@ function PreviewFrame(frame, selected) {
 	this.selected = selected;
 	this.context = document.createElement('canvas').getContext('2d');
 	this.background = document.createElement('canvas').getContext('2d');
-	//this.el.style.width = this.el.style.width = size;
-	this.btnClone = createBtn('C', 'btn-clone', 'btn');// TODO: Create action clone frame
+	this.btnClone = createBtn('C', 'btn-clone', 'btn');
 	this.btnHidden = createBtn('H', 'btn-hidden', 'btn');// TODO: Create action hidden frame
 	this.btnDelete = createBtn('D', 'btn-delete', 'btn');
 	this.spanIndex = createSpan(this.frame.index + 1, 'index');

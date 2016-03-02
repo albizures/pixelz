@@ -38,10 +38,17 @@ Frames.changeFrame = function (type, index, sprite) {
 		}
 	}
 };
-Frames.deleteFrame = function (index) {
-	previewFrames[index].remove();
-	previewFrames.splice(index, 1);
-	this.reAppend();
+Frames.deletePreview = function (index) {
+	if (!previewFrames[index]) {
+		return;
+	}
+	if (previewFrames[index + 1] && previewFrames[index + 1].frame.index == index) {
+		previewFrames[index].changeFrame(this.sprite.frames[index]);
+		this.deletePreview(index + 1);
+	} else {
+		previewFrames[index].remove();
+		previewFrames.splice(index, 1);
+	}
 };
 Frames.paintFrame = function (index) {
 	previewFrames[index].paint();
