@@ -18,7 +18,7 @@ module.exports = {
 	},
 	onKeydown : function (evt) {
 		let key = evt.keyCode ? evt.keyCode :  evt.which;
-		console.log(evt.ctrlKey,evt.code);
+		console.log(evt.ctrlKey, evt.code);
 		// console.log('code', evt.code);
 		// console.log('key', evt.key);
 		// console.log('keyCode', evt.keyCode);
