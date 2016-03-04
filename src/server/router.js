@@ -1,8 +1,8 @@
 const path = require("path"),
-      BUILD_PATH = path.resolve(__dirname,'..' ,'dist');
+      config = require("./config/environment");
 
 function getIndex(req, res) {
-	res.sendFile(path.resolve(BUILD_PATH, 'index.html'));
+	res.sendFile(path.resolve(config.PUBLIC_PATH, 'index.html'));
 }
 
 module.exports = function (app) {
