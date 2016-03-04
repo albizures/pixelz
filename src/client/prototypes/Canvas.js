@@ -207,7 +207,9 @@ Canvas.prototype.cleanMain = function () {
 	this.main.clearRect(0, 0, this.main.canvas.width, this.main.canvas.height);
 };
 Canvas.prototype.cleanBackground = function () {
-	this.background.clearRect(0, 0, this.background.canvas.width, this.background.canvas.height);
+	// FIXME: why don't work width clearRect
+	this.background.canvas.width = this.background.canvas.width
+	//this.background.clearRect(0, 0, this.background.canvas.width, this.background.canvas.height);
 };
 Canvas.prototype.cleanPrev = function () {
 	this.preview.clearRect(0, 0, this.preview.canvas.width, this.preview.canvas.height);
