@@ -41,6 +41,7 @@ Tools.setSecudaryColor = function (color) {
 	return color;
 };
 Tools.changeCurrentTool = function (name) {
+	this.lastTool = this.currentTool;
 	this.currentTool = this.tools[name];
 };
 Tools.addTool = function (tool) {
