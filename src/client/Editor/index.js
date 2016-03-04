@@ -12,9 +12,9 @@ const {
 	Sprite = require('../prototypes/Sprite.js'),
 	Vector = require('../prototypes/Vector.js');
 
-let scale = SCALE_DEF,
-		Editor = {
+let Editor = {
 	panels : {},
+	actionsHistory : [],
 	get palette () {
 		return this.getPanel(PALETTE);
 	},
@@ -82,9 +82,10 @@ let scale = SCALE_DEF,
 	addTool (tool) {
 		this.panels.Tools.addTool(tool);
 	},
+	shortcuts : require('./shortcuts.js'),
 	events : require('./events.js'),
 	init () {
-
+		this.shortcuts.init();
 		this.initPanels();
 		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
 		let index = 0;
