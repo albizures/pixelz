@@ -52,8 +52,9 @@ Layer.prototype.clone = function (frame) {
 	return new Layer(frame, this.index, this.status, this.cloneContext());
 };
 Layer.prototype.select = function () {
-	Editor.getPanel('Layers').selectLayer(this.index);
 	Editor.canvas.changeLayer(this);
+	Editor.getPanel('Layers').createPreviewLayer();
+	Editor.getPanel('Layers').selectLayer(this.index);
 };
 Layer.prototype.cloneContext = function () {
 	let clone = this.context.canvas.cloneNode().getContext('2d');
