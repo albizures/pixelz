@@ -208,7 +208,7 @@ Canvas.prototype.cleanMain = function () {
 };
 Canvas.prototype.cleanBackground = function () {
 	// FIXME: why don't work width clearRect
-	this.background.canvas.width = this.background.canvas.width
+	this.background.canvas.width = this.background.canvas.width;
 	//this.background.clearRect(0, 0, this.background.canvas.width, this.background.canvas.height);
 };
 Canvas.prototype.cleanPrev = function () {
