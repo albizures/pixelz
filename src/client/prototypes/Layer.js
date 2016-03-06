@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 const { imageSmoothing } = require('../utils.js'),
 	{	TRANSPARENT_COLOR } = require('../constants');
 //console.log(new Frame(), Frame.prototype);
@@ -95,8 +95,8 @@ Layer.prototype.paintAt = function (cord, color) {
 	if (!this.validCord(cord)) {
 		return;
 	}
-	// oldPixel.color = this.bitmap[cord.x][cord.y];
-	// oldPixel.cord = cord.clone();
+	oldPixel.color = this.bitmap[cord.x][cord.y];
+	oldPixel.cord = cord.clone();
 	this.context.fillStyle = color;
 	this.context.fillRect(cord.x, cord.y, 1, 1);
 	this.canvas.paintAt(cord, color);
