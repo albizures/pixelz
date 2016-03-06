@@ -6,7 +6,7 @@ const Tool = require('../prototypes/Tool.js'),
 
 pick.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
-		let newPixel = this.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
+		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		newPixel.color = this.layer.getColorPixel(newPixel.cord);
 		if (evt.which === RIGHT_CLICK) {
 			Editor.getPanel('Tools').setSecudaryColor(newPixel.color);
@@ -16,7 +16,5 @@ pick.onMouseDown = function (evt) {
 		Editor.getPanel('Tools').lastTool.select();
 	}
 };
-pick.onMouseMove = function (evt) {};
-pick.onMouseUp = function (evt) {};
 
 module.exports = () => Editor.addTool(pick);

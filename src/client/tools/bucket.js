@@ -4,14 +4,15 @@ const Tool = require('../prototypes/Tool.js'),
 			Vector = require('../prototypes/Vector.js'),
 			Action = require('../prototypes/Action.js'),
 			bucket = new Tool('bucket');
-
+let color,oldColor;
 bucket.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
 		this.stroke = [];
-		let newPixel = this.canvas.calculatePosition(new Vector(evt.clientX, evt.clientY));
-		newPixel.color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
-		if (newPixel.color !== this.layer.getColorPixel(newPixel.cord)) {
-			this.fill(newPixel.cord, newPixel.color, this.layer.getColorPixel(newPixel.cord));
+		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
+		color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
+		oldColor = this.layer.getColorPixel(newPixel);
+		if (oldColor && color !== oldColor) {
+			this.fill(newPixel, color, oldColor, color == TRANSPARENT_COLOR ? 'cleanAt' : 'paintAt');
 			this.layer.frame.paint();
 			Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke} , 0));
 		}

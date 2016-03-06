@@ -1,9 +1,10 @@
 'use strict';
 const Vector = require('./Vector.js'),
+			floor = Math.floor,
 			{imageSmoothingDisabled, make} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
-				{SELECT_FRAME, SELECT_LAYER} = require('../constants').events;
+			{SELECT_FRAME, SELECT_LAYER} = require('../constants').events;
 // TODO: create the prototype of the artboard
 let artboard = {
 	get width() {
@@ -63,7 +64,7 @@ Canvas.prototype.changeLayer = function (layer) {
 	this.artboard.layer = layer;
 	this.paintMain();
 };
-var out
+let out;
 Canvas.prototype.onScroll = function (evt) {
 	let diff = 1.06;
 	if (evt.deltaY > 0) {
@@ -143,18 +144,11 @@ Canvas.prototype.shiftDiff = function (cord) {
 	this.artboard.cord.sum(cord);
 	this.paintMain();
 };
-Canvas.prototype.calculatePosition = function (cord) {
+Canvas.prototype.calculatePosition = function (x, y) {
 	// TODO: Add support many sizes pointer
-	let outside = false,
-			diffTemp,
-			relativeTemp,
-			newCord = new Vector ();
-
-	newCord.x = Math.floor((cord.x - this.artboard.cord.x) / this.artboard.scale);
-	newCord.y = Math.floor((cord.y - this.artboard.cord.y) / this.artboard.scale);
-	return {
-		cord : newCord
-	};
+	x = floor((x - this.artboard.cord.x) / this.artboard.scale);
+	y = floor((y - this.artboard.cord.y) / this.artboard.scale);
+	return {x : x, y : y};
 };
 Canvas.prototype.cordLayerToPaint = function (cord) {
 	let newCord = new Vector(
@@ -200,13 +194,11 @@ Canvas.prototype.paintBackground = function () {
 Canvas.prototype.paintAt = function (cord, color) {
 	cord = this.cordLayerToPaint(cord);
 	this.main.fillStyle = color;
-	this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
-Canvas.prototype.drawAt = function (cord,color) {
-	this.main.fillStyle = color;
+Canvas.prototype.cleanAt = function (cord) {
+	cord = this.cordLayerToPaint(cord);
 	this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
-	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
 Canvas.prototype.cleanMain = function () {
 	this.main.clearRect(0, 0, this.main.canvas.width, this.main.canvas.height);

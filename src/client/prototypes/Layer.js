@@ -7,6 +7,13 @@ function Layer(frame, index, status, context) {
 	this.index = index;
 	this.status = status;
 	this.context = context || document.createElement('canvas').getContext('2d');
+	this.bitmap = new Array(this.frame.width);
+	for (let i = 0; i < this.bitmap.length; i++) {
+		this.bitmap[i] = new Array(this.frame.height);
+		for (var b = 0; b < this.bitmap[i].length; b++) {
+			this.bitmap[i][b] = TRANSPARENT_COLOR;
+		}
+	}
 	if (!context) {
 		this.init();
 	}
@@ -65,30 +72,47 @@ Layer.prototype.validCord = function (cord) {
 	return cord.x >= 0 && cord.x < this.width && cord.y >= 0 && cord.y < this.height;
 };
 Layer.prototype.getColorPixel = function (cord) {
-	let color = this.context.getImageData(cord.x, cord.y, 1, 2);
-
-	return 'rgba(' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ', ' + color.data[3] / 255 + ')';
+	if (!this.validCord(cord)) {
+		return;
+	}
+	let color = this.bitmap[cord.x][cord.y];
+	return color;
 };
-Layer.prototype.paintAt = function (cord, color) {
+Layer.prototype.cleanAt = function (cord) {
 	let oldPixel = {};
 	if (!this.validCord(cord)) {
 		return;
 	}
 	oldPixel.color = this.getColorPixel(cord);
 	oldPixel.cord = cord.clone();
-	this.context.fillStyle = color;
 	this.context.clearRect(cord.x, cord.y, 1, 1);
+	this.canvas.cleanAt(cord, TRANSPARENT_COLOR);
+	this.bitmap[cord.x][cord.y] = TRANSPARENT_COLOR;
+	return oldPixel;
+};
+Layer.prototype.paintAt = function (cord, color) {
+	let oldPixel = {};
+	if (!this.validCord(cord)) {
+		return;
+	}
+	// oldPixel.color = this.bitmap[cord.x][cord.y];
+	// oldPixel.cord = cord.clone();
+	this.context.fillStyle = color;
 	this.context.fillRect(cord.x, cord.y, 1, 1);
 	this.canvas.paintAt(cord, color);
-	Editor.getPanel('Layers').paintLayer(this.index);
-	this.frame.paint();
+	this.bitmap[cord.x][cord.y] = color;
 	return oldPixel;
 };
 Layer.prototype.paintStroke = function (listCords) {
 	let oldStroke = [];
 	for (let i = 0; i < listCords.length; i++) {
-		oldStroke.push(this.paintAt(listCords[i].cord, listCords[i].color));
+		if (listCords[i].color == TRANSPARENT_COLOR) {
+			oldStroke.push(this.cleanAt(listCords[i].cord));
+		} else {
+			oldStroke.push(this.paintAt(listCords[i].cord), listCords[i].color);
+		}
 	}
+	Editor.getPanel('Layers').paintLayer(this.index);
 	this.frame.paint();
 	return {layer : this, stroke : oldStroke};
 };

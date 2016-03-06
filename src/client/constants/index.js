@@ -10,8 +10,8 @@ img.addEventListener('load', function () {
 backgroundTransparent.canvas.img = img;
 img.src = '/assets/images/transparent.png';
 module.exports = {
-	HEIGHT_DEF : 60,
-	WIDTH_DEF : 60,
+	HEIGHT_DEF : 300,
+	WIDTH_DEF : 300,
 	SCALE_DEF : 10,
 	TRANSPARENT_IMG : backgroundTransparent.canvas,
 	TRANSPARENT_COLOR : 'rgba(0, 0, 0, 0)',

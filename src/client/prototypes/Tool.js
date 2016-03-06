@@ -1,6 +1,7 @@
 'use strict';
 const AppendObject = require('./AppendObject.js'),
 			Vector = require('./Vector.js'),
+			abs = Math.abs,
 			{ TRANSPARENT_COLOR } = require('../constants'),
 			{ SELECT_TOOL } = require('../constants').events,
 			{ inheritanceObject, defineGetter} = require('../utils.js');
@@ -19,6 +20,9 @@ defineGetter(Tool.prototype, 'canvas', function () {
 defineGetter(Tool.prototype, 'layer', function () {
 	return Editor.canvas.artboard.layer;
 });
+Tool.prototype.onMouseUp = function () {};
+Tool.prototype.onMouseMove = function () {};
+Tool.prototype.onMouseDown = function () {};
 Tool.prototype.addPixelStroke = function (pixel) {
 	if (pixel) {
 		this.stroke.push(pixel);
@@ -33,64 +37,50 @@ Tool.prototype.clonePixel = function (pixel) {
 		color : pixel.color
 	};
 };
-Tool.prototype.fill = function (initCord, newColor, oldColor) {
+Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 	// NOTE: http://www.williammalone.com/articles/html5-canvas-javascript-paint-bucket-tool/
-	let stack = [initCord];
-	while (stack.length) {
-		let cord = stack.pop(),
-			pixelPos = (cord.y * this.layer.width + cord.x) * 4,
-			reachLeft = false,
-			reachRight = false;
-		while (this.layer.getColorPixel(cord) == oldColor && cord.less(0, 1).y >= 0) {
-			pixelPos -= this.layer.width * 4;
-		}
-		while (cord.y < this.layer.height - 1 && this.layer.getColorPixel(cord.sum(0, 1)) == oldColor) {
-			// paint
-			this.addPixelStroke(this.layer.paintAt(cord.clone(), newColor));
-			if (cord.x > 0) {
-				if (this.layer.getColorPixel(cord.clone().less(1, 0)) == oldColor) {
-					if (!reachLeft) {
-						stack.push(cord.clone().less(1, 0));
-						reachLeft = true;
-					}
-				} else {
-					reachLeft = false;
-				}
-			}
-			if (cord.x < this.layer.width - 1) {
-				if (this.layer.getColorPixel(cord.clone().sum(1, 0)) == oldColor) {
-					stack.push(cord.clone().sum(1, 0));
-					reachRight = true;
-				} else {
-					reachRight = false;
-				}
-			}
-			pixelPos += this.layer.width * 4;
-		}
+	let stack = [initCord], current, aside,
+		numPixels,
+		count = 0,
+    dy = [-1, 0, 1, 0],
+    dx = [0, 1, 0, -1];
+
+	if (oldColor !== this.layer.getColorPixel(initCord)) {
+		return;
 	}
+	numPixels = this.layer.width * this.layer.height;
+	while (stack.length) {
+		current = stack.pop();
 
-};
-Tool.prototype.paintLineBetween = function (pixel1, pixel2) {
-	pixel1 = this.clonePixel(pixel1);
-	pixel2 = this.clonePixel(pixel2);
-	let diff = pixel1.cord.diffAbs(pixel2.cord, true),
-			err = diff.x - diff.y;
+		this.addPixelStroke(this.layer[fn]( new Vector(current.x, current.y), newColor));
 
-	while (true) {
-		let tempPoint = this.clonePixel(pixel1);
-		if (tempPoint.color !== this.layer.getColorPixel(tempPoint.cord)) {
-			this.addPixelStroke(this.layer.paintAt(tempPoint.cord, tempPoint.color)); // Do what you need to for this
+		for (var i = 0; i < 4; i++) {
+			aside = {x : current.x +  dx[i], y : current.y + dy[i]};
+			if (oldColor === this.layer.getColorPixel(aside)) {
+				stack.push(aside);
+			}
 		}
-		if ((pixel1.cord.x == pixel2.cord.x) && (pixel1.cord.y == pixel2.cord.y)) {
+		if (count > 4 * numPixels) {
 			break;
 		}
-		let e2 = 2 * err;
-		if (e2 > -diff.y) {
-			err -= diff.y; pixel1.cord.x  += diff.sx;
+	}
+};
+Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
+	var dx = abs(x2 - x1),
+		dy = abs(y2 - y1),
+		sx = (x1 < x2) ? 1 : -1,
+		sy = (y1 < y2) ? 1 : -1,
+		err = dx - dy, e2;
+	while (x1 !== x2 || y1 !== y2) {
+		this.layer[fn](new Vector(x1, y1), color);
+		e2 = 2 * err;
+		if (e2 > -dy) {
+			err -= dy; x1  += sx;
 		}
-		if (e2 < diff.x) {
-			err += diff.x; pixel1.cord.y  += diff.sy;
+		if (e2 < dx) {
+			err += dx; y1  += sy;
 		}
 	}
+	this.layer[fn](new Vector(x1, y1), color);
 };
 module.exports = Tool;
