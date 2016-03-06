@@ -2,7 +2,6 @@
 let imageSmoothing = function (ctx, value) {
 	ctx.imageSmoothingEnabled = value;
 	ctx.mozImageSmoothingEnabled = value;
-	ctx.webkitImageSmoothingEnabled = value;
 	ctx.msImageSmoothingEnabled = value;
 };
 function createSpan(text) {
