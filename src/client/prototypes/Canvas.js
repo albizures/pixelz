@@ -63,19 +63,24 @@ Canvas.prototype.changeLayer = function (layer) {
 	this.artboard.layer = layer;
 	this.paintMain();
 };
+var out
 Canvas.prototype.onScroll = function (evt) {
-	let diff = 1;
+	let diff = 1.06;
 	if (evt.deltaY > 0) {
-		diff = -1;//0.9;
+		diff = 0.94;
 	}else if (evt.deltaY < 0) {
-		diff = 1;//1.1;
+		diff = 1.06;
 	}
-	this.scaleTo(this.artboard.scale + diff);
-	//this.scaleTo(artboard.scale * diff);
+	if (!out) {
+		out = setTimeout(function () {
+			out = undefined;
+			this.scaleTo(this.artboard.scale * diff);
+		}.bind(this), 50);
+	}
 };
 Canvas.prototype.scaleTo = function (scale) {
-	// TODO: stabilize speed of scaling
-	if (scale < 1) {
+
+	if (scale < 1 || scale > 10) {
 		return;
 	}
 	this.sizePointer = (this.sizePointer / this.artboard.scale) * scale;
