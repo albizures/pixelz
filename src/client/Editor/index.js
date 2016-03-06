@@ -14,7 +14,6 @@ const {
 
 let Editor = {
 	panels : {},
-	actionsHistory : [],
 	get palette () {
 		return this.getPanel(PALETTE);
 	},

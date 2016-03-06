@@ -19,6 +19,11 @@ defineGetter(Tool.prototype, 'canvas', function () {
 defineGetter(Tool.prototype, 'layer', function () {
 	return Editor.canvas.artboard.layer;
 });
+Tool.prototype.addPixelStroke = function (pixel) {
+	if (pixel) {
+		this.stroke.push(pixel);
+	}
+};
 Tool.prototype.select = function () {
 	Editor.getPanel('Tools').changeCurrentTool(this.name);
 };
@@ -41,7 +46,7 @@ Tool.prototype.fill = function (initCord, newColor, oldColor) {
 		}
 		while (cord.y < this.layer.height - 1 && this.layer.getColorPixel(cord.sum(0, 1)) == oldColor) {
 			// paint
-			this.layer.paintAt(cord.clone(), newColor);
+			this.addPixelStroke(this.layer.paintAt(cord.clone(), newColor));
 			if (cord.x > 0) {
 				if (this.layer.getColorPixel(cord.clone().less(1, 0)) == oldColor) {
 					if (!reachLeft) {
@@ -73,7 +78,9 @@ Tool.prototype.paintLineBetween = function (pixel1, pixel2) {
 
 	while (true) {
 		let tempPoint = this.clonePixel(pixel1);
-		this.layer.paintAt(tempPoint.cord, tempPoint.color); // Do what you need to for this
+		if (tempPoint.color !== this.layer.getColorPixel(tempPoint.cord)) {
+			this.addPixelStroke(this.layer.paintAt(tempPoint.cord, tempPoint.color)); // Do what you need to for this
+		}
 		if ((pixel1.cord.x == pixel2.cord.x) && (pixel1.cord.y == pixel2.cord.y)) {
 			break;
 		}

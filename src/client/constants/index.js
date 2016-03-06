@@ -14,11 +14,11 @@ module.exports = {
 	WIDTH_DEF : 20,
 	SCALE_DEF : 10,
 	TRANSPARENT_IMG : backgroundTransparent.canvas,
-	TRANSPARENT_COLOR : 'rgba(0,0,0,0)',
+	TRANSPARENT_COLOR : 'rgba(0, 0, 0, 0)',
 	TRANSPARENT_COLOR_VALUE : '',
 	SIZE_POINTER_DEF : 1,
-	COLOR_POINTER_PREW_DEF : 'rgba(255,255,255,0.6)',
-	SECOND_COLOR_POINTER_PREW_DEF : 'rgba(0,0,0,0.2)',
+	COLOR_POINTER_PREW_DEF : 'rgba(255, 255, 255, 0.6)',
+	SECOND_COLOR_POINTER_PREW_DEF : 'rgba(0, 0, 0, 0.2)',
 	RIGHT_CLICK : 3,
 	LEFT_CLICK : 1,
 	MIDDLE_CLICK : 2,
@@ -37,3 +37,4 @@ module.exports.colors = {
 module.exports.palette  = require("./palette.js");
 module.exports.panels = require('./panels.js');
 module.exports.events = require("./events.js");
+module.exports.actions = require("./actions.js");

@@ -1,7 +1,6 @@
 'use strict';
-const{ imageSmoothing } = require('../utils.js'),
-  { TRANSPARENT_COLOR } = require('../constants'),
-	{ UPDATE_LAYER } = require('../constants').events;
+const { imageSmoothing } = require('../utils.js'),
+	{	TRANSPARENT_COLOR } = require('../constants');
 //console.log(new Frame(), Frame.prototype);
 function Layer(frame, index, status, context) {
 	this.frame = frame;
@@ -70,21 +69,27 @@ Layer.prototype.getColorPixel = function (cord) {
 	return 'rgba(' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ', ' + color.data[3] / 255 + ')';
 };
 Layer.prototype.paintAt = function (cord, color) {
+	let oldPixel = {};
 	if (!this.validCord(cord)) {
 		return;
 	}
+	oldPixel.color = this.getColorPixel(cord);
+	oldPixel.cord = cord.clone();
 	this.context.fillStyle = color;
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
 	this.canvas.paintAt(cord, color);
 	Editor.getPanel('Layers').paintLayer(this.index);
 	this.frame.paint();
+	return oldPixel;
 };
 Layer.prototype.paintStroke = function (listCords) {
+	let oldStroke = [];
 	for (let i = 0; i < listCords.length; i++) {
-		this.paintAt(listCords[i].cord, listCords[i].color);
+		oldStroke.push(this.paintAt(listCords[i].cord, listCords[i].color));
 	}
 	this.frame.paint();
+	return {layer : this, stroke : oldStroke};
 };
 Layer.prototype.generatePreview = function (scale) {
 	return this.context;

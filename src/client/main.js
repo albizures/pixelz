@@ -6,6 +6,7 @@ const make = require('./utils.js').make,
 			Palette = require('./panels/Palette/index.js'),
 			Frames = require('./panels/Frames.js'),
 			Info = require('./panels/Info.js'),
+			Actions = require('./panels/Actions.js'),
 			Tools = require('./panels/Tools.js'),
 			Layers = require('./panels/Layers.js'),
 			bucket = require('./tools/bucket.js'),
@@ -20,6 +21,7 @@ window.onload = () => {
 	Tools();
 	Frames();
 	Palette();
+	Actions();
 	//Info();
 	Layers();
 
@@ -32,3 +34,6 @@ window.onload = () => {
 	//init
 	Editor.init();
 };
+
+// TODO: change the way of add the panels and stop using Editor.getPanel
+// TODO: create prototype pixel and pixelStroke
