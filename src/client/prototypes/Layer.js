@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 const { imageSmoothing } = require('../utils.js'),
 	{	TRANSPARENT_COLOR } = require('../constants');
 //console.log(new Frame(), Frame.prototype);
