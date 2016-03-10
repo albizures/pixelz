@@ -11,8 +11,8 @@ Actions.mainInit = function () {
 	this.el.style['z-index'] = '9999';
 	$(make('button', {parent : this.el}, 'u')).on('click.undo', this.undo.bind(this));
 	$(make('button', {parent : this.el}, 'r')).on('click.undo', this.redo.bind(this));
-	this.elRedo = make('ul' , {parent : this.el, className : 'list redo'});
-	this.elUndo = make('ul' , {parent : this.el, className : 'list undo'});
+	this.elRedo = make('ul', {parent : this.el, className : 'list redo'});
+	this.elUndo = make('ul', {parent : this.el, className : 'list undo'});
 };
 Actions.listUndo = [];
 Actions.listRedo = [];
@@ -23,7 +23,7 @@ Actions.redo = function (index) {
 	if (!this.listRedo[index]) {
 		return;
 	}
-	for (var i = index + 1; 0 < i; --i) {
+	for (let i = index + 1; 0 < i; --i) {
 		this.listRedo[0].execute();
 	}
 	//console.log(this.listUndo, this.listRedo);
@@ -36,14 +36,14 @@ Actions.undo = function (index) {
 	if (!this.listUndo[index]) {
 		return;
 	}
-	for (var i = index + 1; 0 < i; --i) {
+	for (let i = index + 1; 0 < i; --i) {
 		this.listUndo[0].execute();
 	}
 	//console.log(this.listUndo, this.listRedo);
 };
 Actions.removeAllRedo = function (index) {
 	index = index || this.listRedo.length - 1;
-	for (var i = index + 1; 0 < i; --i) {
+	for (let i = index + 1; 0 < i; --i) {
 		this.removeRedo(0);
 		//console.log(this.listRedo);
 	}
@@ -51,7 +51,7 @@ Actions.removeAllRedo = function (index) {
 Actions.removeRedo = function (index) {
 	if (this.listRedo[index]) {
 		this.listRedo[index].remove();
-		this.listRedo.splice(index,1);
+		this.listRedo.splice(index, 1);
 		for (let i = index; i < this.listRedo.length; i++) {
 			this.listRedo[i].setIndex(i);
 		}
@@ -60,7 +60,7 @@ Actions.removeRedo = function (index) {
 Actions.removeUndo = function (index) {
 	if (this.listUndo[index]) {
 		this.listUndo[index].remove();
-		this.listUndo.splice(index,1);
+		this.listUndo.splice(index, 1);
 		for (let i = index; i < this.listUndo.length; i++) {
 			this.listUndo[i].setIndex(i);
 		}

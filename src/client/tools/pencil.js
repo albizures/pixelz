@@ -33,7 +33,7 @@ pencil.onMouseMove = function (evt) {
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		if (abs(lastPixel.y - newPixel.y) > 1 || abs(lastPixel.x - newPixel.x) > 1) { // importantDiff
 			this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, color, at);
-		} else if (!this.stroke[newPixel.x][newPixel.y] && color !== this.layer.getColorPixel(newPixel)){
+		} else if (!this.stroke[newPixel.x][newPixel.y] && color !== this.layer.getColorPixel(newPixel)) {
 			this.stroke[newPixel.x][newPixel.y] = this.layer[at]({x : newPixel.x, y : newPixel.y}, color);
 		}
 		lastPixel = newPixel;
@@ -45,7 +45,7 @@ pencil.onMouseUp = function (evt) {
 		lastPixel = undefined;
 		Editor.getPanel('Layers').paintLayer(this.layer.index);
 		this.layer.frame.paint();
-		Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke} , 0));
+		Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 	}
 };
 module.exports = () => Editor.addTool(pencil);

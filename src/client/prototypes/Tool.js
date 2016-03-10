@@ -54,7 +54,7 @@ Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 
 		this.stroke[current.x][current.y] = this.stroke[current.x][current.y] || this.layer[fn]({x : current.x, y : current.y}, newColor);
 
-		for (var i = 0; i < 4; i++) {
+		for (let i = 0; i < 4; i++) {
 			aside = {x : current.x +  dx[i], y : current.y + dy[i]};
 			if (oldColor === this.layer.getColorPixel(aside)) {
 				stack.push(aside);
@@ -66,7 +66,6 @@ Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 	}
 };
 Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
-	color = 'rgb(0, 0, 0)';
 	var dx = abs(x2 - x1),
 		dy = abs(y2 - y1),
 		sx = (x1 < x2) ? 1 : -1,
