@@ -9,10 +9,7 @@ function Layer(frame, index, status, context) {
 	this.context = context || document.createElement('canvas').getContext('2d');
 	this.bitmap = new Array(this.frame.width);
 	for (let i = 0; i < this.bitmap.length; i++) {
-		this.bitmap[i] = new Array(this.frame.height);
-		for (var b = 0; b < this.bitmap[i].length; b++) {
-			this.bitmap[i][b] = TRANSPARENT_COLOR;
-		}
+		this.bitmap[i] = new Array(this.frame.height).fill(TRANSPARENT_COLOR);
 	}
 	if (!context) {
 		this.init();
@@ -75,41 +72,45 @@ Layer.prototype.getColorPixel = function (cord) {
 	if (!this.validCord(cord)) {
 		return;
 	}
-	let color = this.bitmap[cord.x][cord.y];
-	return color;
+	return this.bitmap[cord.x][cord.y];
 };
 Layer.prototype.cleanAt = function (cord) {
-	let oldPixel = {};
+	let tempColor;
 	if (!this.validCord(cord)) {
 		return;
 	}
-	oldPixel.color = this.getColorPixel(cord);
-	oldPixel.cord = cord.clone();
+	tempColor = this.bitmap[cord.x][cord.y];
 	this.context.clearRect(cord.x, cord.y, 1, 1);
-	this.canvas.cleanAt(cord, TRANSPARENT_COLOR);
 	this.bitmap[cord.x][cord.y] = TRANSPARENT_COLOR;
-	return oldPixel;
+	this.canvas.cleanAt(cord, TRANSPARENT_COLOR);
+	return tempColor;
 };
 Layer.prototype.paintAt = function (cord, color) {
-	let oldPixel = {};
+	let tempColor;
 	if (!this.validCord(cord)) {
 		return;
 	}
-	oldPixel.color = this.bitmap[cord.x][cord.y];
-	oldPixel.cord = cord.clone();
+	tempColor = this.bitmap[cord.x][cord.y];
 	this.context.fillStyle = color;
 	this.context.fillRect(cord.x, cord.y, 1, 1);
-	this.canvas.paintAt(cord, color);
 	this.bitmap[cord.x][cord.y] = color;
-	return oldPixel;
+	this.canvas.paintAt(cord, color);
+	return tempColor;
 };
 Layer.prototype.paintStroke = function (listCords) {
-	let oldStroke = [];
-	for (let i = 0; i < listCords.length; i++) {
-		if (listCords[i].color == TRANSPARENT_COLOR) {
-			oldStroke.push(this.cleanAt(listCords[i].cord));
-		} else {
-			oldStroke.push(this.paintAt(listCords[i].cord), listCords[i].color);
+	let oldStroke = new Array(listCords.length), item;
+	for (let i = 0; i < oldStroke.length; i++) {
+		oldStroke[i] = [];
+	}
+	for (let x = 0; x < listCords.length; x++) {
+		for (let y = 0; y < listCords[x].length; y++) {
+			if (item = listCords[x][y]) {
+				if (item == TRANSPARENT_COLOR) {
+					oldStroke[x][y] = this.cleanAt({x : x, y : y});
+				} else {
+					oldStroke[x][y] = this.paintAt({x : x, y : y}, item);
+				}
+			}
 		}
 	}
 	Editor.getPanel('Layers').paintLayer(this.index);

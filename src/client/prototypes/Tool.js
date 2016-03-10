@@ -52,7 +52,7 @@ Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 	while (stack.length) {
 		current = stack.pop();
 
-		this.addPixelStroke(this.layer[fn]( new Vector(current.x, current.y), newColor));
+		this.stroke[current.x][current.y] = this.stroke[current.x][current.y] || this.layer[fn]({x : current.x, y : current.y}, newColor);
 
 		for (var i = 0; i < 4; i++) {
 			aside = {x : current.x +  dx[i], y : current.y + dy[i]};
@@ -66,13 +66,14 @@ Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 	}
 };
 Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
+	color = 'rgb(0, 0, 0)';
 	var dx = abs(x2 - x1),
 		dy = abs(y2 - y1),
 		sx = (x1 < x2) ? 1 : -1,
 		sy = (y1 < y2) ? 1 : -1,
 		err = dx - dy, e2;
 	while (x1 !== x2 || y1 !== y2) {
-		this.layer[fn](new Vector(x1, y1), color);
+		this.stroke[x1][y1] = this.stroke[x1][y1] ||  this.layer[fn]({x : x1, y : y1}, color);
 		e2 = 2 * err;
 		if (e2 > -dy) {
 			err -= dy; x1  += sx;
@@ -81,6 +82,6 @@ Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
 			err += dx; y1  += sy;
 		}
 	}
-	this.layer[fn](new Vector(x1, y1), color);
+	this.stroke[x1][y1] = this.stroke[x1][y1] || this.layer[fn]({x : x1, y : y1}, color);
 };
 module.exports = Tool;

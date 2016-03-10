@@ -14,7 +14,10 @@ const Tool = require('../prototypes/Tool.js'),
 let lastPixel, color, lineBetween, at;
 pencil.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
-		this.stroke = [];
+		this.stroke = new Array(this.layer.width);
+		for (let i = 0; i < this.stroke.length; i++) {
+			this.stroke[i] = [];
+		}
 		this.clicked = true;
 		lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
@@ -30,10 +33,8 @@ pencil.onMouseMove = function (evt) {
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		if (abs(lastPixel.y - newPixel.y) > 1 || abs(lastPixel.x - newPixel.x) > 1) { // importantDiff
 			this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, color, at);
-		} else {
-			if (color !== this.layer.getColorPixel(newPixel)) {
-				this.addPixelStroke(this.layer[at](new Vector(newPixel.x, newPixel.y), color));
-			}
+		} else if (!this.stroke[newPixel.x][newPixel.y] && color !== this.layer.getColorPixel(newPixel)){
+			this.stroke[newPixel.x][newPixel.y] = this.layer[at]({x : newPixel.x, y : newPixel.y}, color);
 		}
 		lastPixel = newPixel;
 	}
@@ -45,6 +46,7 @@ pencil.onMouseUp = function (evt) {
 		lastPixel = undefined;
 		Editor.getPanel('Layers').paintLayer(this.layer.index);
 		this.layer.frame.paint();
+		console.info( this.stroke.length);
 		Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke} , 0));
 	}
 };

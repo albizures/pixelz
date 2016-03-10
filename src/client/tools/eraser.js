@@ -10,7 +10,10 @@ let lastPixel;
 eraser.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
 		this.clicked = true;
-		this.stroke = [];
+		this.stroke = new Array(this.layer.width);
+		for (let i = 0; i < this.stroke.length; i++) {
+			this.stroke[i] = [];
+		}
 		lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 	}
 };
@@ -19,10 +22,8 @@ eraser.onMouseMove = function (evt) {
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		if (abs(lastPixel.y - newPixel.y) > 1 || abs(lastPixel.x - newPixel.x) > 1) {
 			this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, TRANSPARENT_COLOR, 'cleanAt');
-		} else {
-			if (newPixel.color !== this.layer.getColorPixel(newPixel.cord)) {
-				this.addPixelStroke(this.layer.cleanAt(newPixel.cord, TRANSPARENT_COLOR));
-			}
+		} else if (!this.stroke[newPixel.x][newPixel.y] && TRANSPARENT_COLOR !== this.layer.getColorPixel(newPixel)){
+			this.stroke[newPixel.x][newPixel.y] = this.layer.cleanAt({x : newPixel.x, y : newPixel.y}, TRANSPARENT_COLOR);
 		}
 		lastPixel = newPixel;
 	}

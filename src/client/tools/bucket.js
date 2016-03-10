@@ -7,7 +7,10 @@ const Tool = require('../prototypes/Tool.js'),
 let color,oldColor;
 bucket.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
-		this.stroke = [];
+		this.stroke = new Array(this.layer.width);
+		for (let i = 0; i < this.stroke.length; i++) {
+			this.stroke[i] = [];
+		}
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
 		oldColor = this.layer.getColorPixel(newPixel);
