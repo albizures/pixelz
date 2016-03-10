@@ -151,11 +151,9 @@ Canvas.prototype.calculatePosition = function (x, y) {
 	return {x : x, y : y};
 };
 Canvas.prototype.cordLayerToPaint = function (cord) {
-	let newCord = new Vector(
-		(cord.x * this.artboard.scale) + this.artboard.cord.x,
-		(cord.y * this.artboard.scale) + this.artboard.cord.y
-	);
-	return newCord;
+	cord.x = (cord.x * this.artboard.scale) + this.artboard.cord.x;
+	cord.y = (cord.y * this.artboard.scale) + this.artboard.cord.y;
+	return cord;
 };
 Canvas.prototype.previewAt = function (cord,color) {
 	cord = this.cordLayerToPaint(cord);
