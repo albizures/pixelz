@@ -39,7 +39,6 @@ pencil.onMouseMove = function (evt) {
 		lastPixel = newPixel;
 	}
 };
-let a = 0;
 pencil.onMouseUp = function (evt) {
 	if (this.clicked) {
 		this.clicked = false;

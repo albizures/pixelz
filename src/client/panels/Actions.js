@@ -45,7 +45,7 @@ Actions.removeAllRedo = function (index) {
 	index = index || this.listRedo.length - 1;
 	for (var i = index + 1; 0 < i; --i) {
 		this.removeRedo(0);
-		console.log(this.listRedo);
+		//console.log(this.listRedo);
 	}
 };
 Actions.removeRedo = function (index) {
@@ -76,14 +76,16 @@ Actions.addRedo = function (action) {
 		this.listRedo[action.index] = action.init(this.elRedo);
 	}
 };
-Actions.addUndo = function (action) {
+Actions.addUndo = function (action, fromRedo) {
 	if (this.listUndo[action.index]) {
 		action.changeEl(this.listUndo[action.index].el);
 		this.listUndo[action.index].newEl();
-		this.addUndo(this.listUndo[action.index].setIndex(action.index + 1));
+		this.addUndo(this.listUndo[action.index].setIndex(action.index + 1), fromRedo);
 		this.listUndo[action.index] = action;
 	} else {
-		this.removeAllRedo();
+		if (!fromRedo) {
+			this.removeAllRedo();
+		}
 		this.listUndo[action.index] = action.init(this.elUndo);
 	}
 };

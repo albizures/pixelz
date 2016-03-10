@@ -30,7 +30,7 @@ Action.prototype.execute = function () {
 	if (this.redo) {
 		Editor.getPanel('Actions').removeRedo(this.index);
 		this.redo = false;
-		Editor.getPanel('Actions').addUndo(this.setIndex(0));
+		Editor.getPanel('Actions').addUndo(this.setIndex(0), true);
 	} else {
 		Editor.getPanel('Actions').removeUndo(this.index);
 		this.redo = true;
