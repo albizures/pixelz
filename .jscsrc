@@ -3,12 +3,12 @@
 	"esnext": true,
 	"preset": "crockford",
 	"validateIndentation": "\t",
-	"disallowDanglingUnderscores" : false,
+	"disallowDanglingUnderscores": false,
 	"requireCurlyBraces": true,
-  "requireParenthesesAroundIIFE": true,
+	"requireParenthesesAroundIIFE": true,
 	"excludeFiles": [
-    "dist/**",
+		"dist/**",
 		"bundle/**",
-    "node_modules/**"
-  ]
+		"node_modules/**"
+	]
 }
