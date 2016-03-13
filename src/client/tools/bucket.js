@@ -15,7 +15,7 @@ bucket.onMouseDown = function (evt) {
 		color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
 		oldColor = this.layer.getColorPixel(newPixel);
 		if (oldColor && color !== oldColor) {
-			this.fill(newPixel, color, oldColor, color == TRANSPARENT_COLOR ? 'cleanAt' : 'paintAt');
+			this.fill(newPixel, color, oldColor, color == TRANSPARENT_COLOR ? 'fillCleanAt' : 'fillAt');
 			this.layer.frame.paint();
 			Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 		}

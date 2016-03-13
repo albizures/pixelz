@@ -38,7 +38,6 @@ Tool.prototype.clonePixel = function (pixel) {
 	};
 };
 Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
-	// NOTE: http://www.williammalone.com/articles/html5-canvas-javascript-paint-bucket-tool/
 	let stack = [initCord], current, aside,
 		numPixels,
 		count = 0,
@@ -64,6 +63,7 @@ Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 			break;
 		}
 	}
+	Editor.canvas.paintMain();
 };
 Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
 	var dx = abs(x2 - x1),

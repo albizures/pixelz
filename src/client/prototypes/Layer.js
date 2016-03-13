@@ -85,6 +85,21 @@ Layer.prototype.cleanAt = function (cord) {
 	this.canvas.cleanAt(cord, TRANSPARENT_COLOR);
 	return tempColor;
 };
+Layer.prototype.fillCleanAt = function (cord) {
+	let tempColor;
+	tempColor = this.bitmap[cord.x][cord.y];
+	this.context.clearRect(cord.x, cord.y, 1, 1);
+	this.bitmap[cord.x][cord.y] = TRANSPARENT_COLOR;
+	return tempColor;
+};
+Layer.prototype.fillAt = function (cord, color) {
+	let tempColor;
+	tempColor = this.bitmap[cord.x][cord.y];
+	this.context.fillStyle = color;
+	this.context.fillRect(cord.x, cord.y, 1, 1);
+	this.bitmap[cord.x][cord.y] = color;
+	return tempColor;
+};
 Layer.prototype.paintAt = function (cord, color) {
 	let tempColor;
 	if (!this.validCord(cord)) {
