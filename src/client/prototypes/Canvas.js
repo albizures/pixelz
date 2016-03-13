@@ -1,6 +1,6 @@
 'use strict';
 const Vector = require('./Vector.js'),
-			floor = Math.floor,
+			floor = Math.floor, round = Math.round,
 			{imageSmoothingDisabled, make} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
@@ -75,7 +75,7 @@ Canvas.prototype.onScroll = function (evt) {
 	if (!out) {
 		out = setTimeout(function () {
 			out = undefined;
-			this.scaleTo(this.artboard.scale * diff);
+			this.scaleTo(round((this.artboard.scale * diff) * 100) / 100);
 		}.bind(this), 50);
 	}
 };
