@@ -89,4 +89,4 @@ Actions.addUndo = function (action, fromRedo) {
 		this.listUndo[action.index] = action.init(this.elUndo);
 	}
 };
-module.exports = () => Editor.addPanel(Actions);
+module.exports = Actions;

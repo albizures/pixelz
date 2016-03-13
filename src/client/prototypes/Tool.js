@@ -1,6 +1,7 @@
 'use strict';
 const AppendObject = require('./AppendObject.js'),
 			Vector = require('./Vector.js'),
+			Tools = require('../panels/Tools.js'),
 			abs = Math.abs,
 			{ TRANSPARENT_COLOR } = require('../constants'),
 			{ SELECT_TOOL } = require('../constants').events,
@@ -29,7 +30,7 @@ Tool.prototype.addPixelStroke = function (pixel) {
 	}
 };
 Tool.prototype.select = function () {
-	Editor.getPanel('Tools').changeCurrentTool(this.name);
+	Tools.changeCurrentTool(this.name);
 };
 Tool.prototype.clonePixel = function (pixel) {
 	return {

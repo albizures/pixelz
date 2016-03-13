@@ -50,4 +50,4 @@ Tools.addTool = function (tool) {
 	}
 	this.tools[tool.name] = tool;
 };
-module.exports = () => Editor.addPanel(Tools);
+module.exports = Tools;

@@ -1,6 +1,8 @@
 'use strict';
 const Tool = require('../prototypes/Tool.js'),
 			{ RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR, actions } = require('../constants'),
+			Tools = require('../panels/Tools.js'),
+			Actions = require('../panels/Actions.js'),
 			Vector = require('../prototypes/Vector.js'),
 			Action = require('../prototypes/Action.js'),
 			bucket = new Tool('bucket');
@@ -12,12 +14,12 @@ bucket.onMouseDown = function (evt) {
 			this.stroke[i] = [];
 		}
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-		color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
+		color = evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
 		oldColor = this.layer.getColorPixel(newPixel);
 		if (oldColor && color !== oldColor) {
 			this.fill(newPixel, color, oldColor, color == TRANSPARENT_COLOR ? 'fillCleanAt' : 'fillAt');
 			this.layer.frame.paint();
-			Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
+			Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 		}
 	}
 };

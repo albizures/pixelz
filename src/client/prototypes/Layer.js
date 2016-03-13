@@ -1,5 +1,6 @@
 'use strict';
 const { imageSmoothing } = require('../utils.js'),
+	Layers = require('../panels/Layers.js'),
 	{	TRANSPARENT_COLOR } = require('../constants');
 //console.log(new Frame(), Frame.prototype);
 function Layer(frame, index, status, context) {
@@ -39,11 +40,11 @@ Layer.prototype.init = function () {
 	this.context.canvas.width = this.width;
 	this.context.canvas.height = this.height;
 	this.context.putImageData(tempData, 0, 0);
-	Editor.getPanel('Layers').addPreview(this);
+	Layers.addPreview(this);
 };
 Layer.prototype.delete = function () {
 	if (this.frame.deleteLayer(this.index)) {
-		Editor.getPanel('Layers').deletePreview(this.index);
+		Layers.deletePreview(this.index);
 	}
 };
 Layer.prototype.getIMG = function () {
@@ -57,8 +58,8 @@ Layer.prototype.clone = function (frame) {
 };
 Layer.prototype.select = function () {
 	Editor.canvas.changeLayer(this);
-	Editor.getPanel('Layers').createPreviewLayer();
-	Editor.getPanel('Layers').selectLayer(this.index);
+	Layers.createPreviewLayer();
+	Layers.selectLayer(this.index);
 };
 Layer.prototype.cloneContext = function () {
 	let clone = this.context.canvas.cloneNode().getContext('2d');
@@ -128,7 +129,7 @@ Layer.prototype.paintStroke = function (listCords) {
 			}
 		}
 	}
-	Editor.getPanel('Layers').paintLayer(this.index);
+	Layers.paintLayer(this.index);
 	this.frame.paint();
 	return {layer : this, stroke : oldStroke};
 };

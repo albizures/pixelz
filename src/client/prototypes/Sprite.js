@@ -1,12 +1,13 @@
 'use strict';
 const Frame = require('./Frame.js'),
-			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events;
+	Preview = require('../panels/Preview.js'),
+	{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events;
 function Sprite(width, height) {
 	this.width = width;
 	this.height = height;
 	this.frames = [];
 	this.frames.push(new Frame(this, 0, true));
-	Editor.getPanel('Preview').selectSprite(this);
+	Preview.selectSprite(this);
 }
 Sprite.prototype.getFrame = function (index) {
 	return this.frames[index];

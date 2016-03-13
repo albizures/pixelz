@@ -4,6 +4,8 @@ const Tool = require('../prototypes/Tool.js'),
 	{ RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR, actions } = require('../constants'),
 	Vector = require('../prototypes/Vector.js'),
 	Action = require('../prototypes/Action.js'),
+	Actions = require('../panels/Actions.js'),
+	Layers = require('../panels/Layers.js'),
 	eraser = new Tool('eraser');
 
 let lastPixel;
@@ -32,9 +34,9 @@ eraser.onMouseUp = function (evt) {
 	if (this.clicked) {
 		this.clicked = false;
 		lastPixel = undefined;
-		Editor.getPanel('Layers').paintLayer(this.layer.index);
+		Layers.paintLayer(this.layer.index);
 		this.layer.frame.paint();
-		Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
+		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 	}
 };
 module.exports = () => Editor.addTool(eraser);

@@ -20,4 +20,4 @@ Info.changeSprite = function (sprite) {
 	p.textContent = 'Frames: ' + sprite.frames.length;
 	this.el.appendChild(p);
 };
-module.exports = () => Editor.addPanel(Info);
+module.exports = Info;

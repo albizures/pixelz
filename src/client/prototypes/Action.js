@@ -1,6 +1,7 @@
 'use strict';
 const AppendObject = require('./AppendObject.js'),
-	{ inheritanceObject, defineGetter} = require('../utils.js');
+	Actions = require('../panels/Actions.js'),
+	{inheritanceObject, defineGetter} = require('../utils.js');
 
 let actions = {
 	paint : function (data) {
@@ -9,7 +10,7 @@ let actions = {
 };
 function Action(type, data, index, redo) {
 	this.$type = 'li';
-	AppendObject.call(this, 'tool');
+	AppendObject.call(this, 'action');
 	this.type = type;
 	this.data = data;
 	this.index = index;
@@ -18,7 +19,7 @@ function Action(type, data, index, redo) {
 }
 inheritanceObject(Action, AppendObject);
 Action.prototype.onClick = function (evt) {
-	Editor.getPanel('Actions').undo(this.index);
+	Actions.undo(this.index);
 };
 Action.prototype.changeEl = function (el) {
 	this.el = el;
@@ -28,13 +29,13 @@ Action.prototype.execute = function () {
 	let newData = actions[this.type](this.data);
 	this.data = newData;
 	if (this.redo) {
-		Editor.getPanel('Actions').removeRedo(this.index);
+		Actions.removeRedo(this.index);
 		this.redo = false;
-		Editor.getPanel('Actions').addUndo(this.setIndex(0), true);
+		Actions.addUndo(this.setIndex(0), true);
 	} else {
-		Editor.getPanel('Actions').removeUndo(this.index);
+		Actions.removeUndo(this.index);
 		this.redo = true;
-		Editor.getPanel('Actions').addRedo(this.setIndex(0));
+		Actions.addRedo(this.setIndex(0));
 	}
 };
 Action.prototype.setIndex = function (index) {
@@ -47,7 +48,7 @@ Action.prototype.init = function (parent) {
 	return this;
 };
 Action.prototype.newEl = function () {
-	AppendObject.call(this, 'tool');
+	AppendObject.call(this, 'action');
 	$(this.el).on('click.undo', this.onClick.bind(this));
 };
 module.exports = Action;

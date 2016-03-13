@@ -14,12 +14,6 @@ const {
 
 let Editor = {
 	panels : {},
-	get palette () {
-		return this.getPanel(PALETTE);
-	},
-	get frames () {
-		return this.getPanel(FRAMES);
-	},
 	// panel area
 	addPanel (panel) {
 		this.panels[panel.name] = panel.appendTo(document.body);
@@ -48,9 +42,6 @@ let Editor = {
 				panel.changeWidth(height);
 			}
 		}
-	},
-	getPanel (name) {
-		return this.panels[name];
 	},
 	initPanels () {
 		let left, right;

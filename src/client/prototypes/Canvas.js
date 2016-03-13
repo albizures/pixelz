@@ -1,6 +1,7 @@
 'use strict';
 const Vector = require('./Vector.js'),
 			floor = Math.floor, round = Math.round,
+			Tools = require('../panels/Tools.js'),
 			{imageSmoothingDisabled, make} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
@@ -167,7 +168,7 @@ Canvas.prototype.drawPreview = function (evt) {
 	let temp = new Vector(Math.floor(((evt.clientX - this.artboard.cord.x) / this.artboard.scale)), Math.floor(((evt.clientY - this.artboard.cord.y) / this.artboard.scale)));
 	let cord = new Vector(temp.x * this.artboard.scale + this.artboard.cord.x, temp.y * this.artboard.scale + this.artboard.cord.y);
 	this.preview.strokeStyle = COLOR_POINTER_PREW_DEF;
-	this.preview.fillStyle = Editor.getPanel('Tools').getPrimaryColor();//SECOND_COLOR_POINTER_PREW_DEF;
+	this.preview.fillStyle = Tools.getPrimaryColor();//SECOND_COLOR_POINTER_PREW_DEF;
 	this.preview.strokeRect(cord.x - 1, cord.y - 1, this.sizePointer + 2, this.sizePointer + 2);
 	this.preview.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };

@@ -61,4 +61,4 @@ Layers.updateLayers = function () {
 	this.createPreviewLayer();
 };
 Layers.paintLayer = function () {};
-module.exports = () => Editor.addPanel(Layers);
+module.exports = Layers;

@@ -2,6 +2,7 @@
 const { imageSmoothing } = require('../utils.js'),
 	{ TRANSPARENT_COLOR } = require('../constants'),
 	Layer = require('./Layer.js'),
+	Frames = require('../panels/Frames.js'),
 	{ UPDATE_FRAME } = require('../constants').events;
 
 function Frame(sprite, index, status, layers, clone) {
@@ -33,7 +34,7 @@ Frame.prototype.init = function () {
 	imageSmoothing(this.context, false);
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
-	Editor.getPanel('Frames').addPreview(this);
+	Frames.addPreview(this);
 	this.paint(true);
 };
 Frame.prototype.deleteLayer = function (index) {
@@ -56,7 +57,7 @@ Frame.prototype.deleteLayer = function (index) {
 };
 Frame.prototype.delete = function () {
 	if (this.sprite.deleteFrame(this.index)) {
-		Editor.getPanel('Frames').deletePreview(this.index);
+		Frames.deletePreview(this.index);
 	}
 };
 Frame.prototype.reIndexing = function () {
@@ -82,7 +83,7 @@ Frame.prototype.selectLayer = function (layer) {
 	layer.select();
 };
 Frame.prototype.select = function () {
-	Editor.getPanel('Frames').selectFrame(this.index);
+	Frames.selectFrame(this.index);
 	this.layers[0].select();
 };
 Frame.prototype.clone = function (sprite) {
@@ -119,7 +120,7 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 		newLayer.init();
 	}
 	newLayer.select();
-	Editor.getPanel('Layers').updateLayers();
+	Layers.updateLayers();
 	return newLayer;
 };
 Frame.prototype.getIMG = function () {
@@ -136,7 +137,7 @@ Frame.prototype.paint = function (init) {
 		let layer = this.layers[i];
 		this.context.drawImage(layer.context.canvas, 0, 0);
 	}
-	Editor.getPanel('Frames').paintFrame(this.index);
+	Frames.paintFrame(this.index);
 	this.sprite.paint();
 };
 Frame.prototype.generatePreview = function (scale) {

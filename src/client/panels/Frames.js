@@ -83,4 +83,4 @@ Frames.reAppend = function () {
 		previewFrames[i].appendTo(ul);
 	}
 };
-module.exports = () => Editor.addPanel(Frames);
+module.exports = Frames;

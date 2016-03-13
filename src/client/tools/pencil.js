@@ -7,6 +7,9 @@ const Tool = require('../prototypes/Tool.js'),
 		TRANSPARENT_COLOR
 	} = require('../constants'),
 	abs = Math.abs,
+	Tools = require('../panels/Tools.js'),
+	Actions = require('../panels/Actions.js'),
+	Layers = require('../panels/Layers.js'),
 	actions = require('../constants').actions,
 	Action = require('../prototypes/Action.js'),
 	Vector = require('../prototypes/Vector.js'),
@@ -20,7 +23,7 @@ pencil.onMouseDown = function (evt) {
 		}
 		this.clicked = true;
 		lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-		color = evt.which === RIGHT_CLICK ? Editor.getPanel('Tools').getSecondColor() : Editor.getPanel('Tools').getPrimaryColor();
+		color = evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
 		if (color == TRANSPARENT_COLOR) {
 			at = 'cleanAt';
 		} else {
@@ -43,9 +46,9 @@ pencil.onMouseUp = function (evt) {
 	if (this.clicked) {
 		this.clicked = false;
 		lastPixel = undefined;
-		Editor.getPanel('Layers').paintLayer(this.layer.index);
+		Layers.paintLayer(this.layer.index);
 		this.layer.frame.paint();
-		Editor.getPanel('Actions').addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
+		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 	}
 };
 module.exports = () => Editor.addTool(pencil);

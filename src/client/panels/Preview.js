@@ -78,4 +78,4 @@ Preview.loop = function () {
 Preview.clean = function () {
 	this.preview.clearRect(0, 0,  this.preview.canvas.width, this.preview.canvas.height);
 };
-module.exports = () => Editor.addPanel(Preview);
+module.exports = Preview;

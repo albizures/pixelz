@@ -3,6 +3,7 @@ const {TRANSPARENT_COLOR, PALETTE} = require('../../constants/index.js'),
 			{CHANGE_COLOR} = require('../../constants/index.js').palette,
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../../constants/index.js').panels,
 			Panel = require('../../prototypes/Panel.js'),
+			Tools = require('../Tools.js'),
 			Vector = require('../../prototypes/Vector.js'),
 			Color = require('../../prototypes/Palette/Color.js'),
 			pickers = require('./pickers.js'),
@@ -19,8 +20,8 @@ Palette.mainInit = function () {
 
 	this.el.appendChild(divColors);
 	this.el.appendChild(inputColor);
-	Editor.getPanel('Tools').setSecudaryColor(TRANSPARENT_COLOR);
-	inputColor.style.background = Editor.getPanel('Tools').setPrimaryColor(colors[0]);
+	Tools.setSecudaryColor(TRANSPARENT_COLOR);
+	inputColor.style.background = Tools.setPrimaryColor(colors[0]);
 	this.generateColors();
 	pickers.callbackUpdate = this.changeColor;
 	pickers.appendTo(this.el);
@@ -34,12 +35,12 @@ Palette.generateColors = function () {
 };
 Palette.onClickColor = function (evt) {
 	evt.stopImmediatePropagation();
-	inputColor.style.background = Editor.getPanel('Tools').setPrimaryColor(this.color);
+	inputColor.style.background = Tools.setPrimaryColor(this.color);
 	this.changeColor(this.color);
 	return false;
 };
 Palette.changeColor = function (color) {
-	inputColor.style.background = Editor.getPanel('Tools').setPrimaryColor(color);
+	inputColor.style.background = Tools.setPrimaryColor(color);
 };
 
-module.exports = () => Editor.addPanel(Palette);
+module.exports = Palette;

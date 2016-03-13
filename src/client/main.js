@@ -17,13 +17,13 @@ const make = require('./utils.js').make,
 window.onload = () => {
 	window.Editor = Editor;
 	// panels
-	Preview();
-	Tools();
-	Frames();
-	Palette();
-	Actions();
-	//Info();
-	Layers();
+	Preview.$add();
+	Tools.$add();
+	Frames.$add();
+	Palette.$add();
+	Actions.$add();
+	//Info.$add();
+	Layers.$add();
 
 	//tools
 	pencil();
@@ -34,6 +34,4 @@ window.onload = () => {
 	//init
 	Editor.init();
 };
-
-// TODO: change the way of add the panels and stop using Editor.getPanel
 // TODO: create prototype pixel and pixelStroke

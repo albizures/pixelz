@@ -105,6 +105,9 @@ Panel.prototype.setSnapPosition = function () {
 		}
 	}
 };
+Panel.prototype.$add = function () {
+	Editor.addPanel(this);
+};
 Panel.prototype.changePosition = function (position) {
 	position = position || this.position;
 	let stats = this.el.getBoundingClientRect();
