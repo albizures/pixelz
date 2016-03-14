@@ -67,7 +67,27 @@ let Editor = {
 				};
 			}
 		}
-		//this.events.on(RESIZE_PANEL + '.editor', this.onResizePanel, this);
+	},
+	getRightPanels () {
+		var rightPanels = [];
+		console.log(this.panels);
+		for (let i = 0, panels = Object.keys(this.panels); i < panels.length; i++) {
+			let panel = this.panels[panels[i]];
+			if (panel.isRight()) {
+				rightPanels.push(panel);
+			}
+		}
+		return rightPanels;
+	},
+	getLeftPanels () {
+		var leftPanels = [];
+		for (let i = 0, panels = Object.keys(this.panels); i < panels.length; i++) {
+			let panel = this.panels[panels[i]];
+			if (panel.isLeft()) {
+				leftPanels.push(panel);
+			}
+		}
+		return leftPanels;
 	},
 	addTool (tool) {
 		this.panels.Tools.addTool(tool);
@@ -75,11 +95,20 @@ let Editor = {
 	shortcuts : require('./shortcuts.js'),
 	events : require('./events.js'),
 	init () {
+		var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y;
 		this.shortcuts.init();
 		this.initPanels();
+
+		scaleHeight = window.innerHeight / HEIGHT_DEF;
+		offsetRight = this.getRightPanels()[0].width;
+		offsetLeft = this.getLeftPanels()[0].width;
+		scaleWidth = (window.innerWidth - offsetLeft - offsetRight) / WIDTH_DEF;
+
+		scale = scaleWidth > scaleHeight? scaleHeight : scaleWidth;
+		x = Math.round((window.innerWidth / 2) - (scale * WIDTH_DEF) / 2);
+		y = Math.round((window.innerHeight / 2) - (scale * HEIGHT_DEF) / 2);
 		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
-		let index = 0;
-		this.canvas = new Canvas(this.sprite.frames[index].layers[0], SCALE_DEF, new Vector (Math.round(window.innerWidth / 4), Math.round(window.innerHeight / 16)));
+		this.canvas = new Canvas(this.sprite.frames[0].layers[0], scale, new Vector (x, y));
 		console.timeEnd('canvas');
 	}
 };
