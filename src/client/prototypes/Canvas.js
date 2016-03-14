@@ -42,8 +42,6 @@ Canvas.prototype.init = function () {
 	$(this.preview.canvas).on('mouseup.canvas', this.onMouseUp.bind(this));
 	$(this.preview.canvas).on('mousemove.canvas', this.onMouseMove.bind(this));
 
-	//Editor.events.on('paint.canvas', this.drawAt, this);
-
 	$(window).on('resize.canvas', this.resize.bind(this));
 	this.resize();
 };
@@ -81,15 +79,20 @@ Canvas.prototype.onScroll = function (evt) {
 	}
 };
 Canvas.prototype.scaleTo = function (scale) {
-
-	if (scale < 1 || scale > 10) {
+	var width, height;
+	if (scale < 1) {
 		return;
 	}
+	this.artboard.cord.x += (this.artboard.layer.width * this.artboard.scale) / 2;
+	this.artboard.cord.y += (this.artboard.layer.height * this.artboard.scale) / 2;
+
 	this.sizePointer = (this.sizePointer / this.artboard.scale) * scale;
 	this.artboard.scale = scale;
 	this.cleanPrev();
 
-	// TODO: scale from center
+	this.artboard.cord.x = this.artboard.cord.x - (this.artboard.layer.width * this.artboard.scale / 2);
+	this.artboard.cord.y = this.artboard.cord.y - (this.artboard.layer.height * this.artboard.scale / 2);
+
 	this.paintMain();
 
 };
@@ -102,6 +105,8 @@ Canvas.prototype.onMouseDown = function (evt) {
 	}else if (evt.which === MIDDLE_CLICK) {
 		evt.preventDefault();
 		this.drag = true;
+		this.lastDragX = evt.clientX;
+		this.lastDragY = evt.clientY;
 		this.cleanPrev();
 	}else if (evt.which === RIGHT_CLICK) {
 		this.mouseDown = true;
@@ -131,7 +136,7 @@ Canvas.prototype.onMouseMove = function (evt) {
 		let diffY = evt.clientY - this.lastDragY;
 		this.lastDragX = evt.clientX;
 		this.lastDragY = evt.clientY;
-		this.shiftDiff(new Vector(isNaN(diffX) ? 0 : diffX,diffY = isNaN(diffY) ? 0 : diffY));
+		this.shiftDiff(new Vector(diffX, diffY));
 	}else {
 		if (this.mouseDown) {
 			this.tool.onMouseMove(evt);
@@ -173,13 +178,17 @@ Canvas.prototype.drawPreview = function (evt) {
 	this.preview.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
 Canvas.prototype.paintMain = function () {
+	var height, width;
 	this.cleanMain();
+
+	// TODO: create get for "this.artboard.layer.width * this.artboard.scale" and "this.artboard.layer.height * this.artboard.scale"
+	width = this.artboard.layer.width * this.artboard.scale;
+	height = this.artboard.layer.height * this.artboard.scale;
 	this.paintBackground();
 	imageSmoothingDisabled(this.main);
-	// TODO: create get for "this.artboard.layer.width * this.artboard.scale" and "this.artboard.layer.height * this.artboard.scale"
 	this.main.drawImage(this.artboard.layer.context.canvas,
 		0, 0, this.artboard.layer.width, this.artboard.layer.height,
-		this.artboard.cord.x, this.artboard.cord.y, this.artboard.layer.width * this.artboard.scale, this.artboard.layer.height * this.artboard.scale
+		this.artboard.cord.x, this.artboard.cord.y, width, height
 	);
 };
 Canvas.prototype.paintBackground = function () {
@@ -193,7 +202,7 @@ Canvas.prototype.paintBackground = function () {
 Canvas.prototype.paintAt = function (cord, color) {
 	cord = this.cordLayerToPaint(cord);
 	this.main.fillStyle = color;
-	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
+	this.main.fillRect(cord.x - 0.5, cord.y - 0.5, this.sizePointer + 0.5, this.sizePointer + 0.5);
 };
 Canvas.prototype.cleanAt = function (cord) {
 	cord = this.cordLayerToPaint(cord);
