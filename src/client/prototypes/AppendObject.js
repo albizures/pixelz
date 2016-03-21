@@ -17,5 +17,13 @@ AppendObject.prototype.appendTo = function (parent) {
 AppendObject.prototype.remove = function () {
 	this.el.remove();
 };
+AppendObject.prototype.addClass = function (cls) {
+	this.el.classList.add(cls);
+	return this;
+}
+AppendObject.prototype.removeClass = function (cls) {
+	this.el.classList.remove(cls);
+	return this;
+}
 AppendObject.prototype.$type = 'div';
 module.exports = AppendObject;
