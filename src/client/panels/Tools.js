@@ -3,18 +3,20 @@
 const Panel = require('../prototypes/Panel.js'),
 			{ make } = require('../utils.js'),
 			Vector = require('../prototypes/Vector.js'),
+			{TRANSPARENT_COLOR} = require('../constants/index.js'),
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
 			{ SELECT_TOOL } = require('../constants').events,
 			Tools = new Panel('Tools', FLOAT, new Vector(500, 500), 60);
 Tools.tools = {};
 Tools.mainInit = function () {
+	const Color = require('../prototypes/Palette/Color.js');
 	this.el.style['z-index'] = '9999';
 
 	let parentColors = make('div', {parent : this.el, className : 'colors'});
-	this.primaryColor = {};
-	this.secondaryColor = {};
-	this.secondaryColor.el = make('div', {className : 'secondary', parent : parentColors});
-	this.primaryColor.el = make('div', {className : 'primary', parent : parentColors});
+	this.primaryColor = new Color(TRANSPARENT_COLOR, false, 35);
+	this.secondaryColor = new Color(TRANSPARENT_COLOR, false, 35);
+	this.secondaryColor.appendTo(parentColors).addClass('secondary');
+	this.primaryColor.appendTo(parentColors).addClass('primary');
 
 
 	this.changePosition(new Vector(100, 100));
@@ -31,13 +33,11 @@ Tools.getSecondColor = function () {
 	return this.secondaryColor.color;
 };
 Tools.setPrimaryColor = function (color) {
-	this.primaryColor.color = color;
-	this.primaryColor.el.style.background = color;
+	this.primaryColor.changeColor(color);
 	return color;
 };
 Tools.setSecudaryColor = function (color) {
-	this.secondaryColor.color = color;
-	this.secondaryColor.el.style.background = color;
+	this.secondaryColor.changeColor(color);
 	return color;
 };
 Tools.changeCurrentTool = function (name) {

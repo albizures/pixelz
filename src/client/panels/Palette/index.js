@@ -30,17 +30,7 @@ Palette.generateColors = function () {
 	for (let i = 0; i < colors.length; i++) {
 		let color = new Color(colors[i], i == 0);
 		color.appendTo(divColors);
-		$(color).on('click.color', this.onClickColor.bind(color));
 	}
-};
-Palette.onClickColor = function (evt) {
-	evt.stopImmediatePropagation();
-	inputColor.style.background = Tools.setPrimaryColor(this.color);
-	this.changeColor(this.color);
-	return false;
-};
-Palette.changeColor = function (color) {
-	inputColor.style.background = Tools.setPrimaryColor(color);
 };
 
 module.exports = Palette;
