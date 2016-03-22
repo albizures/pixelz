@@ -20,10 +20,10 @@ AppendObject.prototype.remove = function () {
 AppendObject.prototype.addClass = function (cls) {
 	this.el.classList.add(cls);
 	return this;
-}
+};
 AppendObject.prototype.removeClass = function (cls) {
 	this.el.classList.remove(cls);
 	return this;
-}
+};
 AppendObject.prototype.$type = 'div';
 module.exports = AppendObject;

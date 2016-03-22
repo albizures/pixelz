@@ -154,7 +154,11 @@ Canvas.prototype.calculatePosition = function (x, y) {
 	// TODO: Add support many sizes pointer
 	x = floor((x - this.artboard.cord.x) / this.artboard.scale);
 	y = floor((y - this.artboard.cord.y) / this.artboard.scale);
-	return {x : x, y : y};
+	let width = this.artboard.layer.width - 1,
+		height = this.artboard.layer.height - 1,
+		xo = x < 0 ? 0 : (x > width ? width : x),
+		yo = y < 0 ? 0 : (y > height ? height : y);
+	return {x : x, y : y, xo : xo, yo : yo};
 };
 Canvas.prototype.cordLayerToPaint = function (cord) {
 	cord.x = (cord.x * this.artboard.scale) + this.artboard.cord.x;
@@ -202,7 +206,8 @@ Canvas.prototype.paintBackground = function () {
 Canvas.prototype.paintAt = function (cord, color) {
 	cord = this.cordLayerToPaint(cord);
 	this.main.fillStyle = color;
-	this.main.fillRect(cord.x - 0.5, cord.y - 0.5, this.sizePointer + 0.5, this.sizePointer + 0.5);
+	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
+	//this.main.fillRect(cord.x - 0.5, cord.y - 0.5, this.sizePointer + 0.5, this.sizePointer + 0.5);
 };
 Canvas.prototype.cleanAt = function (cord) {
 	cord = this.cordLayerToPaint(cord);

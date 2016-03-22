@@ -104,7 +104,7 @@ let Editor = {
 		offsetLeft = this.getLeftPanels()[0].width;
 		scaleWidth = (window.innerWidth - offsetLeft - offsetRight) / WIDTH_DEF;
 
-		scale = scaleWidth > scaleHeight? scaleHeight : scaleWidth;
+		scale = scaleWidth > scaleHeight ? scaleHeight : scaleWidth;
 		x = Math.round((window.innerWidth / 2) - (scale * WIDTH_DEF) / 2);
 		y = Math.round((window.innerHeight / 2) - (scale * HEIGHT_DEF) / 2);
 		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);

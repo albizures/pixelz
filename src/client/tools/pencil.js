@@ -29,20 +29,36 @@ pencil.onMouseDown = function (evt) {
 		} else {
 			at = 'paintAt';
 		}
+		$(window).on('mouseup.up', this.onMouseUp.bind(this));
+		$(window).on('mouseout.leave', this.onMouseLeave.bind(this));
 	}
+};
+pencil.onMouseLeave = function (evt) {
+	let e = evt.toElement || evt.relatedTarget;
+	if (e !== document.children[0]) {
+		return;
+	}
+	let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
+	lastPixel = newPixel;
 };
 pencil.onMouseMove = function (evt) {
 	if (this.clicked) {
+		console.log('clicked');
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-		if (abs(lastPixel.y - newPixel.y) > 1 || abs(lastPixel.x - newPixel.x) > 1) { // importantDiff
-			this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, color, at);
-		} else if (!this.stroke[newPixel.x][newPixel.y] && color !== this.layer.getColorPixel(newPixel)) {
-			this.stroke[newPixel.x][newPixel.y] = this.layer[at]({x : newPixel.x, y : newPixel.y}, color);
+		if (this.layer.validCord(newPixel) || this.layer.validCord(lastPixel)) {
+			console.log('valid');
+			if (abs(lastPixel.yo - newPixel.yo) > 1 || abs(lastPixel.xo - newPixel.xo) > 1) { // importantDiff
+				this.lineBetween(lastPixel.xo, lastPixel.yo, newPixel.xo, newPixel.yo, color, at);
+			} else if (!this.stroke[newPixel.xo][newPixel.yo] && color !== this.layer.getColorPixel(newPixel)) {
+				this.stroke[newPixel.xo][newPixel.yo] = this.layer[at]({x : newPixel.xo, y : newPixel.yo}, color);
+			}
 		}
 		lastPixel = newPixel;
 	}
 };
 pencil.onMouseUp = function (evt) {
+	$(window).off('mouseup.up');
+	$(window).off('mouseout.leave');
 	if (this.clicked) {
 		this.clicked = false;
 		lastPixel = undefined;

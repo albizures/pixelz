@@ -1,7 +1,6 @@
 'use strict';
 
-const make = require('./utils.js').make,
-			Editor = require('./Editor/index.js'),
+const Editor = require('./Editor/index.js'),
 			Preview = require('./panels/Preview.js'),
 			Palette = require('./panels/Palette/index.js'),
 			Frames = require('./panels/Frames.js'),
@@ -35,3 +34,5 @@ window.onload = () => {
 	Editor.init();
 };
 // TODO: create prototype pixel and pixelStroke
+// TODO: separete palette and color picker
+// TODO: repaint canvas after the stroke is done
