@@ -43,10 +43,8 @@ pencil.onMouseLeave = function (evt) {
 };
 pencil.onMouseMove = function (evt) {
 	if (this.clicked) {
-		console.log('clicked');
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		if (this.layer.validCord(newPixel) || this.layer.validCord(lastPixel)) {
-			console.log('valid');
 			if (abs(lastPixel.yo - newPixel.yo) > 1 || abs(lastPixel.xo - newPixel.xo) > 1) { // importantDiff
 				this.lineBetween(lastPixel.xo, lastPixel.yo, newPixel.xo, newPixel.yo, color, at);
 			} else if (!this.stroke[newPixel.xo][newPixel.yo] && color !== this.layer.getColorPixel(newPixel)) {

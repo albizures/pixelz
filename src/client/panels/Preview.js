@@ -1,11 +1,12 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-			{imageSmoothingDisabled, make} = require('../utils.js'),
-			{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
-			{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
-			{ TRANSPARENT_IMG } = require('../constants'),
-			Preview = new Panel('Preview', SNAP, undefined, 230, 40, TR);
+	Range = require('../prototypes/Palette/Range.js'),
+	{imageSmoothingDisabled, make} = require('../utils.js'),
+	{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
+	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{ TRANSPARENT_IMG } = require('../constants'),
+	Preview = new Panel('Preview', SNAP, undefined, 230, 40, TR);
 let time = 0.5 * 1000, loop, index = 0, ctx;
 
 
@@ -18,10 +19,18 @@ Preview.mainInit = function () {
 		this.background.canvas,
 		this.preview.canvas
 	]);
-
+	this.FPSRange = new Range(2, 0, 12, 'FPS', this.changeFPS.bind(this));
+	this.FPSRange.appendTo(this.el);
 	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
 	this.start();
 };
+Preview.changeFPS = function (type, value) {
+	this.stop();
+	if (value != 0) {
+		time = 1000 / value;
+		this.start();
+	}
+}
 Preview.paintBackground = function () {
 	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
 	this.background.rect(0, 0, this.background.canvas.width, this.background.canvas.height);
