@@ -1,5 +1,6 @@
 @import './vendor/normalize.css'
 @import './variables.styl'
+@import './mixins.styl'
 @import './Frames.styl'
 @import './Preview.styl'
 @import './Actions.styl'
@@ -52,6 +53,8 @@ body{
 .panel
 	//box-sizing border-box
 	position absolute
+	overflow: hidden;
+	box-sizing: border-box;
 	border 2px solid rgba(245, 245, 245, 0.7)
 	//margin-top drag-bar-panel-size
 	z-index 1
@@ -96,6 +99,11 @@ body{
 			cursor se-resize
 		&.BL
 			cursor sw-resize
+.panel-menus
+	border: 0;
+	z-depth-1 0
+	z-index: 10
+	background: whitesmoke
 .panel-tools
 	.colors
 		margin 5px
