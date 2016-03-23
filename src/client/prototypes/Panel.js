@@ -6,13 +6,14 @@ const {createDiv, createSpan, defineGetter, inheritanceObject } = require('../ut
 			ResizeBar = require('../prototypes/ResizeBar.js'),
 			resizeBars = [T, L, B, R, TL, BL, BR, TR];
 // IDEA: http://codepen.io/zz85/pen/gbOoVP?editors=001
-function Panel(name, type, position, width, height, snapType, notDragbar) {
-	AppendObject.call(this, 'panel', 'panel-' + name.toLowerCase());
+function Panel(name, type, position, width, height, snapType, notDragbar, hidden) {
+	AppendObject.call(this, 'panel', 'panel-' + name.toLowerCase(), 'panel-' + type);
 	this.name = name;
 	this.type = type;
 	this.position = position || new Vector();
 	this.snapType = snapType;
 	this.notDragbar = notDragbar;
+	this.hidden = hidden;
 	//if (this.isLeft() || this.isRight()) {
 	//	this.width = width;
 	//	this.heightPerc = height;
@@ -20,8 +21,8 @@ function Panel(name, type, position, width, height, snapType, notDragbar) {
 	//	this.widthPerc = width;
 	//	this.height = height;
 	//}else {
-		this.width = width;
-		this.height = height;
+	this.width = width;
+	this.height = height;
 	//}
 	// for (let i = 0; i < resizeBars.length; i++) {
 	// 	new ResizeBar(this, resizeBars[i]);
@@ -40,6 +41,10 @@ defineGetter(Panel.prototype, 'frame', function () {
 defineGetter(Panel.prototype, 'sprite', function () {
 	return Editor.canvas.artboard.layer.frame.sprite;
 });
+Panel.prototype.hide = function () {
+	this.el.style.opacity = 0;
+	this.el.style.pointerEvents = 'none';
+};
 Panel.prototype.heightDragBar = 20;
 Panel.prototype.init = function (width, height) {
 	// if (this.isLeft() || this.isRight()) {
@@ -49,14 +54,20 @@ Panel.prototype.init = function (width, height) {
 	// 	this.widthPerc = width || this.widthPerc;
 	// 	this.height = height || this.height;
 	// }
-
+	if (this.hidden) {
+		this.hide();
+	}
 	if (!hasVal(this.parent)) {
 		return console.error('parent undefined');
 	}
 	if (SNAP === this.type) {
 		this.setSnapPosition();
-	}else {
+	}else if (FLOAT === this.type) {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
+	} else {
+		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
+		this.el.style.top = heightMenus + '%';
+		this.el.style.height = (100 - heightMenus) + '%';
 	}
 	if (!this.notDragbar) {
 		this.dragBar = createDiv('drag-bar');
@@ -86,14 +97,12 @@ Panel.prototype.setSnapPosition = function () {
 	if (this.isLeft() || this.isRight()) {
 		this.el.style.width = this.width + '%';
 		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
-
-		console.log( this.height);
 		if (this.isLeft()) {
 			this.el.style.left = '0';
 			if (this.isTop()) {
-				this.position.y = heightMenus
+				this.position.y = heightMenus;
 				this.el.style.top = heightMenus + '%';
-				this.height -= heightMenus
+				this.height -= heightMenus;
 			}else {
 				//this.position.y -= heightMenus;
 				this.el.style.top = this.position.y + '%';
@@ -104,7 +113,7 @@ Panel.prototype.setSnapPosition = function () {
 			if (this.isTop()) {
 				this.position.y = heightMenus;
 				this.el.style.top = heightMenus + '%';
-				this.height -= heightMenus
+				this.height -= heightMenus;
 			}else {
 				//this.position.y -= heightMenus;
 				this.el.style.top = this.position.y + '%';

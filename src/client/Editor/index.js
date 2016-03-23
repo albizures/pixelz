@@ -50,7 +50,7 @@ let Editor = {
 		}
 	},
 	getRightPanels () {
-	var size = {height : 0, panels : []};
+		var size = {height : 0, panels : []};
 		for (let i = 0, panels = Object.keys(this.panels); i < panels.length; i++) {
 			let panel = this.panels[panels[i]];
 			if (panel.isRight() && panel.isInit) {
@@ -83,22 +83,26 @@ let Editor = {
 	shortcuts : require('./shortcuts.js'),
 	events : require('./events.js'),
 	init () {
-		var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y;
 		this.shortcuts.init();
 		this.initPanels();
+	},
+	initSprite (data) {
+		var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y,
+			data = data || {},
+			height = data.height || HEIGHT_DEF,
+			width = data.width || WIDTH_DEF,
 
-		scaleHeight = (window.innerHeight - this.panels.Menus.height) / HEIGHT_DEF;
+		scaleHeight = (window.innerHeight - this.panels.Menus.height) / height;
 		offsetRight = this.getRightPanels().width;
 		offsetLeft = this.getLeftPanels().width;
-		scaleWidth = (window.innerWidth - offsetLeft - offsetRight) / WIDTH_DEF;
+		scaleWidth = (window.innerWidth - offsetLeft - offsetRight) / width;
 
 		scale = scaleWidth > scaleHeight ? scaleHeight : scaleWidth;
 		scale = scale * 0.94;
-		x = Math.round((window.innerWidth / 2) - (scale * WIDTH_DEF) / 2);
-		y = Math.round(((window.innerHeight + this.panels.Menus.height) / 2) - (scale * HEIGHT_DEF) / 2);
-		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
+		x = Math.round((window.innerWidth / 2) - (scale * width) / 2);
+		y = Math.round(((window.innerHeight + this.panels.Menus.height) / 2) - (scale * height) / 2);
+		this.sprite = new Sprite(width, height);
 		this.canvas = new Canvas(this.sprite.frames[0].layers[0], scale, new Vector (x, y));
-		console.timeEnd('canvas');
 	}
 };
 module.exports = Editor;

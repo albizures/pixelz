@@ -1,6 +1,7 @@
 'use strict';
 module.exports = {
 	SNAP : 'snap',
+	MODAL : 'modal',
 	FLOAT : 'float',
 	T : 'T', // top
 	B : 'B', // bottom

@@ -7,6 +7,7 @@ const Editor = require('./Editor/index.js'),
 	Info = require('./panels/Info.js'),
 	Menus = require('./panels/Menus'),
 	Actions = require('./panels/Actions.js'),
+	NewProject = require('./panels/NewProject.js'),
 	Tools = require('./panels/Tools.js'),
 	Layers = require('./panels/Layers.js'),
 	bucket = require('./tools/bucket.js'),
@@ -24,6 +25,7 @@ window.onload = () => {
 	Actions.$add();
 	Palette.$add();
 	Info.$add();
+	NewProject.$add();
 	Layers.$add();
 
 	//tools
@@ -35,6 +37,7 @@ window.onload = () => {
 	//init
 	Editor.init();
 };
+// TODO: fix pencil and eraser click
 // TODO: create prototype pixel and pixelStroke
 // TODO: separete palette and color picker
 // TODO: repaint canvas after the stroke is done
