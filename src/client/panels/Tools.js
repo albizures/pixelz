@@ -10,7 +10,7 @@ const Panel = require('../prototypes/Panel.js'),
 Tools.tools = {};
 Tools.mainInit = function () {
 	const Color = require('../prototypes/Palette/Color.js');
-	this.el.style['z-index'] = '9999';
+	this.el.style['z-index'] = '9';
 
 	let parentColors = make('div', {parent : this.el, className : 'colors'});
 	this.primaryColor = new Color(TRANSPARENT_COLOR, false, 35);
