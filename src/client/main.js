@@ -37,7 +37,6 @@ window.onload = () => {
 	//init
 	Editor.init();
 };
-// TODO: fix pencil and eraser click
 // TODO: create prototype pixel and pixelStroke
 // TODO: separete palette and color picker
 // TODO: repaint canvas after the stroke is done

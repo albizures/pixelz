@@ -59,9 +59,14 @@ pencil.onMouseUp = function (evt) {
 	$(window).off('mouseout.leave');
 	if (this.clicked) {
 		this.clicked = false;
+		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
+		if (!this.stroke[newPixel.xo][newPixel.yo] && color !== this.layer.getColorPixel(newPixel)) {
+			this.stroke[newPixel.xo][newPixel.yo] = this.layer[at]({x : newPixel.xo, y : newPixel.yo}, color);
+		}
 		lastPixel = undefined;
 		Layers.paintLayer(this.layer.index);
 		this.layer.frame.paint();
+		console.log(this.stroke);
 		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 	}
 };
