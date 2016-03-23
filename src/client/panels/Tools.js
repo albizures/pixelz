@@ -9,6 +9,7 @@ const Panel = require('../prototypes/Panel.js'),
 			Tools = new Panel('Tools', FLOAT, new Vector(500, 500), 60);
 Tools.tools = {};
 Tools.mainInit = function () {
+	var position = JSON.parse(localStorage.getItem('panel-' + this.name.toLowerCase()) || '{"x": 500, "y": 500}');
 	const Color = require('../prototypes/Palette/Color.js');
 	this.el.style['z-index'] = '9';
 
@@ -19,7 +20,7 @@ Tools.mainInit = function () {
 	this.primaryColor.appendTo(parentColors).addClass('primary');
 
 
-	this.changePosition(new Vector(100, 100));
+	this.changePosition(new Vector(position.x, position.y));
 
 	this.currentTool = this.tools.pencil;
 	for (let i = 0, keys = Object.keys(this.tools); i < keys.length; i++) {

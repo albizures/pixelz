@@ -14,21 +14,8 @@ function Panel(name, type, position, width, height, snapType, notDragbar, hidden
 	this.snapType = snapType;
 	this.notDragbar = notDragbar;
 	this.hidden = hidden;
-	//if (this.isLeft() || this.isRight()) {
-	//	this.width = width;
-	//	this.heightPerc = height;
-	//}else if (false) {
-	//	this.widthPerc = width;
-	//	this.height = height;
-	//}else {
 	this.width = width;
 	this.height = height;
-	//}
-	// for (let i = 0; i < resizeBars.length; i++) {
-	// 	new ResizeBar(this, resizeBars[i]);
-	// }
-	//console.trace(type);
-
 }
 inheritanceObject(Panel, AppendObject);
 
@@ -47,13 +34,6 @@ Panel.prototype.hide = function () {
 };
 Panel.prototype.heightDragBar = 20;
 Panel.prototype.init = function (width, height) {
-	// if (this.isLeft() || this.isRight()) {
-	// 	this.heightPerc = height || this.heightPerc;
-	// 	this.width = width ||  this.width;
-	// }else {
-	// 	this.widthPerc = width || this.widthPerc;
-	// 	this.height = height || this.height;
-	// }
 	if (this.hidden) {
 		this.hide();
 	}
@@ -104,7 +84,6 @@ Panel.prototype.setSnapPosition = function () {
 				this.el.style.top = heightMenus + '%';
 				this.height -= heightMenus;
 			}else {
-				//this.position.y -= heightMenus;
 				this.el.style.top = this.position.y + '%';
 			}
 		}else if (this.isRight()) {
@@ -115,7 +94,6 @@ Panel.prototype.setSnapPosition = function () {
 				this.el.style.top = heightMenus + '%';
 				this.height -= heightMenus;
 			}else {
-				//this.position.y -= heightMenus;
 				this.el.style.top = this.position.y + '%';
 			}
 		}
@@ -153,6 +131,7 @@ Panel.prototype.changePosition = function (position) {
 		position.y = window.innerHeight -  stats.height;
 	}
 	this.position = position;
+	localStorage.setItem('panel-' + this.name.toLowerCase(), position.toString());
 	this.el.style.top = position.y + 'px';
 	this.el.style.left = position.x + 'px';
 };

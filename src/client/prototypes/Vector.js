@@ -23,6 +23,9 @@ Vector.prototype.sum = function (x, y) {
 	this.y += y;
 	return this;
 };
+Vector.prototype.toString = function () {
+	return JSON.stringify(this);
+};
 Vector.prototype.diffAbs = function (vector) {
 	return {
 		x : abs(this.x - vector.x),
