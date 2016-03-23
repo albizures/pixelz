@@ -44,50 +44,38 @@ let Editor = {
 		}
 	},
 	initPanels () {
-		let left, right;
 		for (let i = 0, panels = Object.keys(this.panels); i < panels.length; i++) {
 			let panel = this.panels[panels[i]];
-			if (left && panel.isLeft()) {
-				panel.init(left.width, left.height);
-			}	else if (right && panel.isRight()) {
-				panel.init(right.width, right.height);
-			}else {
-				panel.init();
-			}
-
-			if (!left && panel.isLeft()) {
-				left = {
-					width : panel.width,
-					height : 100 - panel.heightPerc
-				};
-			} else if (!right && panel.isRight()) {
-				right = {
-					width : panel.width,
-					height : 100 - panel.heightPerc
-				};
-			}
+			panel.init();
 		}
 	},
 	getRightPanels () {
-		var rightPanels = [];
-		console.log(this.panels);
+	var size = {height : 0, panels : []};
 		for (let i = 0, panels = Object.keys(this.panels); i < panels.length; i++) {
 			let panel = this.panels[panels[i]];
-			if (panel.isRight()) {
-				rightPanels.push(panel);
+			if (panel.isRight() && panel.isInit) {
+				if (!size.width) {
+					size.width = panel.width;
+				}
+				size.height += panel.heightPerc;
+				size.panels.push(panel);
 			}
 		}
-		return rightPanels;
+		return size;
 	},
 	getLeftPanels () {
-		var leftPanels = [];
+		var size = {height : 0, panels : []};
 		for (let i = 0, panels = Object.keys(this.panels); i < panels.length; i++) {
 			let panel = this.panels[panels[i]];
-			if (panel.isLeft()) {
-				leftPanels.push(panel);
+			if (panel.isLeft() && panel.isInit) {
+				if (!size.width) {
+					size.width = panel.width;
+				}
+				size.height += panel.heightPerc;
+				size.panels.push(panel);
 			}
 		}
-		return leftPanels;
+		return size;
 	},
 	addTool (tool) {
 		this.panels.Tools.addTool(tool);
@@ -99,14 +87,15 @@ let Editor = {
 		this.shortcuts.init();
 		this.initPanels();
 
-		scaleHeight = window.innerHeight / HEIGHT_DEF;
-		offsetRight = this.getRightPanels()[0].width;
-		offsetLeft = this.getLeftPanels()[0].width;
+		scaleHeight = (window.innerHeight - this.panels.Menus.height) / HEIGHT_DEF;
+		offsetRight = this.getRightPanels().width;
+		offsetLeft = this.getLeftPanels().width;
 		scaleWidth = (window.innerWidth - offsetLeft - offsetRight) / WIDTH_DEF;
 
 		scale = scaleWidth > scaleHeight ? scaleHeight : scaleWidth;
+		scale = scale * 0.94;
 		x = Math.round((window.innerWidth / 2) - (scale * WIDTH_DEF) / 2);
-		y = Math.round((window.innerHeight / 2) - (scale * HEIGHT_DEF) / 2);
+		y = Math.round(((window.innerHeight + this.panels.Menus.height) / 2) - (scale * HEIGHT_DEF) / 2);
 		this.sprite = new Sprite(WIDTH_DEF, HEIGHT_DEF);
 		this.canvas = new Canvas(this.sprite.frames[0].layers[0], scale, new Vector (x, y));
 		console.timeEnd('canvas');

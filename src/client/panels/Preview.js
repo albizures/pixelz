@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
 	Range = require('../prototypes/Palette/Range.js'),
@@ -6,9 +6,8 @@ const Panel = require('../prototypes/Panel.js'),
 	{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
 	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{ TRANSPARENT_IMG } = require('../constants'),
-	Preview = new Panel('Preview', SNAP, undefined, 230, 40, TR);
+	Preview = new Panel('Preview', SNAP, undefined, 20, 40, TR);
 let time = 0.5 * 1000, loop, index = 0, ctx;
-
 
 Preview.mainInit = function () {
 	this.background = make(['canvas', {className : 'background'}]).getContext('2d');
@@ -23,6 +22,7 @@ Preview.mainInit = function () {
 	this.FPSRange.appendTo(this.el);
 	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
 	this.start();
+	console.log('init');
 };
 Preview.changeFPS = function (type, value) {
 	this.stop();
@@ -30,7 +30,7 @@ Preview.changeFPS = function (type, value) {
 		time = 1000 / value;
 		this.start();
 	}
-}
+};
 Preview.paintBackground = function () {
 	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
 	this.background.rect(0, 0, this.background.canvas.width, this.background.canvas.height);
@@ -42,14 +42,20 @@ Preview.selectFrame = function (type) {
 };
 Preview.selectSprite = function (sprite) {
 	this.scale;
-	if (sprite.width > sprite.height) {
-		this.scale = this.contentPreview.clientWidth / sprite.width;
+	// if (sprite.width > sprite.height) {
+	// 	this.scale = this.contentPreview.clientWidth / sprite.width;
+	// }else {
+	// 	this.scale = this.contentPreview.clientWidth / sprite.height;
+	// }
+	// debugger;
+	if (this.contentPreview.clientWidth > this.contentPreview.clientHeight) {
+		this.scale = this.contentPreview.clientHeight / sprite.height;
 	}else {
-		this.scale = this.contentPreview.clientWidth / sprite.height;
+		this.scale = this.contentPreview.clientWidth / sprite.width;
 	}
 	this.background.canvas.width = this.preview.canvas.width =	sprite.width * this.scale;
 	this.background.canvas.height = this.preview.canvas.height =	sprite.height * this.scale;
-	this.background.canvas.style.marginTop = this.preview.canvas.style.marginTop = ((this.contentPreview.clientWidth - this.preview.canvas.height) / 2) + 'px';
+	this.background.canvas.style.marginTop = this.preview.canvas.style.marginTop = ((this.contentPreview.clientHeight - this.preview.canvas.height) / 2) + 'px';
 	this.background.canvas.style.marginLeft = this.preview.canvas.style.marginLeft = ((this.contentPreview.clientWidth - this.preview.canvas.width) / 2) + 'px';
 	this.start();
 	this.paintBackground();

@@ -1,13 +1,12 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
-			{CHANGE_SPRITE} = require('../constants').events,
-			Info = new Panel('Info', SNAP, BR);
+	Vector = require('../prototypes/Vector.js'),
+	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{CHANGE_SPRITE} = require('../constants').events,
+	Info = new Panel('Info', SNAP, new Vector(100, 80), 20, 20, R);
 
 Info.mainInit = function () {
-	this.el.style['z-index'] = '9999';
-	Editor.events.on(CHANGE_SPRITE + '.' + this.name, this.changeSprite, this);
 };
 Info.changeSprite = function (sprite) {
 	var p = document.createElement('div');

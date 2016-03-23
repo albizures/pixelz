@@ -4,8 +4,9 @@ const Panel = require('../prototypes/Panel.js'),
 			PreviewLayer = require('../prototypes/Layers/PreviewLayer.js'),
 			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 			{createBtn, createSpan, make} = require('../utils.js'),
+			Vector = require('../prototypes/Vector.js'),
 			btnAddLayer = createBtn('add layer', 'add-layer'),
-			Layers = new Panel('Layers', SNAP, undefined, 120, undefined, BL);
+			Layers = new Panel('Layers', SNAP, new Vector(0, 60), 15, 40, L);
 
 let currentLayer = 0, layersPreview = [];
 Layers.mainInit = function () {

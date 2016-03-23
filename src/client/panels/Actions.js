@@ -3,9 +3,9 @@
 const Panel = require('../prototypes/Panel.js'),
 	Vector = require('../prototypes/Vector.js'),
 	{make} = require('../utils.js'),
-	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{SNAP, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{CHANGE_SPRITE} = require('../constants').events,
-	Actions = new Panel('Actions', FLOAT, new Vector(700, 500), 100);
+	Actions = new Panel('Actions', SNAP, new Vector(100, 40), 20, 20, R);
 
 Actions.mainInit = function () {
 	this.el.style['z-index'] = '9999';

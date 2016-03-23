@@ -6,22 +6,23 @@ const {createDiv, createSpan, defineGetter, inheritanceObject } = require('../ut
 			ResizeBar = require('../prototypes/ResizeBar.js'),
 			resizeBars = [T, L, B, R, TL, BL, BR, TR];
 // IDEA: http://codepen.io/zz85/pen/gbOoVP?editors=001
-function Panel(name, type, position, width, height, snapType) {
+function Panel(name, type, position, width, height, snapType, notDragbar) {
 	AppendObject.call(this, 'panel', 'panel-' + name.toLowerCase());
 	this.name = name;
 	this.type = type;
 	this.position = position || new Vector();
 	this.snapType = snapType;
-	if (this.isLeft() || this.isRight()) {
+	this.notDragbar = notDragbar;
+	//if (this.isLeft() || this.isRight()) {
+	//	this.width = width;
+	//	this.heightPerc = height;
+	//}else if (false) {
+	//	this.widthPerc = width;
+	//	this.height = height;
+	//}else {
 		this.width = width;
-		this.heightPerc = height;
-	}else if (false) {
-		this.widthPerc = width;
 		this.height = height;
-	}else {
-		this.width = width;
-		this.height = height;
-	}
+	//}
 	// for (let i = 0; i < resizeBars.length; i++) {
 	// 	new ResizeBar(this, resizeBars[i]);
 	// }
@@ -41,13 +42,13 @@ defineGetter(Panel.prototype, 'sprite', function () {
 });
 Panel.prototype.heightDragBar = 20;
 Panel.prototype.init = function (width, height) {
-	if (this.isLeft() || this.isRight()) {
-		this.heightPerc = height || this.heightPerc;
-		this.width = width ||  this.width;
-	}else {
-		this.widthPerc = width || this.widthPerc;
-		this.height = height || this.height;
-	}
+	// if (this.isLeft() || this.isRight()) {
+	// 	this.heightPerc = height || this.heightPerc;
+	// 	this.width = width ||  this.width;
+	// }else {
+	// 	this.widthPerc = width || this.widthPerc;
+	// 	this.height = height || this.height;
+	// }
 
 	if (!hasVal(this.parent)) {
 		return console.error('parent undefined');
@@ -57,15 +58,17 @@ Panel.prototype.init = function (width, height) {
 	}else {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
 	}
-	this.dragBar = createDiv('drag-bar');
-	this.dragBar.style.height = this.heightDragBar + 'px';
-	this.dragBar.appendChild(createSpan(this.name));
-	this.el.appendChild(this.dragBar);
-	$(this.dragBar).on('mousedown.drag', this.onDragStart.bind(this));
-
+	if (!this.notDragbar) {
+		this.dragBar = createDiv('drag-bar');
+		this.dragBar.style.height = this.heightDragBar + 'px';
+		this.dragBar.appendChild(createSpan(this.name));
+		this.el.appendChild(this.dragBar);
+		$(this.dragBar).on('mousedown.drag', this.onDragStart.bind(this));
+	}
 	if (hasVal(this.mainInit)) {
 		this.mainInit();
 	}
+	this.isInit = true;
 };
 Panel.prototype.isLeft = function () {
 	return this.type === SNAP && this.snapType === TL || this.snapType === BL || this.snapType == L;
@@ -80,28 +83,45 @@ Panel.prototype.isTop = function () {
 	return this.type === SNAP && this.snapType === TR || this.snapType === TL || this.snapType == T;
 };
 Panel.prototype.setSnapPosition = function () {
-	this.el.style.width = this.width + 'px';
 	if (this.isLeft() || this.isRight()) {
-		this.height = window.innerHeight * (this.heightPerc / 100);
-		this.el.style.height = this.height + 'px';
+		this.el.style.width = this.width + '%';
+		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
 
-	}
-	if (this.isLeft()) {
-		this.el.style.left = '0';
-		if (this.isBottom()) {
-			this.position.y = window.innerHeight - this.height;
-			this.el.style.top = this.position.y + 'px';
-		}else {
-			this.position.y = this.el.style.top = 0;
+		console.log( this.height);
+		if (this.isLeft()) {
+			this.el.style.left = '0';
+			if (this.isTop()) {
+				this.position.y = heightMenus
+				this.el.style.top = heightMenus + '%';
+				this.height -= heightMenus
+			}else {
+				//this.position.y -= heightMenus;
+				this.el.style.top = this.position.y + '%';
+			}
+		}else if (this.isRight()) {
+			this.position.x = 100 - this.width;
+			this.el.style.left = this.position.x + '%';
+			if (this.isTop()) {
+				this.position.y = heightMenus;
+				this.el.style.top = heightMenus + '%';
+				this.height -= heightMenus
+			}else {
+				//this.position.y -= heightMenus;
+				this.el.style.top = this.position.y + '%';
+			}
 		}
-	}else if (this.isRight()) {
-		this.position.x = window.innerWidth - this.width;
-		this.el.style.left = this.position.x + 'px';
-		if (this.isBottom()) {
-			this.position.y = window.innerHeight - this.height;
-			this.el.style.top = this.position.y + 'px';
-		}else {
-			this.position.y = this.el.style.top = 0;
+		this.el.style.height = this.height + '%';
+	} else {
+		this.el.style.width = this.width + '%';
+		if (this.name == 'Menus') {
+			this.el.style.height = this.height + 'px';
+		} else {
+			this.el.style.height = this.height + '%';
+		}
+		if (this.isTop()) {
+			this.el.style.top = 0;
+		} else {
+			this.el.style.bottom = 0;
 		}
 	}
 };

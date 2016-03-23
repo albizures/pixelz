@@ -9,7 +9,7 @@ const {TRANSPARENT_COLOR, PALETTE} = require('../../constants/index.js'),
 			pickers = require('./pickers.js'),
 			divColors = document.createElement('div'),
 			inputColor = document.createElement('input'),
-			Palette = new Panel(PALETTE, SNAP, undefined, 300, 300, BR);
+			Palette = new Panel(PALETTE, SNAP, new Vector(100, 60), 20, 20, R);
 
 let time = 0.5 * 1000, loop, index = 0, ctx,
 		colors = ['rgba(26, 188, 156, 1)', 'rgba(241, 196, 15, 1)', 'rgba(52, 152, 219, 1)', 'rgba(230, 126, 34, 1)', 'rgba(231, 76, 60, 1)', 'rgba(189, 195, 199, 1)', 'rgba(155, 89, 182, 1)', 'rgba(52, 73, 94, 1)', 'rgba(127, 140, 141, 1)'];
