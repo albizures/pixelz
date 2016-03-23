@@ -5,10 +5,9 @@ const Panel = require('../prototypes/Panel.js'),
 	{make} = require('../utils.js'),
 	{SNAP, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{CHANGE_SPRITE} = require('../constants').events,
-	Actions = new Panel('Actions', SNAP, new Vector(100, 40), 20, 20, R);
+	Actions = new Panel('Actions', SNAP, new Vector(100, 40), 15, 20, R);
 
 Actions.mainInit = function () {
-	this.el.style['z-index'] = '9999';
 	$(make('button', {parent : this.el}, 'u')).on('click.undo', this.undo.bind(this));
 	$(make('button', {parent : this.el}, 'r')).on('click.undo', this.redo.bind(this));
 	this.elRedo = make('ul', {parent : this.el, className : 'list redo'});
@@ -26,7 +25,6 @@ Actions.redo = function (index) {
 	for (let i = index + 1; 0 < i; --i) {
 		this.listRedo[0].execute();
 	}
-	//console.log(this.listUndo, this.listRedo);
 };
 
 Actions.undo = function (index) {
@@ -39,13 +37,11 @@ Actions.undo = function (index) {
 	for (let i = index + 1; 0 < i; --i) {
 		this.listUndo[0].execute();
 	}
-	//console.log(this.listUndo, this.listRedo);
 };
 Actions.removeAllRedo = function (index) {
 	index = index || this.listRedo.length - 1;
 	for (let i = index + 1; 0 < i; --i) {
 		this.removeRedo(0);
-		//console.log(this.listRedo);
 	}
 };
 Actions.removeRedo = function (index) {

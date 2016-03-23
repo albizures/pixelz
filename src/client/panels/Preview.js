@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
 	Range = require('../prototypes/Palette/Range.js'),
@@ -6,7 +6,7 @@ const Panel = require('../prototypes/Panel.js'),
 	{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
 	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{ TRANSPARENT_IMG } = require('../constants'),
-	Preview = new Panel('Preview', SNAP, undefined, 20, 40, TR);
+	Preview = new Panel('Preview', SNAP, undefined, 15, 40, TR);
 let time = 0.5 * 1000, loop, index = 0, ctx;
 
 Preview.mainInit = function () {
@@ -21,8 +21,6 @@ Preview.mainInit = function () {
 	this.FPSRange = new Range(2, 0, 12, 'FPS', this.changeFPS.bind(this));
 	this.FPSRange.appendTo(this.el);
 	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
-	this.start();
-	console.log('init');
 };
 Preview.changeFPS = function (type, value) {
 	this.stop();
@@ -42,12 +40,6 @@ Preview.selectFrame = function (type) {
 };
 Preview.selectSprite = function (sprite) {
 	this.scale;
-	// if (sprite.width > sprite.height) {
-	// 	this.scale = this.contentPreview.clientWidth / sprite.width;
-	// }else {
-	// 	this.scale = this.contentPreview.clientWidth / sprite.height;
-	// }
-	// debugger;
 	if (this.contentPreview.clientWidth > this.contentPreview.clientHeight) {
 		this.scale = this.contentPreview.clientHeight / sprite.height;
 	}else {

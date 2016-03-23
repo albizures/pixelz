@@ -4,7 +4,7 @@ const Panel = require('../prototypes/Panel.js'),
 	Vector = require('../prototypes/Vector.js'),
 	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{CHANGE_SPRITE} = require('../constants').events,
-	Info = new Panel('Info', SNAP, new Vector(100, 80), 20, 20, R);
+	Info = new Panel('Info', SNAP, new Vector(100, 80), 15, 20, R);
 
 Info.mainInit = function () {
 };

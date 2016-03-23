@@ -10,7 +10,6 @@ const Panel = require('../prototypes/Panel.js'),
 
 let currentLayer = 0, layersPreview = [];
 Layers.mainInit = function () {
-	this.el.style['z-index'] = '9999';
 	this.el.appendChild(btnAddLayer);
 	this.ul = document.createElement('ul');
 	this.ul = make(['ul', {className : 'layers-list', parent : this.el}]);
@@ -23,9 +22,7 @@ Layers.createLayer = function () {
 Layers.createPreviewLayer = function () {
 	this.ul.innerHTML = '';
 	for (let i = 0; i < this.layers.length; i++) {
-		//this.layers[i];
 		layersPreview[this.layers[i].index] = new PreviewLayer(this.layers[i]).appendTo(this.ul);
-		//this.el.appendChild(createSpan(this.layers[i].index + 1));
 	}
 };
 Layers.deletePreview = function (index) {
