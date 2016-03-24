@@ -48,7 +48,7 @@ function isHSL(color) {
 	return color.match(hsl) || false;
 }
 function getRGBAValues(color) {
-	return color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/)
+	return color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
 }
 function colorIsLight(r, g, b) {
 	var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
