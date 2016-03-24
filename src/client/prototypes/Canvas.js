@@ -165,7 +165,6 @@ Canvas.prototype.calculatePosition = function (x, y) {
 Canvas.prototype.cordLayerToPaint = function (cord) {
 	cord.x = (cord.x * this.artboard.scale) + this.artboard.cord.x;
 	cord.y = (cord.y * this.artboard.scale) + this.artboard.cord.y;
-	console.log(cord, this.artboard.scale, this.artboard.cord.x);
 	return cord;
 };
 Canvas.prototype.previewAt = function (cord,color) {

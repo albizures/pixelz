@@ -3,6 +3,7 @@ const { imageSmoothing } = require('../utils.js'),
 	{ TRANSPARENT_COLOR } = require('../constants'),
 	Layer = require('./Layer.js'),
 	Frames = require('../panels/Frames.js'),
+	Layers = require('../panels/Layers.js'),
 	{ UPDATE_FRAME } = require('../constants').events;
 
 function Frame(sprite, index, status, layers, clone) {

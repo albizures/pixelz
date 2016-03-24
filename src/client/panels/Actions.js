@@ -8,14 +8,17 @@ const Panel = require('../prototypes/Panel.js'),
 	Actions = new Panel('Actions', SNAP, new Vector(100, 40), 15, 20, R);
 
 Actions.mainInit = function () {
+	var contentLists = make('div', {className : 'content-lists'});
 	$(make('button', {
 		parent : make('div', {parent : this.el, className : 'content-undo'})
 	}, 'undo')).on('click.undo', this.undo.bind(this));
 	$(make('button', {
 		parent : make('div', {parent : this.el, className : 'content-redo'})
 	}, 'redo')).on('click.redo', this.redo.bind(this));
-	this.elRedo = make('ul', {parent : this.el, className : 'list redo'});
-	this.elUndo = make('ul', {parent : this.el, className : 'list undo'});
+
+	this.elRedo = make('ul', {parent : contentLists, className : 'list redo'});
+	this.elUndo = make('ul', {parent : contentLists, className : 'list undo'});
+	this.el.appendChild(contentLists);
 };
 Actions.listUndo = [];
 Actions.listRedo = [];
