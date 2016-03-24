@@ -3,17 +3,17 @@ const webpack = require('webpack'),
 	path = require('path'),
 	config = require('./server/config/environment'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
-	ExtractTextPlugin = require('extract-text-webpack-plugin');
+	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 
-const ROOT_PATH = config.ROOT_PATH,
+	ROOT_PATH = config.ROOT_PATH,
 	APP_PATH = config.APP_PATH,
 	CLIENT_PATH = config.CLIENT_PATH,
 	PUBLIC_PATH = config.PUBLIC_PATH,
 	MODULES_PATH = config.MODULES_PATH,
 	MAIN_TEMPLATE = config.MAIN_TEMPLATE,
 	ASSETS_PATH = config.ASSETS_PATH;
+console.log(process.env.NODE_ENV);
 module.exports = {
-	devtool: 'eval', //'eval-source-map',
 	entry: APP_PATH,
 	output: {
 		path: PUBLIC_PATH,
@@ -76,7 +76,7 @@ module.exports = {
 	// Automatically transform files with these extensions
 	resolve: {
 		alias: {
-			b64:  CLIENT_PATH + '\\libs\\b64.js',
+			b64: CLIENT_PATH + '\\libs\\b64.js',
 			GIFEncoder: CLIENT_PATH + '\\libs\\GIFEncoder.js',
 			LZWEncoder: CLIENT_PATH + '\\libs\\LZWEncoder.js',
 			NeuQuant: CLIENT_PATH + '\\libs\\NeuQuant.js'
@@ -86,8 +86,10 @@ module.exports = {
 	resolveLoader: {
 		root: MODULES_PATH
 	}
-}
-if (!process.env.PRODUCTION) {
+};
+
+if (process.env.NODE_ENV !== 'production') {
+	module.exports.devtool = 'eval'; //'eval-source-map',
 	const compiler = webpack(module.exports);
 	compiler.apply();
 	compiler.watch({ // watch options:
@@ -96,13 +98,29 @@ if (!process.env.PRODUCTION) {
 		poll: true // use polling instead of native watchers
 			// pass a number to set the polling interval
 	}, function (err, stats) {
-    if (err) {
-      console.log('Error', err);
-    } else {
-      console.log('ended', err);
-      console.log(stats.toString({
-        colors: true
-      }));
-    }
+		if (err) {
+			console.log('Error', err);
+		} else {
+			console.log('ended', err);
+			console.log(stats.toString({
+				colors: true
+			}));
+		}
+	});
+}
+if (process.env.NODE_ENV == 'production') {
+	console.log('push');
+	module.exports.plugins.push(new webpack.optimize.UglifyJsPlugin({
+		minimize: true
+	}));
+	webpack(module.exports).run(function (err, stats) {
+		if (err) {
+			console.log('Error', err);
+		} else {
+			console.log('ended', err);
+			console.log(stats.toString({
+				colors: true
+			}));
+		}
 	});
 }

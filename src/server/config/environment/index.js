@@ -2,7 +2,7 @@
 const path = require('path'),
 	_ = require('lodash'),
 	env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-	ROOT_PATH = path.join(__dirname,'..' , '..', '..', '..'),
+	ROOT_PATH = path.join(__dirname, '..', '..', '..', '..'),
 	PUBLIC_PATH = path.join(ROOT_PATH, 'public'),
 	CLIENT_PATH = path.join(ROOT_PATH,'src', 'client'),
 	APP_PATH = path.join(CLIENT_PATH, 'init.js'),
