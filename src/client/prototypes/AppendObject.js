@@ -10,6 +10,9 @@ function AppendObject() {
 defineGetter(AppendObject.prototype, 'parent', function () {
 	return this.el.parentNode;
 });
+AppendObject.prototype.on = function (event, callback) {
+	$(this.el).on(event, callback);
+};
 AppendObject.prototype.appendTo = function (parent) {
 	parent.appendChild(this.el);
 	return this;
