@@ -11,8 +11,8 @@ const Panel = require('../prototypes/Panel.js'),
 	ColorPicker = new Panel('ColorPicker', FLOAT, new Vector(500, 500), undefined, undefined, undefined, false, true);
 
 ColorPicker.mainInit = function () {
-	const Color = require('../prototypes/Color.js');
 	var position = JSON.parse(localStorage.getItem('panel-' + this.name.toLowerCase()) || '{"x": 500, "y": 500}');
+	const Color = require('../prototypes/Color.js');
 	this.changePosition(new Vector(position.x, position.y));
 	this.rgbaPicker = new Picker(RGBA, this.onChangeValueRGBAPicker.bind(this), R, G, B, A);
 	this.rgbaPicker.rangeA.input.min = 0;

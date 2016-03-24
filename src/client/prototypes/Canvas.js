@@ -74,7 +74,7 @@ Canvas.prototype.onScroll = function (evt) {
 	if (!out) {
 		out = setTimeout(function () {
 			out = undefined;
-			this.scaleTo(round((this.artboard.scale * diff) * 100) / 100);
+			this.scaleTo(round((this.artboard.scale * diff) /* 100*/)/* / 100*/);
 		}.bind(this), 50);
 	}
 };
@@ -93,6 +93,8 @@ Canvas.prototype.scaleTo = function (scale) {
 	this.artboard.cord.x = this.artboard.cord.x - (this.artboard.layer.width * this.artboard.scale / 2);
 	this.artboard.cord.y = this.artboard.cord.y - (this.artboard.layer.height * this.artboard.scale / 2);
 
+	this.artboard.cord.x = round(this.artboard.cord.x);
+	this.artboard.cord.y = round(this.artboard.cord.y);
 	this.paintMain();
 
 };
@@ -163,6 +165,7 @@ Canvas.prototype.calculatePosition = function (x, y) {
 Canvas.prototype.cordLayerToPaint = function (cord) {
 	cord.x = (cord.x * this.artboard.scale) + this.artboard.cord.x;
 	cord.y = (cord.y * this.artboard.scale) + this.artboard.cord.y;
+	console.log(cord, this.artboard.scale, this.artboard.cord.x);
 	return cord;
 };
 Canvas.prototype.previewAt = function (cord,color) {
