@@ -2,13 +2,14 @@
 const AppendObject = require('../../prototypes/AppendObject.js'),
 			{ SELECT_FRAME } = require('../../constants').events,
 			{ TRANSPARENT_IMG } = require('../../constants'),
-			{inheritanceObject, createBtn, createSpan, imageSmoothingDisabled} = require('../../utils.js');
+			{inheritanceObject, createBtn, createSpan, imageSmoothingDisabled ,defineGetter} = require('../../utils.js');
 
-function PreviewFrame(frame, selected) {
+function PreviewFrame(frame, selected, list) {
 	this.$type = 'li';
 	AppendObject.call(this, 'preview-frame');
 	this.frame = frame;
 	this.selected = selected;
+	this.list = list;
 	this.context = document.createElement('canvas').getContext('2d');
 	this.background = document.createElement('canvas').getContext('2d');
 	this.btnClone = createBtn('C', 'btn-clone', 'btn');
@@ -32,6 +33,9 @@ function PreviewFrame(frame, selected) {
 	$(this.btnClone).on('click.frame', this.cloneFrame.bind(this));
 }
 inheritanceObject(PreviewFrame, AppendObject);
+defineGetter(PreviewFrame.prototype, 'index', function () {
+	return this.frame.index;
+});
 PreviewFrame.prototype.onClick = function (evt) {
 	this.frame.select();
 };
@@ -39,13 +43,12 @@ PreviewFrame.prototype.cloneFrame = function (evt) {
 	evt.stopPropagation();
 	this.frame.sprite.addFrame(this.frame.index);
 };
+PreviewFrame.prototype.setIndex = function (index) {
+	this.frame.sprite.moveFrame(this.index, index);
+};
 PreviewFrame.prototype.deleteFrame = function (evt) {
 	evt.stopPropagation();
 	this.frame.delete();
-};
-PreviewFrame.prototype.changeFrame = function (frame) {
-	this.frame = frame;
-	this.paint();
 };
 PreviewFrame.prototype.selectFrame = function () {
 	this.selected = true;
@@ -58,6 +61,7 @@ PreviewFrame.prototype.unSelectFrame = function () {
 PreviewFrame.prototype.resize = function () {
 	let size = this.el.clientWidth;
 	this.el.style.height = size + 'px';
+	this.el.style.width = size + 'px';
 	if (this.frame.width > this.frame.height) {
 		this.background.canvas.width = this.context.canvas.width = size;
 		this.scale = size / this.frame.width;
@@ -84,6 +88,9 @@ PreviewFrame.prototype.appendTo = function (el) {
 	this.el.classList.remove('active');
 	this.spanIndex.textContent = this.frame.index + 1;
 	return this;
+};
+PreviewFrame.prototype.updateIndex = function () {
+	this.spanIndex.textContent = this.frame.index + 1;
 };
 PreviewFrame.prototype.paint = function () {
 	this.clean();

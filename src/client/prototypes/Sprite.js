@@ -35,6 +35,15 @@ Sprite.prototype.reIndexing = function () {
 		this.frames[i].index = i;
 	}
 };
+Sprite.prototype.moveFrame = function (oldIndex, newIndex) {
+	let frame = this.frames.splice(oldIndex, 1), tempFrames;
+	Preview.stop();
+	tempFrames = this.frames.splice(newIndex);
+	this.frames = this.frames.concat(frame, tempFrames);
+	this.reIndexing();
+	Preview.selectFrame();
+	Preview.start();
+};
 Sprite.prototype.paint = function () {};
 Sprite.prototype.selectFrame = function (frame) {
 	if (Number.isInteger(frame)) {

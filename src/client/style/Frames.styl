@@ -2,6 +2,7 @@ size-btn-preview = 20px
 size-font-preview = 0.65em
 
 .panel.panel-frames
+	background: whitesmoke
 	z-index 2
 	top 0
 	left 0
@@ -12,15 +13,24 @@ size-font-preview = 0.65em
 		margin 3%
 	ul
 		overflow-y scroll
-		height 90%
+		height calc(100% - 53px)
 		box-sizing border-box
 		list-style none
-		padding 7px
+		padding 30px
 		margin 0
+		position: relative
 		li
+			transition 0.3s top //cubic-bezier(0.46, 0.03, 0.52, 0.96)
 			border 1px solid
 			width 100%
-			margin-bottom 10px
+			z-depth-1() 0
+			&.drag
+				z-index 1
+				z-depth-2() 0
+				transition 0s all
+				background: rgba(0, 0, 0, 0.6);
+				*
+					opacity: 0.4
 
 .preview-frame
 	cursor move

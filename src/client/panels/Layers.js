@@ -6,7 +6,7 @@ const Panel = require('../prototypes/Panel.js'),
 			{createBtn, createSpan, make} = require('../utils.js'),
 			Vector = require('../prototypes/Vector.js'),
 			btnAddLayer = createBtn('add layer', 'add-layer'),
-			Layers = new Panel('Layers', SNAP, new Vector(0, 60), 15, 40, L);
+			Layers = new Panel('Layers', SNAP, new Vector(0, 80), 13, 20, L);
 
 let currentLayer = 0, layersPreview = [];
 Layers.mainInit = function () {
