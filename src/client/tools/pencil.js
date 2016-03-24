@@ -66,7 +66,6 @@ pencil.onMouseUp = function (evt) {
 		lastPixel = undefined;
 		Layers.paintLayer(this.layer.index);
 		this.layer.frame.paint();
-		console.log(this.stroke);
 		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 	}
 };
