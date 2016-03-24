@@ -8,6 +8,7 @@ const Editor = require('./Editor/index.js'),
 	Menus = require('./panels/Menus'),
 	Actions = require('./panels/Actions.js'),
 	NewProject = require('./panels/NewProject.js'),
+	ColorPicker = require('./panels/ColorPicker.js'),
 	Tools = require('./panels/Tools.js'),
 	Layers = require('./panels/Layers.js'),
 	bucket = require('./tools/bucket.js'),
@@ -27,6 +28,7 @@ window.onload = () => {
 	Info.$add();
 	NewProject.$add();
 	Layers.$add();
+	ColorPicker.$add();
 
 	//tools
 	pencil();

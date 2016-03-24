@@ -32,6 +32,10 @@ Panel.prototype.hide = function () {
 	this.el.style.opacity = 0;
 	this.el.style.pointerEvents = 'none';
 };
+Panel.prototype.show = function () {
+	this.el.style.opacity = 1;
+	this.el.style.pointerEvents = 'initial';
+};
 Panel.prototype.heightDragBar = 20;
 Panel.prototype.init = function (width, height) {
 	if (this.hidden) {

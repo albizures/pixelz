@@ -1,7 +1,7 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-	Range = require('../prototypes/Palette/Range.js'),
+	Range = require('../prototypes/Range.js'),
 	{imageSmoothingDisabled, make} = require('../utils.js'),
 	{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
 	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
