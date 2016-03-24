@@ -206,6 +206,7 @@ Canvas.prototype.paintBackground = function () {
 Canvas.prototype.paintAt = function (cord, color) {
 	cord = this.cordLayerToPaint(cord);
 	this.main.fillStyle = color;
+	this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 	this.main.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 	//this.main.fillRect(cord.x - 0.5, cord.y - 0.5, this.sizePointer + 0.5, this.sizePointer + 0.5);
 };
