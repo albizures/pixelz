@@ -78,7 +78,7 @@ function onMouseUp(evt) {
 		y = (evt.clientY - stats.top + this.list.el.scrollTop) - (this.list.realHeight / 2),
 		newIndex = Math.floor((y + (this.list.realHeight / 2)) / (this.list.realHeight)),
 		oldIndex = this.index, item, tempItems;
-	if (maxY < y ) {
+	if (maxY < y) {
 		y = maxY;
 	} else if (y < 0) {
 		y = 0;
@@ -86,7 +86,7 @@ function onMouseUp(evt) {
 	if (newIndex < 0) {
 		newIndex = 0;
 	} else if (newIndex > this.list.elements - 1) {
-		newIndex = this.list.elements - 1
+		newIndex = this.list.elements - 1;
 	}
 	$(window).off('mousemove.drag');
 	$(window).off('mouseup.drag');
@@ -104,7 +104,7 @@ function onMouseMove(evt) {
 		maxY = this.list.realHeight * (this.list.elements.length - 1),
 		y = (evt.clientY - stats.top + this.list.el.scrollTop) - (this.list.realHeight / 2),
 		index = Math.floor((y + (this.list.realHeight / 2)) / (this.list.realHeight));
-	if (maxY < y ) {
+	if (maxY < y) {
 		y = maxY;
 	} else if (y < 0) {
 		y = 0;
@@ -112,10 +112,9 @@ function onMouseMove(evt) {
 	if (index < 0) {
 		index = 0;
 	} else if (index > this.list.elements - 1) {
-		index = this.list.elements - 1
+		index = this.list.elements - 1;
 	}
 	this.list.orderDrag(this, index);
-	this.list.elements.length
 	this.el.style.top = y + 'px';
 }
 module.exports = List;

@@ -71,7 +71,7 @@ Canvas.prototype.onScroll = function (evt) {
 			let diff = 1.06;
 			if (evt.deltaY > 0) {
 				diff = 0.9;
-				return this.scaleTo(Math.floor((this.artboard.scale * diff) /* 100*/)/* / 100*/)
+				return this.scaleTo(Math.floor((this.artboard.scale * diff) /* 100*/)/* / 100*/);
 			}else if (evt.deltaY < 0) {
 				diff = 1.1;
 				return this.scaleTo(Math.ceil((this.artboard.scale * diff) /* 100*/)/* / 100*/);
