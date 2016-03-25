@@ -7,7 +7,7 @@ const Panel = require('../prototypes/Panel.js'),
 	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{ TRANSPARENT_IMG } = require('../constants'),
 	Preview = new Panel('Preview', SNAP, undefined, 15, 40, TR);
-let time = 0.5 * 1000, loop, index = 0, ctx;
+let time = 1000 / 2, loop, index = 0, ctx;
 
 Preview.mainInit = function () {
 	this.background = make(['canvas', {className : 'background'}]).getContext('2d');
@@ -18,9 +18,9 @@ Preview.mainInit = function () {
 		this.background.canvas,
 		this.preview.canvas
 	]);
+	this.on('click.stop',this.changeStatus.bind(this));
 	this.FPSRange = new Range(2, 0, 12, 'FPS', this.changeFPS.bind(this));
 	this.FPSRange.appendTo(this.el);
-	$(this.preview.canvas).on('click.animator', this.changeStatus.bind(this));
 };
 Preview.changeFPS = function (type, value) {
 	this.stop();
@@ -62,7 +62,6 @@ Preview.start = function () {
 	}, time);
 };
 Preview.changeStatus = function () {
-	console.log(this.started);
 	if (this.started) {
 		this.stop();
 	}else {
