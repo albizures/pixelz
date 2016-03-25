@@ -37,7 +37,9 @@ Canvas.prototype.init = function () {
 
 	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
 
-	$(this.preview.canvas).on('mousewheel.canvas', this.onScroll.bind(this));
+	$(this.preview.canvas)
+		.on('mousewheel.canvas', this.onScroll.bind(this))
+		.on('DOMMouseScroll.canvas', this.onScroll.bind(this));
 	$(this.preview.canvas).on('mousedown.canvas', this.onMouseDown.bind(this));
 	$(this.preview.canvas).on('mouseup.canvas', this.onMouseUp.bind(this));
 	$(this.preview.canvas).on('mousemove.canvas', this.onMouseMove.bind(this));
@@ -69,10 +71,10 @@ Canvas.prototype.onScroll = function (evt) {
 		out = setTimeout(function () {
 			out = undefined;
 			let diff = 1.06;
-			if (evt.deltaY > 0) {
+			if (evt.deltaY > 0 || evt.detail > 0) {
 				diff = 0.9;
 				return this.scaleTo(Math.floor((this.artboard.scale * diff) /* 100*/)/* / 100*/);
-			}else if (evt.deltaY < 0) {
+			}else if (evt.deltaY < 0 || evt.detail < 0) {
 				diff = 1.1;
 				return this.scaleTo(Math.ceil((this.artboard.scale * diff) /* 100*/)/* / 100*/);
 			}
