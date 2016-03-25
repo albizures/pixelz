@@ -48,7 +48,7 @@ eraser.onMouseUp = function (evt) {
 	if (this.clicked) {
 		this.clicked = false;
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-		if (!this.stroke[newPixel.xo][newPixel.yo] && color !== this.layer.getColorPixel(newPixel)) {
+		if (!this.stroke[newPixel.xo][newPixel.yo] && TRANSPARENT_COLOR !== this.layer.getColorPixel(newPixel)) {
 			this.stroke[newPixel.xo][newPixel.yo] = this.layer[at]({x : newPixel.xo, y : newPixel.yo}, color);
 		}
 		lastPixel = undefined;
