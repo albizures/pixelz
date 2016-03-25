@@ -3,14 +3,16 @@ const { imageSmoothing } = require('../utils.js'),
 	Layers = require('../panels/Layers.js'),
 	{	TRANSPARENT_COLOR } = require('../constants');
 //console.log(new Frame(), Frame.prototype);
-function Layer(frame, index, status, context) {
+function Layer(frame, index, status, context, bitmap) {
 	this.frame = frame;
 	this.index = index;
 	this.status = status;
 	this.context = context || document.createElement('canvas').getContext('2d');
-	this.bitmap = new Array(this.frame.width);
-	for (let i = 0; i < this.bitmap.length; i++) {
-		this.bitmap[i] = new Array(this.frame.height).fill(TRANSPARENT_COLOR);
+	this.bitmap =  bitmap || new Array(this.frame.width);
+	if (!bitmap) {
+		for (let i = 0; i < this.bitmap.length; i++) {
+			this.bitmap[i] = new Array(this.frame.height).fill(TRANSPARENT_COLOR);
+		}
 	}
 	if (!context) {
 		this.init();
@@ -42,6 +44,13 @@ Layer.prototype.init = function () {
 	this.context.putImageData(tempData, 0, 0);
 	Layers.addPreview(this);
 };
+Layer.prototype.cloneBitmap = function () {
+	let newBitmap = [];
+	for (let i = 0; i < this.bitmap.length; i++) {
+		newBitmap.push(this.bitmap[i].slice(0));
+	}
+	return newBitmap;
+};
 Layer.prototype.delete = function () {
 	if (this.frame.deleteLayer(this.index)) {
 		Layers.deletePreview(this.index);
@@ -54,7 +63,7 @@ Layer.prototype.getIMG = function () {
 };
 Layer.prototype.clone = function (frame) {
 	frame = frame || this.frame;
-	return new Layer(frame, this.index, this.status, this.cloneContext());
+	return new Layer(frame, this.index, this.status, this.cloneContext(), this.cloneBitmap());
 };
 Layer.prototype.select = function () {
 	Editor.canvas.changeLayer(this);
