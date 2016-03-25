@@ -7,7 +7,7 @@ function Range(value, min, max, type, callback) {
 	this.max = max;
 	this.min = min;
 	this.type = type;
-	this.input = createInputRange(0, this.min, this.max);
+	this.input = createInputRange(value, this.min, this.max);
 	this.spanName = createSpan(this.type);
 	this.spanValue = createSpan(this.value);
 	this.callback = callback;
