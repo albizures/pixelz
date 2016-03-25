@@ -39,6 +39,7 @@ window.onload = () => {
 	//init
 	Editor.init();
 };
+// IDEA: http://jsfiddle.net/u2kJq/241/
 // TODO: create prototype pixel and pixelStroke
 // TODO: separete palette and color picker
 // TODO: repaint canvas after the stroke is done
