@@ -7,18 +7,20 @@ const Panel = require('../prototypes/Panel.js'),
 	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
 	{ TRANSPARENT_IMG } = require('../constants'),
 	Preview = new Panel('Preview', SNAP, undefined, 15, 40, TR);
-let time = 1000 / 2, loop, index = 0, ctx;
-
+let time = 1000 / 2, loop, index = 0, ctx,
+	innerWidth, innerHeight, offsetTop, offsetLeft, offsetRight;
 Preview.mainInit = function () {
 	this.background = make(['canvas', {className : 'background'}]).getContext('2d');
 	this.preview = make(['canvas', {className : 'preview'}]).getContext('2d');
+	this.areaPreview = make(['canvas', {className : 'area-preview'}]);
 
 	this.contentPreview = make(['div',
 		{parent : this.el, className : 'content-preview'},
 		this.background.canvas,
-		this.preview.canvas
+		this.preview.canvas,
+		this.areaPreview
 	]);
-	this.on('click.stop',this.changeStatus.bind(this));
+	this.on('click.stop', this.changeStatus.bind(this));
 	this.FPSRange = new Range(2, 0, 12, 'FPS', this.changeFPS.bind(this));
 	this.FPSRange.appendTo(this.el);
 };
@@ -39,7 +41,11 @@ Preview.selectFrame = function (type) {
 	index = 0;
 };
 Preview.selectSprite = function (sprite) {
-	this.scale;
+	offsetTop = Editor.panels.Menus.height;
+	offsetLeft = (Editor.getLeftPanels().width * window.innerWidth) / 100;
+	offsetRight = (Editor.getRightPanels().width * window.innerWidth) / 100;
+	innerHeight = window.innerHeight - offsetTop;
+	innerWidth = window.innerWidth - offsetRight - offsetLeft;
 	if (this.contentPreview.clientWidth > this.contentPreview.clientHeight) {
 		this.scale = this.contentPreview.clientHeight / sprite.height;
 	}else {
@@ -80,6 +86,37 @@ Preview.loop = function () {
 	this.clean();
 	imageSmoothingDisabled(this.preview);
 	this.preview.drawImage(Editor.sprite.frames[index].context.canvas, 0, 0, this.preview.canvas.width, this.preview.canvas.height);
+};
+Preview.updatePosition = function () {
+	let artboard = Editor.canvas.artboard, isView, scale = this.scale,
+		realOffsetTop = (offsetTop / artboard.scale) * scale,
+		realOffsetLeft =  (offsetLeft / artboard.scale) * scale,
+		height = artboard.scale * artboard.layer.height,
+		y = (artboard.cord.y / artboard.scale) * scale,
+		x = (artboard.cord.x / artboard.scale) * scale,
+		width = artboard.scale * artboard.layer.width;
+	if (innerHeight < height) {
+		isView = (height - (height - innerHeight)) / artboard.scale;
+		this.areaPreview.style.height = (isView * scale) + 'px';
+	} else {
+		this.areaPreview.style.height = '100%';
+	}
+	if (innerWidth < width) {
+		isView = (width - (width - innerWidth)) / artboard.scale;
+		this.areaPreview.style.width = (isView * scale) + 'px';
+	} else {
+		this.areaPreview.style.width = '100%';
+	}
+	if (x - realOffsetLeft < 0) {
+		this.areaPreview.style.left = Math.abs(x - realOffsetLeft) + 'px';
+	} else {
+		this.areaPreview.style.left = '0';
+	}
+	if (y - realOffsetTop < 0) {
+		this.areaPreview.style.top = Math.abs(y - realOffsetTop) + 'px';
+	} else {
+		this.areaPreview.style.top = '0';
+	}
 };
 Preview.clean = function () {
 	this.preview.clearRect(0, 0,  this.preview.canvas.width, this.preview.canvas.height);

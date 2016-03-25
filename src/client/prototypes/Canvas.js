@@ -2,6 +2,7 @@
 const Vector = require('./Vector.js'),
 			floor = Math.floor, round = Math.round,
 			Tools = require('../panels/Tools.js'),
+			Preview = require('../panels/Preview.js'),
 			{imageSmoothingDisabled, make} = require('../utils.js'),
 			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
 				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
@@ -102,7 +103,7 @@ Canvas.prototype.scaleTo = function (scale) {
 	this.artboard.cord.x = round(this.artboard.cord.x);
 	this.artboard.cord.y = round(this.artboard.cord.y);
 	this.paintMain();
-
+	Preview.updatePosition();
 };
 Canvas.prototype.onMouseDown = function (evt) {
 	evt.preventDefault();
@@ -157,6 +158,7 @@ Canvas.prototype.onMouseMove = function (evt) {
 Canvas.prototype.shiftDiff = function (cord) {
 	this.artboard.cord.sum(cord);
 	this.paintMain();
+	Preview.updatePosition();
 };
 Canvas.prototype.calculatePosition = function (x, y) {
 	// TODO: Add support many sizes pointer
