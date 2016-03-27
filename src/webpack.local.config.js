@@ -12,12 +12,11 @@ const webpack = require('webpack'),
 	MODULES_PATH = config.MODULES_PATH,
 	MAIN_TEMPLATE = config.MAIN_TEMPLATE,
 	ASSETS_PATH = config.ASSETS_PATH;
-console.log(process.env.NODE_ENV);
 module.exports = {
 	entry: APP_PATH,
 	output: {
 		path: PUBLIC_PATH,
-		filename: "app.js"
+		filename: "[name].js"
 	},
 	plugins: [
 		//new webpack.HotModuleReplacementPlugin(),
@@ -55,32 +54,18 @@ module.exports = {
 			loader: ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
 				//loader: 'style-loader!css-loader!stylus-loader'
 		}, {
-			test: /b64/,
-			loader: 'exports?encode64'
-		}, {
-			test: /LZWEncoder/,
-			loader: 'exports?LZWEncoder'
-		}, {
-			test: /GIFEncoder/,
-			loader: 'imports?LZWEncoder=>LZWEncoder!exports?GIFEncoder'
-		}, {
-			test: /NeuQuant/,
-			loader: 'exports?NeuQuant'
+			test : /workers/,
+			loader : 'worker?name=/workers/[name].[ext]'
 		}],
 		preLoaders: [{
 			test: /\.js?$/,
-			exclude: [/build/, /node_modules/, /libs/],
+			exclude: [/build/, /node_modules/],
 			loaders: ['eslint-loader', 'jscs-loader']
 		}]
 	},
 	// Automatically transform files with these extensions
 	resolve: {
-		alias: {
-			b64: CLIENT_PATH + '\\libs\\b64.js',
-			GIFEncoder: CLIENT_PATH + '\\libs\\GIFEncoder.js',
-			LZWEncoder: CLIENT_PATH + '\\libs\\LZWEncoder.js',
-			NeuQuant: CLIENT_PATH + '\\libs\\NeuQuant.js'
-		},
+		alias: {},
 		extensions: ['', '.js', '.css', '.styl', '.jade']
 	},
 	resolveLoader: {
@@ -109,7 +94,6 @@ if (process.env.NODE_ENV !== 'production') {
 	});
 }
 if (process.env.NODE_ENV == 'production') {
-	console.log('push');
 	module.exports.plugins.push(new webpack.optimize.UglifyJsPlugin({
 		minimize: true
 	}));
