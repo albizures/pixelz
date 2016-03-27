@@ -2,7 +2,7 @@ build/app.js
 build/style.css
 build/assets
 public
-
+src/libs/gif/*.coffee
 # Logs
 logs
 *.log

@@ -1,7 +1,8 @@
 'use strict';
 const Frame = require('./Frame.js'),
-	Preview = require('../panels/Preview.js'),
-	{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events;
+	Gif = require('./gif/gif.js'),
+	Preview = require('../panels/Preview.js');
+
 function Sprite(width, height) {
 	this.width = width;
 	this.height = height;
@@ -17,7 +18,7 @@ Sprite.prototype.deleteFrame = function (index) {
 		// TODO: create alert
 		alert('can\'t delete last frames');
 		return false;
-	}else {
+	} else {
 		let frameDelete = this.frames.splice(index, 1)[0];
 		this.reIndexing();
 		if (frameDelete && frameDelete.index == Editor.canvas.artboard.layer.frame.index) {
@@ -29,14 +30,33 @@ Sprite.prototype.deleteFrame = function (index) {
 		return true;
 	}
 };
+Sprite.prototype.generateGif = function () {
+	let gif = new Gif({
+		quality: 1,
+		repeat : 0,
+		height : this.height,
+		width : this.width,
+		transparent : 'rgba(0,0,0,0)',
+		preserveColors : false,
+		globalPalette : false
+	});
+	for (let i = 0; i < this.frames.length; i++) {
+		gif.addFrame(this.frames[i].context);
+	}
 
+	gif.on('finished', function (blob) {
+		window.open(URL.createObjectURL(blob));
+	});
+	gif.render();
+};
 Sprite.prototype.reIndexing = function () {
 	for (let i = 0; i < this.frames.length; i++) {
 		this.frames[i].index = i;
 	}
 };
 Sprite.prototype.moveFrame = function (oldIndex, newIndex) {
-	let frame = this.frames.splice(oldIndex, 1), tempFrames;
+	let frame = this.frames.splice(oldIndex, 1),
+		tempFrames;
 	Preview.stop();
 	tempFrames = this.frames.splice(newIndex);
 	this.frames = this.frames.concat(frame, tempFrames);

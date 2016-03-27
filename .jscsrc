@@ -5,6 +5,7 @@
 	"validateIndentation": "\t",
 	"disallowDanglingUnderscores": false,
 	"requireCurlyBraces": true,
+	"disallowKeywords": ["with"],
 	"requireParenthesesAroundIIFE": true,
 	"excludeFiles": [
 		"dist/**",

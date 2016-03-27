@@ -119,3 +119,4 @@ module.exports = {
 	}
 };
 module.exports.colors = require('./colors.js');
+module.exports.browser = require('./browser.js');

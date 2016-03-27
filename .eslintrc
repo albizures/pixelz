@@ -1,7 +1,8 @@
 {
 	"parser": "babel-eslint",
 	"rules": {
-		"semi": 2
+		"semi": 2,
+		"no-continue": 0
 	},
 	"env": {
 		"browser": true,
