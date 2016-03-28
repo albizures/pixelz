@@ -1,5 +1,5 @@
 'use strict';
-const { imageSmoothing } = require('../utils.js'),
+const { imageSmoothingDisabled } = require('../utils.js'),
 	{ TRANSPARENT_COLOR } = require('../constants'),
 	Layer = require('./Layer.js'),
 	Frames = require('../panels/Frames.js'),
@@ -11,6 +11,7 @@ function Frame(sprite, index, status, layers, clone) {
 	this.index = index;
 	this.status = status;
 	this.layers = layers || [new Layer(this, 0)];
+	this.preview = document.createElement('canvas').getContext('2d');
 	if (!clone) {
 		this.init();
 	}
@@ -32,7 +33,7 @@ Frame.prototype = {
 };
 Frame.prototype.init = function () {
 	this.context = document.createElement('canvas').getContext('2d');
-	imageSmoothing(this.context, false);
+	imageSmoothingDisabled(this.context);
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
 	Frames.addPreview(this);
@@ -124,6 +125,9 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 	Layers.updateLayers();
 	return newLayer;
 };
+Frame.prototype.getBitmaps = function () {
+	return this.layers.map((item) => item.bitmap);
+};
 Frame.prototype.getIMG = function () {
 	let image = document.createElement('img');
 	image.src = this.context.canvas.toDataURL();
@@ -142,6 +146,16 @@ Frame.prototype.paint = function (init) {
 	this.sprite.paint();
 };
 Frame.prototype.generatePreview = function (scale) {
-	return this.context;
+	if (scale !== 1) {
+		let height = this.height * scale,
+			width = this.width * scale;
+		this.preview.canvas.width = width;
+		this.preview.canvas.height = height;
+		imageSmoothingDisabled(this.preview);
+		this.preview.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
+		return this.preview;
+	} else {
+		return this.context;
+	}
 };
 module.exports = Frame;
