@@ -11,4 +11,4 @@ module.exports = function (app) {
     port : '35730',
     watchDir : config.PUBLIC_PATH
   });
-}
+};

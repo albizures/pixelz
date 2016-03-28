@@ -86,6 +86,12 @@ let Editor = {
 		this.shortcuts.init();
 		this.initPanels();
 	},
+	getCurrentColors : function () {
+		this.sprite.getCurrentColors(onGetCurretColors.bind(this));
+		function onGetCurretColors(colors) {
+			this.panels.Palette.setCurretColors(colors);
+		}
+	},
 	initSprite (data) {
 		var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y,
 			data = data || {},
