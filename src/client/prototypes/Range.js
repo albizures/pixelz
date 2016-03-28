@@ -25,5 +25,6 @@ Range.prototype.onChange = function () {
 };
 Range.prototype.setValue = function (value) {
 	this.input.value = value;
+	this.spanValue.textContent = this.value = this.input.value;
 };
 module.exports = Range;
