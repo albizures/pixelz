@@ -76,7 +76,7 @@ Sprite.prototype.generateGif = function (scale) {
 		Editor.addCallbackGetColor(generate.bind(this));
 	} else {
 		//transparent = parseInt(this.transparentColor.substring(1), 16);
-		generate(this.transparentColor);
+		generate.call(this,this.transparentColor);
 	}
 
 	function generate(color) {
