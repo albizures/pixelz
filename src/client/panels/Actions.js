@@ -90,7 +90,8 @@ Actions.addUndo = function (action, fromRedo) {
 			this.removeAllRedo();
 		}
 		this.listUndo[action.index] = action.init(this.elUndo);
-		Editor.getCurrentColors();
+		Editor.getGeneralColors();
+		Editor.getTransparentColor();
 	}
 };
 module.exports = Actions;

@@ -16,12 +16,12 @@ let defaults = {
 	width: null,
 	height: null,
 	transparent: null,
-	preserveColors: true,
-	globalPalette: true
+	preserveColors: false
 },
 frameDefaults = {
 	delay: 500,
-	copy: false
+	copy: false,
+	transparent : null
 };
 
 function GIF(options) {
@@ -57,6 +57,7 @@ GIF.prototype.addFrame = function (image, options) {
 	let frame = {
 		transparent: this.options.transparent
 	};
+
 	options = options || {};
 	for (let key in frameDefaults) {
 		frame[key] = options[key] || frameDefaults[key];
@@ -101,12 +102,8 @@ GIF.prototype.render = function () {
 		return null;
 	});
 	numWorkers = this.spawnWorkers();
-	if (this.options.globalPalette) {
+	for (let i = 0; i < numWorkers; i++) {
 		this.renderNextFrame();
-	} else {
-		for (let i = 0; i < numWorkers; i++) {
-			this.renderNextFrame();
-		}
 	}
 	this.emit('start');
 	this.emit('progress', 0);
@@ -131,10 +128,10 @@ GIF.prototype.spawnWorkers = function () {
 	for (let i = 0; i < diff; i++) {
 		worker = gifWorker();
 		worker.onmessage = function (event) {
-			debugger;
 			self.activeWorkers.splice(self.activeWorkers.indexOf(worker), 1);
 			self.freeWorkers.push(worker);
 			self.frameFinished(event.data);
+			console.log(event.data);
 		};
 		this.freeWorkers.push(worker);
 	}
@@ -145,15 +142,6 @@ GIF.prototype.frameFinished = function (frame) {
 	this.finishedFrames++;
 	this.emit('progress', this.finishedFrames / this.frames.length);
 	this.imageParts[frame.index] = frame;
-	if (this.options.globalPalette) {
-		this.options.globalPalette = frame.globalPalette;
-		console.log("global palette analyzed");
-		if (this.frames.length > 2) {
-			for (let i = 0; i < this.freeWorkers.length; i++) {
-				this.renderNextFrame();
-			}
-		}
-	}
 	if (this.imageParts.indexOf(null) >= 0) {
 		this.renderNextFrame();
 	} else {
@@ -230,8 +218,6 @@ GIF.prototype.getTask = function (frame) {
 		width: this.options.width,
 		height: this.options.height,
 		quality: this.options.quality,
-		dither: this.options.dither,
-		globalPalette: this.options.globalPalette,
 		preserveColors: this.options.preserveColors,
 		repeat: this.options.repeat,
 		canTransfer: browser.name === 'chrome'

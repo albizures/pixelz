@@ -4,6 +4,7 @@ let imageSmoothing = function (ctx, value) {
 	ctx.mozImageSmoothingEnabled = value;
 	ctx.msImageSmoothingEnabled = value;
 };
+
 function createSpan(text) {
 	let newSpan = document.createElement('span');
 	newSpan.textContent = text;
@@ -13,6 +14,7 @@ function createSpan(text) {
 	}
 	return newSpan;
 }
+
 function createBtn(text) {
 	let newBtn = document.createElement('button');
 	newBtn.textContent = text;
@@ -22,6 +24,7 @@ function createBtn(text) {
 	}
 	return newBtn;
 }
+
 function createDiv() {
 	let newDiv = document.createElement('div');
 	for (let i = 0; i < arguments.length; i++) {
@@ -29,6 +32,7 @@ function createDiv() {
 	}
 	return newDiv;
 }
+
 function createInputRange(value, min, max) {
 	let newInput = document.createElement('input');
 	newInput.type = 'range';
@@ -41,6 +45,23 @@ function createInputRange(value, min, max) {
 	}
 	return newInput;
 }
+
+function downloadBlob(file, name) {
+	var saveAs = window.saveAs || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator));
+	if (saveAs) {
+		saveAs(file, name);
+	} else {
+		file = window.URL.createObjectURL(file);
+		let link = make('a', {
+			parent : document.body,
+			href : file,
+			download : name
+		});
+		link.click();
+		link.remove();
+	}
+}
+
 function defineGetter(obj, name, fn) {
 	Object.defineProperty(obj, name, {
 		get: fn,
@@ -70,12 +91,12 @@ function make(desc) {
 	}
 
 	let name = desc[0],
-			parent = false,
-			attributes = desc[1],
+		parent = false,
+		attributes = desc[1],
 
-			el = typeof name === 'string' ? document.createElement(name) : name,
+		el = typeof name === 'string' ? document.createElement(name) : name,
 
-			start = 1;
+		start = 1;
 	if (typeof attributes === "object" && attributes !== null && !Array.isArray(attributes) && !isElement(attributes)) {
 		for (let attr in attributes) {
 			if (attr === 'parent') {
@@ -113,9 +134,10 @@ module.exports = {
 	imageSmoothingDisabled (ctx) {
 		imageSmoothing(ctx, false);
 	},
-	inheritanceObject : function (child, father) {
+	downloadBlob,
+	inheritanceObject: function (child, father) {
 		child.prototype = Object.create(father.prototype);
-		child.prototype.constructor	= child;
+		child.prototype.constructor = child;
 	}
 };
 module.exports.colors = require('./colors.js');

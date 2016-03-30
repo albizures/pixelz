@@ -8,12 +8,11 @@ let renderFrame = function (frame) {
 	} else {
 		encoder.firstFrame = false;
 	}
+	console.log(frame.transparent);
 	encoder.setTransparent(frame.transparent);
 	encoder.setRepeat(frame.repeat);
 	encoder.setDelay(frame.delay);
 	encoder.setQuality(frame.quality);
-	encoder.setDither(frame.dither);
-	encoder.setGlobalPalette(frame.globalPalette);
 	encoder.setPreserveColors(frame.preserveColors);
 	encoder.addFrame(frame.data);
 	if (frame.last) {

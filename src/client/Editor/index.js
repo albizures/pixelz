@@ -86,11 +86,43 @@ let Editor = {
 		this.shortcuts.init();
 		this.initPanels();
 	},
-	getCurrentColors : function () {
-		this.sprite.getCurrentColors(onGetCurretColors.bind(this));
-		function onGetCurretColors(colors) {
+	timeoutGetTransparentColor : 1,
+	getTransparentColor : function () {
+		let self = this;0
+		if (this.callbacksGetColor.length == 0) {
+			if (this.timeoutGetTransparentColor) {
+				clearTimeout(this.timeoutGetTransparentColor);
+				this.timeoutGetTransparentColor = setTimeout(timeout, 1000 * 6);
+			} else {
+				this.timeoutGetTransparentColor = setTimeout(timeout, 1000 * 6);
+			}
+		} else {
+			self.sprite.getTransparentColor(onGetTransparentColor);
+		}
+		function timeout() {
+			self.timeoutGetTransparentColor = undefined;
+			self.sprite.getTransparentColor(onGetTransparentColor);
+		}
+		function onGetTransparentColor(color) {
+			console.log(color);
+			for (let i = 0; i < self.callbacksGetColor.length; i++) {
+				self.callbacksGetColor[i](color);
+			}
+			self.callbacksGetColor.length = 0;
+		}
+	},
+	getGeneralColors : function () {
+		this.sprite.getGeneralColors(onGetGeneralColors.bind(this));
+		function onGetGeneralColors(colors) {
 			this.panels.Palette.setCurretColors(colors);
 		}
+	},
+	callbacksGetColor : [],
+	addCallbackGetColor : function (cb) {
+		this.callbacksGetColor.push(cb);
+		clearTimeout(this.timeoutGetTransparentColor);
+		self.timeoutGetTransparentColor = undefined;
+		this.getTransparentColor();
 	},
 	initSprite (data) {
 		var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y,

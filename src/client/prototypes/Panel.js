@@ -50,8 +50,8 @@ Panel.prototype.init = function (width, height) {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
 	} else {
 		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
-		this.el.style.top = heightMenus + '%';
-		this.el.style.height = (100 - heightMenus) + '%';
+		this.el.style.top = 0; //heightMenus + '%';
+		this.el.style.height = '100%';//(100 - heightMenus) + '%';
 	}
 	if (!this.notDragbar) {
 		this.dragBar = createDiv('drag-bar');

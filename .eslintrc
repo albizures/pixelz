@@ -2,7 +2,14 @@
 	"parser": "babel-eslint",
 	"rules": {
 		"semi": 2,
-		"no-continue": 0
+		"no-continue": 0,
+		"require-jsdoc": [2, {
+			"require": {
+				"FunctionDeclaration": false,
+				"MethodDefinition": false,
+				"ClassDeclaration": true
+			}
+		}]
 	},
 	"env": {
 		"browser": true,

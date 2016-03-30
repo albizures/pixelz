@@ -1,6 +1,9 @@
 'use strict';
 const Frame = require('./Frame.js'),
+	Palette = require('../panels/Palette'),
 	Gif = require('./gif/gif.js'),
+	colors = require('../workers/colors.js')(),
+	{ downloadBlob } = require('../utils'),
 	Preview = require('../panels/Preview.js');
 
 function Sprite(width, height) {
@@ -30,24 +33,62 @@ Sprite.prototype.deleteFrame = function (index) {
 		return true;
 	}
 };
-Sprite.prototype.generateGif = function () {
+Sprite.prototype.getTransparentColor = function (cb) {
+	let listData = [], self = this;
+	for (let i = 0; i < this.frames.length; i++) {
+		listData.push(this.frames[i].imageData.data);
+	}
+	colors.postMessage({type : 'transparent', data : listData});
+	colors.onmessage = onGetTransparentColor.bind(this);
+
+	function onGetTransparentColor(evt) {
+		if (cb) {
+			self.transparentColor = evt.data;
+			cb(evt.data);
+		}
+	}
+};
+Sprite.prototype.getGeneralColors = function (cb) {
+	let bitmaps = [];
+	for (let i = 0; i < this.frames.length; i++) {
+		bitmaps = bitmaps.concat(this.frames[i].getBitmaps());
+	}
+	colors.postMessage({type : 'general', data : bitmaps});
+	colors.onmessage =  onGetGeneralColors.bind(this);
+
+	function onGetGeneralColors(evt) {
+		cb(evt.data);
+	}
+};
+Sprite.prototype.generateGif = function (scale) {
 	let gif = new Gif({
 		quality: 1,
-		repeat : 0,
-		height : this.height,
-		width : this.width,
-		transparent : 'rgba(0,0,0,0)',
-		preserveColors : false,
-		globalPalette : false
+		repeat: 0,
+		height: this.height * scale,
+		width: this.width * scale,
+		preserveColors: true
 	});
-	for (let i = 0; i < this.frames.length; i++) {
-		gif.addFrame(this.frames[i].context);
-	}
-
 	gif.on('finished', function (blob) {
+		//downloadBlob(blob, 'test');
 		window.open(URL.createObjectURL(blob));
 	});
-	gif.render();
+	if (Editor.timeoutGetTransparentColor) {
+		Editor.addCallbackGetColor(generate.bind(this));
+	} else {
+		//transparent = parseInt(this.transparentColor.substring(1), 16);
+		generate(this.transparentColor);
+	}
+
+	function generate(color) {
+		let transparent = color;
+		for (let i = 0; i < this.frames.length; i++) {
+			gif.addFrame(this.frames[i].generatePreview(scale, transparent), {
+				transparent : parseInt(transparent.substring(1), 16)
+			});
+		}
+		gif.render();
+	}
+
 };
 Sprite.prototype.reIndexing = function () {
 	for (let i = 0; i < this.frames.length; i++) {

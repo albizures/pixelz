@@ -1,5 +1,6 @@
 'use strict';
 const { imageSmoothingDisabled } = require('../utils.js'),
+	walkBitmap = require('../utils/walkBitmap.js'),
 	{ TRANSPARENT_COLOR } = require('../constants'),
 	Layer = require('./Layer.js'),
 	Frames = require('../panels/Frames.js'),
@@ -145,17 +146,26 @@ Frame.prototype.paint = function (init) {
 	Frames.paintFrame(this.index);
 	this.sprite.paint();
 };
-Frame.prototype.generatePreview = function (scale) {
-	if (scale !== 1) {
-		let height = this.height * scale,
-			width = this.width * scale;
-		this.preview.canvas.width = width;
-		this.preview.canvas.height = height;
-		imageSmoothingDisabled(this.preview);
-		this.preview.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
-		return this.preview;
-	} else {
-		return this.context;
+Frame.prototype.generatePreview = function (scale, transparent) {
+	let height = this.height * scale,
+			width = this.width * scale, data;
+	this.preview.canvas.width = width;
+	this.preview.canvas.height = height;
+	data = this.imageData.data;
+	imageSmoothingDisabled(this.preview);
+	this.preview.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
+	console.log(transparent);
+	this.preview.fillStyle = transparent;
+	for (let i = 0; i < data.length; i += 4) {
+		if (!data[i] && !data[i + 1] && !data[i + 2] && !data[i + 3]) {
+			let pos = i / 4,
+				x = pos % 20,
+				y = ~~(pos / 20);
+
+			this.preview.fillRect(x * scale, y * scale, scale, scale);
+		}
 	}
+	document.body.appendChild(this.preview.canvas);
+	return this.preview;
 };
 module.exports = Frame;

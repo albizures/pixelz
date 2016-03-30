@@ -10,6 +10,8 @@ function SimpleQuant(pixels, sample, transparent) {
 	this.pixels = pixels;
 	this.palette = [];
 	this.paletteIndex = {};
+	this.transparent = transparent;
+	console.info(this.transparent);
 }
 SimpleQuant.prototype.getColormap = function () {
 	return this.palette;
@@ -24,8 +26,8 @@ SimpleQuant.prototype.buildColormap = function () {
 		this.addColorToPalette(r, g, b);
 	}
 
-	if (transparent) {
-		this.addColorToPalette(transparent.r, transparent.g, transparent.b);
+	if (this.transparent) {
+		this.addColorToPalette(this.transparent.r, this.transparent.g, this.transparent.b);
 	}
 };
 

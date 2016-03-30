@@ -114,7 +114,21 @@ body{
 	border: 0;
 	z-depth-1 0
 	z-index: 10
+	transition: 0.3s height
 	background: whitesmoke
+	&.down
+		z-depth-2 0
+	.center
+		width: 20%
+		display: inline-block;
+		margin auto
+		input
+			background transparent
+			text-align: center
+			border 0
+			&:active,&:focus
+				border-bottom: 1px gray solid
+				outline: none
 .panel-tools
 	.colors
 		margin 5px
