@@ -65,7 +65,10 @@ module.exports = {
 	},
 	// Automatically transform files with these extensions
 	resolve: {
-		alias: {},
+		alias: {
+			inheritanceObject : path.join(CLIENT_PATH, '/utils/inheritanceObject.js'),
+			make : path.join(CLIENT_PATH, '/utils/make.js')
+		},
 		extensions: ['', '.js', '.css', '.styl', '.jade']
 	},
 	resolveLoader: {
