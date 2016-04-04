@@ -20,7 +20,7 @@ Preview.mainInit = function () {
 		this.preview.canvas,
 		this.areaPreview
 	]);
-	this.on('click.stop', this.changeStatus.bind(this));
+	$(this.contentPreview).on('click.stop', this.changeStatus.bind(this));
 	this.FPSRange = new Range(2, 0, 12, 'FPS', this.changeFPS.bind(this));
 	this.FPSRange.appendTo(this.el);
 };
