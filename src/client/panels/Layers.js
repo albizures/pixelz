@@ -1,12 +1,12 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-			PreviewLayer = require('../prototypes/Layers/PreviewLayer.js'),
-			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
-			{createBtn, createSpan, make} = require('../utils.js'),
-			Vector = require('../prototypes/Vector.js'),
-			btnAddLayer = createBtn('add layer', 'add-layer'),
-			Layers = new Panel('Layers', SNAP, new Vector(0, 80), 13, 20, L);
+	PreviewLayer = require('../prototypes/Layers/PreviewLayer.js'),
+	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{createBtn, createSpan, make} = require('../utils.js'),
+	Vector = require('../prototypes/Vector.js'),
+	btnAddLayer = createBtn('add layer', 'add-layer'),
+	Layers = new Panel('Layers', SNAP, new Vector(0, 0), 100, 100, L, true);
 
 let currentLayer = 0, layersPreview = [];
 Layers.mainInit = function () {
@@ -15,6 +15,9 @@ Layers.mainInit = function () {
 	this.ul = make(['ul', {className : 'layers-list', parent : this.el}]);
 	//this.createPreviewLayer();
 	$(btnAddLayer).on('click.add', this.createLayer.bind(this));
+};
+Layers.$add = function () {
+	Editor.addPanel(this, require('./Left.js'));
 };
 Layers.createLayer = function () {
 	this.frame.addLayer();

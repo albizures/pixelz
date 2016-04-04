@@ -1,6 +1,8 @@
 'use strict';
 
 const Editor = require('./Editor/index.js'),
+
+	Left = require('./panels/Left.js'),
 	Preview = require('./panels/Preview.js'),
 	Palette = require('./panels/Palette/index.js'),
 	Frames = require('./panels/Frames.js'),
@@ -11,6 +13,7 @@ const Editor = require('./Editor/index.js'),
 	ColorPicker = require('./panels/ColorPicker.js'),
 	Tools = require('./panels/Tools.js'),
 	Layers = require('./panels/Layers.js'),
+
 	bucket = require('./tools/bucket.js'),
 	eraser = require('./tools/eraser.js'),
 	pick = require('./tools/pick.js'),
@@ -20,6 +23,7 @@ window.onload = () => {
 	window.Editor = Editor;
 	// panels
 	Menus.$add();
+	Left.$add();
 	Preview.$add();
 	Tools.$add();
 	Frames.$add();
@@ -41,5 +45,4 @@ window.onload = () => {
 };
 // IDEA: http://jsfiddle.net/u2kJq/241/
 // TODO: create prototype pixel and pixelStroke
-// TODO: separete palette and color picker
 // TODO: repaint canvas after the stroke is done

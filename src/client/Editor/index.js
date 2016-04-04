@@ -15,8 +15,13 @@ const {
 let Editor = {
 	panels : {},
 	// panel area
-	addPanel (panel) {
-		this.panels[panel.name] = panel.appendTo(document.body);
+	addPanel (panel, parent) {
+		if (parent) {
+			this.panels[panel.name] = panel;
+			parent.addPanel(panel);
+		} else {
+			this.panels[panel.name] = panel.appendTo(document.body);
+		}
 	},
 	onResizePanel (type) {
 		if (type === L || type === TL || type === BL) {
@@ -88,7 +93,7 @@ let Editor = {
 	},
 	timeoutGetTransparentColor : 1,
 	getTransparentColor : function () {
-		let self = this;0
+		let self = this;
 		if (this.callbacksGetColor.length == 0) {
 			if (this.timeoutGetTransparentColor) {
 				clearTimeout(this.timeoutGetTransparentColor);

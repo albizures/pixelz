@@ -7,7 +7,7 @@ const Panel = require('../prototypes/Panel.js'),
 			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
 			Vector = require('../prototypes/Vector.js'),
 			List = require('../prototypes/List.js'),
-			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 13, 80, TL),
+			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 100, 100, TL, true),
 			btnAdd = document.createElement('button');
 let previewFrames = [], currentFrame = 0;
 btnAdd.textContent = 'add frame';
@@ -20,6 +20,9 @@ Frames.mainInit = function () {
 		//[ul, { id : 'preview-frames'}]
 	]);
 	$(btnAdd).on('click.add', this.createFrame.bind(this));
+};
+Frames.$add = function () {
+	Editor.addPanel(this, require('./Left.js'));
 };
 Frames.createFrame = function () {
 	this.sprite.addFrame();

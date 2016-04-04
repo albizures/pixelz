@@ -28,6 +28,8 @@ defineGetter(Panel.prototype, 'frame', function () {
 defineGetter(Panel.prototype, 'sprite', function () {
 	return Editor.canvas.artboard.layer.frame.sprite;
 });
+Panel.SNAP = 'snap';
+Panel.TL = 'TL';
 Panel.prototype.hide = function () {
 	this.el.style.opacity = 0;
 	this.el.style.pointerEvents = 'none';
@@ -44,11 +46,11 @@ Panel.prototype.init = function (width, height) {
 	if (!hasVal(this.parent)) {
 		return console.error('parent undefined');
 	}
-	if (SNAP === this.type) {
+	if (SNAP === this.type && this.el.parentElement == document.body) {
 		this.setSnapPosition();
 	}else if (FLOAT === this.type) {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
-	} else {
+	} else if (this.el.parentElement == document.body){
 		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
 		this.el.style.top = 0; //heightMenus + '%';
 		this.el.style.height = '100%';//(100 - heightMenus) + '%';
