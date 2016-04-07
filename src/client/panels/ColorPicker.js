@@ -36,7 +36,9 @@ ColorPicker.mainInit = function () {
 
 };
 ColorPicker.onChangeColorCanvasPicker = function (color) {
+	console.log(this.rgbaPicker.color);
 	this.rgbaPicker.setColor(color, true);
+	console.log(this.rgbaPicker.color);
 	this.color.changeColor(color);
 };
 ColorPicker.onChangeValueRGBAPicker = function (color) {
