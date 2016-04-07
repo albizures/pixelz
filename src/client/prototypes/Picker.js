@@ -2,7 +2,7 @@
 const Range = require('./Range.js'),
 	AppendObject = require('../prototypes/AppendObject.js'),
 	{inheritanceObject} = require('../utils.js'),
-	{getRGBAValues} = require('../utils.js').colors;
+	{getRGBAComponents} = require('../utils/colorConverts.js');
 function Picker(name,callback) {
 	AppendObject.call(this, 'picker');
 	this.name = name + 'Picker';
@@ -25,12 +25,16 @@ Picker.prototype.onChangeRange = function () {
 	}
 	this.color = color;
 };
-Picker.prototype.setColor = function (color) {
-	let values = getRGBAValues(color);
+Picker.prototype.setColor = function (color, setOnly) {
+	let values = getRGBAComponents(color);
 	this.rangeR.setValue(values[0]);
 	this.rangeG.setValue(values[1]);
 	this.rangeB.setValue(values[2]);
-	this.rangeA.setValue(values[3] * 100);
-	this.onChangeRange();
+	if (values[3]) {
+		this.rangeA.setValue(values[3] * 100);
+	}
+	if (!setOnly) {
+		this.onChangeRange();
+	}
 };
 module.exports = Picker;

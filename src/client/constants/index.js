@@ -1,19 +1,25 @@
 'use strict';
-let img = document.createElement("img"),
-		backgroundTransparent = document.createElement('canvas').getContext('2d'),
-		scala = 0.3;
-img.addEventListener('load', function () {
+let transparent = document.createElement("img"),
+	gradient = document.createElement("img"),
+	rainbow = document.createElement("img"),
+	backgroundTransparent = document.createElement('canvas').getContext('2d'),
+	scala = 0.3;
+transparent.addEventListener('load', function () {
 	let width = backgroundTransparent.canvas.width = this.width * scala,
 			height = backgroundTransparent.canvas.height = this.height * scala;
 	backgroundTransparent.drawImage(this, 0, 0, this.width, this.height, 0, 0, width, height);
 });
-backgroundTransparent.canvas.img = img;
-img.src = '/assets/images/transparent.png';
+backgroundTransparent.canvas.img = transparent;
+rainbow.src = require('../assets/images/rainbow.png');
+gradient.src = require('../assets/images/gradient.png');
+transparent.src = require('../assets/images/transparent.png');
 module.exports = {
+	GRADIENT : gradient,
+	RAINBOW : rainbow,
 	HEIGHT_DEF : 20,
 	WIDTH_DEF : 20,
 	SCALE_DEF : 10,
-	TRANSPARENT_IMG_URL : '/assets/images/transparent.png',
+	TRANSPARENT_IMG_URL : require('../assets/images/transparent.png'),
 	TRANSPARENT_IMG : backgroundTransparent.canvas,
 	TRANSPARENT_COLOR : 'rgba(0, 0, 0, 0)',
 	TRANSPARENT_COLOR_VALUE : '',
