@@ -17,10 +17,10 @@ function Picker(name,callback) {
 	this.color = 'rgba(' + this.rangeR.value + ', ' + this.rangeG.value + ', ' + this.rangeB.value + ', ' + a  + ')';
 }
 inheritanceObject(Picker, AppendObject);
-Picker.prototype.onChangeRange = function () {
+Picker.prototype.onChangeRange = function (onlySet) {
 	let a = this.rangeA.spanValue.textContent = this.rangeA.value = this.rangeA.input.value / 100;
 	let color = 'rgba(' + this.rangeR.value + ',' + this.rangeG.value + ',' + this.rangeB.value + ',' + a  + ')';
-	if (this.callbackUpdate) {
+	if (!onlySet && this.callbackUpdate) {
 		this.callbackUpdate(color);
 	}
 	this.color = color;
@@ -33,8 +33,6 @@ Picker.prototype.setColor = function (color, setOnly) {
 	if (values[3]) {
 		this.rangeA.setValue(values[3] * 100);
 	}
-	if (!setOnly) {
-		this.onChangeRange();
-	}
+	this.onChangeRange(setOnly);
 };
 module.exports = Picker;
