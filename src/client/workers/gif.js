@@ -1,6 +1,7 @@
+'use strict';
 const GIFEncoder = require('../prototypes/gif/GIFEncoder.js');
 
-let renderFrame = function (frame) {
+function renderFrame(frame) {
 	var encoder, page, stream, transfer;
 	encoder = new GIFEncoder(frame.width, frame.height);
 	if (frame.index === 0) {

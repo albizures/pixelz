@@ -55,7 +55,7 @@ module.exports = {
 				//loader: 'style-loader!css-loader!stylus-loader'
 		}, {
 			test : /workers/,
-			loader : 'worker?name=/workers/[name].[ext]'
+			loaders : ['worker?name=/workers/[name].[ext]!', "babel-loader"]
 		}],
 		preLoaders: [{
 			test: /\.js?$/,
