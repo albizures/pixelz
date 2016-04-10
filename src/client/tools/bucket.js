@@ -18,7 +18,7 @@ bucket.onMouseDown = function (evt) {
 		oldColor = this.layer.getColorPixel(newPixel);
 		if (oldColor && color !== oldColor) {
 			this.fill(newPixel, color, oldColor, color == TRANSPARENT_COLOR ? 'fillCleanAt' : 'fillAt');
-			this.layer.frame.paint();
+			this.layer.paint();
 			Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 		}
 	}

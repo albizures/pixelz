@@ -53,7 +53,7 @@ eraser.onMouseUp = function (evt) {
 		}
 		lastPixel = undefined;
 		Layers.paintLayer(this.layer.index);
-		this.layer.frame.paint();
+		this.layer.paint();
 		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
 	}
 };
