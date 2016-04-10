@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "grunt"
+    "start": "grunt",
+    "deploy": "grunt build && gh-pages -d public"
   },
   "keywords": [
     "express",
@@ -36,6 +37,7 @@
     "express-livereload": "0.0.24",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",
+    "gh-pages": "^0.11.0",
     "grunt": "^0.4.5",
     "grunt-concurrent": "^2.0.0",
     "grunt-env": "^0.4.4",

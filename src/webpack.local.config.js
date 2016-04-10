@@ -1,5 +1,6 @@
 const webpack = require('webpack'),
 	util = require('util'),
+	fs = require('fs'),
 	path = require('path'),
 	config = require('./server/config/environment'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
@@ -108,6 +109,7 @@ if (process.env.NODE_ENV == 'production') {
 			console.log(stats.toString({
 				colors: true
 			}));
+			fs.writeFileSync(path.join(PUBLIC_PATH , 'CNAME'), 'pixelzstudio.com');
 		}
 	});
 }
