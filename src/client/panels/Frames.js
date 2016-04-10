@@ -13,7 +13,7 @@ let previewFrames = [], currentFrame = 0;
 btnAdd.textContent = 'add frame';
 btnAdd.classList.add('add-frame');
 Frames.mainInit = function () {
-	this.list = new List('layer',[], 15);
+	this.list = new List('frames',[], 15);
 	make([this.el,
 		btnAdd,
 		this.list.el

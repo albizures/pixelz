@@ -42,7 +42,9 @@ Layer.prototype.init = function () {
 	this.context.canvas.width = this.width;
 	this.context.canvas.height = this.height;
 	this.context.putImageData(tempData, 0, 0);
-	Layers.addPreview(this);
+	if (Editor.canvas && Editor.canvas.artboard.layer.frame == this.frame) {
+		Layers.addPreview(this);
+	}
 };
 Layer.prototype.cloneBitmap = function () {
 	let newBitmap = [];
@@ -143,6 +145,10 @@ Layer.prototype.paintStroke = function (listCords) {
 	Layers.paintLayer(this.index);
 	this.frame.paint();
 	return {layer : this, stroke : oldStroke};
+};
+Layer.prototype.paint = function () {
+	Layers.updateLayers(this.index);
+	this.frame.paint();
 };
 Layer.prototype.generatePreview = function (scale) {
 	return this.context;

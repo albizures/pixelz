@@ -26,8 +26,8 @@ Left.mainInit = function () {
 		this.tabs[i].el.style.width = (stats.width / numTabs) + 'px';
 		$(this.tabs[i].el).on('click.tabs', this.onClick.bind(this.tabs[i]));
 	}
-	this.panels[0].show();
-	this.tabs[0].el.classList.add('active');
+	this.panels[1].show();
+	this.tabs[1].el.classList.add('active');
 };
 Left.onClick = function (evt) {
 	for (let i = 0; i < this.parent.panels.length; i++) {

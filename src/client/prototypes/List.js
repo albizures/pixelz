@@ -6,7 +6,7 @@ const AppendObject = require('./AppendObject.js'),
 let height;
 function List(name, elements, margin) {
 	this.$type = 'ul';
-	AppendObject.call(this, name.toLowerCase() + '-list');
+	AppendObject.call(this, 'list', name.toLowerCase() + '-list');
 	this.name = name;
 	if (elements && !Array.isArray(elements)) {
 		elements = [elements];
@@ -49,6 +49,12 @@ List.prototype.order = function () {
 		this.elements[i].updateIndex();
 	}
 };
+List.prototype.removeAll = function () {
+	for (let i = 0; i < this.elements.length; i++) {
+		this.elements[i].remove();
+	}
+	this.elements.length;
+};
 List.prototype.orderDrag = function (item, index) {
 	var top = 0;
 	for (let i = 0; i < this.elements.length; i++) {
@@ -69,8 +75,8 @@ List.prototype.orderDrag = function (item, index) {
 };
 function onMouseDown(evt) {
 	this.el.classList.add('drag');
-	$(window).on('mouseup.drag', onMouseUp.bind(this));
-	$(window).on('mousemove.drag', onMouseMove.bind(this));
+	$(window).off('mouseup.drag').on('mouseup.drag', onMouseUp.bind(this));
+	$(window).off('mousemove.drag').on('mousemove.drag', onMouseMove.bind(this));
 }
 function onMouseUp(evt) {
 	let stats = this.list.el.getBoundingClientRect(),

@@ -1,35 +1,29 @@
-size-btn-preview = 20px
-size-font-preview = 0.65em
 
-.panel.panel-frames
+
+.panel.panel-layers
 	background: whitesmoke
-	z-index 2
-	top 0
-	left 0
-	height 80%
-	width 120px
-	button.add-frame
+	button.add-layer
 		width 94%
 		margin 3%
-	ul
-		overflow-y scroll
+	.layers-list
 		height calc(100% - 53px)
-		li
-			transition 0.3s top //cubic-bezier(0.46, 0.03, 0.52, 0.96)
-			border 1px solid
-			width 100%
-			z-depth-1() 0
-			&.drag
-				z-index 1
-				z-depth-2() 0
-				transition 0s all
-				background: rgba(0, 0, 0, 0.6);
-				*
-					opacity: 0.4
+		overflow-y scroll
 
-.preview-frame
+
+
+.preview-layer
+	transition 0.3s top //cubic-bezier(0.46, 0.03, 0.52, 0.96)
+	border 1px solid
+	z-depth-1() 0
 	cursor move
 	position relative
+	&.drag
+		z-index 1
+		z-depth-2() 0
+		transition 0s all
+		background: rgba(0, 0, 0, 0.6);
+		*
+			opacity: 0.4
 	canvas
 		position absolute
 		top 0

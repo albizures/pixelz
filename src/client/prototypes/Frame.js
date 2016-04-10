@@ -87,6 +87,7 @@ Frame.prototype.selectLayer = function (layer) {
 };
 Frame.prototype.select = function () {
 	Frames.selectFrame(this.index);
+	Layers.changeFrame(this);
 	this.layers[0].select();
 };
 Frame.prototype.clone = function (sprite) {
@@ -123,7 +124,7 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 		newLayer.init();
 	}
 	newLayer.select();
-	Layers.updateLayers();
+	Layers.updateLayers(newLayer.index);
 	return newLayer;
 };
 Frame.prototype.getBitmaps = function () {
@@ -145,6 +146,14 @@ Frame.prototype.paint = function (init) {
 	}
 	Frames.paintFrame(this.index);
 	this.sprite.paint();
+};
+Frame.prototype.moveFrame = function (oldIndex, newIndex) {
+	let layer = this.layers.splice(oldIndex, 1),
+		tempLayers;
+	tempLayers = this.layers.splice(newIndex);
+	this.layers = this.layers.concat(layer, tempLayers);
+	this.reIndexing();
+	this.paint();
 };
 Frame.prototype.generatePreview = function (scale, transparent) {
 	let height = this.height * scale,

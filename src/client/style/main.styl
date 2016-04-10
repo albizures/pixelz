@@ -2,6 +2,7 @@
 @import './variables.styl'
 @import './mixins.styl'
 @import './Frames.styl'
+@import './Layers.styl'
 @import './Preview.styl'
 @import './Actions.styl'
 @import './ContentPanels.styl'
@@ -39,6 +40,12 @@ body{
 	height : 100%;
 	overflow : hidden;
 }
+.list
+	position: relative
+	list-style: none
+	box-sizing border-box
+	padding 30px
+	margin 0
 .panel-colorpicker
 	.color
 		vertical-align: top
@@ -200,10 +207,3 @@ body>.canvas,body>.preview,.content-preview-animate
 			transform scale(1.1)
 			box-shadow 0 0 5px rgba(0,0,0,0.7);
 			transform-origin 50%
-.panel-layers
-	button.add-layer
-		width 94%
-		margin 3%
-	.layers-list
-		height calc(100% - 53px)
-		overflow-y scroll

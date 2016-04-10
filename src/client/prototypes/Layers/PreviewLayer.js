@@ -1,15 +1,22 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
-			{ SELECT_LAYER } = require('../../constants').events,
-			{inheritanceObject, make} = require('../../utils.js');
+	{ TRANSPARENT_IMG } = require('../../constants'),
+	{ SELECT_LAYER } = require('../../constants').events,
+	{inheritanceObject, make, imageSmoothingDisabled} = require('../../utils.js');
 
 
-function PreviewLayer(layer, selected) {
+function PreviewLayer(layer, selected, list) {
 	this.$type = 'li';
 	AppendObject.call(this, 'preview-layer');
 	this.layer = layer;
-	this.layer.selected = selected;
-	this.el.textContent = 'layer ' +  (this.layer.index + 1);
+	this.selected = selected;
+	this.list = list;
+
+	this.background = make('canvas', {parent : this.el}).getContext('2d');
+	this.context = make('canvas', {parent : this.el}).getContext('2d');
+	this.spanIndex = make('span', {parent : this.el,className : 'index'}, this.layer.index + 1);
+
+	//this.el.textContent = 'layer ' +  (this.layer.index + 1);
 	this.btnClone = make('button', {parent : this.el}, 'c');
 	this.btnDelete = make('button', {parent : this.el}, 'd');
 
@@ -30,13 +37,59 @@ PreviewLayer.prototype.selectLayer = function () {
 PreviewLayer.prototype.unSelectLayer = function () {
 
 };
+PreviewLayer.prototype.setIndex = function (index) {
+	this.layer.frame.moveFrame(this.index, index);
+};
+PreviewLayer.prototype.resize = function () {
+	let size = this.el.clientWidth;
+	this.el.style.height = size + 'px';
+	this.el.style.width = size + 'px';
+	if (this.layer.width > this.layer.height) {
+		this.background.canvas.width = this.context.canvas.width = size;
+		this.scale = size / this.layer.width;
+		this.background.canvas.height = this.context.canvas.height = this.layer.height * this.scale;
+		this.background.canvas.style.marginTop = this.context.canvas.style.marginTop = (size - this.background.canvas.height) / 2 + 'px';
+	}else {
+		this.background.canvas.height = this.context.canvas.height = size;
+		this.scale = size / this.layer.height;
+		this.background.canvas.width = this.context.canvas.width = this.layer.width * this.scale;
+		this.background.canvas.style.marginLeft = this.context.canvas.style.marginLeft = (size - this.background.canvas.width) / 2 + 'px';
+	}
+	this.paintBackground();
+	this.paint();
+};
+PreviewLayer.prototype.appendTo = function (el) {
+	el.appendChild(this.el);
+	this.resize();
+	this.el.classList.remove('active');
+	this.spanIndex.textContent = this.layer.index + 1;
+	return this;
+};
+PreviewLayer.prototype.paintBackground = function () {
+	let pattern = this.background.createPattern(TRANSPARENT_IMG, "repeat");
+	this.background.rect(0, 0, this.background.canvas.width, this.background.canvas.height);
+	this.background.fillStyle = pattern;
+	this.background.fill();
+};
 PreviewLayer.prototype.changeLayer = function (layer) {
 	this.layer = layer;
+};
+PreviewLayer.prototype.updateIndex = function () {
+	this.spanIndex.textContent = this.layer.index + 1;
 };
 PreviewLayer.prototype.update = function () {};
 PreviewLayer.prototype.onClick = function () {
 	this.layer.frame.selectLayer(this.layer);
 	//Editor.events.fire(SELECT_LAYER, this.layer);
+};
+PreviewLayer.prototype.paint = function () {
+	this.clean();
+	imageSmoothingDisabled(this.context);
+	this.context.drawImage(this.layer.context.canvas, 0, 0, this.layer.width * this.scale, this.layer.height * this.scale);
+};
+PreviewLayer.prototype.clean = function () {
+	this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+	//this.context.canvas.width = this.context.canvas.width;
 };
 
 module.exports = PreviewLayer;
