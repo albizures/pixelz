@@ -94,6 +94,7 @@ function onMouseUp(evt) {
 	} else if (newIndex > this.list.elements - 1) {
 		newIndex = this.list.elements - 1;
 	}
+	console.log(newIndex, oldIndex, this);
 	$(window).off('mousemove.drag');
 	$(window).off('mouseup.drag');
 	if (newIndex !== oldIndex) {
@@ -120,6 +121,7 @@ function onMouseMove(evt) {
 	} else if (index > this.list.elements - 1) {
 		index = this.list.elements - 1;
 	}
+	console.log(index);
 	this.list.orderDrag(this, index);
 	this.el.style.top = y + 'px';
 }

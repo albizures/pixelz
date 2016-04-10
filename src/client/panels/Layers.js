@@ -44,7 +44,6 @@ Layers.deletePreview = function (index) {
 	// }
 };
 Layers.addPreview = function (layer) {
-	console.trace('addPreview');
 	this.list.add(new PreviewLayer(layer, layer.index == currentLayer, this.list), layer.index);
 	// if (layersPreview[layer.index]) {
 	// 	if (layersPreview[layer.index].layer.index !== layer.index) {

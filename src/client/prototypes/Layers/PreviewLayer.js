@@ -2,7 +2,7 @@
 const AppendObject = require('../../prototypes/AppendObject.js'),
 	{ TRANSPARENT_IMG } = require('../../constants'),
 	{ SELECT_LAYER } = require('../../constants').events,
-	{inheritanceObject, make, imageSmoothingDisabled} = require('../../utils.js');
+	{inheritanceObject, make, imageSmoothingDisabled, defineGetter} = require('../../utils.js');
 
 
 function PreviewLayer(layer, selected, list) {
@@ -25,6 +25,9 @@ function PreviewLayer(layer, selected, list) {
 	$(this.el).on('click.layer', this.onClick.bind(this));
 }
 inheritanceObject(PreviewLayer, AppendObject);
+defineGetter(PreviewLayer.prototype, 'index', function () {
+	return this.layer.index;
+});
 PreviewLayer.prototype.onClone = function (evt) {
 	this.layer.frame.addLayer(this.layer);
 };

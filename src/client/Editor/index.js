@@ -109,7 +109,6 @@ let Editor = {
 			self.sprite.getTransparentColor(onGetTransparentColor);
 		}
 		function onGetTransparentColor(color) {
-			console.log(color);
 			for (let i = 0; i < self.callbacksGetColor.length; i++) {
 				self.callbacksGetColor[i](color);
 			}
