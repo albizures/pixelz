@@ -107,7 +107,7 @@ CanvasPicker.prototype.setRGBColor = function (color) {
 	h = this.size - (color[0] * this.size);//this.size - (color[0] * this.size);
 	s = (color[1] * this.size);//this.size - (color[1] * this.size);
 	v = this.size - (color[2] * this.size);// (color[2] * this.size);
-	this.setPositions(h, s, v );
+	this.setPositions(h, s, v);
 	this.setColor(color[0], color[1], color[2], true);
 	this.setBackgroundColor();
 };

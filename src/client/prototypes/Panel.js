@@ -50,7 +50,7 @@ Panel.prototype.init = function (width, height) {
 		this.setSnapPosition();
 	}else if (FLOAT === this.type) {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
-	} else if (this.el.parentElement == document.body){
+	} else if (this.el.parentElement == document.body) {
 		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
 		this.el.style.top = 0; //heightMenus + '%';
 		this.el.style.height = '100%';//(100 - heightMenus) + '%';

@@ -4,9 +4,8 @@ const ContentPanels =  require("../prototypes/ContentPanels.js"),
 	Panel = require("../prototypes/Panel.js"),
 	Vector = require("../prototypes/Vector.js"),
 	Menus = require("./Menus"),
-	make = require("make");
-
-const Left = new ContentPanels('Left', Panel.SNAP, new Vector(0, 0), 13, 100, Panel.TL, true, false, ContentPanels.TABS);
+	make = require("make"),
+	Left = new ContentPanels('Left', Panel.SNAP, new Vector(0, 0), 13, 100, Panel.TL, true, false, ContentPanels.TABS);
 
 Left.mainInit = function () {
 	var stats = this.el.getBoundingClientRect(),
