@@ -16,8 +16,8 @@ Actions.mainInit = function () {
 		parent : make('div', {parent : this.el, className : 'content-redo'})
 	}, 'redo')).on('click.redo', this.redo.bind(this));
 
-	this.elRedo = make('ul', {parent : contentLists, className : 'list redo'});
-	this.elUndo = make('ul', {parent : contentLists, className : 'list undo'});
+	this.elRedo = make('ul', {parent : contentLists, className : 'list-redo'});
+	this.elUndo = make('ul', {parent : contentLists, className : 'list-undo'});
 	this.el.appendChild(contentLists);
 };
 Actions.listUndo = [];

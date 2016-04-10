@@ -142,7 +142,7 @@ Frame.prototype.paint = function (init) {
 	this.clean();
 	for (let i = this.layers.length - 1; -1 < i; i--) {
 		let layer = this.layers[i];
-		this.context.drawImage(layer.context.canvas, 0, 0);
+		this.context.drawImage(layer.context.canvas, 0, 0, this.width, this.height, 0, 0, this.width, this.height);
 	}
 	Frames.paintFrame(this.index);
 	this.sprite.paint();
