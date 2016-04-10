@@ -146,6 +146,7 @@ let Editor = {
 		y = Math.round(((window.innerHeight + this.panels.Menus.height) / 2) - (scale * height) / 2);
 		this.sprite = new Sprite(width, height);
 		this.canvas = new Canvas(this.sprite.frames[0].layers[0], scale, new Vector (x, y));
+		this.sprite.frames[0].select();
 	}
 };
 module.exports = Editor;
