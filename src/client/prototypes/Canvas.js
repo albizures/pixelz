@@ -179,7 +179,7 @@ Canvas.prototype.previewAt = function (cord,color) {
 	cord = this.cordLayerToPaint(cord);
 	this.preview.fillStyle = color;
 	this.preview.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
-	this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
+	//this.main.clearRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 	this.preview.fillRect(cord.x, cord.y, this.sizePointer, this.sizePointer);
 };
 Canvas.prototype.drawPreview = function (evt) {

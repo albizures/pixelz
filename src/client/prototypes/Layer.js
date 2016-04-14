@@ -113,6 +113,11 @@ Layer.prototype.fillAt = function (cord, color) {
 	this.bitmap[cord.x][cord.y] = color;
 	return tempColor;
 };
+Layer.prototype.paintPrevAt = function (cord, color) {
+	let tempColor = this.bitmap[cord.x][cord.y];
+	this.canvas.previewAt(cord, color);
+	return tempColor;
+};
 Layer.prototype.paintAt = function (cord, color) {
 	let tempColor;
 	// if (!this.validCord(cord)) {

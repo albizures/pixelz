@@ -17,6 +17,7 @@ const Editor = require('./Editor/index.js'),
 	bucket = require('./tools/bucket.js'),
 	eraser = require('./tools/eraser.js'),
 	pick = require('./tools/pick.js'),
+	rectangle = require('./tools/rectangle.js'),
 	pencil = require('./tools/pencil.js');
 
 window.onload = () => {
@@ -39,6 +40,7 @@ window.onload = () => {
 	bucket();
 	eraser();
 	pick();
+	rectangle();
 
 	//init
 	Editor.init();
