@@ -18,6 +18,7 @@ const Editor = require('./Editor/index.js'),
 	eraser = require('./tools/eraser.js'),
 	pick = require('./tools/pick.js'),
 	rectangle = require('./tools/rectangle.js'),
+	line = require('./tools/line.js'),
 	pencil = require('./tools/pencil.js');
 
 window.onload = () => {
@@ -41,6 +42,7 @@ window.onload = () => {
 	eraser();
 	pick();
 	rectangle();
+	line();
 
 	//init
 	Editor.init();

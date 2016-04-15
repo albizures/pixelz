@@ -38,12 +38,12 @@ Tool.prototype.clonePixel = function (pixel) {
 		color : pixel.color
 	};
 };
-Tool.prototype.getRectangle = function (firstPixel, lastPixel, color, fn) {
-	let stepX = firstPixel.x < lastPixel.x ? 1 : -1,
-		stepY = firstPixel.y < lastPixel.y ? 1 : -1,
-		diffX = Math.abs(firstPixel.x - lastPixel.x),
-		diffY = Math.abs(firstPixel.y - lastPixel.y),
-		tempX1 = firstPixel.x, tempY1 = firstPixel.y;
+Tool.prototype.getRectangle = function (x1, y1, x2, y2, color, fn) {
+	let stepX = x1 < x2 ? 1 : -1,
+		stepY = y1 < y2 ? 1 : -1,
+		diffX = Math.abs(x1 - x2),
+		diffY = Math.abs(y1 - y2),
+		tempX1 = x1, tempY1 = y1;
 	this.stroke = [];
 	Editor.canvas.cleanPrev();
 	while (diffX > 0) {
@@ -51,19 +51,19 @@ Tool.prototype.getRectangle = function (firstPixel, lastPixel, color, fn) {
 		diffX--;
 		this.stroke[tempX1] = [];
 
-		this.stroke[tempX1][firstPixel.y] = this.layer[fn]({x : tempX1, y : firstPixel.y}, color);
-		this.stroke[tempX1][lastPixel.y] = this.layer[fn]({x : tempX1, y : lastPixel.y}, color);
+		this.stroke[tempX1][y1] = this.layer[fn]({x : tempX1, y : y1}, color);
+		this.stroke[tempX1][y2] = this.layer[fn]({x : tempX1, y : y2}, color);
 		tempX1 += stepX;
 	}
 	this.stroke[tempX1] = [];
-	this.stroke[tempX1][firstPixel.y] = this.layer[fn]({x : tempX1, y : firstPixel.y}, color);
-	this.stroke[tempX1][lastPixel.y] = this.layer[fn]({x : tempX1, y : lastPixel.y}, color);
+	this.stroke[tempX1][y1] = this.layer[fn]({x : tempX1, y : y1}, color);
+	this.stroke[tempX1][y2] = this.layer[fn]({x : tempX1, y : y2}, color);
 
 	while (diffY > 0) {
 		diffY--;
 		tempY1 += stepY;
-		this.stroke[firstPixel.x][tempY1] = this.layer[fn]({x : firstPixel.x, y : tempY1}, color);
-		this.stroke[lastPixel.x][tempY1] = this.layer[fn]({x : lastPixel.x, y : tempY1}, color);
+		this.stroke[x1][tempY1] = this.layer[fn]({x : x1, y : tempY1}, color);
+		this.stroke[x2][tempY1] = this.layer[fn]({x : x2, y : tempY1}, color);
 	}
 	// for (i = 0; i < array.length; i = i + step) {
 	// 	firstPixel.x

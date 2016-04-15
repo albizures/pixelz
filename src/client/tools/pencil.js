@@ -29,8 +29,9 @@ pencil.onMouseDown = function (evt) {
 		} else {
 			at = 'paintAt';
 		}
-		$(window).on('mouseup.up', this.onMouseUp.bind(this));
-		$(window).on('mouseout.leave', this.onMouseLeave.bind(this));
+		$(window).off('mouseup.upCanvas').on('mouseup.upCanvas', this.onMouseUp.bind(this));
+		$(window).off('mouseout.leaveCanvas').on('mouseout.leaveCanvas', this.onMouseLeave.bind(this));
+		$(window).off('mousemove.moveCanvas').on('mousemove.moveCanvas', this.onMouseMove.bind(this));
 	}
 };
 pencil.onMouseLeave = function (evt) {
@@ -55,8 +56,9 @@ pencil.onMouseMove = function (evt) {
 	}
 };
 pencil.onMouseUp = function (evt) {
-	$(window).off('mouseup.up');
-	$(window).off('mouseout.leave');
+	$(window).off('mouseup.upCanvas');
+	$(window).off('mouseout.leaveCanvas');
+	$(window).off('mousemove.moveCanvas');
 	if (this.clicked) {
 		this.clicked = false;
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);

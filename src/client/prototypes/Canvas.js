@@ -42,8 +42,6 @@ Canvas.prototype.init = function () {
 		.on('mousewheel.canvas', this.onScroll.bind(this))
 		.on('DOMMouseScroll.canvas', this.onScroll.bind(this));
 	$(this.preview.canvas).on('mousedown.canvas', this.onMouseDown.bind(this));
-	$(this.preview.canvas).on('mouseup.canvas', this.onMouseUp.bind(this));
-	$(this.preview.canvas).on('mousemove.canvas', this.onMouseMove.bind(this));
 
 	$(window).on('resize.canvas', this.resize.bind(this));
 	this.resize();
@@ -117,6 +115,8 @@ Canvas.prototype.onMouseDown = function (evt) {
 		this.lastDragX = evt.clientX;
 		this.lastDragY = evt.clientY;
 		this.cleanPrev();
+		$(window).on('mouseup.canvas', this.onMouseUp.bind(this));
+		$(window).on('mousemove.canvas', this.onMouseMove.bind(this));
 	}else if (evt.which === RIGHT_CLICK) {
 		this.mouseDown = true;
 		this.cleanPrev();
