@@ -17,10 +17,7 @@ const Tool = require('../prototypes/Tool.js'),
 let lastPixel, color, lineBetween, at;
 pencil.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
-		this.stroke = new Array(this.layer.width);
-		for (let i = 0; i < this.stroke.length; i++) {
-			this.stroke[i] = [];
-		}
+		this.layer.saveStatus();
 		this.clicked = true;
 		lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		color = evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
@@ -46,10 +43,10 @@ pencil.onMouseMove = function (evt) {
 	if (this.clicked) {
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		if (this.layer.validCord(newPixel) || this.layer.validCord(lastPixel)) {
-			if (abs(lastPixel.yo - newPixel.yo) > 1 || abs(lastPixel.xo - newPixel.xo) > 1) { // importantDiff
-				this.lineBetween(lastPixel.xo, lastPixel.yo, newPixel.xo, newPixel.yo, color, at);
-			} else if (!this.stroke[newPixel.xo][newPixel.yo] && color !== this.layer.getColorPixel(newPixel)) {
-				this.stroke[newPixel.xo][newPixel.yo] = this.layer[at]({x : newPixel.xo, y : newPixel.yo}, color);
+			if (abs(lastPixel.y - newPixel.y) > 1 || abs(lastPixel.x - newPixel.x) > 1) { // importantDiff
+				this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, color, at);
+			} else {
+				this.layer[at]({x : newPixel.x, y : newPixel.y}, color);
 			}
 		}
 		lastPixel = newPixel;
@@ -62,13 +59,11 @@ pencil.onMouseUp = function (evt) {
 	if (this.clicked) {
 		this.clicked = false;
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-		if (!this.stroke[newPixel.xo][newPixel.yo] && color !== this.layer.getColorPixel(newPixel)) {
-			this.stroke[newPixel.xo][newPixel.yo] = this.layer[at]({x : newPixel.xo, y : newPixel.yo}, color);
-		}
+		this.layer[at]({x : newPixel.x, y : newPixel.y}, color);
 		lastPixel = undefined;
 		Layers.paintLayer(this.layer.index);
 		this.layer.paint();
-		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, stroke : this.stroke}, 0));
+		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, data : this.layer.prevStatus}, 0));
 	}
 };
 module.exports = () => Editor.addTool(pencil);

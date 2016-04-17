@@ -7,6 +7,7 @@ const Tool = require('../prototypes/Tool.js'),
 let firstPixel, lastPixel, color, at;
 rectangle.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
+		this.layer.saveStatus();
 		this.clicked = true;
 		firstPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		color = evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
@@ -27,13 +28,8 @@ rectangle.onMouseLeave = function (evt) {
 rectangle.onMouseMove = function (evt) {
 	lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 	if (firstPixel.x != lastPixel.x || firstPixel.y != lastPixel.y) {
-		this.getRectangle(firstPixel.xo, firstPixel.yo, lastPixel.xo, lastPixel.yo, color, at);
+		this.getRectangle(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
 	}
-	//Editor.canvas.cleanPrev();
-	// for (let i = 0; i < this.stroke.length; i++) {
-	// 	this.stroke[i]
-	// 	previewAt
-	// }
 };
 rectangle.onMouseUp = function (evt) {
 	$(window).off('mouseup.upCanvas');
@@ -44,9 +40,9 @@ rectangle.onMouseUp = function (evt) {
 	} else {
 		at = 'paintAt';
 	}
+	this.clicked = true;
 	lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-	this.getRectangle(firstPixel.xo, firstPixel.yo, lastPixel.xo, lastPixel.yo, color, at);
-	console.log(firstPixel, lastPixel);
+	this.getRectangle(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
 };
 
 module.exports = () => Editor.addTool(rectangle);

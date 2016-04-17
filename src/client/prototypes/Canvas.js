@@ -35,20 +35,22 @@ Canvas.prototype.init = function () {
 	this.background = make('canvas', { parent : this.parent, className : 'background'}).getContext('2d');
 	this.main = make('canvas', { parent : this.parent, className : 'canvas'}).getContext('2d');
 	this.preview = make('canvas', { parent : this.parent, className : 'preview'}).getContext('2d');
+	this.mask = make('canvas', { parent : this.parent, className : 'mask'}).getContext('2d');
 
 	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
 
 	$(this.preview.canvas)
 		.on('mousewheel.canvas', this.onScroll.bind(this))
-		.on('DOMMouseScroll.canvas', this.onScroll.bind(this));
-	$(this.preview.canvas).on('mousedown.canvas', this.onMouseDown.bind(this));
+		.on('DOMMouseScroll.canvas', this.onScroll.bind(this))
+		.on('mousedown.canvas', this.onMouseDown.bind(this))
+		.on('mousemove.canvas', this.onMouseMove.bind(this));
 
 	$(window).on('resize.canvas', this.resize.bind(this));
 	this.resize();
 };
 Canvas.prototype.resize = function () {
-	this.background.canvas.width = this.main.canvas.width = this.preview.canvas.width = window.innerWidth;
-	this.background.canvas.height = this.main.canvas.height = this.preview.canvas.height = window.innerHeight;
+	this.mask.canvas.width = this.background.canvas.width = this.main.canvas.width = this.preview.canvas.width = window.innerWidth;
+	this.mask.canvas.height  = this.background.canvas.height = this.main.canvas.height = this.preview.canvas.height = window.innerHeight;
 
 	imageSmoothingDisabled(this.main);
 	imageSmoothingDisabled(this.preview);
@@ -57,7 +59,7 @@ Canvas.prototype.resize = function () {
 	this.cleanMain();
 	this.cleanBackground();
 	this.paintBackground();
-
+	this.paintMask();
 	this.paintMain();
 };
 Canvas.prototype.changeLayer = function (layer) {
@@ -100,13 +102,14 @@ Canvas.prototype.scaleTo = function (scale) {
 
 	this.artboard.cord.x = round(this.artboard.cord.x);
 	this.artboard.cord.y = round(this.artboard.cord.y);
+	this.paintMask();
 	this.paintMain();
 	Preview.updatePosition();
 };
 Canvas.prototype.onMouseDown = function (evt) {
 	evt.preventDefault();
 	if (evt.which === LEFT_CLICK) {
-		this.mouseDown = true;
+		//this.mouseDown = true;
 		this.cleanPrev();
 		this.tool.onMouseDown(evt);
 	}else if (evt.which === MIDDLE_CLICK) {
@@ -118,7 +121,7 @@ Canvas.prototype.onMouseDown = function (evt) {
 		$(window).on('mouseup.canvas', this.onMouseUp.bind(this));
 		$(window).on('mousemove.canvas', this.onMouseMove.bind(this));
 	}else if (evt.which === RIGHT_CLICK) {
-		this.mouseDown = true;
+		//this.mouseDown = true;
 		this.cleanPrev();
 		this.tool.onMouseDown(evt);
 	}
@@ -147,16 +150,13 @@ Canvas.prototype.onMouseMove = function (evt) {
 		this.lastDragY = evt.clientY;
 		this.shiftDiff(new Vector(diffX, diffY));
 	}else {
-		if (this.mouseDown) {
-			this.tool.onMouseMove(evt);
-		}else {
-			this.drawPreview(evt);
-		}
+		this.drawPreview(evt);
 	}
 	return false;
 };
 Canvas.prototype.shiftDiff = function (cord) {
 	this.artboard.cord.sum(cord);
+	this.paintMask();
 	this.paintMain();
 	Preview.updatePosition();
 };
@@ -164,11 +164,11 @@ Canvas.prototype.calculatePosition = function (x, y) {
 	// TODO: Add support many sizes pointer
 	x = floor((x - this.artboard.cord.x) / this.artboard.scale);
 	y = floor((y - this.artboard.cord.y) / this.artboard.scale);
-	let width = this.artboard.layer.width - 1,
-		height = this.artboard.layer.height - 1,
-		xo = x < 0 ? 0 : (x > width ? width : x),
-		yo = y < 0 ? 0 : (y > height ? height : y);
-	return {x : x, y : y, xo : xo, yo : yo};
+	// let width = this.artboard.layer.width - 1,
+	// 	height = this.artboard.layer.height - 1,
+	// 	xo = x < 0 ? 0 : (x > width ? width : x),
+	// 	yo = y < 0 ? 0 : (y > height ? height : y);
+	return {x : x, y : y/*, xo : xo, yo : yo*/};
 };
 Canvas.prototype.cordLayerToPaint = function (cord) {
 	cord.x = (cord.x * this.artboard.scale) + this.artboard.cord.x;
@@ -204,6 +204,13 @@ Canvas.prototype.paintMain = function () {
 		0, 0, this.artboard.layer.width, this.artboard.layer.height,
 		this.artboard.cord.x, this.artboard.cord.y, width, height
 	);
+};
+Canvas.prototype.paintMask = function () {
+	var width = (this.artboard.layer.width * this.artboard.scale),
+		height = (this.artboard.layer.height * this.artboard.scale);
+	this.mask.fillStyle = 'gray';
+	this.mask.fillRect(0, 0, this.mask.canvas.width, this.mask.canvas.width);
+	this.mask.clearRect(this.artboard.cord.x, this.artboard.cord.y, width, height);
 };
 Canvas.prototype.paintBackground = function () {
 	this.cleanBackground();

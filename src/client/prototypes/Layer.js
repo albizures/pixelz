@@ -53,6 +53,15 @@ Layer.prototype.cloneBitmap = function () {
 	}
 	return newBitmap;
 };
+Layer.prototype.saveImageData = function () {
+	this.prevImageDataState = this.imageData;
+};
+Layer.prototype.saveStatus = function () {
+	this.prevStatus = document.createElement('canvas');
+	this.prevStatus.width = this.width;
+	this.prevStatus.height = this.height;
+	this.prevStatus.getContext('2d').drawImage(this.context.canvas, 0, 0);
+};
 Layer.prototype.delete = function () {
 	if (this.frame.deleteLayer(this.index)) {
 		Layers.deletePreview(this.index);
@@ -80,56 +89,48 @@ Layer.prototype.cloneContext = function () {
 Layer.prototype.validCord = function (cord) {
 	return cord.x >= 0 && cord.x < this.width && cord.y >= 0 && cord.y < this.height;
 };
-Layer.prototype.getColorPixel = function (cord) {
-	if (!this.validCord(cord)) {
-		return;
+Layer.prototype.isSameColor = function (x, y, components1, components2) {
+	var index = (x + y * this.width) * 4;
+	if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+		if (this.prevImageDataState.data[index + 0] == components1[0] &&
+			this.prevImageDataState.data[index + 1] == components1[1] &&
+			this.prevImageDataState.data[index + 2] == components1[2] &&
+			this.prevImageDataState.data[index + 3] / 255 == components1[3]) {
+			this.prevImageDataState.data[index + 0] = components2[0];
+			this.prevImageDataState.data[index + 1] = components2[1];
+			this.prevImageDataState.data[index + 2] = components2[2];
+			this.prevImageDataState.data[index + 3] = components2[3] * 255;
+			return true;
+		}
 	}
-	return this.bitmap[cord.x][cord.y];
+	return false;
+};
+Layer.prototype.getColorPixel = function (cord) {
+	var index = (cord.x + cord.y * this.width) * 4;
+	if (index >= 0 && index <= this.prevImageDataState.data.length) {
+		return 'rgba(' + this.prevImageDataState.data[0] + ', ' + this.prevImageDataState.data[1] + ', ' + this.prevImageDataState.data[2] + ', ' + this.prevImageDataState.data[3] / 255 + ')';
+	}
 };
 Layer.prototype.cleanAt = function (cord) {
-	let tempColor;
-	// if (!this.validCord(cord)) {
-	// 	return;
-	// }
-	tempColor = this.bitmap[cord.x][cord.y];
 	this.context.clearRect(cord.x, cord.y, 1, 1);
-	this.bitmap[cord.x][cord.y] = TRANSPARENT_COLOR;
 	this.canvas.cleanAt(cord, TRANSPARENT_COLOR);
-	return tempColor;
 };
 Layer.prototype.fillCleanAt = function (cord) {
-	let tempColor;
-	tempColor = this.bitmap[cord.x][cord.y];
 	this.context.clearRect(cord.x, cord.y, 1, 1);
-	this.bitmap[cord.x][cord.y] = TRANSPARENT_COLOR;
-	return tempColor;
 };
 Layer.prototype.fillAt = function (cord, color) {
-	let tempColor;
-	tempColor = this.bitmap[cord.x][cord.y];
 	this.context.fillStyle = color;
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
-	this.bitmap[cord.x][cord.y] = color;
-	return tempColor;
 };
 Layer.prototype.paintPrevAt = function (cord, color) {
-	let tempColor = this.bitmap[cord.x][cord.y];
 	this.canvas.previewAt(cord, color);
-	return tempColor;
 };
 Layer.prototype.paintAt = function (cord, color) {
-	let tempColor;
-	// if (!this.validCord(cord)) {
-	// 	return;
-	// }
-	tempColor = this.bitmap[cord.x][cord.y];
 	this.context.fillStyle = color;
 	this.context.clearRect(cord.x, cord.y, 1, 1);
 	this.context.fillRect(cord.x, cord.y, 1, 1);
-	this.bitmap[cord.x][cord.y] = color;
 	this.canvas.paintAt(cord, color);
-	return tempColor;
 };
 Layer.prototype.paintStroke = function (listCords) {
 	let oldStroke = new Array(listCords.length), item;
@@ -150,6 +151,18 @@ Layer.prototype.paintStroke = function (listCords) {
 	Layers.paintLayer(this.index);
 	this.frame.paint();
 	return {layer : this, stroke : oldStroke};
+};
+Layer.prototype.paintEverywhere = function () {
+	Layers.paintLayer(this.index);
+	this.frame.paint();
+	Editor.canvas.paintMain();
+};
+Layer.prototype.restoreState = function (state) {
+	this.saveStatus();
+	this.context.canvas.width = state.height;
+	this.context.drawImage(state, 0, 0, state.width, state.height, 0, 0, state.width, state.height);
+	this.paintEverywhere();
+	return {layer : this, data : this.prevStatus};
 };
 Layer.prototype.paint = function () {
 	Layers.updateLayers(this.index);

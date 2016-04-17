@@ -35,7 +35,7 @@ line.onMouseMove = function (evt) {
 		for (let i = 0; i < this.stroke.length; i++) {
 			this.stroke[i] = [];
 		}
-		this.lineBetween(firstPixel.xo, firstPixel.yo, lastPixel.xo, lastPixel.yo, color, at);
+		this.lineBetween(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
 	}
 	//Editor.canvas.cleanPrev();
 	// for (let i = 0; i < this.stroke.length; i++) {
@@ -56,7 +56,7 @@ line.onMouseUp = function (evt) {
 	for (let i = 0; i < this.stroke.length; i++) {
 		this.stroke[i] = [];
 	}
-	this.lineBetween(firstPixel.xo, firstPixel.yo, lastPixel.xo, lastPixel.yo, color, at);
+	this.lineBetween(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
 	console.log(firstPixel, lastPixel);
 };
 

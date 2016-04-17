@@ -5,6 +5,7 @@ const AppendObject = require('./AppendObject.js'),
 			abs = Math.abs,
 			{ TRANSPARENT_COLOR } = require('../constants'),
 			{ SELECT_TOOL } = require('../constants').events,
+			{ getRGBAComponents } = require('../utils/colorConverts.js'),
 			{ inheritanceObject, defineGetter} = require('../utils.js');
 function Tool(name) {
 	this.$type = 'button';
@@ -38,63 +39,57 @@ Tool.prototype.clonePixel = function (pixel) {
 		color : pixel.color
 	};
 };
+Tool.prototype.active = function () {};
 Tool.prototype.getRectangle = function (x1, y1, x2, y2, color, fn) {
 	let stepX = x1 < x2 ? 1 : -1,
 		stepY = y1 < y2 ? 1 : -1,
 		diffX = Math.abs(x1 - x2),
 		diffY = Math.abs(y1 - y2),
 		tempX1 = x1, tempY1 = y1;
-	this.stroke = [];
 	Editor.canvas.cleanPrev();
 	while (diffX > 0) {
-		//console.log(tempX1);
 		diffX--;
-		this.stroke[tempX1] = [];
 
-		this.stroke[tempX1][y1] = this.layer[fn]({x : tempX1, y : y1}, color);
-		this.stroke[tempX1][y2] = this.layer[fn]({x : tempX1, y : y2}, color);
+		this.layer[fn]({x : tempX1, y : y1}, color);
+		this.layer[fn]({x : tempX1, y : y2}, color);
 		tempX1 += stepX;
 	}
-	this.stroke[tempX1] = [];
-	this.stroke[tempX1][y1] = this.layer[fn]({x : tempX1, y : y1}, color);
-	this.stroke[tempX1][y2] = this.layer[fn]({x : tempX1, y : y2}, color);
+	this.layer[fn]({x : tempX1, y : y1}, color);
+	this.layer[fn]({x : tempX1, y : y2}, color);
 
 	while (diffY > 0) {
 		diffY--;
 		tempY1 += stepY;
-		this.stroke[x1][tempY1] = this.layer[fn]({x : x1, y : tempY1}, color);
-		this.stroke[x2][tempY1] = this.layer[fn]({x : x2, y : tempY1}, color);
+		this.layer[fn]({x : x1, y : tempY1}, color);
+		this.layer[fn]({x : x2, y : tempY1}, color);
 	}
-	// for (i = 0; i < array.length; i = i + step) {
-	// 	firstPixel.x
-	// 	array[i]
-	// }
 };
 Tool.prototype.fill = function (initCord, newColor, oldColor, fn) {
 	let stack = [initCord], current, aside,
-		numPixels,
+		numPixels = 4 * (this.layer.width * this.layer.height),
 		count = 0,
     dy = [-1, 0, 1, 0],
-    dx = [0, 1, 0, -1];
+    dx = [0, 1, 0, -1],
+		newComponents = getRGBAComponents(newColor),
+		oldComponents = getRGBAComponents(oldColor);
 
-	if (oldColor !== this.layer.getColorPixel(initCord)) {
+	if (!this.layer.isSameColor(initCord.x, initCord.y, oldComponents, newComponents)) {
 		return;
 	}
-	numPixels = this.layer.width * this.layer.height;
 	while (stack.length) {
 		current = stack.pop();
 
-		this.stroke[current.x][current.y] = this.stroke[current.x][current.y] || this.layer[fn]({x : current.x, y : current.y}, newColor);
-
+		this.layer[fn]({x : current.x, y : current.y}, newColor);
 		for (let i = 0; i < 4; i++) {
 			aside = {x : current.x +  dx[i], y : current.y + dy[i]};
-			if (oldColor === this.layer.getColorPixel(aside)) {
+			if (this.layer.isSameColor(aside.x, aside.y, oldComponents, newComponents)) {
 				stack.push(aside);
 			}
 		}
-		if (count > 4 * numPixels) {
+		if (count > numPixels) {
 			break;
 		}
+		count++;
 	}
 	Editor.canvas.paintMain();
 };
@@ -105,7 +100,7 @@ Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
 		sy = (y1 < y2) ? 1 : -1,
 		err = dx - dy, e2;
 	while (x1 !== x2 || y1 !== y2) {
-		this.stroke[x1][y1] = this.stroke[x1][y1] ||  this.layer[fn]({x : x1, y : y1}, color);
+		this.layer[fn]({x : x1, y : y1}, color);
 		e2 = 2 * err;
 		if (e2 > -dy) {
 			err -= dy; x1  += sx;
@@ -114,6 +109,6 @@ Tool.prototype.lineBetween = function (x1, y1, x2, y2, color, fn) {
 			err += dx; y1  += sy;
 		}
 	}
-	this.stroke[x1][y1] = this.stroke[x1][y1] || this.layer[fn]({x : x1, y : y1}, color);
+	this.layer[fn]({x : x1, y : y1}, color);
 };
 module.exports = Tool;

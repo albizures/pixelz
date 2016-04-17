@@ -5,7 +5,7 @@ const AppendObject = require('./AppendObject.js'),
 
 let actions = {
 	paint : function (data) {
-		return data.layer.paintStroke(data.stroke);
+		return data.layer.restoreState(data.data);
 	}
 };
 function Action(type, data, index, redo) {

@@ -81,7 +81,9 @@ body{
 
 .preview
 	cursor crosshair
-body>.canvas,body>.preview,.content-preview-animate
+body>.mask
+	pointer-events: none
+body>.canvas,body>.mask,body>.preview,.content-preview-animate
 	position absolute
 	top 0
 	left 0
