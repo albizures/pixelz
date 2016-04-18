@@ -1,11 +1,6 @@
 'use strict';
 const Tool = require('../prototypes/Tool.js'),
-	{
-		MIDDLE_CLICK,
-		RIGHT_CLICK,
-		LEFT_CLICK,
-		TRANSPARENT_COLOR
-	} = require('../constants'),
+	{ MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR} = require('../constants'),
 	abs = Math.abs,
 	Tools = require('../panels/Tools.js'),
 	Actions = require('../panels/Actions.js'),
@@ -61,7 +56,6 @@ pencil.onMouseUp = function (evt) {
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		this.layer[at]({x : newPixel.x, y : newPixel.y}, color);
 		lastPixel = undefined;
-		Layers.paintLayer(this.layer.index);
 		this.layer.paint();
 		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, data : this.layer.prevStatus}, 0));
 	}

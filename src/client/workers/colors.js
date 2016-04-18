@@ -18,17 +18,17 @@ self.onmessage = function (evt) {
 	this.postMessage(dataReturn);
 };
 
-function getColors(bitmaps) {
+function getColors(dataList) {
 	let obj = {},
-		array = [];
-	for (let i = 0; i < bitmaps.length; i++) {
-		walkBitmap(bitmaps[i], onWalk);
-	}
-
-	function onWalk(item, x, y) {
-		if (!obj[item]) {
-			array.push(item);
-			obj[item] = true;
+		array = [],
+		color;
+	for (let i = 0; i < dataList.length; i++) {
+		for (let b = 0; b < dataList[i].length; b = b + 4) {
+			color = 'rgba(' + dataList[i][b] + ', ' + dataList[i][b + 1] + ', ' + dataList[i][b + 2] + ', ' + dataList[i][b + 3] / 255 + ')';
+			if (!obj[color]) {
+				array.push(color);
+				obj[color] = true;
+			}
 		}
 	}
 	return {
@@ -38,11 +38,11 @@ function getColors(bitmaps) {
 }
 
 
-function getTransparent(listData) {
+function getTransparent(dataList) {
 	let obj = {},
 		transparent;
-	for (let b = 0; b < listData.length; b++) {
-		let data = listData[b];
+	for (let b = 0; b < dataList.length; b++) {
+		let data = dataList[b];
 		for (let i = 0, n = data.length; i < n; i += 4) {
 			let r = data[i],
 				g = data[i + 1],

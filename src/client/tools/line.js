@@ -3,11 +3,15 @@ const Tool = require('../prototypes/Tool.js'),
 	{ RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR } = require('../constants'),
 	Vector = require('../prototypes/Vector.js'),
 	Tools = require('../panels/Tools.js'),
+	Action = require('../prototypes/Action.js'),
+	actions = require('../constants').actions,
+	Actions = require('../panels/Actions.js'),
 	line = new Tool('line');
 let firstPixel, lastPixel, color, at;
 line.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
 		this.clicked = true;
+		this.layer.saveStatus();
 		this.stroke = new Array(this.layer.width);
 		for (let i = 0; i < this.stroke.length; i++) {
 			this.stroke[i] = [];
@@ -57,7 +61,8 @@ line.onMouseUp = function (evt) {
 		this.stroke[i] = [];
 	}
 	this.lineBetween(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
-	console.log(firstPixel, lastPixel);
+	Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, data : this.layer.prevStatus}, 0));
+	this.layer.paint();
 };
 
 module.exports = () => Editor.addTool(line);

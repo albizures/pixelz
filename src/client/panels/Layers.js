@@ -69,7 +69,6 @@ Layers.changeFrame = function (frame) {
 	}
 };
 Layers.updateLayers = function (index) {
-	console.trace('updateLayers', this.list.elements[index], index);
 	this.list.elements[index].paint();
 };
 Layers.paintLayer = function () {};

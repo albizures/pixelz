@@ -92,11 +92,11 @@ Layer.prototype.validCord = function (cord) {
 Layer.prototype.isSameColor = function (x, y, components1, components2) {
 	var index = (x + y * this.width) * 4;
 	if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-		if (this.prevImageDataState.data[index + 0] == components1[0] &&
+		if (this.prevImageDataState.data[index] == components1[0] &&
 			this.prevImageDataState.data[index + 1] == components1[1] &&
 			this.prevImageDataState.data[index + 2] == components1[2] &&
 			this.prevImageDataState.data[index + 3] / 255 == components1[3]) {
-			this.prevImageDataState.data[index + 0] = components2[0];
+			this.prevImageDataState.data[index] = components2[0];
 			this.prevImageDataState.data[index + 1] = components2[1];
 			this.prevImageDataState.data[index + 2] = components2[2];
 			this.prevImageDataState.data[index + 3] = components2[3] * 255;
@@ -108,7 +108,7 @@ Layer.prototype.isSameColor = function (x, y, components1, components2) {
 Layer.prototype.getColorPixel = function (cord) {
 	var index = (cord.x + cord.y * this.width) * 4;
 	if (index >= 0 && index <= this.prevImageDataState.data.length) {
-		return 'rgba(' + this.prevImageDataState.data[0] + ', ' + this.prevImageDataState.data[1] + ', ' + this.prevImageDataState.data[2] + ', ' + this.prevImageDataState.data[3] / 255 + ')';
+		return 'rgba(' + this.prevImageDataState.data[index] + ', ' + this.prevImageDataState.data[index + 1] + ', ' + this.prevImageDataState.data[index + 2] + ', ' + this.prevImageDataState.data[index + 3] / 255 + ')';
 	}
 };
 Layer.prototype.cleanAt = function (cord) {
@@ -153,7 +153,7 @@ Layer.prototype.paintStroke = function (listCords) {
 	return {layer : this, stroke : oldStroke};
 };
 Layer.prototype.paintEverywhere = function () {
-	Layers.paintLayer(this.index);
+	Layers.updateLayers(this.index);
 	this.frame.paint();
 	Editor.canvas.paintMain();
 };

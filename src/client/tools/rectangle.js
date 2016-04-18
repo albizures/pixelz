@@ -2,6 +2,9 @@
 const Tool = require('../prototypes/Tool.js'),
 	{ RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR } = require('../constants'),
 	Vector = require('../prototypes/Vector.js'),
+	Action = require('../prototypes/Action.js'),
+	Actions = require('../panels/Actions.js'),
+	actions = require('../constants').actions,
 	Tools = require('../panels/Tools.js'),
 	rectangle = new Tool('rectangle');
 let firstPixel, lastPixel, color, at;
@@ -43,6 +46,8 @@ rectangle.onMouseUp = function (evt) {
 	this.clicked = true;
 	lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 	this.getRectangle(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
+	this.layer.paint();
+	Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, data : this.layer.prevStatus}, 0));
 };
 
 module.exports = () => Editor.addTool(rectangle);

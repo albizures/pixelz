@@ -108,7 +108,12 @@ Canvas.prototype.scaleTo = function (scale) {
 };
 Canvas.prototype.onMouseDown = function (evt) {
 	evt.preventDefault();
-	if (evt.which === LEFT_CLICK) {
+	if (evt.which === LEFT_CLICK &&
+		evt.clientX >= this.artboard.cord.x &&
+		evt.clientY >= this.artboard.cord.y &&
+		evt.clientX <= this.artboard.cord.x + this.artboard.width &&
+		evt.clientY <= this.artboard.cord.y + this.artboard.height
+		) {
 		//this.mouseDown = true;
 		this.cleanPrev();
 		this.tool.onMouseDown(evt);

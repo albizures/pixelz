@@ -127,8 +127,8 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 	Layers.updateLayers(newLayer.index);
 	return newLayer;
 };
-Frame.prototype.getBitmaps = function () {
-	return this.layers.map((item) => item.bitmap);
+Frame.prototype.getDataList = function () {
+	return this.layers.map((item) => item.imageData.data);
 };
 Frame.prototype.getIMG = function () {
 	let image = document.createElement('img');

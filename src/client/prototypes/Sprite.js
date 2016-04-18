@@ -34,11 +34,11 @@ Sprite.prototype.deleteFrame = function (index) {
 	}
 };
 Sprite.prototype.getTransparentColor = function (cb) {
-	let listData = [], self = this;
+	let dataList = [], self = this;
 	for (let i = 0; i < this.frames.length; i++) {
-		listData.push(this.frames[i].imageData.data);
+		dataList.push(this.frames[i].imageData.data);
 	}
-	colors.postMessage({type : 'transparent', data : listData});
+	colors.postMessage({type : 'transparent', data : dataList});
 	colors.onmessage = onGetTransparentColor.bind(this);
 
 	function onGetTransparentColor(evt) {
@@ -49,11 +49,11 @@ Sprite.prototype.getTransparentColor = function (cb) {
 	}
 };
 Sprite.prototype.getGeneralColors = function (cb) {
-	let bitmaps = [];
+	let dataList = [];
 	for (let i = 0; i < this.frames.length; i++) {
-		bitmaps = bitmaps.concat(this.frames[i].getBitmaps());
+		dataList = dataList.concat(this.frames[i].getDataList());
 	}
-	colors.postMessage({type : 'general', data : bitmaps});
+	colors.postMessage({type : 'general', data : dataList});
 	colors.onmessage =  onGetGeneralColors.bind(this);
 
 	function onGetGeneralColors(evt) {
