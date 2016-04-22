@@ -15,14 +15,15 @@ size-font-preview = 0.65em
 		overflow-y scroll
 		height calc(100% - 53px)
 		li
-			transition 0.3s top //cubic-bezier(0.46, 0.03, 0.52, 0.96)
+			transition 0.3s top, 0.1s transform //cubic-bezier(0.46, 0.03, 0.52, 0.96)
 			border 1px solid
 			width 100%
 			z-depth-1() 0
 			&.drag
 				z-index 1
 				z-depth-2() 0
-				transition 0s all
+				transition 0.1s transform, 0s top
+				transform: scale(1.07);
 				background: rgba(0, 0, 0, 0.6);
 				*
 					opacity: 0.4
