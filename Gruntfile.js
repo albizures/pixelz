@@ -16,7 +16,7 @@ module.exports = function (grunt) {
 		},
 		concurrent: {
 			dev: {
-				tasks: ['nodemon:server', 'nodemon:webpack'],
+				tasks: ['nodemon:server'],
 				options: {
 					logConcurrentOutput: true
 				}

@@ -10,15 +10,17 @@ const path = require('path'),
 	ASSETS_PATH = path.join(CLIENT_PATH, 'assets'),
 	TEMPLATE_PATH = path.join(CLIENT_PATH, 'template'),
 	all = {
+		isProduction : env != 'development',
 		ROOT_PATH,
 		PUBLIC_PATH,
 		CLIENT_PATH,
 		APP_PATH,
 		MODULES_PATH,
+		TEMPLATE_PATH,
 		ASSETS_PATH,
 		PORT : 8080
 	};
 module.exports = _.merge(
 	all,
-	require('./' + env + '.js')(TEMPLATE_PATH)
-)
+	require('./' + env + '.js')(all)
+);
