@@ -1,8 +1,9 @@
 {
-  "name": "simple-template-webpack-express",
+  "name": "pixelz",
   "version": "0.1.0",
-  "description": "A simple template with webpack and express",
+  "description": "A editor for pixel art",
   "main": "index.js",
+  "homepage" : "http://pixelzstudio.com",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "grunt",
@@ -13,7 +14,11 @@
     "webpack",
     "template"
   ],
-  "author": "albizures <albizures3601@gmail.com>",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/albizures/pixelz"
+  },
+  "author": "Jose Albizures <albizures3601@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "exports-loader": "^0.6.3",
