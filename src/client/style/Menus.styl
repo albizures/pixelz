@@ -1,0 +1,61 @@
+.panel-menus.panel
+	overflow visible
+	.name-project
+		float right
+		background transparent
+		border 0
+		text-align right
+	.logo
+		background gray
+		width 25px
+		height 25px
+		display inline-block;
+	.list-menus
+		height 100%
+		vertical-align top
+		margin 0
+		padding 0
+		display inline-block
+		list-style none
+		ul, li
+			margin 0
+			padding 0
+			box-sizing border-box
+		li
+			line-height: 1.5;
+			&:hover
+				background #A3C4FF
+				cursor pointer
+		.menu
+			background whitesmoke
+			height 100%
+			float left
+			position relative
+			margin 0
+			padding 0
+			white-space nowrap
+			width: auto
+			padding 0 5px
+			list-style none
+			.submenus
+				border 1px solid gray
+				box-shadow 0 0 3px rgba(0, 0, 0, 0.2)
+				background whitesmoke
+				position absolute
+				top 100%
+				left 0
+				display none
+				list-style none
+				.submenu
+					padding 2px 4px
+					height 100%
+					position relative
+					.submenus
+						left 100%
+						top 0
+					&:hover
+						&>.submenus
+							display inline-block
+			&:hover
+				&>.submenus
+					display inline-block
