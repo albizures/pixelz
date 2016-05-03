@@ -23,25 +23,17 @@ Menus.mainInit = function () {
 		parent : this.el,
 		className : 'list-menus'
 	}]);
-	// this.spriteMenu = make(['li', {
-	// 	parent : this.listMenus,
-	// 	className : 'menu'
-	// }, 'Sprite']);
-	this.randomMenu = new Menu('random', {
-		'just a test' : ''
-	}).appendTo(this.listMenus);
-	this.projectMenu = new Menu('project', {
-		'new project' : '',
-		'save project' : '',
-		'new sprite' : '',
-		'this is a large name menu' : '',
-		'test' : {
-			'test' : '',
-			'test2' : {
-				'inside test' : ''
-			}
-		}
-	}).appendTo(this.listMenus);
+	this.test = Menu.createMenus('test', [
+		Menu.createMenu('test2', () => alert('hi test2')),
+		Menu.createMenus('test3', [
+			Menu.createMenu('test3.2', () => alert('hi test3.2'))
+		])
+	]);
+	this.projectMenu = Menu.createMenus('project', [
+		Menu.createMenu('new project', () => alert('new project')),
+		Menu.createMenu('save project', () => alert('save project')),
+		Menu.createMenu('new sprite', () => alert('new sprite')),
+	]).appendTo(this.listMenus);
 };
 Menus.onGenerateGif = function () {
 	Editor.sprite.generateGif(parseInt(this.inputScale.value));
