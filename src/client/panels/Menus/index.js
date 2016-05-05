@@ -32,7 +32,15 @@ Menus.mainInit = function () {
 	this.projectMenu = Menu.createMenus('project', [
 		Menu.createMenu('new project', () => alert('new project')),
 		Menu.createMenu('save project', () => alert('save project')),
-		Menu.createMenu('new sprite', () => alert('new sprite')),
+		Menu.createMenu('new sprite', () => alert('new sprite'))
+	]).appendTo(this.listMenus);
+	this.spriteMenu = Menu.createMenus('sprite', [
+		Menu.createMenu('resize', () => alert('resize')),
+		Menu.createMenu('set background', () => alert('set background'))
+	]).appendTo(this.listMenus);
+	this.spriteMenu = Menu.createMenus('sprite', [
+		Menu.createMenu('help', () => alert('soon')),
+		Menu.createMenu('documentation', () => alert('not yet'))
 	]).appendTo(this.listMenus);
 };
 Menus.onGenerateGif = function () {
