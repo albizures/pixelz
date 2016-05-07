@@ -3,7 +3,7 @@
 const Panel = require('../prototypes/Panel.js'),
 	Vector = require('../prototypes/Vector.js'),
 	{make} = require('../utils.js'),
-	{SNAP, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{SNAP, B, L, R, TL, TR, BL, BR} = Panel,
 	{CHANGE_SPRITE} = require('../constants').events,
 	Actions = new Panel('Actions', SNAP, new Vector(100, 40), 15, 20, R);
 

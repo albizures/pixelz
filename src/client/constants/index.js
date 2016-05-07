@@ -42,6 +42,5 @@ module.exports.colors = {
 	NAC : 'NaC'
 };
 module.exports.palette  = require("./palette.js");
-module.exports.panels = require('./panels.js');
 module.exports.events = require("./events.js");
 module.exports.actions = require("./actions.js");

@@ -1,11 +1,23 @@
 'use strict';
 const {createDiv, createSpan, defineGetter, inheritanceObject } = require('../utils.js'),
-			{SNAP, FLOAT, T, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
-			AppendObject = require('./AppendObject.js'),
-			Vector = require('../prototypes/Vector.js'),
-			ResizeBar = require('../prototypes/ResizeBar.js'),
-			resizeBars = [T, L, B, R, TL, BL, BR, TR];
+	AppendObject = require('./AppendObject.js'),
+	Vector = require('../prototypes/Vector.js');//,
+	//ResizeBar = require('../prototypes/ResizeBar.js'),
+	//7resizeBars = [T, L, B, R, TL, BL, BR, TR];
 // IDEA: http://codepen.io/zz85/pen/gbOoVP?editors=001
+
+/**
+ * Creates a new panel
+ * @class
+ * @param {string} name - Name of the panel
+ * @param {string} type - Type of the panel
+ * @param {object} position
+ * @param {number} width
+ * @param {number} height
+ * @param {string} snapType
+ * @param {boolean} notDragbar Visibility of dragbar
+ * @param {boolean} hidden - Init visibility
+ */
 function Panel(name, type, position, width, height, snapType, notDragbar, hidden) {
 	AppendObject.call(this, 'panel', 'panel-' + name.toLowerCase(), 'panel-' + type);
 	this.name = name;
@@ -28,8 +40,20 @@ defineGetter(Panel.prototype, 'frame', function () {
 defineGetter(Panel.prototype, 'sprite', function () {
 	return Editor.canvas.artboard.layer.frame.sprite;
 });
+
 Panel.SNAP = 'snap';
-Panel.TL = 'TL';
+Panel.MODAL = 'modal';
+Panel.FLOAT = 'float';
+Panel.T = 'T'; // top
+Panel.B = 'B'; // bottom
+Panel.L = 'L'; // left
+Panel.R = 'R'; // right
+Panel.TL = 'TL'; // top left
+Panel.TR = 'TR'; // top right
+Panel.BL = 'BL'; // bottom left
+Panel.BR = 'BR'; // bottom right
+Panel.M = 'M'; // middle
+
 Panel.prototype.hide = function () {
 	this.el.style.opacity = 0;
 	this.el.style.pointerEvents = 'none';
@@ -46,9 +70,9 @@ Panel.prototype.init = function (width, height) {
 	if (!hasVal(this.parent)) {
 		return console.error('parent undefined');
 	}
-	if (SNAP === this.type && this.el.parentElement == document.body) {
+	if (Panel.SNAP === this.type && this.el.parentElement == document.body) {
 		this.setSnapPosition();
-	}else if (FLOAT === this.type) {
+	}else if (Panel.FLOAT === this.type) {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
 	} else if (this.el.parentElement == document.body) {
 		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
@@ -68,16 +92,16 @@ Panel.prototype.init = function (width, height) {
 	this.isInit = true;
 };
 Panel.prototype.isLeft = function () {
-	return this.type === SNAP && this.snapType === TL || this.snapType === BL || this.snapType == L;
+	return this.type === Panel.SNAP && this.SNAPType === Panel.TL || this.snapType === Panel.BL || this.snapType == Panel.L;
 };
 Panel.prototype.isRight = function () {
-	return this.type === SNAP && this.snapType === TR || this.snapType === BR || this.snapType == R;
+	return this.type === Panel.SNAP && this.snapType === Panel.TR || this.snapType === Panel.BR || this.snapType == Panel.R;
 };
 Panel.prototype.isBottom = function () {
-	return this.type === SNAP && this.snapType === BL || this.snapType === BR || this.snapType == B;
+	return this.type === Panel.SNAP && this.snapType === Panel.BL || this.snapType === Panel.BR || this.snapType == Panel.B;
 };
 Panel.prototype.isTop = function () {
-	return this.type === SNAP && this.snapType === TR || this.snapType === TL || this.snapType == T;
+	return this.type === Panel.SNAP && this.snapType === Panel.TR || this.snapType === Panel.TL || this.snapType == Panel.T;
 };
 Panel.prototype.setSnapPosition = function () {
 	if (this.isLeft() || this.isRight()) {
@@ -142,7 +166,7 @@ Panel.prototype.changePosition = function (position) {
 	this.el.style.left = position.x + 'px';
 };
 Panel.prototype.onDragStart = function (evt) {
-	if (this.type === SNAP) {
+	if (this.type === Panel.SNAP) {
 		return;
 	}
 	this.offsetDrag = new Vector(evt.offsetX, evt.offsetY);
@@ -167,7 +191,7 @@ Panel.prototype.onResizeStart = function (evt) {
 	this.typeResize = evt.target.className.replace(/resize-bars|resize-corners/, '').trim();
 };
 Panel.prototype.onResize = function (evt) {
-	if (this.type === SNAP) {
+	if (this.type === Panel.SNAP) {
 		if (this.typeResize == this.position) {
 			return;
 		}
@@ -207,6 +231,14 @@ Panel.prototype.changeSize = function (width, height, x, y) {
 };
 Panel.prototype.onResizeEnd = function (evt) {
 	$(window).off('mousemove.resize').off('mouseup.resize');
+};
+
+Panel.createFloatPanel = function (name, position, hidden, width, height) {
+	return new Panel(name, Panel.FLOAT, position, width, height, undefined, false, hidden);
+};
+
+Panel.createModalPanel = function (name, hidden) {
+	return new Panel(name, Panel.MODAL, undefined, 0, 0, undefined, true, hidden);
 };
 
 module.exports = Panel;

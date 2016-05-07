@@ -1,5 +1,5 @@
 'use strict';
-
+console.log(require('../constants/index.js'));
 const {createDiv, createSpan, defineGetter, inheritanceObject } = require('../utils.js'),
 			{SNAP, FLOAT, T, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
 			resizeBars = [T, L, B, R],

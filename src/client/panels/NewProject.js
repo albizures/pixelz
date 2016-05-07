@@ -2,10 +2,9 @@
 const Panel = require('../prototypes/Panel.js'),
 	{ make } = require('../utils.js'),
 	Vector = require('../prototypes/Vector.js'),
-	{MODAL} = require('../constants/index.js').panels,
 	{ SELECT_TOOL } = require('../constants').events,
 	{WIDTH_DEF, HEIGHT_DEF} = require('../constants'),
-	NewProject = new Panel('NewProject', MODAL, undefined, 0, 0, undefined, true);
+	NewProject = Panel.createModalPanel('NewProject');
 
 NewProject.mainInit = function () {
 	this.el.style['z-index'] = '10';

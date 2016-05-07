@@ -3,7 +3,7 @@
 const Panel = require('../prototypes/Panel.js'),
 			{ make } = require('../utils.js'),
 			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events,
-			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
 			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
 			Vector = require('../prototypes/Vector.js'),
 			List = require('../prototypes/List.js'),

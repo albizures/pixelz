@@ -40,12 +40,12 @@ Canvas.prototype.init = function () {
 	TRANSPARENT_IMG.img.addEventListener('load', this.paintBackground.bind(this));
 
 	$(this.preview.canvas)
-		.on('mousewheel.canvas', this.onScroll.bind(this))
-		.on('DOMMouseScroll.canvas', this.onScroll.bind(this))
-		.on('mousedown.canvas', this.onMouseDown.bind(this))
-		.on('mousemove.canvas', this.onMouseMove.bind(this));
+		.off('mousewheel.canvas').on('mousewheel.canvas', this.onScroll.bind(this))
+		.off('DOMMouseScroll.canvas').on('DOMMouseScroll.canvas', this.onScroll.bind(this))
+		.off('mousedown.canvas').on('mousedown.canvas', this.onMouseDown.bind(this))
+		.off('mousemove.canvas').on('mousemove.canvas', this.onMouseMove.bind(this));
 
-	$(window).on('resize.canvas', this.resize.bind(this));
+	$(window).off('resize.canvas').on('resize.canvas', this.resize.bind(this));
 	this.resize();
 };
 Canvas.prototype.resize = function () {
@@ -144,6 +144,8 @@ Canvas.prototype.onMouseUp = function (evt) {
 		this.cleanPrev();
 		this.tool.onMouseUp(evt);
 	}
+	$(window).off('mouseup.canvas');
+	$(window).off('mousemove.canvas');
 	return false;
 };
 Canvas.prototype.onMouseMove = function (evt) {

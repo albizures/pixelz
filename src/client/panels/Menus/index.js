@@ -4,7 +4,7 @@ const Panel = require('../../prototypes/Panel.js'),
 	Vector = require('../../prototypes/Vector.js'),
 	Menu = require('../../prototypes/Menu.js'),
 	{TRANSPARENT_COLOR} = require('../../constants/index.js'),
-	{SNAP, FLOAT, T, B} = require('../../constants/index.js').panels,
+	{SNAP, FLOAT, T, B} = Panel,
 	{ SELECT_TOOL } = require('../../constants').events,
 	Menus = new Panel('Menus', SNAP, undefined, 100, 25, T, true);
 
@@ -30,7 +30,8 @@ Menus.mainInit = function () {
 		])
 	]);
 	this.projectMenu = Menu.createMenus('project', [
-		Menu.createMenu('new project', () => alert('new project')),
+		Menu.createMenu('new project', () => alert('not yet')),
+		//Menu.createMenu('new project', () => Editor.panels.NewProject.show()),
 		Menu.createMenu('save project', () => alert('save project')),
 		Menu.createMenu('new sprite', () => alert('new sprite'))
 	]).appendTo(this.listMenus);
@@ -38,9 +39,9 @@ Menus.mainInit = function () {
 		Menu.createMenu('resize', () => alert('resize')),
 		Menu.createMenu('set background', () => alert('set background'))
 	]).appendTo(this.listMenus);
-	this.spriteMenu = Menu.createMenus('sprite', [
-		Menu.createMenu('help', () => alert('soon')),
-		Menu.createMenu('documentation', () => alert('not yet'))
+	this.spriteMenu = Menu.createMenus('help', [
+		Menu.createMenu('documentation', () => alert('not yet')),
+		Menu.createMenu('about', () => alert('soon'))
 	]).appendTo(this.listMenus);
 };
 Menus.onGenerateGif = function () {

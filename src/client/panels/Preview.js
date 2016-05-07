@@ -4,7 +4,7 @@ const Panel = require('../prototypes/Panel.js'),
 	Range = require('../prototypes/Range.js'),
 	{imageSmoothingDisabled, make} = require('../utils.js'),
 	{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
-	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
 	{ TRANSPARENT_IMG } = require('../constants'),
 	Preview = new Panel('Preview', SNAP, undefined, 15, 40, TR);
 let time = 1000 / 2, loop, index = 0, ctx,

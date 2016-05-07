@@ -6,7 +6,7 @@ const
 	Vector = require('../prototypes/Vector.js'),
 	CanvasPicker = require('../prototypes/CanvasPicker.js'),
 	{ make } = require('../utils.js'),
-	{FLOAT} = require('../constants').panels,
+	{FLOAT} = Panel,
 	{R, G, B, A} = require('../constants').palette.picker,
 	{RGBA} = require('../constants').colors,
 	Picker = require('../prototypes/Picker.js'),

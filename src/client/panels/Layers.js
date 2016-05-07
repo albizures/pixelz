@@ -2,7 +2,7 @@
 
 const Panel = require('../prototypes/Panel.js'),
 	PreviewLayer = require('../prototypes/Layers/PreviewLayer.js'),
-	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../constants').panels,
+	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
 	{createBtn, createSpan, make} = require('../utils.js'),
 	Vector = require('../prototypes/Vector.js'),
 	List = require('../prototypes/List.js'),
