@@ -10,7 +10,7 @@ const ContentPanels =  require("../prototypes/ContentPanels.js"),
 Left.mainInit = function () {
 	var stats = this.el.getBoundingClientRect(),
 		numTabs = this.panels.length;
-
+	console.log(Menus.height);
 	this.el.style.borderWidth = 0;
 	for (let i = 0; i < numTabs; i++) {
 		this.tabs[i] = {

@@ -90,4 +90,7 @@ Frames.reAppend = function () {
 	// 	previewFrames[i].appendTo(ul);
 	// }
 };
+Frames.resizeFrame = function (index) {
+	this.list.elements[index].resize();
+};
 module.exports = Frames;

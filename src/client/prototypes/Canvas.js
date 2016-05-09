@@ -1,12 +1,12 @@
 'use strict';
 const Vector = require('./Vector.js'),
-			floor = Math.floor, round = Math.round,
-			Tools = require('../panels/Tools.js'),
-			Preview = require('../panels/Preview.js'),
-			{imageSmoothingDisabled, make} = require('../utils.js'),
-			{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
-				RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
-			{SELECT_FRAME, SELECT_LAYER} = require('../constants').events;
+	floor = Math.floor, round = Math.round,
+	Tools = require('../panels/Tools.js'),
+	Preview = require('../panels/Preview.js'),
+	{imageSmoothingDisabled, make} = require('../utils.js'),
+	{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG, SECOND_COLOR_POINTER_PREW_DEF,
+		RIGHT_CLICK,LEFT_CLICK,COLOR_POINTER_PREW_DEF} = require('../constants'),
+	{SELECT_FRAME, SELECT_LAYER} = require('../constants').events;
 // TODO: create the prototype of the artboard
 let artboard = {
 	get width() {

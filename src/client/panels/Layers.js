@@ -71,5 +71,9 @@ Layers.changeFrame = function (frame) {
 Layers.updateLayers = function (index) {
 	this.list.elements[index].paint();
 };
+Layers.resizeLayer = function (index) {
+	this.list.elements[index].resize();
+};
+
 Layers.paintLayer = function () {};
 module.exports = Layers;

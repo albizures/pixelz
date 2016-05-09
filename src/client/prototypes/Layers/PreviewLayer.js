@@ -88,6 +88,7 @@ PreviewLayer.prototype.onClick = function () {
 PreviewLayer.prototype.paint = function () {
 	this.clean();
 	imageSmoothingDisabled(this.context);
+	console.log(0, 0, this.layer.width * this.scale, this.layer.height * this.scale);
 	this.context.drawImage(this.layer.context.canvas, 0, 0, this.layer.width * this.scale, this.layer.height * this.scale);
 };
 PreviewLayer.prototype.clean = function () {

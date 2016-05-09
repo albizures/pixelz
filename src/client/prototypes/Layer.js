@@ -53,6 +53,37 @@ Layer.prototype.cloneBitmap = function () {
 	}
 	return newBitmap;
 };
+Layer.prototype.resize = function (content, x, y) {
+	let newContext = document.createElement('canvas').getContext('2d'),
+		x1, y1, x2, y2, width1, width2, height1, height2;
+	document.body.appendChild(newContext.canvas);
+	document.body.appendChild(this.context.canvas);
+	x1 = 0;
+	y1 = 0;
+	width1 = this.context.canvas.width;
+	height1 = this.context.canvas.height;
+
+	x2 = x;
+	y2 = y;
+	if (content) {
+		width2 = this.width;
+		height2 = this.height;
+	} else {
+		width2 = this.context.canvas.width;
+		height2 = this.context.canvas.height;
+	}
+	newContext.canvas.width = this.width;
+	newContext.canvas.height = this.height;
+
+	imageSmoothing(newContext, false);
+	console.log(x1, y1, width1, height1, x2, y2, width2, height2);
+
+	newContext.drawImage(this.context.canvas, x1, y1, width1, height1, x2, y2, width2, height2);
+
+	this.context = newContext;
+	Layers.resizeLayer(this.index);
+	Editor.canvas.resize();
+};
 Layer.prototype.saveImageData = function () {
 	this.prevImageDataState = this.imageData;
 };

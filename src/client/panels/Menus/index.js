@@ -36,7 +36,7 @@ Menus.mainInit = function () {
 		Menu.createMenu('new sprite', () => alert('new sprite'))
 	]).appendTo(this.listMenus);
 	this.spriteMenu = Menu.createMenus('sprite', [
-		Menu.createMenu('resize', () => alert('resize')),
+		Menu.createMenu('resize', () =>  Editor.panels.Resize.show()),
 		Menu.createMenu('set background', () => alert('set background'))
 	]).appendTo(this.listMenus);
 	this.spriteMenu = Menu.createMenus('help', [

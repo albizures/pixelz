@@ -95,6 +95,14 @@ Sprite.prototype.reIndexing = function () {
 		this.frames[i].index = i;
 	}
 };
+Sprite.prototype.resize = function (width, height, content, x, y) {
+	this.width = width;
+	this.height = height;
+	console.log(width, height, content, x, y);
+	for (let i = 0; i < this.frames.length; i++) {
+		this.frames[i].resize(content, x, y);
+	}
+};
 Sprite.prototype.moveFrame = function (oldIndex, newIndex) {
 	let frame = this.frames.splice(oldIndex, 1),
 		tempFrames;

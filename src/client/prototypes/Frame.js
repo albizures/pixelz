@@ -12,7 +12,7 @@ function Frame(sprite, index, status, layers, clone) {
 	this.index = index;
 	this.status = status;
 	this.layers = layers || [new Layer(this, 0)];
-	this.preview = document.createElement('canvas').getContext('2d');
+	this.context = document.createElement('canvas').getContext('2d');
 	if (!clone) {
 		this.init();
 	}
@@ -33,12 +33,20 @@ Frame.prototype = {
 	}
 };
 Frame.prototype.init = function () {
-	this.context = document.createElement('canvas').getContext('2d');
 	imageSmoothingDisabled(this.context);
 	this.context.canvas.width = this.sprite.width;
 	this.context.canvas.height = this.sprite.height;
 	Frames.addPreview(this);
 	this.paint(true);
+};
+Frame.prototype.resize = function (content, x, y) {
+	this.context.canvas.width = this.width;
+	this.context.canvas.height = this.height;
+	for (let i = 0; i < this.layers.length; i++) {
+		this.layers[i].resize(content, x, y);
+	}
+	Frames.resizeFrame(this.index);
+	this.paint();
 };
 Frame.prototype.deleteLayer = function (index) {
 	if (this.layers.length == 1) {
@@ -158,21 +166,21 @@ Frame.prototype.moveFrame = function (oldIndex, newIndex) {
 Frame.prototype.generatePreview = function (scale, transparent) {
 	let height = this.height * scale,
 			width = this.width * scale, data;
-	this.preview.canvas.width = width;
-	this.preview.canvas.height = height;
+	this.context.canvas.width = width;
+	this.context.canvas.height = height;
 	data = this.imageData.data;
-	imageSmoothingDisabled(this.preview);
-	this.preview.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
-	this.preview.fillStyle = transparent;
+	imageSmoothingDisabled(this.context);
+	this.context.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
+	this.context.fillStyle = transparent;
 	for (let i = 0; i < data.length; i += 4) {
 		if (!data[i] && !data[i + 1] && !data[i + 2] && !data[i + 3]) {
 			let pos = i / 4,
 				x = pos % 20,
 				y = ~~(pos / 20);
 
-			this.preview.fillRect(x * scale, y * scale, scale, scale);
+			this.context.fillRect(x * scale, y * scale, scale, scale);
 		}
 	}
-	return this.preview;
+	return this.context;
 };
 module.exports = Frame;

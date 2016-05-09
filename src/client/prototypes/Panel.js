@@ -2,8 +2,8 @@
 const {createDiv, createSpan, defineGetter, inheritanceObject } = require('../utils.js'),
 	AppendObject = require('./AppendObject.js'),
 	Vector = require('../prototypes/Vector.js');//,
-	//ResizeBar = require('../prototypes/ResizeBar.js'),
-	//7resizeBars = [T, L, B, R, TL, BL, BR, TR];
+//ResizeBar = require('../prototypes/ResizeBar.js'),
+//7resizeBars = [T, L, B, R, TL, BL, BR, TR];
 // IDEA: http://codepen.io/zz85/pen/gbOoVP?editors=001
 
 /**
@@ -61,7 +61,9 @@ Panel.prototype.hide = function () {
 Panel.prototype.show = function () {
 	this.el.style.opacity = 1;
 	this.el.style.pointerEvents = 'initial';
+	this.onShow();
 };
+Panel.prototype.onShow = function () {};
 Panel.prototype.heightDragBar = 20;
 Panel.prototype.init = function (width, height) {
 	if (this.hidden) {
@@ -92,7 +94,7 @@ Panel.prototype.init = function (width, height) {
 	this.isInit = true;
 };
 Panel.prototype.isLeft = function () {
-	return this.type === Panel.SNAP && this.SNAPType === Panel.TL || this.snapType === Panel.BL || this.snapType == Panel.L;
+	return this.type === Panel.SNAP && this.snapType === Panel.TL || this.snapType === Panel.BL || this.snapType == Panel.L;
 };
 Panel.prototype.isRight = function () {
 	return this.type === Panel.SNAP && this.snapType === Panel.TR || this.snapType === Panel.BR || this.snapType == Panel.R;
