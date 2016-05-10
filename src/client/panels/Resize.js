@@ -79,6 +79,7 @@ Resize.onResize = function (evt) {
 		this.checkContentResize.cheched,
 		x, y
 	);
+	Editor.canvas.center();
 };
 
 
