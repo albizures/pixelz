@@ -12,7 +12,7 @@ let time = 1000 / 2, loop, index = 0, ctx,
 Preview.mainInit = function () {
 	this.background = make(['canvas', {className : 'background'}]).getContext('2d');
 	this.preview = make(['canvas', {className : 'preview'}]).getContext('2d');
-	this.areaPreview = make(['canvas', {className : 'area-preview'}]);
+	this.areaPreview = make(['div', {className : 'area-preview'}]);
 
 	this.contentPreview = make(['div',
 		{parent : this.el, className : 'content-preview'},
@@ -41,20 +41,21 @@ Preview.selectFrame = function (type) {
 	index = 0;
 };
 Preview.selectSprite = function (sprite) {
+	let rect = this.contentPreview.getBoundingClientRect();
 	offsetTop = Editor.panels.Menus.height;
 	offsetLeft = (Editor.getLeftPanels().width * window.innerWidth) / 100;
 	offsetRight = (Editor.getRightPanels().width * window.innerWidth) / 100;
 	innerHeight = window.innerHeight - offsetTop;
 	innerWidth = window.innerWidth - offsetRight - offsetLeft;
-	if (this.contentPreview.clientWidth > this.contentPreview.clientHeight) {
-		this.scale = this.contentPreview.clientHeight / sprite.height;
+	if (sprite.width > sprite.height) {
+		this.scale = rect.width / sprite.width;
 	}else {
-		this.scale = this.contentPreview.clientWidth / sprite.width;
+		this.scale = rect.height / sprite.height;
 	}
-	this.background.canvas.width = this.preview.canvas.width =	sprite.width * this.scale;
-	this.background.canvas.height = this.preview.canvas.height =	sprite.height * this.scale;
-	this.background.canvas.style.marginTop = this.preview.canvas.style.marginTop = ((this.contentPreview.clientHeight - this.preview.canvas.height) / 2) + 'px';
-	this.background.canvas.style.marginLeft = this.preview.canvas.style.marginLeft = ((this.contentPreview.clientWidth - this.preview.canvas.width) / 2) + 'px';
+	this.background.canvas.width = this.preview.canvas.width = sprite.width * this.scale;
+	this.background.canvas.height = this.preview.canvas.height = sprite.height * this.scale;
+	this.background.canvas.style.marginTop = this.preview.canvas.style.marginTop = ((rect.height - this.preview.canvas.height) / 2) + 'px';
+	this.background.canvas.style.marginLeft = this.preview.canvas.style.marginLeft = ((rect.width - this.preview.canvas.width) / 2) + 'px';
 	this.start();
 	this.paintBackground();
 };
@@ -86,6 +87,9 @@ Preview.loop = function () {
 	this.clean();
 	imageSmoothingDisabled(this.preview);
 	this.preview.drawImage(Editor.sprite.frames[index].context.canvas, 0, 0, this.preview.canvas.width, this.preview.canvas.height);
+};
+Preview.resize = function () {
+	//Preview.selectSprite(Editor.canvas.);
 };
 Preview.updatePosition = function () {
 	let artboard = Editor.canvas.artboard, isView, scale = this.scale,
