@@ -1,7 +1,8 @@
 'use strict';
 const Panel = require('../prototypes/Panel.js'),
+	Vector = require('../prototypes/Vector.js'),
 	{ make } = require('../utils.js'),
-	Resize = Panel.createModalPanel('Resize', true);
+	Resize = Panel.createFloatPanel('Resize', new Vector((window.innerWidth / 2) - 100, 100), true);
 
 Resize.mainInit = function () {
 	let grid;
