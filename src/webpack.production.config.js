@@ -3,7 +3,7 @@ const webpack = require('webpack'),
 	path = require('path'),
 	config = require('./server/config/environment'),
 	HtmlWebpackPlugin = require('html-webpack-plugin');
-
+console.log('lelelel');
 module.exports = {
 	entry: config.APP_PATH,
 	output: {
