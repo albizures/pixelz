@@ -75,7 +75,7 @@ Resize.onResize = function (evt) {
 	Editor.sprite.resize(
 		Number(this.inputWidth.value),
 		Number(this.inputHeight.value),
-		this.checkContentResize.cheched,
+		this.checkContentResize.checked,
 		x, y
 	);
 };

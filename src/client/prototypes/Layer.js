@@ -56,8 +56,7 @@ Layer.prototype.cloneBitmap = function () {
 Layer.prototype.resize = function (content, x, y) {
 	let newContext = document.createElement('canvas').getContext('2d'),
 		x1, y1, x2, y2, width1, width2, height1, height2;
-	document.body.appendChild(newContext.canvas);
-	document.body.appendChild(this.context.canvas);
+	
 	x1 = 0;
 	y1 = 0;
 	width1 = this.context.canvas.width;
