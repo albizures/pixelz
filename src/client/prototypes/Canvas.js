@@ -249,5 +249,14 @@ Canvas.prototype.cleanBackground = function () {
 Canvas.prototype.cleanPrev = function () {
 	this.preview.clearRect(0, 0, this.preview.canvas.width, this.preview.canvas.height);
 };
+Canvas.prototype.center = function () {
+	this.artboard.cord = new Vector(
+		Math.round((window.innerWidth / 2) - (this.artboard.width / 2)),
+		Math.round((window.innerHeight / 2) - (this.artboard.height / 2))
+	);
+	this.paintMask();
+	this.paintMain();
+	Preview.updatePosition();
+};
 
 module.exports = Canvas;

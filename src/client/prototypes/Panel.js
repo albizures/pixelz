@@ -58,7 +58,9 @@ Panel.prototype.hide = function () {
 	this.el.style.opacity = 0;
 	this.el.style.pointerEvents = 'none';
 };
-Panel.prototype.show = function () {
+Panel.prototype.show = function (width, height) {
+	this.el.style.width = width || this.el.style.width;
+	this.el.style.height = height || this.el.style.height;
 	this.el.style.opacity = 1;
 	this.el.style.pointerEvents = 'initial';
 	this.onShow();
