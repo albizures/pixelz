@@ -2,6 +2,8 @@
 const Panel = require('../prototypes/Panel.js'),
 	Vector = require('../prototypes/Vector.js'),
 	{ make } = require('../utils.js'),
+	Action = require('../prototypes/Action.js'),
+	Actions = require('./Actions.js'),
 	Resize = Panel.createFloatPanel('Resize', new Vector((window.innerWidth / 2) - 100, 100), true);
 
 Resize.mainInit = function () {
@@ -51,7 +53,6 @@ Resize.mainInit = function () {
 			})[0];
 		}
 	}
-	console.log(this.gridCells);
 
 	$(make('button', {parent : this.body}, 'Ok')).on('click.new', this.onResize.bind(this));
 	$(make('button', {parent : this.body}, 'Cancel')).on('click.cancel', this.hide.bind(this));
@@ -61,7 +62,7 @@ Resize.onShow = function () {
 	this.inputWidth.value = Editor.sprite.width;
 };
 Resize.onResize = function (evt) {
-	let x = 0, y = 0;
+	let x = 0, y = 0, dataSave, width, height;
 	this.hide();
 	if (this.anchor.x == 1) {
 		x = Math.round((this.inputWidth.value - Editor.sprite.width) / 2);
@@ -73,6 +74,15 @@ Resize.onResize = function (evt) {
 	} else if (this.anchor.y == 2) {
 		y = this.inputHeight.value - Editor.sprite.height;
 	}
+	width = Editor.sprite.width;
+	height = Editor.sprite.height;
+	dataSave = Editor.sprite.frames.map((frame) => frame.layers.map((layer) => layer.imageData));
+	Actions.addUndo(new Action(Action.RESIZE, {
+		sprite : Editor.sprite,
+		data : dataSave,
+		width : width,
+		height : height
+	}, 0));
 	Editor.sprite.resize(
 		Number(this.inputWidth.value),
 		Number(this.inputHeight.value),

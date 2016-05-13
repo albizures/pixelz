@@ -48,11 +48,15 @@ Sprite.prototype.getTransparentColor = function (cb) {
 		}
 	}
 };
-Sprite.prototype.getGeneralColors = function (cb) {
+Sprite.prototype.getAllDataImage = function () {
 	let dataList = [];
 	for (let i = 0; i < this.frames.length; i++) {
 		dataList = dataList.concat(this.frames[i].getDataList());
 	}
+	return dataList;
+};
+Sprite.prototype.getGeneralColors = function (cb) {
+	let dataList = this.getAllDataImage();
 	colors.postMessage({type : 'general', data : dataList});
 	colors.onmessage =  onGetGeneralColors.bind(this);
 
@@ -154,6 +158,14 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 	newFrame.select();
 	newFrame.paint();
 	return newFrame;
+};
+Sprite.prototype.putImagesData = function (data) {
+	for (let f = 0; f < data.length; f++) {
+		let layers = data[f];
+		for (var l = 0; l < layers.length; l++) {
+			this.frames[f].layers[l].context.putImageData(layers[l], 0, 0);
+		}
+	}
 };
 
 module.exports = Sprite;

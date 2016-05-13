@@ -6,6 +6,20 @@ const AppendObject = require('./AppendObject.js'),
 let actions = {
 	paint : function (data) {
 		return data.layer.restoreState(data.data);
+	},
+	resize : function (data) {
+		let newData = {
+			width : data.sprite.width,
+			height : data.sprite.height,
+			sprite : data.sprite,
+			data : data.sprite.frames.map((frame) => frame.layers.map((layer) => layer.imageData))
+		};
+		data.sprite.resize(data.width, data.height);
+		data.sprite.putImagesData(data.data);
+		if (Editor.canvas.artboard.layer.frame.sprite == data.sprite) {
+			Editor.canvas.center();
+		}
+		return newData; 
 	}
 };
 function Action(type, data, index, redo) {
@@ -21,6 +35,8 @@ inheritanceObject(Action, AppendObject);
 Action.prototype.onClick = function (evt) {
 	Actions.undo(this.index);
 };
+Action.PAINT = 'paint';
+Action.RESIZE = 'resize';
 Action.prototype.changeEl = function (el) {
 	this.el = el;
 	this.el.textContent = this.type;
