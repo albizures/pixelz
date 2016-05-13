@@ -19,7 +19,7 @@ let actions = {
 		if (Editor.canvas.artboard.layer.frame.sprite == data.sprite) {
 			Editor.canvas.center();
 		}
-		return newData; 
+		return newData;
 	}
 };
 function Action(type, data, index, redo) {

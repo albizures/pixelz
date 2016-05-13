@@ -162,7 +162,7 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 Sprite.prototype.putImagesData = function (data) {
 	for (let f = 0; f < data.length; f++) {
 		let layers = data[f];
-		for (var l = 0; l < layers.length; l++) {
+		for (let l = 0; l < layers.length; l++) {
 			this.frames[f].layers[l].context.putImageData(layers[l], 0, 0);
 		}
 	}
