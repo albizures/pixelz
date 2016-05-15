@@ -6,6 +6,12 @@ const Frame = require('./Frame.js'),
 	{ downloadBlob } = require('../utils'),
 	Preview = require('../panels/Preview.js');
 
+/**
+ * Prototype of Sprite
+ * 
+ * @param {number} width (description)
+ * @param {number} height (description)
+ */
 function Sprite(width, height) {
 	this.width = width;
 	this.height = height;
