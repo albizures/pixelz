@@ -95,7 +95,6 @@ PreviewFrame.prototype.updateIndex = function () {
 PreviewFrame.prototype.paint = function () {
 	this.clean();
 	imageSmoothingDisabled(this.context);
-	console.log(0, 0, this.frame.width * this.scale, this.frame.height * this.scale);
 	this.context.drawImage(this.frame.context.canvas,
 		0, 0, this.frame.width, this.frame.height,
 		0, 0, this.context.canvas.width, this.context.canvas.height
