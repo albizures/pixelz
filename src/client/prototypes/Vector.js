@@ -45,7 +45,7 @@ Vector.prototype.diff = function (vector) {
 Vector.prototype.clone = function () {
 	return new Vector(this.x, this.y);
 };
-Vectpr.prototype.equals = function (vector) {
+Vector.prototype.equals = function (vector) {
 	return this.x == vector.x && this.y == vector.y;
 };
 Vector.prototype.importantDiff = function (vector) {
