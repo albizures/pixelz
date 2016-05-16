@@ -8,7 +8,7 @@ const Frame = require('./Frame.js'),
 
 /**
  * Prototype of Sprite
- * 
+ *
  * @param {number} width (description)
  * @param {number} height (description)
  */

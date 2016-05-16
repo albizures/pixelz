@@ -8,7 +8,7 @@ const {
 	} = require('../constants'),
 	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../prototypes/Panel'),
 	{CHANGE_SPRITE, ADD_FRAME, SELECT_FRAME, RESIZE_PANEL} = require('../constants').events,
-	Canvas = require('../prototypes/Canvas.js'),
+	Canvas = require('../prototypes/Canvas'),
 	Sprite = require('../prototypes/Sprite.js'),
 	Vector = require('../prototypes/Vector.js');
 

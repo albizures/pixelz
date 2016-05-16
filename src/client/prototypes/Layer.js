@@ -1,6 +1,9 @@
 'use strict';
 const { imageSmoothing } = require('../utils.js'),
 	Layers = require('../panels/Layers.js'),
+	Select = require('./Select.js'),
+	Action = require('./Action.js'),
+	Actions = require('../panels/Actions.js'),
 	{	TRANSPARENT_COLOR } = require('../constants');
 //console.log(new Frame(), Frame.prototype);
 function Layer(frame, index, status, context, bitmap) {
@@ -56,7 +59,7 @@ Layer.prototype.cloneBitmap = function () {
 Layer.prototype.resize = function (content, x, y) {
 	let newContext = document.createElement('canvas').getContext('2d'),
 		x1, y1, x2, y2, width1, width2, height1, height2;
-	
+
 	x1 = 0;
 	y1 = 0;
 	width1 = this.context.canvas.width;
@@ -200,5 +203,19 @@ Layer.prototype.paint = function () {
 };
 Layer.prototype.generatePreview = function (scale) {
 	return this.context;
+};
+Layer.prototype.prevSelect = function (x, y, width, height) {
+	Editor.canvas.prevSelect(x, y, width, height);
+};
+Layer.prototype.getSelect = function (x, y, width, height) {
+	let select;
+	select = new Select({x : x, y: y}, width, height, this);
+	this.paintEverywhere();
+	Editor.canvas.addAreaSelect(select);
+};
+Layer.prototype.paintSelect = function (select) {
+	this.context.clearRect(select.originalCord.x, select.originalCord.y, select.originalWidth, select.originalHeight);
+	this.context.drawImage(select.context.canvas, select.cord.x, select.cord.y, select.width, select.height);
+	Actions.addUndo(new Action(Action.PAINT, {layer : this, data : this.prevStatus}, 0));
 };
 module.exports = Layer;

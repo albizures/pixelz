@@ -20,6 +20,7 @@ const Editor = require('./Editor/index.js'),
 	pick = require('./tools/pick.js'),
 	rectangle = require('./tools/rectangle.js'),
 	line = require('./tools/line.js'),
+	select = require('./tools/select.js'),
 	pencil = require('./tools/pencil.js');
 
 window.onload = () => {
@@ -45,6 +46,7 @@ window.onload = () => {
 	pick();
 	rectangle();
 	line();
+	select();
 
 	//init
 	Editor.init();
