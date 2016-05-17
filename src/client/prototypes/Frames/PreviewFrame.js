@@ -13,7 +13,7 @@ function PreviewFrame(frame, selected, list) {
 
 	this.background = make('canvas', {parent : this.el}).getContext('2d');
 	this.context = make('canvas', {parent : this.el}).getContext('2d');
-	this.spanIndex = make('span', {parent : this.el,className : 'index'}, this.layer.index + 1);
+	this.spanIndex = make('span', {parent : this.el,className : 'index'}, this.frame.index + 1);
 
 	this.btnClone = make('button', {parent : this.el, className : 'btn btn-clone'}, 'C');
 	this.btnHidden = make('button', {parent : this.el, className : 'btn btn-hidden'}, 'H');// TODO: Create action hidden frame
