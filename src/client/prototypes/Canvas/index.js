@@ -50,8 +50,7 @@ Canvas.prototype.init = function () {
 
 	$window.off('resize.canvas')
 		.on('resize.canvas', this.resize.bind(this))
-		.off('mousemove.preview').on('mousemove.preview', this.onMouseMove.bind(this))
-		.off('mouseup.preview').on('mouseup.preview', this.onMouseUp.bind(this));
+		.off('mousemove.preview').on('mousemove.preview', this.onMouseMove.bind(this));
 	this.resize();
 };
 Canvas.prototype.resize = function () {
