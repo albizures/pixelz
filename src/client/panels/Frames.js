@@ -1,24 +1,18 @@
 'use strict';
 
 const Panel = require('../prototypes/Panel.js'),
-			{ make } = require('../utils.js'),
-			{ADD_FRAME, DELETE_FRAME, UPDATE_FRAME, SELECT_FRAME} = require('../constants').events,
-			{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
-			PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
-			Vector = require('../prototypes/Vector.js'),
-			List = require('../prototypes/List.js'),
-			Frames = new Panel('Frames', SNAP, new Vector(0, 0), 100, 100, TL, true),
-			btnAdd = document.createElement('button');
+	PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
+	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
+	make = require('make'),
+	Vector = require('../prototypes/Vector.js'),
+	List = require('../prototypes/List.js'),
+	btnAdd = make('button', {className : 'add-frame'}, 'add frame'),
+	Frames = new Panel('Frames', SNAP, new Vector(0, 0), 100, 100, TL, true);
+
 let previewFrames = [], currentFrame = 0;
-btnAdd.textContent = 'add frame';
-btnAdd.classList.add('add-frame');
 Frames.mainInit = function () {
 	this.list = new List('frames',[], 15);
-	make([this.el,
-		btnAdd,
-		this.list.el
-		//[ul, { id : 'preview-frames'}]
-	]);
+	make([this.el, btnAdd, this.list.el]);
 	$(btnAdd).on('click.add', this.createFrame.bind(this));
 };
 Frames.$add = function () {
@@ -45,16 +39,6 @@ Frames.changeFrame = function (type, index, sprite) {
 };
 Frames.deletePreview = function (index) {
 	this.list.remove(index);
-	// if (!previewFrames[index]) {
-	// 	return;
-	// }
-	// if (previewFrames[index + 1] && previewFrames[index + 1].frame.index == index) {
-	// 	previewFrames[index].changeFrame(this.sprite.frames[index]);
-	// 	this.deletePreview(index + 1);
-	// } else {
-	// 	previewFrames[index].remove();
-	// 	previewFrames.splice(index, 1);
-	// }
 };
 Frames.paintFrame = function (index) {
 	this.list.elements[index].paint();
@@ -73,16 +57,6 @@ Frames.selectFrame = function (index) {
 };
 Frames.addPreview = function (frame) {
 	this.list.add(new PreviewFrame(frame, frame.index == currentFrame, this.list), frame.index);
-	// if (previewFrames[frame.index]) {
-	// 	if (previewFrames[frame.index].frame.index !== frame.index) {
-	// 		this.addPreview(previewFrames[frame.index].frame);
-	// 		previewFrames[frame.index].changeFrame(frame);
-	// 	} else {
-	// 		return;
-	// 	}
-	// } else {
-	// 	previewFrames[frame.index] = new PreviewFrame(frame, frame.index == currentFrame).appendTo(ul);
-	// }
 };
 Frames.reAppend = function () {
 	// for (let i = 0; i < previewFrames.length; i++) {

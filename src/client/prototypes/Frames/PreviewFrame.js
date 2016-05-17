@@ -1,8 +1,8 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
-			{ SELECT_FRAME } = require('../../constants').events,
-			{ TRANSPARENT_IMG } = require('../../constants'),
-			{inheritanceObject, createBtn, createSpan, imageSmoothingDisabled, defineGetter} = require('../../utils.js');
+	{ TRANSPARENT_IMG } = require('../../constants'),
+	make = require('make'),
+	{inheritanceObject, imageSmoothingDisabled, defineGetter} = require('../../utils.js');
 
 function PreviewFrame(frame, selected, list) {
 	this.$type = 'li';
@@ -10,20 +10,14 @@ function PreviewFrame(frame, selected, list) {
 	this.frame = frame;
 	this.selected = selected;
 	this.list = list;
-	this.context = document.createElement('canvas').getContext('2d');
-	this.background = document.createElement('canvas').getContext('2d');
-	this.btnClone = createBtn('C', 'btn-clone', 'btn');
-	this.btnHidden = createBtn('H', 'btn-hidden', 'btn');// TODO: Create action hidden frame
-	this.btnDelete = createBtn('D', 'btn-delete', 'btn');
-	this.spanIndex = createSpan(this.frame.index + 1, 'index');
 
+	this.background = make('canvas', {parent : this.el}).getContext('2d');
+	this.context = make('canvas', {parent : this.el}).getContext('2d');
+	this.spanIndex = make('span', {parent : this.el,className : 'index'}, this.layer.index + 1);
 
-	this.el.appendChild(this.background.canvas);
-	this.el.appendChild(this.context.canvas);
-	this.el.appendChild(this.btnClone);
-	this.el.appendChild(this.btnHidden);
-	this.el.appendChild(this.btnDelete);
-	this.el.appendChild(this.spanIndex);
+	this.btnClone = make('button', {parent : this.el, className : 'btn btn-clone'}, 'C');
+	this.btnHidden = make('button', {parent : this.el, className : 'btn btn-hidden'}, 'H');// TODO: Create action hidden frame
+	this.btnDelete = make('button', {parent : this.el, className : 'btn btn-delete'}, 'D');
 
 	if (selected) {
 		this.el.classList.add('active');
@@ -102,6 +96,5 @@ PreviewFrame.prototype.paint = function () {
 };
 PreviewFrame.prototype.clean = function () {
 	this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-	//this.context.canvas.width = this.context.canvas.width;
 };
 module.exports = PreviewFrame;

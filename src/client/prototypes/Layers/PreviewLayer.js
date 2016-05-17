@@ -1,9 +1,8 @@
 'use strict';
 const AppendObject = require('../../prototypes/AppendObject.js'),
 	{ TRANSPARENT_IMG } = require('../../constants'),
-	{ SELECT_LAYER } = require('../../constants').events,
-	{inheritanceObject, make, imageSmoothingDisabled, defineGetter} = require('../../utils.js');
-
+	make = require('make'),
+	{inheritanceObject, imageSmoothingDisabled, defineGetter} = require('../../utils.js');
 
 function PreviewLayer(layer, selected, list) {
 	this.$type = 'li';
@@ -16,10 +15,13 @@ function PreviewLayer(layer, selected, list) {
 	this.context = make('canvas', {parent : this.el}).getContext('2d');
 	this.spanIndex = make('span', {parent : this.el,className : 'index'}, this.layer.index + 1);
 
-	//this.el.textContent = 'layer ' +  (this.layer.index + 1);
-	this.btnClone = make('button', {parent : this.el}, 'c');
-	this.btnDelete = make('button', {parent : this.el}, 'd');
+	this.btnClone = make('button', {parent : this.el, className : 'btn btn-clone'}, 'C');
+	this.btnHidden = make('button', {parent : this.el, className : 'btn btn-hidden'}, 'H');
+	this.btnDelete = make('button', {parent : this.el, className : 'btn btn-delete'}, 'D');
 
+	if (selected) {
+		this.el.classList.add('active');
+	}
 	$(this.btnDelete).on('click.delete', this.onDelete.bind(this));
 	$(this.btnClone).on('click.clone', this.onClone.bind(this));
 	$(this.el).on('click.layer', this.onClick.bind(this));
@@ -29,9 +31,11 @@ defineGetter(PreviewLayer.prototype, 'index', function () {
 	return this.layer.index;
 });
 PreviewLayer.prototype.onClone = function (evt) {
+	evt.stopPropagation();
 	this.layer.frame.addLayer(this.layer);
 };
 PreviewLayer.prototype.onDelete = function (evt) {
+	evt.stopPropagation();
 	this.layer.delete();
 };
 PreviewLayer.prototype.selectLayer = function () {
@@ -81,9 +85,9 @@ PreviewLayer.prototype.updateIndex = function () {
 	this.spanIndex.textContent = this.layer.index + 1;
 };
 PreviewLayer.prototype.update = function () {};
+
 PreviewLayer.prototype.onClick = function () {
 	this.layer.frame.selectLayer(this.layer);
-	//Editor.events.fire(SELECT_LAYER, this.layer);
 };
 PreviewLayer.prototype.paint = function () {
 	this.clean();
