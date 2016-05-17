@@ -12,6 +12,7 @@ bucket.active = function () {
 };
 bucket.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
+		this.layer.saveImageData();
 		this.layer.saveStatus();
 		let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 		color = evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
