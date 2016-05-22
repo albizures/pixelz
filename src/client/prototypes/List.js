@@ -74,9 +74,11 @@ List.prototype.orderDrag = function (item, index) {
 	}
 };
 function onMouseDown(evt) {
-	this.el.classList.add('drag');
-	$(window).off('mouseup.drag').on('mouseup.drag', onMouseUp.bind(this));
-	$(window).off('mousemove.drag').on('mousemove.drag', onMouseMove.bind(this));
+	if(evt.target.tagName === 'CANVAS'){
+		this.el.classList.add('drag');
+		$(window).off('mouseup.drag').on('mouseup.drag', onMouseUp.bind(this));
+		$(window).off('mousemove.drag').on('mousemove.drag', onMouseMove.bind(this));
+	}
 }
 function onMouseUp(evt) {
 	let stats = this.list.el.getBoundingClientRect(),

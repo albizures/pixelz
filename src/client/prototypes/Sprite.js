@@ -2,6 +2,9 @@
 const Frame = require('./Frame.js'),
 	Palette = require('../panels/Palette'),
 	Gif = require('./gif/gif.js'),
+	Action = require('./Action.js'),
+	Frames = require('../panels/Frames.js'),
+	Actions = require('../panels/Actions.js'),
 	colors = require('../workers/colors.js')(),
 	{ downloadBlob } = require('../utils'),
 	Preview = require('../panels/Preview.js');
@@ -22,7 +25,7 @@ function Sprite(width, height) {
 Sprite.prototype.getFrame = function (index) {
 	return this.frames[index];
 };
-Sprite.prototype.deleteFrame = function (index) {
+Sprite.prototype.deleteFrame = function (index, unsaved) {
 	if (this.frames.length == 1) {
 		// TODO: create alert
 		alert('can\'t delete last frames');
@@ -30,6 +33,9 @@ Sprite.prototype.deleteFrame = function (index) {
 	} else {
 		let frameDelete = this.frames.splice(index, 1)[0];
 		this.reIndexing();
+		if (!unsaved) {
+			Actions.addUndo(new Action(Action.DELETE_FRAME, {frame : frameDelete}, 0));
+		}
 		if (frameDelete && frameDelete.index == Editor.canvas.artboard.layer.frame.index) {
 			if (this.frames.length <= index) {
 				index--;
@@ -132,22 +138,27 @@ Sprite.prototype.selectFrame = function (frame) {
 	}
 	frame.select();
 };
-Sprite.prototype.addFrame = function (frameClone, newIndex) {
+Sprite.prototype.addFrame = function (frameClone, newIndex, restore) {
 	let clone = false,
 		newFrame;
-	if (frameClone instanceof Frame) {
-		clone = true;
-	} else if (Number.isInteger(frameClone)) {
-		clone = true;
-		frameClone = this.frames[frameClone];
-	}
-	if (!Number.isInteger(newIndex)) {
-		newIndex = clone ? frameClone.index + 1 : this.frames.length;
-	}
-	newFrame = clone ? frameClone.clone() : new Frame(this, newIndex, true);
-	if (clone) {
-		newFrame.index = newIndex;
-		newFrame.layers = frameClone.cloneLayers(newFrame);
+	if (restore) {
+		newFrame = frameClone;
+		Frames.addPreview(newFrame);
+	} else {
+		if (frameClone instanceof Frame) {
+			clone = true;
+		} else if (Number.isInteger(frameClone)) {
+			clone = true;
+			frameClone = this.frames[frameClone];
+		}
+		if (!Number.isInteger(newIndex)) {
+			newIndex = clone ? frameClone.index + 1 : this.frames.length;
+		}
+		newFrame = clone ? frameClone.clone() : new Frame(this, newIndex, true);
+		if (clone) {
+			newFrame.index = newIndex;
+			newFrame.layers = frameClone.cloneLayers(newFrame);
+		}
 	}
 
 	let tempFrames = this.frames.splice(newIndex);
@@ -163,6 +174,9 @@ Sprite.prototype.addFrame = function (frameClone, newIndex) {
 	}
 	newFrame.select();
 	newFrame.paint();
+	if (!restore) {
+		Actions.addUndo(new Action(Action.ADD_FRAME, {frame : newFrame}, 0));
+	}
 	return newFrame;
 };
 Sprite.prototype.putImagesData = function (data) {

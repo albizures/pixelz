@@ -20,8 +20,62 @@ let actions = {
 			Editor.canvas.center();
 		}
 		return newData;
+	},
+	'delete_layer' : function (data) {
+		data.layer.frame.addLayer(data.layer, data.layer.index, true);
+		return data;
+	},
+	'add_layer' : function (data) {
+		data.layer.delete(true);
+		return data;
+	},
+	'delete_frame' : function (data) {
+		data.frame.sprite.addFrame(data.frame, data.frame.index, true);
+		return data;
+	},
+	'add_frame' : function (data) {
+		data.frame.delete(true);
+		return data;
 	}
 };
+let execute = {
+	_redo : function (action) {
+		Actions.removeRedo(action.index);
+		action.redo = false;
+		Actions.addUndo(action.setIndex(0), true);
+	},
+	_undo : function (action) {
+		Actions.removeUndo(action.index);
+		action.redo = true;
+		Actions.addRedo(action.setIndex(0));
+	},
+	_ : function (action) {
+		action.redo? this._redo(action) : this._undo(action);
+	},
+	paint : function (action) {
+		this._(action);
+	},
+	resize : function (action) {
+		this._(action);
+	},
+	'delete_layer' : function (action) {
+		action.type = 'add_layer';
+		this._(action);
+	},
+	'add_layer' : function (action) {
+		action.type = 'delete_layer';
+		this._(action);
+	},
+	'delete_frame' : function (action) {
+		action.type = 'add_frame';
+		this._(action);
+	},
+	'add_frame' : function (action) {
+		action.type = 'delete_frame';
+		this._(action);
+	}
+};
+
 function Action(type, data, index, redo) {
 	this.$type = 'li';
 	AppendObject.call(this, 'action');
@@ -37,22 +91,18 @@ Action.prototype.onClick = function (evt) {
 };
 Action.PAINT = 'paint';
 Action.RESIZE = 'resize';
+Action.DELETE_LAYER = 'delete_layer';
+Action.DELETE_FRAME = 'delete_frame';
+Action.ADD_LAYER = 'add_layer';
+Action.ADD_FRAME = 'add_frame';
 Action.prototype.changeEl = function (el) {
 	this.el = el;
 	this.el.textContent = this.type;
 };
 Action.prototype.execute = function () {
-	let newData = actions[this.type](this.data);
-	this.data = newData;
-	if (this.redo) {
-		Actions.removeRedo(this.index);
-		this.redo = false;
-		Actions.addUndo(this.setIndex(0), true);
-	} else {
-		Actions.removeUndo(this.index);
-		this.redo = true;
-		Actions.addRedo(this.setIndex(0));
-	}
+	console.log(this.type);
+	this.data = actions[this.type](this.data);
+	execute[this.type](this);
 };
 Action.prototype.setIndex = function (index) {
 	this.index = index;

@@ -68,7 +68,6 @@ Canvas.prototype.resize = function () {
 	this.paintMain();
 };
 Canvas.prototype.changeLayer = function (layer) {
-	console.trace(layer);
 	this.artboard.layer = layer;
 	this.paintMain();
 };

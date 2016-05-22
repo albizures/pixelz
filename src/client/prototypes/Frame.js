@@ -3,6 +3,8 @@ const { imageSmoothingDisabled } = require('../utils.js'),
 	walkBitmap = require('../utils/walkBitmap.js'),
 	{ TRANSPARENT_COLOR } = require('../constants'),
 	Layer = require('./Layer.js'),
+	Action = require('./Action.js'),
+	Actions = require('../panels/Actions.js'),
 	Frames = require('../panels/Frames.js'),
 	Layers = require('../panels/Layers.js'),
 	{ UPDATE_FRAME } = require('../constants').events;
@@ -48,7 +50,7 @@ Frame.prototype.resize = function (content, x, y) {
 	Frames.resizeFrame(this.index);
 	this.paint();
 };
-Frame.prototype.deleteLayer = function (index) {
+Frame.prototype.deleteLayer = function (index, unsaved) {
 	if (this.layers.length == 1) {
 		// TODO: create alert
 		alert('can\'t delete last frames');
@@ -56,6 +58,10 @@ Frame.prototype.deleteLayer = function (index) {
 	}else {
 		let layerDelete = this.layers.splice(index, 1)[0];
 		this.reIndexing();
+		if (!unsaved) {
+			
+			Actions.addUndo(new Action(Action.DELETE_LAYER, {layer : layerDelete}, 0));
+		} 
 		if (layerDelete && layerDelete.index == Editor.canvas.artboard.layer.index) {
 			if (this.layers.length <= index) {
 				index--;
@@ -66,8 +72,8 @@ Frame.prototype.deleteLayer = function (index) {
 		return true;
 	}
 };
-Frame.prototype.delete = function () {
-	if (this.sprite.deleteFrame(this.index)) {
+Frame.prototype.delete = function (unsaved) {
+	if (this.sprite.deleteFrame(this.index, unsaved)) {
 		Frames.deletePreview(this.index);
 	}
 };
@@ -102,22 +108,26 @@ Frame.prototype.clone = function (sprite) {
 	sprite = sprite || this.sprite;
 	return new Frame(sprite, this.index + 1, this.status, this.cloneLayers(), true);
 };
-Frame.prototype.addLayer = function (layerClone, newIndex) {
+Frame.prototype.addLayer = function (layerClone, newIndex, restore) {
 	let clone = false,
 		newLayer;
-	if (layerClone instanceof Layer) {
-		clone = true;
-	} else if (Number.isInteger(layerClone)) {
-		clone = true;
-		layerClone = this.layers[layerClone];
-	}
-	if (!Number.isInteger(newIndex)) {
-		newIndex = clone ? layerClone.index + 1 : this.layers.length;
-	}
-	newLayer = clone ? layerClone.clone() : new Layer(this, newIndex, true);
-	if (clone) {
-		newLayer.index = newIndex;
-		//newLayer.context = layerClone.cloneContext();
+	if(restore){
+		newLayer = layerClone;
+		Layers.addPreview(newLayer);
+	}	else {
+		if (layerClone instanceof Layer) {
+			clone = true;
+		} else if (Number.isInteger(layerClone)) {
+			clone = true;
+			layerClone = this.layers[layerClone];
+		}
+		if (!Number.isInteger(newIndex)) {
+			newIndex = clone ? layerClone.index + 1 : this.layers.length;
+		}
+		newLayer = clone ? layerClone.clone() : new Layer(this, newIndex, true);
+		if (clone) {
+			newLayer.index = newIndex;
+		}
 	}
 
 	let tempLayers = this.layers.splice(newIndex);
@@ -133,6 +143,10 @@ Frame.prototype.addLayer = function (layerClone, newIndex) {
 	}
 	newLayer.select();
 	Layers.updateLayers(newLayer.index);
+	this.paint();
+	if (!restore) {
+		Actions.addUndo(new Action(Action.ADD_LAYER, {layer : newLayer}, 0));
+	}
 	return newLayer;
 };
 Frame.prototype.getDataList = function () {

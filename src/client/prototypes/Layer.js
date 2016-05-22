@@ -95,8 +95,8 @@ Layer.prototype.saveStatus = function () {
 	this.prevStatus.height = this.height;
 	this.prevStatus.getContext('2d').drawImage(this.context.canvas, 0, 0);
 };
-Layer.prototype.delete = function () {
-	if (this.frame.deleteLayer(this.index)) {
+Layer.prototype.delete = function (unsaved) {
+	if (this.frame.deleteLayer(this.index, unsaved)) {
 		Layers.deletePreview(this.index);
 	}
 };
