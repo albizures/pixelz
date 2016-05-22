@@ -59,9 +59,8 @@ Frame.prototype.deleteLayer = function (index, unsaved) {
 		let layerDelete = this.layers.splice(index, 1)[0];
 		this.reIndexing();
 		if (!unsaved) {
-			
 			Actions.addUndo(new Action(Action.DELETE_LAYER, {layer : layerDelete}, 0));
-		} 
+		}
 		if (layerDelete && layerDelete.index == Editor.canvas.artboard.layer.index) {
 			if (this.layers.length <= index) {
 				index--;
@@ -111,7 +110,7 @@ Frame.prototype.clone = function (sprite) {
 Frame.prototype.addLayer = function (layerClone, newIndex, restore) {
 	let clone = false,
 		newLayer;
-	if(restore){
+	if (restore) {
 		newLayer = layerClone;
 		Layers.addPreview(newLayer);
 	}	else {

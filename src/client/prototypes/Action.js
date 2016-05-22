@@ -50,7 +50,7 @@ let execute = {
 		Actions.addRedo(action.setIndex(0));
 	},
 	_ : function (action) {
-		action.redo? this._redo(action) : this._undo(action);
+		action.redo ? this._redo(action) : this._undo(action);
 	},
 	paint : function (action) {
 		this._(action);

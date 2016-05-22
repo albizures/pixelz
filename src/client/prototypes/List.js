@@ -74,7 +74,7 @@ List.prototype.orderDrag = function (item, index) {
 	}
 };
 function onMouseDown(evt) {
-	if(evt.target.tagName === 'CANVAS'){
+	if (evt.target.tagName === 'CANVAS') {
 		this.el.classList.add('drag');
 		$(window).off('mouseup.drag').on('mouseup.drag', onMouseUp.bind(this));
 		$(window).off('mousemove.drag').on('mousemove.drag', onMouseMove.bind(this));
