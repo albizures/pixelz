@@ -3,35 +3,45 @@ const {TRANSPARENT_COLOR, PALETTE} = require('../../constants/index.js'),
 	{CHANGE_COLOR} = require('../../constants/index.js').palette,
 	make = require('make'),
 	Panel = require('../../prototypes/Panel.js'),
-	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
 	Tools = require('../Tools.js'),
 	Vector = require('../../prototypes/Vector.js'),
 	Color = require('../../prototypes/Color.js'),
-	Palette = new Panel(PALETTE, SNAP, new Vector(100, 60), 15, 20, R);
+	Palettes = require('./Palettes.js'),
+	Palette = new Panel('Palette', Panel.SNAP, new Vector(100, 60), 15, 20, Panel.R);
 
-let time = 0.5 * 1000, loop, index = 0, ctx, divColors,
-		colors = ['rgba(26, 188, 156, 1)', 'rgba(241, 196, 15, 1)', 'rgba(52, 152, 219, 1)', 'rgba(230, 126, 34, 1)', 'rgba(231, 76, 60, 1)', 'rgba(189, 195, 199, 1)', 'rgba(155, 89, 182, 1)', 'rgba(52, 73, 94, 1)', 'rgba(127, 140, 141, 1)'],
-		currentColors;
+let divColors;
 
 Palette.mainInit = function () {
-	divColors = make(['div', {parent : this.el, className : 'content-colors'}]);
-	Tools.setPrimaryColor(colors[0]);
+	let contentTools = make(['div', {parent : this.el, className: 'content-tools'}]);
+	this.addButton = make(['button', {
+		parent : contentTools,
+		className : 'btn add-button'
+	}, '+']);
+	this.optionsButton = make(['button', {
+		parent : contentTools,
+		className: 'btn option-button'
+	}, '=']);
+	this.palette = Palettes.currentColorsPalette.appendTo(this.el);
+	Tools.setPrimaryColor('rgba(0, 0, 0, 1)');
 	Tools.setSecudaryColor(TRANSPARENT_COLOR);
-	this.generateColors([]);
+	$(this.addButton).on('click.add', this.onClickAddButton.bind(this));
+	$(this.optionsButton).on('click.add', () => {
+		Palettes.changePalette(this.palette, this.setPalette.bind(this));
+	});
 };
-Palette.generateColors = function (colors) {
-	divColors.innerHTML = '';
-	for (let i = 0; i < colors.length; i++) {
-		let color = new Color(colors[i], i == 0);
-		color.appendTo(divColors);
-	}
+Palette.onClickAddButton = function (evt) {
+	this.palette.addColor();
 };
 Palette.setCurretColors = function (colors) {
-	currentColors = colors;
-	this.generateColors(colors.array);
+	Palettes.currentColorsPalette.setColors(colors.array);
 };
 Palette.getCurrentColors = function () {
 	return currentColors;
+};
+Palette.setPalette = function (palette = this.palette) {
+	console.log(palette);
+	this.palette.remove();
+	this.palette = palette.appendTo(this.el);
 };
 
 module.exports = Palette;

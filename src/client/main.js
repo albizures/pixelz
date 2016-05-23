@@ -5,6 +5,7 @@ const Editor = require('./Editor/index.js'),
 	Left = require('./panels/Left.js'),
 	Preview = require('./panels/Preview.js'),
 	Palette = require('./panels/Palette/index.js'),
+	Palettes = require('./panels/Palette/Palettes.js'),
 	Frames = require('./panels/Frames.js'),
 	Info = require('./panels/Info.js'),
 	Menus = require('./panels/Menus'),
@@ -38,6 +39,7 @@ window.onload = () => {
 	Layers.$add();
 	ColorPicker.$add();
 	Resize.$add();
+	Palettes.$add();
 
 	//tools
 	pencil();

@@ -6,10 +6,23 @@
 	.picker
 		input[type=range]
 			width 70%
-	.content-colors
+	.palette
 		overflow-y scroll
 		height calc(100% - 25px)
 		.color
-			
-			border 1px solid whitesmoke
+			margin 1px
 			float left
+
+.panel-palettes
+	background whitesmoke
+	.content-palettes
+		.palette
+			padding 2px
+			margin 2px
+			cursor pointer
+			&:hover,&.active
+				background #E3E3E3
+			.color
+				vertical-align: top;
+				pointer-events none
+				margin-right 1px
