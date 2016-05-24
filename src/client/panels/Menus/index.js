@@ -29,6 +29,7 @@ Menus.mainInit = function () {
 			Menu.createMenu('test3.2', () => alert('hi test3.2'))
 		])
 	]);
+	console.info(this.test);
 	this.projectMenu = Menu.createMenus('project', [
 		Menu.createMenu('new project', () => alert('not yet')),
 		//Menu.createMenu('new project', () => Editor.panels.NewProject.show()),

@@ -6,10 +6,12 @@ const {
 		PALETTE,
 		FRAMES
 	} = require('../constants'),
+	make = require('make'),
 	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('../prototypes/Panel'),
 	{CHANGE_SPRITE, ADD_FRAME, SELECT_FRAME, RESIZE_PANEL} = require('../constants').events,
 	Canvas = require('../prototypes/Canvas'),
 	Sprite = require('../prototypes/Sprite.js'),
+	Menu = require('../prototypes/Menu.js'),
 	Vector = require('../prototypes/Vector.js');
 
 let Editor = {
@@ -90,6 +92,7 @@ let Editor = {
 	init () {
 		this.shortcuts.init();
 		this.initPanels();
+		this.contextMenu.init();
 	},
 	timeoutGetTransparentColor : 1,
 	getTransparentColor : function () {
@@ -146,6 +149,46 @@ let Editor = {
 		this.sprite = new Sprite(width, height);
 		this.canvas = new Canvas(this.sprite.frames[0].layers[0], scale, new Vector (x, y));
 		this.sprite.frames[0].select();
+	},
+	contextMenu : {
+		init : function () {
+			//this.el = make(['ul', {parent : document.body, className : 'context-menu'}]);
+			this.context = Menu.createContext().appendTo(document.body);
+			this.backdrop = make(['div', {parent: document.body, className : 'backdrop-context-menu'}]);
+			this.context.on('click.hide', (evt) => {
+				evt.stopPropagation();
+				this.hide();
+			});
+			$(this.backdrop).on('click.hide', (evt) => {
+				evt.stopPropagation();
+				this.hide();
+			});
+			this.show = this.show.bind(this);
+		},
+		show : function () {
+			this.context.addClass('active');
+			this.backdrop.classList.add('active');
+		},
+		hide : function () {
+			this.context.removeClass('active');
+			this.backdrop.classList.remove('active');
+		},
+		add : function (context, manual = false) {
+			let handler = this.onContextMenu.bind(context);
+			context.context = this.context;
+			context.show = this.show;
+			if (!manual) {
+				$(context.el).on('contextmenu.options', handler);
+			}
+			return handler;
+		},
+		onContextMenu : function (evt) {
+			console.log('onContextMenu');
+			this.context.setStructure(this.structure);
+			this.context.el.style.top = evt.clientY + 'px';
+			this.context.el.style.left = evt.clientX  + 'px';
+			this.show();
+		}
 	}
 };
 module.exports = Editor;

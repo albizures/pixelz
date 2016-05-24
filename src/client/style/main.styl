@@ -81,7 +81,33 @@ body>.canvas,body>.mask,body>.preview,.content-preview-animate
 	position absolute
 	top 0
 	left 0
-
+.backdrop-context-menu
+	width 100%
+	height 100%
+	position fixed
+	z-index 11
+	display none
+	&.active
+		display block
+.context-menu.list-menus
+	height auto
+	border 1px solid gray
+	position fixed
+	display none
+	min-width 150px
+	background whitesmoke
+	z-index 12
+	box-shadow 3px 3px 2px  rgba(0, 0, 0, 0.5)
+	list-style none
+	margin 0
+	padding 3px 0
+	>.menu
+		width 100%
+	.context-item
+		padding 0
+		cursor pointer
+	&.active
+		display block
 .content-preview-animate
 	left auto
 	right 0

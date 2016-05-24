@@ -6,6 +6,7 @@ const Vector = require('../Vector.js'),
 	make = require('make'),
 	extend = require('../../utils/extend.js'),
 	imageSmoothing = require('../../utils/imageSmoothing.js'),
+	Menu = require('../Menu'),
 	{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG,
 		RIGHT_CLICK,LEFT_CLICK} = require('../../constants'),
 	$window = $(window);
@@ -46,6 +47,13 @@ Canvas.prototype.init = function () {
 		.off('mousewheel.canvas').on('mousewheel.canvas', this.onScroll.bind(this))
 		.off('DOMMouseScroll.canvas').on('DOMMouseScroll.canvas', this.onScroll.bind(this))
 		.off('mousedown.canvas').on('mousedown.canvas', this.onMouseDown.bind(this));
+
+	this.contextMenu = Editor.contextMenu.add({
+		el : this.preview.canvas,
+		structure : [
+			Menu.createMenu('Center', () => this.center())
+		]
+	}, true);
 
 
 	$window.off('resize.canvas')
@@ -116,11 +124,14 @@ Canvas.prototype.scaleTo = function (scale) {
 
 let offsetX, offsetY;
 Canvas.prototype.onMouseDown = function (evt) {
+	let cord;
 	evt.preventDefault();
+	cord = this.calculatePosition(evt.clientX, evt.clientY);
+	if (!this.artboard.layer.validCord(cord)) {
+		this.contextMenu(evt);
+	}
 	if (evt.which === LEFT_CLICK || evt.which === RIGHT_CLICK) {
 		if (this.artboard.select) {
-			let cord = this.calculatePosition(evt.clientX, evt.clientY);
-			console.log(this.artboard.select.insideSelect(cord));
 			if (this.artboard.select.insideSelect(cord)) {
 				offsetX = cord.x - this.artboard.select.cord.x;
 				offsetY = cord.y - this.artboard.select.cord.y;
@@ -157,6 +168,7 @@ Canvas.prototype.onMouseDown = function (evt) {
 					.off('mousemove.canvas');
 			});
 	}
+	return false;
 };
 
 Canvas.prototype.onDragMove = function (evt) {
@@ -190,8 +202,14 @@ Canvas.prototype.onMouseUp = function (evt) {
 };
 
 Canvas.prototype.onMouseMove = function (evt) {
+	let cord;
 	evt.preventDefault();
-	this.drawPreview(evt);
+	cord = this.calculatePosition(evt.clientX, evt.clientY);
+	if (this.artboard.layer.validCord(cord)) {
+		this.drawPreview(evt);
+	} else {
+		this.cleanPrev();
+	}
 };
 
 Canvas.prototype.shiftDiff = function (cord) {
