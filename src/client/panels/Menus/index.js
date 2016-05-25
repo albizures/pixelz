@@ -40,6 +40,9 @@ Menus.mainInit = function () {
 		Menu.createMenu('resize', () =>  Editor.panels.Resize.show()),
 		Menu.createMenu('set background', () => alert('set background'))
 	]).appendTo(this.listMenus);
+	this.layerMenu = Menu.createMenus('layer', [
+		Menu.createMenu('set background', () => Editor.panels.BackgroundLayer.show())
+	]).appendTo(this.listMenus);
 	this.spriteMenu = Menu.createMenus('help', [
 		Menu.createMenu('documentation', () => alert('not yet')),
 		Menu.createMenu('about', () => alert('soon'))

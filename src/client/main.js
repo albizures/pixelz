@@ -15,6 +15,7 @@ const Editor = require('./Editor/index.js'),
 	Tools = require('./panels/Tools.js'),
 	Layers = require('./panels/Layers.js'),
 	Resize = require('./panels/Resize.js'),
+	BackgroundLayer = require('./panels/BackgroundLayer.js'),
 
 	bucket = require('./tools/bucket.js'),
 	eraser = require('./tools/eraser.js'),
@@ -40,6 +41,7 @@ window.onload = () => {
 	ColorPicker.$add();
 	Resize.$add();
 	Palettes.$add();
+	BackgroundLayer.$add();
 
 	//tools
 	pencil();
