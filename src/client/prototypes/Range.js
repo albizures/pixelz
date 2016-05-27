@@ -1,6 +1,14 @@
 'use strict';
 const AppendObject = require('../prototypes/AppendObject.js'),
 			{ inheritanceObject, createSpan, createInputRange } = require('../utils.js');
+
+/**
+ * @param {number} value current value
+ * @param {number} min
+ * @param {number} max
+ * @param {type} type
+ * @param {function} callback
+ */
 function Range(value, min, max, type, callback) {
 	AppendObject.call(this);
 	this.value = value,
