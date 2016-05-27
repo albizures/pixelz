@@ -6,8 +6,8 @@
   "homepage" : "http://pixelzstudio.com",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "grunt",
-    "deploy": "grunt build && gh-pages -d public"
+    "start": "nodemon index.js",
+    "deploy": "NODE_ENV=production&set NODE_ENV=production&node src/webpack.production.config.js"
   },
   "keywords": [
     "express",
@@ -21,15 +21,15 @@
   "author": "Jose Albizures <albizures3601@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "exports-loader": "^0.6.3",
     "express": "^4.13.3",
-    "imports-loader": "^0.6.5",
     "lodash": "^4.5.0",
     "nodemon": "^1.8.1",
     "serve-favicon": "^2.3.0",
     "webpack": "^1.12.8"
   },
   "devDependencies": {
+    "imports-loader": "^0.6.5",
+    "exports-loader": "^0.6.3",
     "babel-core": "^6.2.1",
     "babel-eslint": "^4.1.5",
     "babel-loader": "^6.2.0",
@@ -43,12 +43,6 @@
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",
     "gh-pages": "^0.11.0",
-    "grunt": "^0.4.5",
-    "grunt-concurrent": "^2.0.0",
-    "grunt-env": "^0.4.4",
-    "grunt-execute": "^0.2.2",
-    "grunt-injector": "^0.6.0",
-    "grunt-nodemon": "^0.4.0",
     "html-webpack-plugin": "^2.7.2",
     "image-webpack-loader": "^1.6.2",
     "jade-loader": "^0.8.0",
