@@ -128,7 +128,10 @@ Canvas.prototype.onMouseDown = function (evt) {
 	evt.preventDefault();
 	cord = this.calculatePosition(evt.clientX, evt.clientY);
 	if (!this.artboard.layer.validCord(cord)) {
-		this.contextMenu(evt);
+		if (evt.which === RIGHT_CLICK) {
+			this.contextMenu(evt);
+		}
+		return;
 	}
 	if (evt.which === LEFT_CLICK || evt.which === RIGHT_CLICK) {
 		if (this.artboard.select) {
