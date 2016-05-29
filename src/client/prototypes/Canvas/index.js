@@ -206,12 +206,14 @@ Canvas.prototype.onMouseUp = function (evt) {
 
 Canvas.prototype.onMouseMove = function (evt) {
 	let cord;
-	evt.preventDefault();
-	cord = this.calculatePosition(evt.clientX, evt.clientY);
-	if (this.artboard.layer.validCord(cord)) {
-		this.drawPreview(evt);
-	} else {
-		this.cleanPrev();
+	if (evt.target.tagName == 'CANVAS'){
+		evt.preventDefault();
+		cord = this.calculatePosition(evt.clientX, evt.clientY);
+		if (this.artboard.layer.validCord(cord)) {
+			this.drawPreview(evt);
+		} else {
+			this.cleanPrev();
+		}
 	}
 };
 
