@@ -29,5 +29,24 @@ Palette.prototype.addColor = function (color = 'rgba(0, 0, 0, 1)') {
 	this.colors.push(color);
 	this.generateColors();
 };
-
+Palette.prototype.findColor = function (color) {
+	for (let j = 0; j < this.colors.length; j++) {
+		if (this.colors[j] == color) {
+			return j;
+		}
+	}
+	return -1;
+};
+Palette.prototype.removeColor = function (index, color) {
+	if (Number.isInteger(index)) {
+		if (index === -1) {
+			return;
+		}
+		this.colors = [].concat(this.colors.slice(0, index), this.colors.slice(index + 1));
+		this.generateColors();
+	} else if(color) {
+		index = this.findColor(color);
+		this.removeColor(index);
+	}
+};
 module.exports = Palette;

@@ -5,11 +5,12 @@ const
 	Panel = require('../prototypes/Panel.js'),
 	Vector = require('../prototypes/Vector.js'),
 	CanvasPicker = require('../prototypes/CanvasPicker.js'),
-	{ make } = require('../utils.js'),
+	make = require('make'),
 	{FLOAT} = Panel,
 	{R, G, B, A} = require('../constants').palette.picker,
 	{RGBA} = require('../constants').colors,
 	Picker = require('../prototypes/Picker.js'),
+	{RIGHT_CLICK, LEFT_CLICK} = require('../constants'),
 	{CHANGE_SPRITE} = require('../constants').events,
 	ColorPicker = new Panel('ColorPicker', FLOAT, new Vector(500, 500), undefined, undefined, undefined, false, true);
 
@@ -24,6 +25,9 @@ ColorPicker.mainInit = function () {
 	this.canvasPicker = new CanvasPicker(sizeCanvasPicker, this.onChangeColorCanvasPicker.bind(this)).appendTo(this.el);
 	this.color = new Color(undefined, false, sizeNewColor, true).appendTo(this.el);
 	this.oldColor = new Color(undefined, false, sizeOldColor, true).appendTo(this.el);
+
+	$(make('button', {parent : this.el}, 'add color')).on('click.add', () => Editor.panels.Palette.addColor(this.rgbaPicker.color));
+
 	this.changePosition(new Vector(position.x, position.y));
 	this.rgbaPicker = new Picker(RGBA, this.onChangeValueRGBAPicker.bind(this), R, G, B, A);
 	this.rgbaPicker.rangeA.input.min = 0;
@@ -31,7 +35,7 @@ ColorPicker.mainInit = function () {
 	this.rgbaPicker.rangeA.spanValue.textContent = this.rgbaPicker.rangeA.value = this.rgbaPicker.rangeA.input.value = 100;
 	this.rgbaPicker.appendTo(this.el);
 	$(make('button', {parent : this.el}, 'ok')).on('click.ok', this.ok.bind(this));
-	$(make('button', {parent : this.el}, 'cancel')).on('click.cancal', this.cancel.bind(this));
+	$(make('button', {parent : this.el}, 'cancel')).on('click.cancel', this.cancel.bind(this));
 
 
 };
