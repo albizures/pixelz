@@ -44,7 +44,7 @@ Palette.prototype.removeColor = function (index, color) {
 		}
 		this.colors = [].concat(this.colors.slice(0, index), this.colors.slice(index + 1));
 		this.generateColors();
-	} else if(color) {
+	} else if (color) {
 		index = this.findColor(color);
 		this.removeColor(index);
 	}

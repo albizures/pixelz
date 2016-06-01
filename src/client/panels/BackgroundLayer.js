@@ -13,7 +13,7 @@ BackgroundLayer.mainInit = function () {
 	this.body = make('div', {parent : this.el, className : 'body'});
 	this.body.style.width = '200px';
 	//this.body.style.height = '400px';
-	
+
 	this.inputImage = make('input', {
 		parent : make('div', {parent : this.body}, make('label', 'Image: ')),
 		type : 'file'
@@ -24,7 +24,7 @@ BackgroundLayer.mainInit = function () {
 	this.inputWith = make(['input', { parent: this.contenteData, type: 'number', value : 100}]);
 	this.inputHeight = make(['input', { parent: this.contenteData, type: 'number', value: 100 }]);
 	this.inputRatio = make(['input', { parent: this.contenteData, type: 'checkbox', checked : false }]);
-	
+
 	this.alphaRange = new Range(50, 0, 100, 'alpha', this.onDataChange.bind(this)).appendTo(this.contenteData);
 
 	$(this.inputImage).on('change.input', this.onInputImage.bind(this));

@@ -206,7 +206,7 @@ Canvas.prototype.onMouseUp = function (evt) {
 
 Canvas.prototype.onMouseMove = function (evt) {
 	let cord;
-	if (evt.target.tagName == 'CANVAS'){
+	if (evt.target.tagName == 'CANVAS') {
 		evt.preventDefault();
 		cord = this.calculatePosition(evt.clientX, evt.clientY);
 		if (this.artboard.layer.validCord(cord)) {

@@ -25,11 +25,11 @@ Tools.mainInit = function () {
 	this.secondaryColor.on('click.secondary', () => {
 		ColorPicker.changeColor(Tools.getSecondColor(), Tools.setSecudaryColor.bind(this));
 	});
-	
+
 	$(make(['button', {parent : this.el}, 'S'])).on('click.switch', this.switchColors.bind(this));
 	$(make(['button', {parent : this.el}, '+'])).on('mouseup.add', this.onAddColor.bind(this));
 	$(make(['button', {parent : this.el}, '-'])).on('mouseup.remove', this.onRemoveColor.bind(this));
-	
+
 	make(['hr', {parent : this.el}]);
 
 	this.changePosition(new Vector(position.x, position.y));
@@ -42,14 +42,14 @@ Tools.mainInit = function () {
 Tools.onRemoveColor = function (evt) {
 	if (evt.which === LEFT_CLICK) {
 		Editor.panels.Palette.removeColor(Tools.getPrimaryColor());
-	} else if(evt.which === RIGHT_CLICK){
+	} else if (evt.which === RIGHT_CLICK) {
 		Editor.panels.Palette.removeColor(Tools.getSecondColor());
 	}
 };
 Tools.onAddColor = function (evt) {
-		if (evt.which === LEFT_CLICK) {
+	if (evt.which === LEFT_CLICK) {
 		Editor.panels.Palette.addColor(Tools.getPrimaryColor());
-	} else if(evt.which === RIGHT_CLICK){
+	} else if (evt.which === RIGHT_CLICK) {
 		Editor.panels.Palette.addColor(Tools.getSecondColor());
 	}
 };
