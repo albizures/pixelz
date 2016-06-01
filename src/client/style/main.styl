@@ -47,7 +47,10 @@ body{
 		margin 3px
 		margin-top: 6px
 .canvas-picker
-	display: inline-block
+	margin 5px
+	display inline-block
+	// canvas
+	// 	vertical-align top
 	.content-canvas
 		display: inline-block
 		position: relative
@@ -63,18 +66,27 @@ body{
 			box-sizing: border-box
 			box-shadow: 0 0 3px black
 	.content-rainbow
-		display: inline-block;
-		position: relative;
+		display inline-block
+		position relative
 		.rainbow-picker
-			pointer-events: none
+			pointer-events none
 			top 0
 			left -3px
-			position: absolute
-			width: 100%
-			border: 2px solid white
-			height: 4px
-
-
+			position absolute
+			width calc(100% + 3px)
+			border 2px solid white
+			height 4px
+	.content-alpha
+		background url('../assets/images/transparent.png')
+		background-size 10%
+		position relative
+		.alpha-picker
+			pointer-events none
+			top -3px
+			position absolute
+			width 4px
+			border 2px solid white
+			height calc(100% + 3px)
 body>.mask
 	pointer-events: none
 body>.canvas,body>.mask,body>.preview,.content-preview-animate
