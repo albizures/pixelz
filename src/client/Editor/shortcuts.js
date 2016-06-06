@@ -1,13 +1,15 @@
 'use strict';
 
 let shortcuts = {
-	90 : {
-		def : '',
-		ctrl : 'undo'
+	90 : (ctrl) => {
+		if (ctrl) {
+			Editor.panels.Actions.undo();
+		}
 	},
-	89 : {
-		def : '',
-		ctrl : 'redo'
+	89 : (ctrl) => {
+		if (ctrl) {
+			Editor.panels.Actions.redo();
+		}
 	}
 };
 
@@ -18,12 +20,7 @@ module.exports = {
 	},
 	onKeydown : function (evt) {
 		let key = evt.keyCode ? evt.keyCode :  evt.which;
-		console.log(evt.ctrlKey, evt.code);
-		// console.log('code', evt.code);
-		// console.log('key', evt.key);
-		// console.log('keyCode', evt.keyCode);
-		// console.log('which', evt.which);
-		// console.log('charCode', evt.charCode);
+		(shortcuts[key] || function () {})(evt.ctrlKey);
 	},
 	onKeyup : function (evt) {
 
