@@ -1,20 +1,18 @@
 const livereload = require('express-livereload'),
 	path = require('path'),
+	proxy = require('proxy-middleware'),
 	config = require('./environment'),
 	express = require('express'),
+	url = require('url'),
 	favicon = require('serve-favicon');
 
 
 module.exports = function (app) {
+	app.use(favicon('src/favicon.ico'));
 	if (!config.isProduction) {
-		app.use(config.webpackMiddleware);
-		app.use(config.webpackHotMiddleware);
+		console.log('proxy');
+		app.use('/', proxy(url.parse('http://localhost:8080/')));
 	} else {
 		app.use(express.static(config.PUBLIC_PATH));
 	}
-	app.use(favicon('src/favicon.ico'));
-	// livereload(app, {
-	// 	port: '35730',
-	// 	watchDir: config.PUBLIC_PATH
-	// });
 };

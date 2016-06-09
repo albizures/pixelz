@@ -10,4 +10,4 @@ module.exports = function (app) {
     port : '35730',
     watchDir : path.resolve(__dirname,'..' ,'..','..','build','app.js')
   });
-}
+};
