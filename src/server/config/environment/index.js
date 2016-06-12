@@ -18,7 +18,7 @@ const path = require('path'),
 		MODULES_PATH,
 		TEMPLATE_PATH,
 		ASSETS_PATH,
-		PORT : 8000
+		PORT : 8080
 	};
 module.exports = _.merge(
 	all,

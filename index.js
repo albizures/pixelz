@@ -1,4 +1,2 @@
 
-if (require("piping")({hook : true})) {
-  require('./src/server/index.js');
-}
+require('./src/server/index.js');

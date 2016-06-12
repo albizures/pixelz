@@ -3,13 +3,15 @@ const express = require('express'),
 	config = require('./config/environment'),
 	app = express();
 
-	
-require('./components/connect.js');
+
 
 require("./config/express.js")(app);
 require("./router.js")(app);
+if (!config.isProduction) {
+	require('./config/proxy.js')(app);
+}
 
-
+var a = require('./components/connect.js');
 
 const port = config.PORT;
 const server = app.listen(port, function () {

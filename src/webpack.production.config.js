@@ -11,7 +11,6 @@ module.exports = {
 		filename: "[name].js"
 	},
 	plugins: [
-		//new webpack.NoErrorsPlugin(),
 		new HtmlWebpackPlugin({
 			title: 'Pixelz Studio',
 			filename: 'index.html',
@@ -22,12 +21,11 @@ module.exports = {
 		})
 	],
 
-	// Transform source code using Babel and React Hot Loader
 	module: {
 		loaders: [{
 			test: /\.js$/,
 			include: config.CLIENT_PATH,
-			loader: "babel-loader" //?stage=0"]
+			loader: "babel-loader"
 		}, {
 			test: /\.(jpe?g|png|gif|svg)$/i,
 			loaders: [
@@ -43,7 +41,6 @@ module.exports = {
 		}, {
 			test: /\.styl?$/,
 			loaders: ['style-loader', 'css-loader', 'stylus-loader']
-				//loader: 'style-loader!css-loader!stylus-loader'
 		}, {
 			test : /workers/,
 			loaders : ['worker?name=/workers/[name].[ext]', 'babel-loader']
@@ -54,7 +51,6 @@ module.exports = {
 			loaders: ['eslint-loader', 'jscs-loader']
 		}]
 	},
-	// Automatically transform files with these extensions
 	resolve: {
 		alias: {
 			inheritanceObject : path.join(config.CLIENT_PATH, '/utils/inheritanceObject.js'),
