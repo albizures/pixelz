@@ -2,8 +2,21 @@
 require('./style/main.styl');
 
 window.hasVal = (val) => {
-	return typeof val !== 'undefined' && val !== null;
+  return typeof val !== 'undefined' && val !== null;
 };
 window.$ = require('./$.js');
 require('./polyfill.js');
-require('./main.js');
+
+const React = require('react');
+const ReactDOM = require('react-dom');
+const {Router, Route, browserHistory } = require('react-router');
+
+const Home = require('./states/Home');
+const Editor = require('./states/Editor'); 
+
+ReactDOM.render((
+  <Router history={browserHistory }>
+    <Route path="/" component={Home} />
+    <Route path="/editor(/:id)" component={Editor} />
+  </Router>
+), document.getElementById('root'));
