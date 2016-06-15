@@ -19,9 +19,9 @@ let artboard = {
 		return this.layer.height * this.scale;
 	}
 };
-function Canvas(layer, scale, cord, sizePointer) {
+function Canvas(parent, layer, scale, cord, sizePointer) {
 	this.artboard = artboard;
-	this.parent = document.body;
+	this.parent = parent;
 	this.artboard.scale = scale || SCALE_DEF;
 	this.artboard.layer = layer;
 	this.artboard.cord = cord;

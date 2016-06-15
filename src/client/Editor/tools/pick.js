@@ -18,4 +18,4 @@ pick.onMouseDown = function (evt) {
 	}
 };
 
-module.exports = () => Editor.addTool(pick);
+module.exports = pick;

@@ -15,9 +15,6 @@ Frames.mainInit = function () {
 	make([this.el, btnAdd, this.list.el]);
 	$(btnAdd).on('click.add', this.createFrame.bind(this));
 };
-Frames.$add = function () {
-	Editor.addPanel(this, require('./Left.js'));
-};
 Frames.createFrame = function () {
 	this.sprite.addFrame();
 };

@@ -4,7 +4,7 @@ require('./style/main.styl');
 window.hasVal = (val) => {
   return typeof val !== 'undefined' && val !== null;
 };
-window.$ = require('./$.js');
+window.$ = require('./Editor/$.js');
 require('./polyfill.js');
 
 const React = require('react');

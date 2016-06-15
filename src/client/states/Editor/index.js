@@ -1,9 +1,13 @@
 const React = require('react');
-
+const ReactDOM = require('react-dom');
+const EditorClass = require('../../Editor');
 const Editor = React.createClass({
+  componentDidMount() {
+    window.Editor = new EditorClass(ReactDOM.findDOMNode(this));
+    window.Editor.init();
+  },
   render () {
-    console.log(this.props.params.id);
-    return <h1>Editor {this.props.params.id}</h1>;
+    return <div className="editor-content"></div>;
   }
 });
 

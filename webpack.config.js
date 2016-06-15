@@ -7,7 +7,7 @@ const config = require('./src/server/config/environment');
 module.exports = {
   devtool : '#inline-source-map',
   entry:[
-    'webpack-hot-middleware/client?reload=true',
+    'webpack-dev-server/client?http://localhost:9000', // &reload=true
     config.APP_PATH
   ],
   output: {
@@ -56,9 +56,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      inheritanceObject : path.join(config.CLIENT_PATH, '/utils/inheritanceObject.js'),
-      make : path.join(config.CLIENT_PATH, '/utils/make.js'),
-      http : path.join(config.CLIENT_PATH, '/utils/http.js')
+      inheritanceObject : path.join(config.CLIENT_PATH, 'Editor/utils/inheritanceObject.js'),
+      make : path.join(config.CLIENT_PATH, 'Editor/utils/make.js'),
+      http : path.join(config.CLIENT_PATH, 'Editor/utils/http.js')
     },
     extensions: ['', '.js', '.css', '.styl', '.jade']
   },
@@ -71,6 +71,7 @@ var compiler = webpack(module.exports);
 
 var server = new WebpackDevServer(compiler, {
   historyApiFallback: true,
+  //hot : true,
   proxy : {
     '*' : {
       target: 'http://localhost:8080/',
@@ -82,6 +83,10 @@ var server = new WebpackDevServer(compiler, {
         }
       }
     }
+  },
+  headers: {
+    "X-Custom-Header": "yes",
+    "Access-Control-Allow-Origin": "*"
   }
 });
 

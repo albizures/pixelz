@@ -2,55 +2,12 @@
 
 const Editor = require('./Editor/index.js'),
 
-	Left = require('./panels/Left.js'),
-	Preview = require('./panels/Preview.js'),
-	Palette = require('./panels/Palette/index.js'),
-	Palettes = require('./panels/Palette/Palettes.js'),
-	Frames = require('./panels/Frames.js'),
-	Info = require('./panels/Info.js'),
-	Menus = require('./panels/Menus'),
-	Actions = require('./panels/Actions.js'),
-	NewProject = require('./panels/NewProject.js'),
-	ColorPicker = require('./panels/ColorPicker.js'),
-	Tools = require('./panels/Tools.js'),
-	Layers = require('./panels/Layers.js'),
-	Resize = require('./panels/Resize.js'),
-	BackgroundLayer = require('./panels/BackgroundLayer.js'),
 
-	bucket = require('./tools/bucket.js'),
-	eraser = require('./tools/eraser.js'),
-	pick = require('./tools/pick.js'),
-	rectangle = require('./tools/rectangle.js'),
-	line = require('./tools/line.js'),
-	select = require('./tools/select.js'),
-	pencil = require('./tools/pencil.js');
 
 window.onload = () => {
 	window.Editor = Editor;
 	// panels
-	Menus.$add();
-	Left.$add();
-	Preview.$add();
-	Tools.$add();
-	Frames.$add();
-	Actions.$add();
-	Palette.$add();
-	Info.$add();
-	NewProject.$add();
-	Layers.$add();
-	ColorPicker.$add();
-	Resize.$add();
-	Palettes.$add();
-	BackgroundLayer.$add();
 
-	//tools
-	pencil();
-	bucket();
-	eraser();
-	pick();
-	rectangle();
-	line();
-	select();
 
 	//init
 	Editor.init();

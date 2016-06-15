@@ -65,4 +65,4 @@ line.onMouseUp = function (evt) {
 	this.layer.paint();
 };
 
-module.exports = () => Editor.addTool(line);
+module.exports = line;

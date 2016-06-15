@@ -74,11 +74,12 @@ Panel.prototype.init = function (width, height) {
 	if (!hasVal(this.parent)) {
 		return console.error('parent undefined');
 	}
-	if (Panel.SNAP === this.type && this.el.parentElement == document.body) {
+	console.log(this.el.parentElement);
+	if (Panel.SNAP === this.type && this.el.parentElement.dataset.hasOwnProperty('reactroot')) {
 		this.setSnapPosition();
 	}else if (Panel.FLOAT === this.type) {
 		this.changeSize(this.width, this.height, this.position.x, this.position.y);
-	} else if (this.el.parentElement == document.body) {
+	} else if (this.el.parentElement.dataset.hasOwnProperty('reactroot')) {
 		let heightMenus = (Editor.panels.Menus.height * 100) / window.innerHeight;
 		this.el.style.top = 0; //heightMenus + '%';
 		this.el.style.height = '100%';//(100 - heightMenus) + '%';

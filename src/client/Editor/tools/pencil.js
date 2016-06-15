@@ -60,4 +60,4 @@ pencil.onMouseUp = function (evt) {
 		Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, data : this.layer.prevStatus}, 0));
 	}
 };
-module.exports = () => Editor.addTool(pencil);
+module.exports = pencil;

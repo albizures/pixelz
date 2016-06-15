@@ -6,18 +6,21 @@ const Tool = require('../prototypes/Tool.js'),
 	Actions = require('../panels/Actions.js'),
 	actions = require('../constants').actions,
 	Tools = require('../panels/Tools.js'),
-	select = new Tool('select');
+	rectangle = new Tool('rectangle');
 let firstPixel, lastPixel, color, at;
-select.onMouseDown = function (evt) {
+rectangle.onMouseDown = function (evt) {
 	if (evt.target.nodeName == 'CANVAS') {
 		this.layer.saveStatus();
+		this.clicked = true;
 		firstPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
+		color = evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
+		at = 'paintPrevAt';
 		$(window).off('mouseup.upCanvas').on('mouseup.upCanvas', this.onMouseUp.bind(this));
 		$(window).off('mouseout.leaveCanvas').on('mouseout.leaveCanvas', this.onMouseLeave.bind(this));
 		$(window).off('mousemove.moveCanvas').on('mousemove.moveCanvas', this.onMouseMove.bind(this));
 	}
 };
-select.onMouseLeave = function (evt) {
+rectangle.onMouseLeave = function (evt) {
 	let e = evt.toElement || evt.relatedTarget;
 	if (e !== document.children[0]) {
 		return;
@@ -25,24 +28,26 @@ select.onMouseLeave = function (evt) {
 	let newPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
 	lastPixel = newPixel;
 };
-select.onMouseMove = function (evt) {
+rectangle.onMouseMove = function (evt) {
 	lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-	lastPixel.x += lastPixel.x >= firstPixel.x ? 1 : 0;
-	lastPixel.y += lastPixel.y >= firstPixel.y ? 1 : 0;
 	if (firstPixel.x != lastPixel.x || firstPixel.y != lastPixel.y) {
-		this.layer.prevSelect(firstPixel.x, firstPixel.y, lastPixel.x - firstPixel.x, lastPixel.y - firstPixel.y);
+		this.getRectangle(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
 	}
 };
-select.onMouseUp = function (evt) {
+rectangle.onMouseUp = function (evt) {
 	$(window).off('mouseup.upCanvas');
 	$(window).off('mouseout.leaveCanvas');
 	$(window).off('mousemove.moveCanvas');
-	lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
-	lastPixel.x += lastPixel.x >= firstPixel.x ? 1 : 0;
-	lastPixel.y += lastPixel.y >= firstPixel.y ? 1 : 0;
-	if (Math.abs(lastPixel.x - firstPixel.x) > 1 || Math.abs(lastPixel.y - firstPixel.y) > 1) {
-		this.layer.getSelect(firstPixel.x, firstPixel.y, lastPixel.x - firstPixel.x, lastPixel.y - firstPixel.y);
+	if (color == TRANSPARENT_COLOR) {
+		at = 'cleanAt';
+	} else {
+		at = 'paintAt';
 	}
+	this.clicked = true;
+	lastPixel = this.canvas.calculatePosition(evt.clientX, evt.clientY);
+	this.getRectangle(firstPixel.x, firstPixel.y, lastPixel.x, lastPixel.y, color, at);
+	this.layer.paint();
+	Actions.addUndo(new Action(actions.PAINT, {layer : this.layer, data : this.layer.prevStatus}, 0));
 };
 
-module.exports = () => Editor.addTool(select);
+module.exports = rectangle;

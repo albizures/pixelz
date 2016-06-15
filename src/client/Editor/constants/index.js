@@ -10,16 +10,16 @@ transparent.addEventListener('load', function () {
 	backgroundTransparent.drawImage(this, 0, 0, this.width, this.height, 0, 0, width, height);
 });
 backgroundTransparent.canvas.img = transparent;
-rainbow.src = require('../assets/images/rainbow.png');
-gradient.src = require('../assets/images/gradient.png');
-transparent.src = require('../assets/images/transparent.png');
+rainbow.src = require('../../assets/images/rainbow.png');
+gradient.src = require('../../assets/images/gradient.png');
+transparent.src = require('../../assets/images/transparent.png');
 module.exports = {
 	GRADIENT : gradient,
 	RAINBOW : rainbow,
 	HEIGHT_DEF : 20,
 	WIDTH_DEF : 20,
 	SCALE_DEF : 10,
-	TRANSPARENT_IMG_URL : require('../assets/images/transparent.png'),
+	TRANSPARENT_IMG_URL : require('../../assets/images/transparent.png'),
 	TRANSPARENT_IMG : backgroundTransparent.canvas,
 	TRANSPARENT_COLOR : 'rgba(0, 0, 0, 0)',
 	TRANSPARENT_COLOR_VALUE : '',

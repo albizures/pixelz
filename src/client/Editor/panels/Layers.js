@@ -15,9 +15,6 @@ Layers.mainInit = function () {
 	make([this.el, btnAdd, this.list.el]);
 	$(btnAdd).on('click.add', this.createLayer.bind(this));
 };
-Layers.$add = function () {
-	Editor.addPanel(this, require('./Left.js'));
-};
 Layers.createLayer = function () {
 	this.frame.addLayer();
 };
