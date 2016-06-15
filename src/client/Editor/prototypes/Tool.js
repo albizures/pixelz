@@ -5,8 +5,8 @@ const AppendObject = require('./AppendObject.js'),
 			abs = Math.abs,
 			{ TRANSPARENT_COLOR } = require('../constants'),
 			{ SELECT_TOOL } = require('../constants').events,
-			{ getRGBAComponents } = require('../utils/colorConverts.js'),
-			{ inheritanceObject, defineGetter} = require('../utils.js');
+			{ getRGBAComponents } = require('../utils/color.js'),
+			{ inheritanceObject, defineGetter} = require('../utils/object.js');
 function Tool(name) {
 	this.$type = 'button';
 	AppendObject.call(this, 'tool');

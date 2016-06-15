@@ -1,4 +1,5 @@
 'use strict';
+console.trace('lelelel');
 let transparent = document.createElement("img"),
 	gradient = document.createElement("img"),
 	rainbow = document.createElement("img"),
@@ -31,15 +32,6 @@ module.exports = {
 	MIDDLE_CLICK : 2,
 	PALETTE : 'Palette',
 	FRAMES : 'Frames'
-};
-module.exports.colors = {
-	DEFAULT_COLOR : '#000',
-	RGBA : 'rgba',
-	RGBA_PER : 'rgbaPer',
-	ABBR_HEX : 'abbrHex',
-	HEX : 'hex',
-	HSL : 'hsl',
-	NAC : 'NaC'
 };
 module.exports.palette  = require("./palette.js");
 module.exports.events = require("./events.js");

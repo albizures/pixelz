@@ -1,7 +1,7 @@
 'use strict';
 const Panel = require('../prototypes/Panel.js'),
 	Vector = require('../prototypes/Vector.js'),
-	{ make } = require('../utils.js'),
+	make = require('make'),
 	Action = require('../prototypes/Action.js'),
 	Range = require('../prototypes/Range.js'),
 	Actions = require('./Actions.js'),

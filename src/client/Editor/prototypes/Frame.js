@@ -1,6 +1,6 @@
 'use strict';
-const { imageSmoothingDisabled } = require('../utils.js'),
-	walkBitmap = require('../utils/walkBitmap.js'),
+const 
+	{walkBitmap, imageSmoothingDisabled} = require('../utils/canvas.js'),
 	{ TRANSPARENT_COLOR } = require('../constants'),
 	Layer = require('./Layer.js'),
 	Action = require('./Action.js'),

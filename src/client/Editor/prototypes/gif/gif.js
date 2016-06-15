@@ -4,8 +4,8 @@
 
 'use strict';
 const EventEmitter = require('events').EventEmitter,
-	browser = require('../../utils.js').browser,
-	inheritanceObject = require('../../utils.js').inheritanceObject,
+	browser = require('../../utils/browser.js'),
+	{inheritanceObject} = require('../../utils/object.js'),
 	gifWorker = require('../../workers/gif.js');
 
 let defaults = {

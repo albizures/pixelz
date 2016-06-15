@@ -1,6 +1,6 @@
 'use strict';
 const Panel = require("./Panel.js"),
-	inheritanceObject = require("inheritanceObject"),
+	{inheritanceObject} = require("../utils/object.js"),
 	make = require("make");
 
 function ContentPanels(name, type, position, width, height, snapType, notDragbar, hidden, typeContent) {

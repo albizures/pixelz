@@ -1,6 +1,6 @@
 'use strict';
 const Panel = require('../../prototypes/Panel.js'),
-	{ make } = require('../../utils.js'),
+	make = require('make'),
 	Vector = require('../../prototypes/Vector.js'),
 	Menu = require('../../prototypes/Menu.js'),
 	{TRANSPARENT_COLOR} = require('../../constants/index.js'),

@@ -1,6 +1,7 @@
 'use strict';
 const AppendObject = require('../prototypes/AppendObject.js'),
-			{ inheritanceObject, createSpan, createInputRange } = require('../utils.js');
+	make = require('make'),
+	{ inheritanceObject } = require('../utils/object.js');
 
 /**
  * @param {number} value current value
@@ -15,9 +16,14 @@ function Range(value, min, max, type, callback) {
 	this.max = max;
 	this.min = min;
 	this.type = type;
-	this.input = createInputRange(value, this.min, this.max);
-	this.spanName = createSpan(this.type);
-	this.spanValue = createSpan(this.value);
+	this.input = make(['input',{
+		type : 'range',
+		min : this.min,
+		max : this.max,
+		value : value
+	} ,this.min, this.max]);
+	this.spanName = make(['span', this.type]);
+	this.spanValue =  make(['span', this.value]);
 	this.callback = callback;
 	$(this.input).on('input.range' + this.type, this.onChange.bind(this));
 	this.el.appendChild(this.spanName);

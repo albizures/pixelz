@@ -1,7 +1,7 @@
 'use strict';
 const AppendObject = require('./AppendObject.js'),
 	Actions = require('../panels/Actions.js'),
-	{inheritanceObject, defineGetter} = require('../utils.js');
+	{inheritanceObject, defineGetter} = require('../utils/object.js');
 
 let actions = {
 	paint : function (data) {

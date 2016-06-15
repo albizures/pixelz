@@ -1,5 +1,6 @@
 'use strict';
-const {createDiv, createSpan, defineGetter, inheritanceObject } = require('../utils.js'),
+const make = require('make'),
+	{inheritanceObject, defineGetter} = require('../utils/object.js'),
 	AppendObject = require('./AppendObject.js'),
 	Vector = require('../prototypes/Vector.js');//,
 //ResizeBar = require('../prototypes/ResizeBar.js'),
@@ -74,7 +75,6 @@ Panel.prototype.init = function (width, height) {
 	if (!hasVal(this.parent)) {
 		return console.error('parent undefined');
 	}
-	console.log(this.el.parentElement);
 	if (Panel.SNAP === this.type && this.el.parentElement.dataset.hasOwnProperty('reactroot')) {
 		this.setSnapPosition();
 	}else if (Panel.FLOAT === this.type) {
@@ -85,9 +85,11 @@ Panel.prototype.init = function (width, height) {
 		this.el.style.height = '100%';//(100 - heightMenus) + '%';
 	}
 	if (!this.notDragbar) {
-		this.dragBar = createDiv('drag-bar');
+		this.dragBar = make(['div', {
+			className : 'drag-bar'
+		}]);
 		this.dragBar.style.height = this.heightDragBar + 'px';
-		this.dragBar.appendChild(createSpan(this.name));
+		this.dragBar.appendChild(make(['span',this.name]));
 		this.el.appendChild(this.dragBar);
 		$(this.dragBar).on('mousedown.drag', this.onDragStart.bind(this));
 	}

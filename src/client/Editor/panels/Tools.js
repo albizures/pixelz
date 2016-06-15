@@ -2,7 +2,7 @@
 
 const Panel = require('../prototypes/Panel.js'),
 	ColorPicker = require('./ColorPicker.js'),
-	{ make } = require('../utils.js'),
+	make = require('make'),
 	Vector = require('../prototypes/Vector.js'),
 	{TRANSPARENT_COLOR, RIGHT_CLICK, LEFT_CLICK} = require('../constants/index.js'),
 	{SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,

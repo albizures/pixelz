@@ -1,6 +1,6 @@
 'use strict';
 const Panel = require('../prototypes/Panel.js'),
-	{ make } = require('../utils.js'),
+	make = require('make'),
 	Vector = require('../prototypes/Vector.js'),
 	{ SELECT_TOOL } = require('../constants').events,
 	{WIDTH_DEF, HEIGHT_DEF} = require('../constants'),

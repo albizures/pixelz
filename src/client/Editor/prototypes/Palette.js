@@ -1,6 +1,6 @@
 'use strict';
 const AppendObject = require('./AppendObject.js'),
-	inheritanceObject = require('../utils/inheritanceObject.js'),
+	{inheritanceObject} = require('../utils/object.js'),
 	make = require('make'),
 	Color = require('./Color.js');
 

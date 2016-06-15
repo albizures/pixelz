@@ -1,5 +1,5 @@
 'use strict';
-const { imageSmoothing } = require('../utils.js'),
+const { imageSmoothing } = require('../utils/canvas.js'),
 	Layers = require('../panels/Layers.js'),
 	Select = require('./Select.js'),
 	Action = require('./Action.js'),

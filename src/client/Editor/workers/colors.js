@@ -1,7 +1,6 @@
 'use strict';
-const walkBitmap = require("../utils/walkBitmap.js"),
-	rgbToHex = require("../utils/rgbToHex.js"),
-	unusedColor = require("../utils/unusedColor.js");
+const {walkBitmap} = require("../utils/canvas.js"),
+	{rgbToHex, unusedColor} = require("../utils/color.js");
 
 self.onmessage = function (evt) {
 	var dataReturn;

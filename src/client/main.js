@@ -1,6 +1,6 @@
 'use strict';
 
-const Editor = require('./Editor/index.js'),
+const Editor = require('./Editor/index.js');
 
 
 
