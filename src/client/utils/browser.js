@@ -1,15 +1,15 @@
 'use strict';
 let platform = navigator.platform.toLowerCase(),
-	ua = navigator.userAgent.toLowerCase(),
-	UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, 'unknown', 0],
-	mode = UA[1] === 'ie' && document.documentMode,
-	browser = {
-		name: UA[1] === 'version' ? UA[3] : UA[1],
-		version: mode || parseFloat(UA[1] === 'opera' && UA[4] ? UA[4] : UA[2]),
-		platform: {
-			name: ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0]
-		}
-	};
+  ua = navigator.userAgent.toLowerCase(),
+  UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, 'unknown', 0],
+  mode = UA[1] === 'ie' && document.documentMode,
+  browser = {
+    name: UA[1] === 'version' ? UA[3] : UA[1],
+    version: mode || parseFloat(UA[1] === 'opera' && UA[4] ? UA[4] : UA[2]),
+    platform: {
+      name: ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0]
+    }
+  };
 
 browser[browser.name] = true;
 

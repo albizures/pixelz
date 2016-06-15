@@ -1,10 +1,10 @@
 
 exports.defineGetter = function defineGetter(obj, name, fn) {
-	Object.defineProperty(obj, name, {
-		get: fn,
-		enumerable: true,
-		configurable: true
-	});
+  Object.defineProperty(obj, name, {
+    get: fn,
+    enumerable: true,
+    configurable: true
+  });
 };
 
 exports.extend = function extend(destination, source) {

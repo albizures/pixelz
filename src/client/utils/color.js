@@ -13,42 +13,42 @@ const perRgba = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?
 const hsl = /^hsla?\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
 
 function isValid(color) {
-	return NAC !== detectType(color);
+  return NAC !== detectType(color);
 }
 function detectType(color) {
-	if (exports.isAbbrHex(color)) {
-		return ABBR_HEX;
-	}else if (exports.isHex(color)) {
-		return HEX;
-	}else if (exports.isRGBA(color)) {
-		return RGBA;
-	}else if (exports.isRGBAPer(color)) {
-		return RGBA_PER;
-	}else if (exports.isHSL(color)) {
-		return HSL;
-	}else {
-		return NAC;
-	}
+  if (exports.isAbbrHex(color)) {
+    return ABBR_HEX;
+  }else if (exports.isHex(color)) {
+    return HEX;
+  }else if (exports.isRGBA(color)) {
+    return RGBA;
+  }else if (exports.isRGBAPer(color)) {
+    return RGBA_PER;
+  }else if (exports.isHSL(color)) {
+    return HSL;
+  }else {
+    return NAC;
+  }
 }
 exports.isAbbrHex = function (color) {
-	return color.match(abbrHex) || false;
+  return color.match(abbrHex) || false;
 };
 exports.isHex = function (color) {
-	return color.match(hex) || false;
+  return color.match(hex) || false;
 };
 exports.isRGBA = function (color) {
-	return color.match(rgba) || false;
+  return color.match(rgba) || false;
 };
 exports.isRGBAPer = function (color) {
-	return color.match(perRgba) || false;
+  return color.match(perRgba) || false;
 };
 exports.isHSL = function (color) {
-	return color.match(hsl) || false;
+  return color.match(hsl) || false;
 };
 exports.colorIsLight = function (r, g, b) {
-	var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-	console.log(a);
-	return (a < 0.5);
+  var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  console.log(a);
+  return (a < 0.5);
 };
 
 
@@ -114,10 +114,10 @@ exports.unusedColor = function unusedColor (usedColors) {
  * Assumes r, g, and b are contained in the set [0, 255] and
  * returns h, s, and l in the set [0, 1].
  *
- * @param	 Number	r			 The red color value
- * @param	 Number	g			 The green color value
- * @param	 Number	b			 The blue color value
- * @return	Array					 The HSL representation
+ * @param   Number  r       The red color value
+ * @param   Number  g       The green color value
+ * @param   Number  b       The blue color value
+ * @return  Array           The HSL representation
  */
 exports.rgbToHsl = function rgbToHsl(r, g, b) {
   var max, mix, h, s, l, d;
@@ -157,10 +157,10 @@ exports.rgbToHsl = function rgbToHsl(r, g, b) {
  * Assumes h, s, and l are contained in the set [0, 1] and
  * returns r, g, and b in the set [0, 255].
  *
- * @param	 Number	h			 The hue
- * @param	 Number	s			 The saturation
- * @param	 Number	l			 The lightness
- * @return	Array					 The RGB representation
+ * @param   Number  h       The hue
+ * @param   Number  s       The saturation
+ * @param   Number  l       The lightness
+ * @return  Array           The RGB representation
  */
 exports.hslToRgb = function hslToRgb(h, s, l) {
   var r, g, b, q, p;
@@ -203,10 +203,10 @@ exports.hslToRgb = function hslToRgb(h, s, l) {
  * Assumes r, g, and b are contained in the set [0, 255] and
  * returns h, s, and v in the set [0, 1].
  *
- * @param	 Number	r			 The red color value
- * @param	 Number	g			 The green color value
- * @param	 Number	b			 The blue color value
- * @return	Array					 The HSV representation
+ * @param   Number  r       The red color value
+ * @param   Number  g       The green color value
+ * @param   Number  b       The blue color value
+ * @return  Array           The HSV representation
  */
 exports.rgbToHsv = function rgbToHsv(r, g, b) {
   var max, min, h, s, v, d;
@@ -247,10 +247,10 @@ exports.rgbToHsv = function rgbToHsv(r, g, b) {
  * Assumes h, s, and v are contained in the set [0, 1] and
  * returns r, g, and b in the set [0, 255].
  *
- * @param	 Number	h			 The hue
- * @param	 Number	s			 The saturation
- * @param	 Number	v			 The value
- * @return	Array					 The RGB representation
+ * @param   Number  h       The hue
+ * @param   Number  s       The saturation
+ * @param   Number  v       The value
+ * @return  Array           The RGB representation
  */
 exports.hsvToRgb = function hsvToRgb(h, s, v) {
   var r, g, b,

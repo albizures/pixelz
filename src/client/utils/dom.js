@@ -1,6 +1,6 @@
 'use strict';
-const Selector = require('../prototypes/Selector.js');
-const AppendObject = require('../prototypes/AppendObject.js');
+const Selector = require('../Editor/prototypes/Selector.js');
+const AppendObject = require('../Editor/prototypes/AppendObject.js');
 
 //Returns true if it is a DOM node
 exports.isNode = function (o) {

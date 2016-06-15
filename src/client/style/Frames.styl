@@ -2,57 +2,57 @@ size-btn-preview = 20px
 size-font-preview = 0.65em
 
 .panel.panel-frames
-	background: whitesmoke
-	z-index 2
-	top 0
-	left 0
-	height 80%
-	width 120px
-	button.add-frame
-		width 94%
-		margin 3%
-	ul
-		overflow-y scroll
-		height calc(100% - 53px)
-		li
-			transition 0.3s top, 0.1s transform //cubic-bezier(0.46, 0.03, 0.52, 0.96)
-			border 1px solid
-			width 100%
-			z-depth-1() 0
-			&.drag
-				z-index 1
-				z-depth-2() 0
-				transition 0.1s transform, 0s top
-				transform: scale(1.07);
-				background: rgba(0, 0, 0, 0.6);
-				*
-					opacity: 0.4
+  background: whitesmoke
+  z-index 2
+  top 0
+  left 0
+  height 80%
+  width 120px
+  button.add-frame
+    width 94%
+    margin 3%
+  ul
+    overflow-y scroll
+    height calc(100% - 53px)
+    li
+      transition 0.3s top, 0.1s transform //cubic-bezier(0.46, 0.03, 0.52, 0.96)
+      border 1px solid
+      width 100%
+      z-depth-1() 0
+      &.drag
+        z-index 1
+        z-depth-2() 0
+        transition 0.1s transform, 0s top
+        transform: scale(1.07);
+        background: rgba(0, 0, 0, 0.6);
+        *
+          opacity: 0.4
 
 .preview-frame
-	cursor move
-	position relative
-	canvas
-		position absolute
-		top 0
-	.btn,.index
-		position absolute
-		width size-btn-preview
-		height size-btn-preview
-	.index
-		bottom 0
-		right 0
-	.btn
-		opacity 0
-		transition opacity 0.3s
-		font-size size-font-preview
-		top 0
-		left 0
-	.btn-clone
-		left size-btn-preview
-	.btn-hidden
-		left size-btn-preview * 2
-	&:hover
-		.btn
-			opacity 1
-	&.active
-		outline 2px yellow solid
+  cursor move
+  position relative
+  canvas
+    position absolute
+    top 0
+  .btn,.index
+    position absolute
+    width size-btn-preview
+    height size-btn-preview
+  .index
+    bottom 0
+    right 0
+  .btn
+    opacity 0
+    transition opacity 0.3s
+    font-size size-font-preview
+    top 0
+    left 0
+  .btn-clone
+    left size-btn-preview
+  .btn-hidden
+    left size-btn-preview * 2
+  &:hover
+    .btn
+      opacity 1
+  &.active
+    outline 2px yellow solid

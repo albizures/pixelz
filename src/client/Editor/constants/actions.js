@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-	PAINT : 'paint'
+  PAINT : 'paint'
 };
