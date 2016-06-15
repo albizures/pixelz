@@ -4,8 +4,8 @@ const Vector = require('../Vector.js'),
 	Tools = require('../../panels/Tools.js'),
 	Preview = require('../../panels/Preview.js'),
 	make = require('make'),
-	{extend} = require('../../utils/object.js'),
-	{ imageSmoothing } = require('../../utils/canvas.js'),
+	{extend} = require('utils/object.js'),
+	{ imageSmoothing } = require('utils/canvas.js'),
 	Menu = require('../Menu'),
 	{SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG,
 		RIGHT_CLICK,LEFT_CLICK} = require('../../constants'),
@@ -251,7 +251,6 @@ Canvas.prototype.addAreaSelect = function (select) {
 	this.artboard.select = select;
 };
 
-extend(Canvas.prototype, require('./utils.js'));
 extend(Canvas.prototype, require('./main.js'));
 extend(Canvas.prototype, require('./preview.js'));
 extend(Canvas.prototype, require('./mask.js'));

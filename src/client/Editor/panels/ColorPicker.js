@@ -8,7 +8,7 @@ const
 	make = require('make'),
 	{FLOAT} = Panel,
 	{R, G, B, A} = require('../constants').palette.picker,
-	{RGBA} = require('../utils/color.js'),
+	{RGBA} = require('utils/color.js'),
 	Picker = require('../prototypes/Picker.js'),
 	{RIGHT_CLICK, LEFT_CLICK} = require('../constants'),
 	{CHANGE_SPRITE} = require('../constants').events,

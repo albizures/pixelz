@@ -56,9 +56,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      inheritanceObject : path.join(config.CLIENT_PATH, 'Editor/utils/inheritanceObject.js'),
-      make : path.join(config.CLIENT_PATH, 'Editor/utils/make.js'),
-      http : path.join(config.CLIENT_PATH, 'Editor/utils/http.js')
+      utils : path.join(config.CLIENT_PATH, 'utils/'),
+      make : path.join(config.CLIENT_PATH, 'utils/make.js'),
+      http : path.join(config.CLIENT_PATH, 'utils/http.js')
     },
     extensions: ['', '.js', '.css', '.styl', '.jade']
   },

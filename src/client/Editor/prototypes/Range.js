@@ -1,7 +1,7 @@
 'use strict';
 const AppendObject = require('../prototypes/AppendObject.js'),
 	make = require('make'),
-	{ inheritanceObject } = require('../utils/object.js');
+	{ inheritanceObject } = require('utils/object.js');
 
 /**
  * @param {number} value current value

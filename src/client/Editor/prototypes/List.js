@@ -2,7 +2,7 @@
 const AppendObject = require('./AppendObject.js'),
 			Vector = require('./Vector.js'),
 			abs = Math.abs,
-			{ inheritanceObject, defineGetter} = require('../utils/object.js');
+			{ inheritanceObject, defineGetter} = require('utils/object.js');
 let height;
 function List(name, elements, margin) {
 	this.$type = 'ul';

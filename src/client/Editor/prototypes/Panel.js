@@ -1,6 +1,6 @@
 'use strict';
 const make = require('make'),
-	{inheritanceObject, defineGetter} = require('../utils/object.js'),
+	{inheritanceObject, defineGetter} = require('utils/object.js'),
 	AppendObject = require('./AppendObject.js'),
 	Vector = require('../prototypes/Vector.js');//,
 //ResizeBar = require('../prototypes/ResizeBar.js'),

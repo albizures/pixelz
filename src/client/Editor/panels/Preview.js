@@ -2,7 +2,7 @@
 
 const Panel = require('../prototypes/Panel.js'),
 	Range = require('../prototypes/Range.js'),
-	{imageSmoothingDisabled} = require('../utils/canvas.js'),
+	{imageSmoothingDisabled} = require('utils/canvas.js'),
 	make = require('make'),
 	{ CHANGE_SPRITE, DELETE_FRAME } = require('../constants').events,
 	{ SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,

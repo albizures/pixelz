@@ -2,8 +2,8 @@
 const AppendObject = require('../../prototypes/AppendObject.js'),
 	{ TRANSPARENT_IMG } = require('../../constants'),
 	make = require('make'),
-	{ inheritanceObject, defineGetter } = require('../../utils/object.js'),
-	{ imageSmoothingDisabled} = require('../../utils/canvas.js');
+	{ inheritanceObject, defineGetter } = require('utils/object.js'),
+	{ imageSmoothingDisabled} = require('utils/canvas.js');
 
 function PreviewLayer(layer, selected, list) {
 	this.$type = 'li';

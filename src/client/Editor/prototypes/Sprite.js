@@ -6,7 +6,7 @@ const Frame = require('./Frame.js'),
 	Frames = require('../panels/Frames.js'),
 	Actions = require('../panels/Actions.js'),
 	colors = require('../workers/colors.js')(),
-	{ downloadBlob } = require('../utils/file.js'),
+	{ downloadBlob } = require('utils/file.js'),
 	Preview = require('../panels/Preview.js');
 
 /**

@@ -1,6 +1,6 @@
 'use strict';
 const AppendObject = require('./AppendObject.js'),
-		{ inheritanceObject } = require('../utils/object.js'),
+		{ inheritanceObject } = require('utils/object.js'),
 		make = require('make'),
 		{TRANSPARENT_IMG_URL, RIGHT_CLICK, LEFT_CLICK} = require('../constants'),
 		Tools = require('../panels/Tools.js'),

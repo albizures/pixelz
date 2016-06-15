@@ -1,6 +1,6 @@
 'use strict';
 console.log(require('../constants/index.js'));
-const {defineGetter, inheritanceObject } = require('../utils/object.js'),
+const {defineGetter, inheritanceObject } = require('utils/object.js'),
 			{SNAP, FLOAT, T, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
 			resizeBars = [T, L, B, R],
 			resizeCorners = [TL, BL, BR, TR],
