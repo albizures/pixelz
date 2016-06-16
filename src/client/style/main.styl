@@ -97,10 +97,11 @@ body{
       height calc(100% + 3px)
 .editor-content>.mask
   pointer-events: none
-.editor-content>.canvas,.editor-content>.mask,.editor-content>.preview,.content-preview-animate
-  position absolute
-  top 0
-  left 0
+.editor-content
+  &>.background, &>.canvas, &>.canvas,&>.mask,&>.preview,.content-preview-animate
+    position absolute
+    top 0
+    left 0
 .backdrop-context-menu
   width 100%
   height 100%
