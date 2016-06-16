@@ -7,7 +7,7 @@ const config = require('./src/server/config/environment');
 module.exports = {
   devtool : '#inline-source-map',
   entry:[
-    'webpack-dev-server/client?http://localhost:9000', // &reload=true
+    'webpack-dev-server/client?http://localhost:8081', // &reload=true
     config.APP_PATH
   ],
   output: {
@@ -90,4 +90,4 @@ var server = new WebpackDevServer(compiler, {
   }
 });
 
-server.listen(9000, "localhost", function() {});
+server.listen(8081, "localhost", function() {});
