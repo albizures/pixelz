@@ -7,7 +7,9 @@ function getIndex(req, res) {
 
 module.exports = function (app) {
 
-	app.use('/api/things', require('./api/things/things.js'));
+	app.use('/api/things/', require('./api/things/things.js'));
+	app.use('/api/users/', require('./api/users/users.js'));
+	app.use('/api/sprites/', require('./api/sprites/sprites.js'));
 
 	if (config.isProduction) {
 		app.use('/', getIndex);

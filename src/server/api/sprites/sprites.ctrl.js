@@ -1,4 +1,4 @@
-const model = require('./sprite.mdl.js');
+const model = require('./sprites.mdl.js');
 const response = require('../../components/utils/response.js');
 
 exports.post = function (req, res) {

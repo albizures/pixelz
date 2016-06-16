@@ -1,6 +1,9 @@
 'use strict';
 const MongoClient = require('mongodb').MongoClient;
 const response = require('./utils/response.js');
+const config = require('../config/environment');
+const modelUsers = require('../api/users/users.mdl.js');
+
 let db;
 let option = {w : 1};
 
@@ -13,6 +16,24 @@ MongoClient.connect(url, function(err, result) {
 	}
 	console.log("Connected correctly to server");
 	db = result;
+
+	if (!config.isProduction) {
+		modelUsers.getSearch({
+			user: 'albizures'
+		}, onSearch);
+		function onSearch(result) {
+			if (result.code == 0 && result.data && result.data.length) {
+				modelUsers.post({
+					user: 'albizures'
+				}, onPost);
+			}
+		}
+		function onPost(result) {
+			if (result.code !== 0) {
+				throw 'Error master user';
+			}
+		}
+	}
 });
 
 exports.getOne = function (collection, id, cb) {
@@ -30,7 +51,7 @@ exports.getAll = function (collection, cb) {
 };
 
 exports.getSearch = function (collection, data, cb) {
-	db.collection(collection).find(data, option, onFind);
+	db.collection(collection).find(data).toArray(onFind);
 	function onFind(err, result) {
 		cb(response(err ? 1 : 0, err, result));
 	}

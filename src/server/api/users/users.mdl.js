@@ -14,5 +14,7 @@ exports.getOne = function (id, cb) {
 };
 
 exports.getSearch = function (data, cb) {
-  db.getOne(collection, data, cb);
+  db.getSearch(collection, data, cb);
 };
+
+exports.collection = collection;
