@@ -18,3 +18,17 @@ module.exports.common = function (res, model) {
     res.json(result);
   });
 };
+
+module.exports.commoFile = function (res, model, name) {
+  model(name, result => {
+    if (result.code === 0) {
+      console.log(result);
+      res.type(result.data.meta.type || '');
+      res.send(result.data.buffer);
+    } else {
+      console.log(result);
+      res.send('error');
+    }
+    
+  });
+};

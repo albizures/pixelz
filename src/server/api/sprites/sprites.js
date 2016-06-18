@@ -8,8 +8,6 @@ router.get('/', controller.getAll);
 router.get('/search', controller.getSearch);
 router.get('/:id', controller.getOne);
 
-router.get('/img/:id', controller.test);
-
 router.post('/', upload.array('files'), parseFormData, controller.post);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 'use strict';
-console.trace('lelelel');
 let transparent = document.createElement("img"),
   gradient = document.createElement("img"),
   rainbow = document.createElement("img"),

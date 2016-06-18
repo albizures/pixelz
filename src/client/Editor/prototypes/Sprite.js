@@ -205,15 +205,19 @@ Sprite.prototype.save = function () {
     }
   }, 500);
   function save(blob) {
+    window.open(URL.createObjectURL(blob));
     console.log(this.currentColors);
     var main = {file : blob, name: 'main.png'};
-     http.upload('api/sprites', {
+     http.upload('/api/sprites', {
       name: 'test',
       width: this.width,
       height: this.height,
       type : this.frames.length === 1? 'png' : 'gif',
       colors : this.currentColors.array
-    }, [main].concat(files));
+    }, [main].concat(files), onUpload);
+  }
+  function onUpload(result) {
+    console.log('save result', result);
   }
 };
 

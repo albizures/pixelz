@@ -8,6 +8,7 @@ exports.post = function (req, res) {
   let generalResult;
   let frames = [];
   let main;
+  let type = req.body.type;
   
   model.post({
     user : db.newId('5761fcf1a4a36ca01877f912'),
@@ -15,39 +16,43 @@ exports.post = function (req, res) {
     width: req.body.width,
     height: req.body.height,
     colors: req.body.colors,
+    type : type,
     frames: [],
   }, onPost);
-  // response.commonData(res, model.post, req.body);
 
   function onPost(result) {
+    let nameFile =  result.data + '.' + type;
     if (result.code !== 0) {
       return res.json(result);
     }
     generalResult = result;
     model.postFile({
       buffer : req.files[0].buffer,
-      name : result.data + '.png',
+      name : nameFile,
       meta : {
-        sprite : result.data
+        sprite : result.data,
+        type : type
       }
-    }, onPostMain);
+    }, result => onPostMain(result, nameFile));
     req.files.splice(0, 1);
   }
-  function onPostMain(result) {
-    main = result.data;
+  function onPostMain(result, nameFile) {
+    main = {_id : result.data, file : nameFile};
     for (let j = 0; j < req.files.length; j++) {
       let element = req.files[j];
+      let nameFile = result.data + '_' + j + '.png';
       model.postFile({
         buffer : req.files[j].buffer,
-        name : result.data + '_' + j + '.png',
+        name : nameFile,
         meta : {
-          sprite : result.data
+          sprite : result.data,
+          type : 'png'
         }
-      }, result => onPostFrame(result, j));
+      }, result => onPostFrame(result, j, nameFile));
     }
   }
-  function onPostFrame(result, index) {
-    frames[index] = result.data;
+  function onPostFrame(result, index, nameFile) {
+    frames[index] = {_id : result.data, file : nameFile};
     numFrames--;
     if (numFrames === 0) {
       model.update(generalResult.data, {
@@ -57,14 +62,8 @@ exports.post = function (req, res) {
     }
   }
   function onUpdate(result) {
-    console.log(result);
     res.json(generalResult);
   }
-};
-
-exports.test = function (req, res) {
-  res.type('png');
-  db.getFile(db.newId(req.params.id), result => res.send(result.data));
 };
 
 exports.getOne = function (req, res) {

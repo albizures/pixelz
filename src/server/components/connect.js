@@ -39,8 +39,8 @@ MongoClient.connect(url, function(err, result) {
   }
 });
 
-exports.getOne = function (collection, id, cb) {
-  db.collection(collection).findOne({id : id}, option, onFindOne);
+exports.getOne = function (collection, id, fields, cb) {
+  db.collection(collection).findOne({_id : new ObjectID(id)}, {fields : fields}, onFindOne);
   function onFindOne(err, result) {
     cb(response(err ? 1 : 0, err, result));
   }
@@ -95,5 +95,24 @@ exports.postFile = function (data, cb) {
   }
 };
 exports.getFile = function (id, cb) {
-  GridStore.read(db, id, (err, data) => cb(response(err ? 1 : 0, err, data)));
+  GridStore.exist(db, id, onExist);
+  function onExist(err, exist) {
+    if (!err && exist) {
+      new GridStore(db, id, 'r').open(onOpen);
+    } else {
+      return cb(response(1, err, exist));
+    }
+  }
+  function onOpen(err, gridStore) {
+    if (err) {
+      return cb(response(err ? 1 : 0, err, gridStore));
+    } else {
+      gridStore.read((err, data) => { 
+        cb(response(err ? 1 : 0, err, {
+          buffer : data,
+          meta : gridStore.metadata
+        }));
+      });
+    }
+  }
 };
