@@ -2,6 +2,7 @@ const livereload = require('express-livereload');
 const config = require('./environment');
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 
 module.exports = function (app) {
@@ -11,5 +12,7 @@ module.exports = function (app) {
 
 	if (config.isProduction) {
 		app.use(express.static(config.PUBLIC_PATH));
+	} else {
+		app.use(morgan('dev'));
 	}
 };
