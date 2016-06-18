@@ -5,7 +5,7 @@ const { imageSmoothing } = require('utils/canvas.js'),
   Action = require('./Action.js'),
   Actions = require('../panels/Actions.js'),
   {  TRANSPARENT_COLOR } = require('../constants');
-//console.log(new Frame(), Frame.prototype);
+
 function Layer(frame, index, status, context, bitmap) {
   this.frame = frame;
   this.index = index;

@@ -16,3 +16,12 @@ exports.getAll = function (req, res){
 exports.getSearch = function (req, res) {
   response.commonData(res, model.getSearch, req.query);
 };
+
+exports.postFile = function (req, res) {
+  model.postFile({
+    buffer : req.files[0].buffer,
+    name : Date.now(),
+    meta : req.body
+  }, result => console.log(result));
+  res.json([]);
+};

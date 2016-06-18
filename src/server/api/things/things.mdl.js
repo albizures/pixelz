@@ -17,4 +17,8 @@ exports.getSearch = function (data, cb) {
   db.getOne(collection, data, cb);
 };
 
+exports.postFile = function (data, cb) {
+  db.postFile(data, cb);
+};
+
 exports.collection = collection;

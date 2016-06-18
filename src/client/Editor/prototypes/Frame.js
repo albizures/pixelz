@@ -196,4 +196,18 @@ Frame.prototype.generatePreview = function (scale, transparent) {
   }
   return this.context;
 };
+Frame.prototype.save = function () {
+  const context = document.createElement('canvas').getContext('2d');
+  context.canvas.width = this.layers.length * this.width;
+  context.canvas.height = this.height;
+  this.layers.forEach(onForEach);
+
+  function onForEach(item, index) {
+    context.drawImage(item.context.canvas,
+      0, 0, item.width, item.height,
+      index * item.width , 0, item.width, item.height
+    );
+  }
+  return context;
+};
 module.exports = Frame;

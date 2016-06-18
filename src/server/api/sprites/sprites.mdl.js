@@ -18,3 +18,15 @@ exports.getSearch = function (data, cb) {
 };
 
 exports.collection = collection;
+
+exports.update = function (id, data, cb) {
+  db.update(collection, id, data, cb);
+};
+
+exports.postFile = function (data, cb) {
+  db.postFile(data, cb);
+};
+
+exports.updateFile = function (data, cb) {
+  db.updateFile(data, cb);
+};

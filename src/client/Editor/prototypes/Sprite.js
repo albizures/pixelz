@@ -1,13 +1,14 @@
 'use strict';
-const Frame = require('./Frame.js'),
-  Palette = require('../panels/Palette'),
-  Gif = require('./gif/gif.js'),
-  Action = require('./Action.js'),
-  Frames = require('../panels/Frames.js'),
-  Actions = require('../panels/Actions.js'),
-  colors = require('../workers/colors.js')(),
-  { downloadBlob } = require('utils/file.js'),
-  Preview = require('../panels/Preview.js');
+const Frame = require('./Frame.js');
+const Palette = require('../panels/Palette');
+const Gif = require('./gif/gif.js');
+const Action = require('./Action.js');
+const Frames = require('../panels/Frames.js');
+const Actions = require('../panels/Actions.js');
+const colors = require('../workers/colors.js')();
+const { downloadBlob } = require('utils/file.js');
+const Preview = require('../panels/Preview.js');
+const http = require('http');
 
 /**
  * Prototype of Sprite
@@ -73,10 +74,11 @@ Sprite.prototype.getGeneralColors = function (cb) {
   colors.onmessage =  onGetGeneralColors.bind(this);
 
   function onGetGeneralColors(evt) {
+    this.currentColors = evt.data;
     cb(evt.data);
   }
 };
-Sprite.prototype.generateGif = function (scale) {
+Sprite.prototype.generateGif = function (scale, cb) {
   let gif = new Gif({
     quality: 1,
     repeat: 0,
@@ -84,10 +86,7 @@ Sprite.prototype.generateGif = function (scale) {
     width: this.width * scale,
     preserveColors: true
   });
-  gif.on('finished', function (blob) {
-    //downloadBlob(blob, 'test');
-    window.open(URL.createObjectURL(blob));
-  });
+  gif.on('finished', cb);
   if (Editor.timeoutGetTransparentColor) {
     Editor.addCallbackGetColor(generate.bind(this));
   } else {
@@ -185,6 +184,36 @@ Sprite.prototype.putImagesData = function (data) {
     for (let l = 0; l < layers.length; l++) {
       this.frames[f].layers[l].context.putImageData(layers[l], 0, 0);
     }
+  }
+};
+
+Sprite.prototype.save = function () {
+  let frames = this.frames.map(frame => frame.save());
+  let files = [];
+  let count = 0;
+  frames.forEach((frame, index) => frame.canvas.toBlob(blob => {
+    count++;
+    files[index] = {file : blob, name: index  + '.png'};
+  }));
+  
+  let out = setInterval(() => {
+    if (count => frames.length) {
+      clearInterval(out);
+      this.frames.length === 1?
+        this.frames[0].context.canvas.toBlob(save.bind(this))
+        : this.generateGif(1, save.bind(this));
+    }
+  }, 500);
+  function save(blob) {
+    console.log(this.currentColors);
+    var main = {file : blob, name: 'main.png'};
+     http.upload('api/sprites', {
+      name: 'test',
+      width: this.width,
+      height: this.height,
+      type : this.frames.length === 1? 'png' : 'gif',
+      colors : this.currentColors.array
+    }, [main].concat(files));
   }
 };
 
