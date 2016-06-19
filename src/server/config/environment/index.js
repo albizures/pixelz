@@ -3,6 +3,7 @@ const path = require('path'),
 	_ = require('lodash'),
 	env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 	ROOT_PATH = path.join(__dirname, '..', '..', '..', '..'),
+	FILES_PATH = path.join(ROOT_PATH, 'files'),
 	PUBLIC_PATH = path.join(ROOT_PATH, 'public'),
 	CLIENT_PATH = path.join(ROOT_PATH,'src', 'client'),
 	APP_PATH = path.join(CLIENT_PATH, 'init.js'),
@@ -18,6 +19,7 @@ const path = require('path'),
 		MODULES_PATH,
 		TEMPLATE_PATH,
 		ASSETS_PATH,
+		FILES_PATH,
 		PORT : 8080
 	};
 module.exports = _.merge(

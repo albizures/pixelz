@@ -1,5 +1,5 @@
 
-module.exports = function (code, description, data) {
+function generate(code, description, data) {
   return {
     code,
     description,
@@ -7,19 +7,21 @@ module.exports = function (code, description, data) {
   };
 };
 
-module.exports.commonData = function (res, model, id) {
+exports.generate = generate;
+
+exports.commonData = function (res, model, id) {
   model(id, function (result) {
     res.json(result);
   });
 };
 
-module.exports.common = function (res, model) {
+exports.common = function (res, model) {
   model(function (result) {
     res.json(result);
   });
 };
 
-module.exports.commoFile = function (res, model, name) {
+exports.commoFile = function (res, model, name) {
   model(name, result => {
     if (result.code === 0) {
       console.log(result);
@@ -31,4 +33,7 @@ module.exports.commoFile = function (res, model, name) {
     }
     
   });
+};
+exports.commonResult = function (err, data) {
+  return generate(err ? 1 : 0, err, data);
 };

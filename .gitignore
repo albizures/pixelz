@@ -6,6 +6,7 @@ src/libs/gif/*.coffee
 # Logs
 logs
 *.log
+files
 
 npm-debug.log*
 

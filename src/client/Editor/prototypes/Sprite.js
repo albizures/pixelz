@@ -220,37 +220,48 @@ Sprite.prototype.putImagesData = function (data) {
 };
 
 Sprite.prototype.save = function () {
-  let frames = this.frames.map(frame => frame.save());
+  let isGif = this.frames.length > 1;
+  let context = document.createElement('canvas').getContext('2d');
+  let width = this.frames[0].layers.length * this.width;
+  let height = this.frames.length * this.height;
+  let sprite = this;
   let files = [];
-  let count = 0;
-  frames.forEach((frame, index) => frame.canvas.toBlob(blob => {
-    count++;
-    files[index] = {file : blob, name: index  + '.png'};
-  }));
-  
-  let out = setInterval(() => {
-    if (count => frames.length) {
-      clearInterval(out);
-      this.frames.length === 1?
-        this.frames[0].context.canvas.toBlob(save.bind(this))
-        : this.generateGif(1, save.bind(this));
-    }
-  }, 500);
-  function save(blob) {
-    window.open(URL.createObjectURL(blob));
-    console.log(this.currentColors);
-    var main = {file : blob, name: 'main.png'};
-     http.upload('/api/sprites', {
-      name: 'test',
-      width: this.width,
-      height: this.height,
-      type : this.frames.length === 1? 'png' : 'gif',
-      colors : this.currentColors.array
-    }, [main].concat(files), onUpload);
+
+  context.canvas.width = width;
+  context.canvas.height = height;
+
+  this.frames.forEach(function (frame, index) {
+    context.drawImage(frame.save().canvas,
+      0, 0, width, sprite.height,
+      0, sprite.height * index, width, sprite.height
+    );
+  });
+
+  isGif?
+    this.generateGif(1, onGeneratePreview)
+    : this.frames[0].context.canvas.toBlob(onGeneratePreview);
+
+  function onGeneratePreview(blob) {
+    files.push({file : blob, name: 'preview.'  + (isGif? 'gif' : 'png')});
+    context.canvas.toBlob(onGenerateBlob);
   }
+  function onGenerateBlob(blob) {
+    files.push({file : blob, name: 'sprite.png'});
+    http.upload('/api/sprites', {
+      name: 'test',
+      width: sprite.width,
+      height: sprite.height,
+      frames : sprite.frames.length,
+      type : isGif? 'gif' : 'png',
+      private : false,
+      colors : sprite.currentColors.array
+    }, files, onUpload);
+  }
+
   function onUpload(result) {
     console.log('save result', result);
   }
+  return context.canvas;
 };
 
 module.exports = Sprite;

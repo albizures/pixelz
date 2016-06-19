@@ -141,8 +141,10 @@ Editor.prototype.init = function (sprite) {
       height: sprite.height
     }, sprite);
   };
-  this.sprites.push(new Sprite(0, 0, sprite, init));
-  this.panels.NewProject.hide();
+  if (sprite) {
+    this.sprites.push(new Sprite(0, 0, sprite, init));
+    this.panels.NewProject.hide();
+  }
 };
 
 Editor.prototype.getTransparentColor = function () {

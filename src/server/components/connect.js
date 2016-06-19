@@ -42,7 +42,7 @@ MongoClient.connect(url, function(err, result) {
 exports.getOne = function (collection, id, fields, cb) {
   db.collection(collection).findOne({_id : new ObjectID(id)}, {fields : fields}, onFindOne);
   function onFindOne(err, result) {
-    cb(response(err ? 1 : 0, err, result));
+    cb(response.commonResult(err, result));
   }
 };
 exports.newId = function (id) {
@@ -51,26 +51,26 @@ exports.newId = function (id) {
 exports.getAll = function (collection, cb) {
   db.collection(collection).find().toArray(onFind);
   function onFind(err, result) {
-    cb(response(err ? 1 : 0, err, result));
+    cb(response.commonResult(err, result));
   }
 };
 
 exports.getSearch = function (collection, data, cb) {
   db.collection(collection).find(data).toArray(onFind);
   function onFind(err, result) {
-    cb(response(err ? 1 : 0, err, result));
+    cb(response.commonResult(err, result));
   }
 };
 
 exports.post = function (collection, data, cb) {
   db.collection(collection).insertOne(data, option, onInserOne);
   function onInserOne(err, r) {
-    cb(response(err ? 1 : 0, err, r.insertedId));
+    cb(response.generate(err ? 1 : 0, err, r.insertedId));
   }
 };
 exports.update = function (collection, id, data, cb) {
   db.collection(collection)
-    .updateOne({_id : new ObjectID(id)}, {$set: data}, (err, r) => cb(response(err ? 1 : 0, err, r)));
+    .updateOne({_id : new ObjectID(id)}, {$set: data}, (err, r) => cb(response.commonResult(err, r)));
 };
 
 exports.postFile = function (data, cb) {
@@ -79,10 +79,10 @@ exports.postFile = function (data, cb) {
 
   function onExist(err, exist) {
     if (err) {
-      return cb(response(1, err));
+      return cb(response.generate(1, err));
     }
     if (exist) {
-      cb(response(0, err, !exist));
+      cb(response.generate(0, err, !exist));
     } else {
       new GridStore(db, data.name, "w").open((err, gridStore) => {
         gridStore.metadata = data.meta;
@@ -91,7 +91,7 @@ exports.postFile = function (data, cb) {
     }
   }
   function onWrite(err, gridStore) {
-    cb(response(err ? 1 : 0, err, gridStore.fileId));
+    cb(response.commonResult(err, gridStore.fileId));
   }
 };
 exports.getFile = function (id, cb) {
@@ -100,15 +100,15 @@ exports.getFile = function (id, cb) {
     if (!err && exist) {
       new GridStore(db, id, 'r').open(onOpen);
     } else {
-      return cb(response(1, err, exist));
+      return cb(response.generate(1, err, exist));
     }
   }
   function onOpen(err, gridStore) {
     if (err) {
-      return cb(response(err ? 1 : 0, err, gridStore));
+      return cb(response.commonResult(err, gridStore));
     } else {
       gridStore.read((err, data) => { 
-        cb(response(err ? 1 : 0, err, {
+        cb(response.commonResult( err, {
           buffer : data,
           meta : gridStore.metadata
         }));
