@@ -17,6 +17,6 @@ const Editor = require('./states/Editor');
 ReactDOM.render((
   <Router history={browserHistory }>
     <Route path="/" component={Home} />
-    <Route path="/editor(/:id)" component={Editor} />
+    <Route path="/editor(/:sprite)" component={Editor} />
   </Router>
 ), document.getElementById('root'));

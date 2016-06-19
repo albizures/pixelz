@@ -1,10 +1,10 @@
 'use strict';
-const { imageSmoothing } = require('utils/canvas.js'),
-  Layers = require('../panels/Layers.js'),
-  Select = require('./Select.js'),
-  Action = require('./Action.js'),
-  Actions = require('../panels/Actions.js'),
-  {  TRANSPARENT_COLOR } = require('../constants');
+const { imageSmoothing } = require('utils/canvas.js');
+const Layers = require('../panels/Layers.js');
+const Select = require('./Select.js');
+const Action = require('./Action.js');
+const Actions = require('../panels/Actions.js');
+const { TRANSPARENT_COLOR } = require('../constants');
 
 function Layer(frame, index, status, context, bitmap) {
   this.frame = frame;
@@ -21,6 +21,9 @@ function Layer(frame, index, status, context, bitmap) {
     this.init();
   }
 }
+Layer.fromContext = function (frame, index, context) {
+  return new Layer(frame, index, true, context);
+};
 Layer.prototype = {
   constructor: Layer,
   get canvas() {

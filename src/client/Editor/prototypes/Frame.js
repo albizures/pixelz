@@ -1,24 +1,27 @@
 'use strict';
-const 
-  {walkBitmap, imageSmoothingDisabled} = require('utils/canvas.js'),
-  { TRANSPARENT_COLOR } = require('../constants'),
-  Layer = require('./Layer.js'),
-  Action = require('./Action.js'),
-  Actions = require('../panels/Actions.js'),
-  Frames = require('../panels/Frames.js'),
-  Layers = require('../panels/Layers.js'),
-  { UPDATE_FRAME } = require('../constants').events;
+const {walkBitmap, imageSmoothingDisabled} = require('utils/canvas.js');
+const { TRANSPARENT_COLOR } = require('../constants');
+const Layer = require('./Layer.js');
+const Action = require('./Action.js');
+const Actions = require('../panels/Actions.js');
+const Frames = require('../panels/Frames.js');
+const Layers = require('../panels/Layers.js');
+const { UPDATE_FRAME } = require('../constants').events;
 
-function Frame(sprite, index, status, layers, clone) {
+function Frame(sprite, index, status, layers, clone, id, image) {
+  this._id = id;
   this.sprite = sprite;
   this.index = index;
   this.status = status;
-  this.layers = layers || [new Layer(this, 0)];
+  this.layers = image? [] : layers || [new Layer(this, 0)];
   this.context = document.createElement('canvas').getContext('2d');
   if (!clone) {
-    this.init();
+    this.init(image);
   }
 }
+Frame.fetchFrame = function (sprite, index, data, image) {
+  return new Frame(sprite, index, true, false, false, data._id, image);
+};
 Frame.prototype = {
   constructor : Frame,
   get canvas() {
@@ -34,10 +37,28 @@ Frame.prototype = {
     return this.sprite.height;
   }
 };
-Frame.prototype.init = function () {
+Frame.prototype.init = function (image) {
+  var tempCv = document.createElement('canvas');
+  var tempCx = tempCv.getContext('2d');
+  tempCv.width = this.width;
+  tempCv.height = this.height;
+
   imageSmoothingDisabled(this.context);
   this.context.canvas.width = this.sprite.width;
   this.context.canvas.height = this.sprite.height;
+  
+  if (image) {
+    var num = image.width / this.width;
+    for (var j = 0; j < num; j++) {
+      tempCx.drawImage(image,
+        j * this.width, 0, this.width, this.height,
+        0, 0, this.width, this.height
+      );
+      this.layers.push(Layer.fromContext(this, j, tempCx));
+      tempCv = tempCv.cloneNode();
+      tempCx = tempCv.getContext('2d');
+    }
+  }
   Frames.addPreview(this);
   this.paint(true);
 };

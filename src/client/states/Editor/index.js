@@ -4,8 +4,7 @@ const EditorClass = require('../../Editor');
 const Editor = React.createClass({
   componentDidMount() {
     window.Editor = new EditorClass(ReactDOM.findDOMNode(this));
-    window.Editor.init();
-    console.log(window.Editor);
+    window.Editor.init(this.props.params.sprite);
   },
   render () {
     return <div className="editor-content"></div>;

@@ -9,6 +9,7 @@ const colors = require('../workers/colors.js')();
 const { downloadBlob } = require('utils/file.js');
 const Preview = require('../panels/Preview.js');
 const http = require('http');
+const async = require('utils/async');
 
 /**
  * Prototype of Sprite
@@ -16,13 +17,44 @@ const http = require('http');
  * @param {number} width (description)
  * @param {number} height (description)
  */
-function Sprite(width, height) {
+function Sprite(width, height, id, cb) {
+  this._id = id;
   this.width = width;
   this.height = height;
   this.frames = [];
-  this.frames.push(new Frame(this, 0, true));
-  Preview.selectSprite(this);
+  this.cb = cb;
+  if (this._id) {
+    http.get('/api/sprites/' + id, this.initFromID.bind(this));
+  } else {
+    this.frames.push(new Frame(this, 0, true));
+    Preview.selectSprite(this);
+  }
 }
+Sprite.prototype.initFromID = function (result) {
+  var data = result.data;
+  var sprite = this;
+  if (result.code !== 0) {
+    return;
+  }
+  this.width = data.width;
+  this.height = data.height;
+  async.parallel(data.frames, each, done);
+
+  function each(item, index, done) {
+    var image = new Image();
+    image.onload = () => {
+      var frame = Frame.fetchFrame(sprite, index, item, image);
+      sprite.frames.push(frame);
+      done(null, frame);
+    };
+    image.src = '/api/images/' + item.file;
+  }
+  function done(results) {
+    if (sprite.cb) {
+      sprite.cb(sprite);
+    }
+  }
+};
 Sprite.prototype.getFrame = function (index) {
   return this.frames[index];
 };

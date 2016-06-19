@@ -10,7 +10,15 @@ exports.getAll = function (cb) {
 };
 
 exports.getOne = function (id, cb) {
-  db.getOne(collection, id, cb);
+  db.getOne(collection, id, {
+    _id : 1,
+    name : 1,
+    width : 1,
+    height : 1,
+    colors: 1,
+    frames : 1,
+    main : 1
+  }, cb);
 };
 
 exports.getSearch = function (data, cb) {

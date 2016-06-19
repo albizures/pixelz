@@ -57,7 +57,7 @@ function Editor(parent) {
   this.addTool(rectangle);
   this.addTool(line);
   this.addTool(select);
-
+  this.sprites = [];
 }
 
 Editor.prototype.addTool = function (tool) {
@@ -131,10 +131,18 @@ Editor.prototype.initPanels = function () {
     panel.init();
   }
 };
-Editor.prototype.init = function () {
+Editor.prototype.init = function (sprite) {
   this.shortcuts.init();
   this.initPanels();
   this.contextMenu.init(this.parent);
+  var init = (sprite) => {
+    this.initSprite({
+      width : sprite.width,
+      height: sprite.height
+    }, sprite);
+  };
+  this.sprites.push(new Sprite(0, 0, sprite, init));
+  this.panels.NewProject.hide();
 };
 
 Editor.prototype.getTransparentColor = function () {
@@ -175,12 +183,12 @@ Editor.prototype.addCallbackGetColor = function () {
   self.timeoutGetTransparentColor = undefined;
   this.getTransparentColor();
 };
-Editor.prototype.initSprite = function (data) {
+Editor.prototype.initSprite = function (data, sprite) {
   var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y,
     data = data || {},
     height = data.height || HEIGHT_DEF,
     width = data.width || WIDTH_DEF;
-  console.log(this);
+  console.log(data, sprite);
   scaleHeight = (window.innerHeight - this.panels.Menus.height) / height;
   offsetRight = this.getRightPanels().width;
   offsetLeft = this.getLeftPanels().width;
@@ -190,7 +198,7 @@ Editor.prototype.initSprite = function (data) {
   scale = Math.round(scale * 0.94);
   x = Math.round((window.innerWidth / 2) - (scale * width) / 2);
   y = Math.round(((window.innerHeight + this.panels.Menus.height) / 2) - (scale * height) / 2);
-  this.sprite = new Sprite(width, height);
+  this.sprite = sprite || new Sprite(width, height);
   this.canvas = new Canvas(this.parent, this.sprite.frames[0].layers[0], scale, new Vector (x, y));
   this.sprite.frames[0].select();
 };
