@@ -55,8 +55,12 @@ function CanvasPicker(size, cbChange) {
   this.rainbow.canvas.height = this.canvas.canvas.width = this.canvas.canvas.height = this.size;
   this.rainbow.canvas.width = 20;
   this.alpha.style.height = '20px';
-  this.canvas.drawImage(GRADIENT, 0, 0, 255, 255, 0, 0, this.size, this.size);
-  this.rainbow.drawImage(RAINBOW, 0, 0, 20, 255, 0, 0, 20, this.size);
+  GRADIENT.addEventListener('load', () => {
+    this.canvas.drawImage(GRADIENT, 0, 0, 255, 255, 0, 0, this.size, this.size);
+  });
+  RAINBOW.addEventListener('load', () =>{
+    this.rainbow.drawImage(RAINBOW, 0, 0, 20, 255, 0, 0, 20, this.size);
+  });
 
   $(this.canvas.canvas).on('mousedown.mouse', this.onMouseDownCanvas.bind(this));
   $(this.rainbow.canvas).on('mousedown.mouse', this.onMouseDownRainbow.bind(this));
