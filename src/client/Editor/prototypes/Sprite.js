@@ -251,10 +251,11 @@ Sprite.prototype.save = function () {
       name: 'test',
       width: sprite.width,
       height: sprite.height,
-      frames : sprite.frames.length,
-      type : isGif? 'gif' : 'png',
-      private : false,
-      colors : sprite.currentColors.array
+      frames: sprite.frames.length,
+      layers: this.frames[0].layers.length,
+      type: isGif? 'gif' : 'png',
+      private: false,
+      colors: sprite.currentColors.array
     }, files, onUpload);
   }
 
