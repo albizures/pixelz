@@ -8,8 +8,7 @@ const Frames = require('../panels/Frames.js');
 const Layers = require('../panels/Layers.js');
 const { UPDATE_FRAME } = require('../constants').events;
 
-function Frame(sprite, index, status, layers, clone, id, image) {
-  this._id = id;
+function Frame(sprite, index, status, layers, clone, image) {
   this.sprite = sprite;
   this.index = index;
   this.status = status;
@@ -19,8 +18,8 @@ function Frame(sprite, index, status, layers, clone, id, image) {
     this.init(image);
   }
 }
-Frame.fetchFrame = function (sprite, index, data, image) {
-  return new Frame(sprite, index, true, false, false, data._id, image);
+Frame.fetchFrame = function (sprite, index, image) {
+  return new Frame(sprite, index, true, false, false, image);
 };
 Frame.prototype = {
   constructor : Frame,

@@ -17,7 +17,7 @@ exports.getOne = function (id, cb) {
     height : 1,
     colors: 1,
     frames : 1,
-    main : 1
+    layers : 1
   }, cb);
 };
 

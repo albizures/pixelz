@@ -140,10 +140,10 @@ Editor.prototype.init = function (sprite) {
       width : sprite.width,
       height: sprite.height
     }, sprite);
+    this.panels.NewProject.hide();
   };
   if (sprite) {
     this.sprites.push(new Sprite(0, 0, sprite, init));
-    this.panels.NewProject.hide();
   }
 };
 
@@ -203,6 +203,9 @@ Editor.prototype.initSprite = function (data, sprite) {
   this.sprite = sprite || new Sprite(width, height);
   this.canvas = new Canvas(this.parent, this.sprite.frames[0].layers[0], scale, new Vector (x, y));
   this.sprite.frames[0].select();
+  if (sprite) {
+     this.getGeneralColors();
+  }
 };
 Editor.prototype.contextMenu = {
 

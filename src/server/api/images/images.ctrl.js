@@ -1,8 +1,17 @@
 'use strict';
-const model = require('./images.mdl.js');
 const response = require('../../components/utils/response.js');
-const db = require('../../components/connect.js');
+const config = require('../../config/environment');
+const path = require('path');
 
 exports.getFile = function (req, res) {
-  response.commoFile(res, model.getFile, req.params.name, 'png');
+  var fileName = path.join(config.FILES_PATH, 's', req.params.id + '.png');
+  res.sendFile(fileName, function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:', fileName);
+    }
+  });
 };

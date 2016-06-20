@@ -9,7 +9,6 @@ const colors = require('../workers/colors.js')();
 const { downloadBlob } = require('utils/file.js');
 const Preview = require('../panels/Preview.js');
 const http = require('http');
-const async = require('utils/async');
 
 /**
  * Prototype of Sprite
@@ -33,27 +32,29 @@ function Sprite(width, height, id, cb) {
 Sprite.prototype.initFromID = function (result) {
   var data = result.data;
   var sprite = this;
+  var context, image = new Image();
   if (result.code !== 0) {
     return;
   }
+  context = document.createElement('canvas').getContext('2d');
   this.width = data.width;
-  this.height = data.height;
-  async.parallel(data.frames, each, done);
-
-  function each(item, index, done) {
-    var image = new Image();
-    image.onload = () => {
-      var frame = Frame.fetchFrame(sprite, index, item, image);
-      sprite.frames.push(frame);
-      done(null, frame);
-    };
-    image.src = '/api/images/' + item.file;
-  }
-  function done(results) {
-    if (sprite.cb) {
-      sprite.cb(sprite);
+  context.canvas.height = this.height = data.height;
+  image.onload = () => {
+    for (var j = 0; j < data.frames; j++) {
+      context.canvas.width = image.width;
+      context.drawImage(image,
+        0, j * this.height, image.width, this.height,
+        0, 0, image.width, this.height
+      );
+      var frame = Frame.fetchFrame(sprite, j, context.canvas);
+      this.frames.push(frame);
     }
-  }
+    Preview.selectSprite(this);
+    if (this.cb) {
+      this.cb(this);
+    }
+  };
+  image.src = '/api/images/sprite/' + data._id;
 };
 Sprite.prototype.getFrame = function (index) {
   return this.frames[index];
@@ -252,7 +253,7 @@ Sprite.prototype.save = function () {
       width: sprite.width,
       height: sprite.height,
       frames: sprite.frames.length,
-      layers: this.frames[0].layers.length,
+      layers: sprite.frames[0].layers.length,
       type: isGif? 'gif' : 'png',
       private: false,
       colors: sprite.currentColors.array
