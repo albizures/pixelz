@@ -9,8 +9,8 @@ function generate(code, description, data) {
 
 exports.generate = generate;
 
-exports.commonData = function (res, model, id) {
-  model(id, function (result) {
+exports.commonData = function (res, model, data) {
+  model(data, function (result) {
     res.json(result);
   });
 };
@@ -36,4 +36,11 @@ exports.commoFile = function (res, model, name) {
 };
 exports.commonResult = function (err, data) {
   return generate(err ? 1 : 0, err, data);
+};
+
+exports.commonPut = function (res, model, id, data, history) {
+  model(id, data, history,
+    function (result) {
+      res.json(result);
+  });
 };

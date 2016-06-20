@@ -222,6 +222,7 @@ Sprite.prototype.putImagesData = function (data) {
 
 Sprite.prototype.save = function () {
   let isGif = this.frames.length > 1;
+  let isNew = !this._id;
   let context = document.createElement('canvas').getContext('2d');
   let width = this.frames[0].layers.length * this.width;
   let height = this.frames.length * this.height;
@@ -247,8 +248,18 @@ Sprite.prototype.save = function () {
     context.canvas.toBlob(onGenerateBlob);
   }
   function onGenerateBlob(blob) {
+    var method, url;
+    if (isNew) {
+      method = 'POST';
+      url = '/api/sprites';
+    } else {
+      method = 'PUT';
+      url = '/api/sprites/' + sprite._id;
+    }
+
     files.push({file : blob, name: 'sprite.png'});
-    http.upload('/api/sprites', {
+
+    http.upload(url, {
       name: 'test',
       width: sprite.width,
       height: sprite.height,
@@ -257,7 +268,7 @@ Sprite.prototype.save = function () {
       type: isGif? 'gif' : 'png',
       private: false,
       colors: sprite.currentColors.array
-    }, files, onUpload);
+    }, files, method, onUpload);
   }
 
   function onUpload(result) {

@@ -43,7 +43,7 @@ exports.put = function (url, body, cb) {
   request(url, 'PUT', cb, body);
 };
 
-exports.upload = function (url, data, files, cb) {
+exports.upload = function (url, data, files, method, cb) {
   const form = new FormData();
   const dataKeys = Object.keys(data);
   for (let j = 0; j < files.length; j++) {
@@ -54,5 +54,5 @@ exports.upload = function (url, data, files, cb) {
   for (var key of form.values()) {
     console.log(typeof key);
   }
-  request(url, 'POST', cb, form, false);
+  request(url, method, cb, form, false);
 };

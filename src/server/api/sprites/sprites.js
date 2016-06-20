@@ -10,4 +10,6 @@ router.get('/:id', controller.getOne);
 
 router.post('/', upload.array('files'), parseFormData, controller.post);
 
+router.put('/:id', upload.array('files'), parseFormData, controller.put);
+
 module.exports = router;
