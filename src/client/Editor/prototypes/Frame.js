@@ -197,24 +197,26 @@ Frame.prototype.moveFrame = function (oldIndex, newIndex) {
   this.paint();
 };
 Frame.prototype.generatePreview = function (scale, transparent) {
-  let height = this.height * scale,
-      width = this.width * scale, data;
-  this.context.canvas.width = width;
-  this.context.canvas.height = height;
+  let height = this.height * scale;
+  let width = this.width * scale, data;
+  let context = document.createElement('canvas').getContext('2d');
+  
+  context.canvas.width = width;
+  context.canvas.height = height;
   data = this.imageData.data;
-  imageSmoothingDisabled(this.context);
-  this.context.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
-  this.context.fillStyle = transparent;
+  imageSmoothingDisabled(context);
+  context.drawImage(this.context.canvas, 0, 0, this.width, this.height, 0, 0, width, height);
+  context.fillStyle = transparent;
   for (let i = 0; i < data.length; i += 4) {
     if (!data[i] && !data[i + 1] && !data[i + 2] && !data[i + 3]) {
       let pos = i / 4,
         x = pos % 20,
         y = ~~(pos / 20);
 
-      this.context.fillRect(x * scale, y * scale, scale, scale);
+      context.fillRect(x * scale, y * scale, scale, scale);
     }
   }
-  return this.context;
+  return context;
 };
 Frame.prototype.save = function () {
   const context = document.createElement('canvas').getContext('2d');
