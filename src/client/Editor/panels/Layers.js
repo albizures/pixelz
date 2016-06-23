@@ -16,7 +16,7 @@ Layers.mainInit = function () {
   $(btnAdd).on('click.add', this.createLayer.bind(this));
 };
 Layers.createLayer = function () {
-  this.frame.addLayer();
+  this.frame.sprite.addLayer();
 };
 Layers.createPreviewLayer = function () {
   // this.ul.innerHTML = '';

@@ -16,8 +16,8 @@ transparent.src = require('../../assets/images/transparent.png');
 module.exports = {
   GRADIENT : gradient,
   RAINBOW : rainbow,
-  HEIGHT_DEF : 20,
-  WIDTH_DEF : 20,
+  HEIGHT_DEF : 40,
+  WIDTH_DEF : 40,
   SCALE_DEF : 10,
   TRANSPARENT_IMG_URL : require('../../assets/images/transparent.png'),
   TRANSPARENT_IMG : backgroundTransparent.canvas,

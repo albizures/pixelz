@@ -78,9 +78,6 @@ Frame.prototype.deleteLayer = function (index, unsaved) {
   }else {
     let layerDelete = this.layers.splice(index, 1)[0];
     this.reIndexing();
-    if (!unsaved) {
-      Actions.addUndo(new Action(Action.DELETE_LAYER, {layer : layerDelete}, 0));
-    }
     if (layerDelete && layerDelete.index == Editor.canvas.artboard.layer.index) {
       if (this.layers.length <= index) {
         index--;
@@ -88,7 +85,7 @@ Frame.prototype.deleteLayer = function (index, unsaved) {
       this.layers[index].select();
     }
     this.paint();
-    return true;
+    return layerDelete;
   }
 };
 Frame.prototype.delete = function (unsaved) {
@@ -163,9 +160,6 @@ Frame.prototype.addLayer = function (layerClone, newIndex, restore) {
   newLayer.select();
   Layers.updateLayers(newLayer.index);
   this.paint();
-  if (!restore) {
-    Actions.addUndo(new Action(Action.ADD_LAYER, {layer : newLayer}, 0));
-  }
   return newLayer;
 };
 Frame.prototype.getDataList = function () {

@@ -219,7 +219,31 @@ Sprite.prototype.putImagesData = function (data) {
     }
   }
 };
-
+Sprite.prototype.deleteLayer = function (index, unsaved) {
+  var deleteLayer = [];
+  for (var j = 0; j < this.frames.length; j++) {
+    var temp = this.frames[j].deleteLayer(index, unsaved);
+    if (!temp) {
+      return;
+    }
+    deleteLayer.push(temp);
+  }
+  if (!unsaved) {
+    Actions.addUndo(new Action(Action.DELETE_LAYER, {sprite: this, layer : deleteLayer}, 0));
+  }
+};
+Sprite.prototype.addLayer = function (layer, newIndex, restore) {
+  var newLayer = [];
+  for (var j = 0; j < this.frames.length; j++) {
+    newLayer.push(this.frames[j].addLayer((layer || [])[j], newIndex, restore));
+  }
+  if (!restore) {
+    Actions.addUndo(new Action(Action.ADD_LAYER, {
+      layer: newLayer,
+      sprite: this
+    }));
+  }
+};
 Sprite.prototype.save = function () {
   let isGif = this.frames.length > 1;
   let isNew = !this._id;

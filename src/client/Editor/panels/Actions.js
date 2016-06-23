@@ -79,7 +79,7 @@ Actions.addRedo = function (action) {
     this.listRedo[action.index] = action.init(this.elRedo);
   }
 };
-Actions.addUndo = function (action, fromRedo) {
+Actions.addUndo = function (action, fromRedo = false) {
   if (this.listUndo[action.index]) {
     action.changeEl(this.listUndo[action.index].el);
     this.listUndo[action.index].newEl();

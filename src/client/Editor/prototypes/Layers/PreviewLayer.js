@@ -33,11 +33,11 @@ defineGetter(PreviewLayer.prototype, 'index', function () {
 });
 PreviewLayer.prototype.onClone = function (evt) {
   evt.stopPropagation();
-  this.layer.frame.addLayer(this.layer);
+  this.layer.frame.sprite.addLayer(this.layer);
 };
 PreviewLayer.prototype.onDelete = function (evt) {
   evt.stopPropagation();
-  this.layer.delete();
+  this.layer.frame.sprite.deleteLayer(this.layer.index);
 };
 PreviewLayer.prototype.selectLayer = function () {
 

@@ -22,11 +22,11 @@ let actions = {
     return newData;
   },
   'delete_layer' : function (data) {
-    data.layer.frame.addLayer(data.layer, data.layer.index, true);
+    data.sprite.addLayer(data.layer, data.layer[0].index, true);
     return data;
   },
   'add_layer' : function (data) {
-    data.layer.delete(true);
+    data.sprite.deleteLayer(data.layer[0].index, true);
     return data;
   },
   'delete_frame' : function (data) {
@@ -76,7 +76,7 @@ let execute = {
   }
 };
 
-function Action(type, data, index, redo) {
+function Action(type, data, index = 0, redo) {
   this.$type = 'li';
   AppendObject.call(this, 'action');
   this.type = type;
