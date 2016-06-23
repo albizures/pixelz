@@ -185,6 +185,9 @@ Editor.prototype.addCallbackGetColor = function () {
   self.timeoutGetTransparentColor = undefined;
   this.getTransparentColor();
 };
+Editor.prototype.saveCurrentSprite = function () {
+  this.sprite.save();
+};
 Editor.prototype.initSprite = function (data, sprite) {
   var offsetLeft, offsetRight, scaleHeight, scaleWidth, scale, x, y,
     data = data || {},
