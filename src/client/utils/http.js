@@ -22,7 +22,8 @@ function request(url, protocol, cb, body, headers = true) {
     method: protocol,
     body: body
   }).then(checkStatus).then(parseJSON).then(cb).catch(function (ex) {
-    cb({code : 1, description : 'Connection error'});
+    console.error(ex);
+    cb({code : 1, description : ex});
   });
 }
 

@@ -11,9 +11,10 @@ size-font-preview = 0.65em
   button.add-frame
     width 94%
     margin 3%
-  ul
+  .list-content
+    height calc(100% - 31px)
     overflow-y scroll
-    height calc(100% - 53px)
+  ul
     li
       transition 0.3s top, 0.1s transform //cubic-bezier(0.46, 0.03, 0.52, 0.96)
       border 1px solid
@@ -28,7 +29,7 @@ size-font-preview = 0.65em
         *
           opacity: 0.4
 
-.preview-frame
+.preview-frames
   cursor move
   position relative
   canvas
@@ -55,4 +56,4 @@ size-font-preview = 0.65em
     .btn
       opacity 1
   &.active
-    outline 2px yellow solid
+    outline 2px blue solid

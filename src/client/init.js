@@ -10,13 +10,17 @@ require('./polyfill.js');
 const React = require('react');
 const ReactDOM = require('react-dom');
 const {Router, Route, browserHistory } = require('react-router');
+const {Provider} = require('react-redux');
 
-const Home = require('./states/Home');
-const Editor = require('./states/Editor'); 
+const store = require('./store.js').store;
+const Home = require('./routes/Home');
+const Editor = require('./routes/Editor'); 
 
 ReactDOM.render((
-  <Router history={browserHistory }>
-    <Route path="/" component={Home} />
-    <Route path="/editor(/:sprite)" component={Editor} />
-  </Router>
+  <Provider store={store}>
+    <Router history={browserHistory }>
+      <Route path="/" component={Home} />
+      <Route path="/editor(/:id)" component={Editor} />
+    </Router>
+  </Provider>
 ), document.getElementById('root'));

@@ -1,47 +1,45 @@
 'use strict';
 
-const Panel = require('../prototypes/Panel.js'),
-  PreviewFrame = require('../prototypes/Frames/PreviewFrame.js'),
-  {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
-  make = require('make'),
-  Vector = require('../prototypes/Vector.js'),
-  List = require('../prototypes/List.js'),
-  btnAdd = make('button', {className : 'add-frame'}, 'add frame'),
-  Frames = new Panel('Frames', SNAP, new Vector(0, 0), 100, 100, TL, true);
+const React = require('react');
+const ReactDOM = require('react-dom');
+const make = require('make');
 
-let previewFrames = [], currentFrame = 0;
+const List = require('./Frames/Components/List.js');
+const Panel = require('../prototypes/Panel.js');
+const PreviewFrame = require('../prototypes/Frames/PreviewFrame.js');
+const {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel;
+const Vector = require('../prototypes/Vector.js');
+//const List = require('../prototypes/List.js');
+const btnAdd = make('button', {className : 'add-frame'}, 'add frame');
+const Frames = new Panel('Frames', SNAP, new Vector(0, 0), 100, 100, TL, true);
+
+
+let frames = [], currentFrame = 0;
 Frames.mainInit = function () {
-  this.list = new List('frames',[], 15);
-  make([this.el, btnAdd, this.list.el]);
+
+  //this.list = make(['div']); //new List('frames',[], 15);
+
+  make([this.el, btnAdd/*, this.list.el*/]);
+  this.list = ReactDOM.render(<List />, make(['div',{parent: this.el}]));
+  this.list.setState({name : 'frames'});
   $(btnAdd).on('click.add', this.createFrame.bind(this));
+};
+Frames.update = function () {
+  this.list.setState({items : frames});
 };
 Frames.createFrame = function () {
   this.sprite.addFrame();
 };
-Frames.changeFrame = function (type, index, sprite) {
-  // switch (type) {
-  //   case ADD : {
-  //     this.addFrame(index, sprite);
-  //     break;
-  //   }
-  //   case DELETE : {
-  //
-  //     break;
-  //   }
-  //   case UPDATE : {
-  //     this.updateFrame(index, sprite);
-  //     break;
-  //   }
-  // }
-};
 Frames.deletePreview = function (index) {
-  this.list.remove(index);
+  //this.list.remove(index);
+  frames.splice(index, 1);
+  this.update();
 };
 Frames.paintFrame = function (index) {
-  this.list.elements[index].paint();
+  //this.list.elements[index].paint();
+  this.update();
 };
 Frames.addFrame = function () {
-  console.info('addFrame');
   this.sprite.addFrame();
 };
 Frames.selectFrame = function (index) {
@@ -53,7 +51,9 @@ Frames.selectFrame = function (index) {
   // currentFrame = index;
 };
 Frames.addPreview = function (frame) {
-  this.list.add(new PreviewFrame(frame, frame.index == currentFrame, this.list), frame.index);
+  frames.push(frame);
+  this.update();
+  //this.list.add(new PreviewFrame(frame, frame.index == currentFrame, this.list), frame.index);
 };
 Frames.reAppend = function () {
   // for (let i = 0; i < previewFrames.length; i++) {
@@ -62,6 +62,6 @@ Frames.reAppend = function () {
   // }
 };
 Frames.resizeFrame = function (index) {
-  this.list.elements[index].resize();
+  //this.list.elements[index].resize();
 };
 module.exports = Frames;

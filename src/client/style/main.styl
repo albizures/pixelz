@@ -43,12 +43,14 @@ body{
   height : 100%;
   overflow : hidden;
 }
-.list
+.list-content
   position: relative
-  list-style: none
-  box-sizing border-box
   padding 30px
-  margin 0
+  .list
+    padding 0
+    list-style: none
+    box-sizing border-box
+    margin 0
 .panel-colorpicker
   .color
     vertical-align: top
@@ -97,7 +99,7 @@ body{
       height calc(100% + 3px)
 .editor-content>.mask
   pointer-events: none
-.editor-content
+.content-canvas
   &>.background, &>.canvas, &>.canvas,&>.mask,&>.preview,.content-preview-animate
     position absolute
     top 0
@@ -132,6 +134,9 @@ body{
 .content-preview-animate
   left auto
   right 0
+.panel.panel-left
+  left 0
+  top 0
 .panel.panel-float
   box-shadow 3px 3px 3px rgba(0, 0, 0, 0.3)
 .panel.panel-modal
@@ -148,9 +153,8 @@ body{
     background: whitesmoke
     padding: 5px
 .panel
-  //box-sizing border-box
   position absolute
-  overflow: hidden;
+  //overflow: hidden;
   box-sizing: border-box;
   border 2px solid rgba(245, 245, 245, 0.7)
   //margin-top drag-bar-panel-size

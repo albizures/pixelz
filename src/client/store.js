@@ -1,4 +1,5 @@
-const { createStore, combineReducers } = require('redux');
+const { createStore, combineReducers, compose, applyMiddleware } = require('redux');
+const thunk = require('redux-thunk').default;
 
 function sprites(state = [], action) {
   switch (action.type) {
@@ -11,16 +12,23 @@ function sprites(state = [], action) {
   }
 }
 
+
 const reducers = combineReducers({
-  sprites : sprites
+  Editor : require('./routes/Editor/ducks').reducer,
+  Home : require('./routes/Home/ducks').reducer
 });
 
 
-const initialState = {
-  sprites: []
-};
+const initialState = {};
 
-const store = exports.store = createStore(reducers, initialState);
+const store = exports.store = createStore(
+  reducers,
+  initialState,
+  compose(
+    applyMiddleware(thunk),
+    window.devToolsExtension && window.devToolsExtension()
+  )
+);
 
 
 
