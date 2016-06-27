@@ -72,8 +72,8 @@ const Editor = React.createClass({
     let index;
     contextTemp.canvas.width = context.canvas.width = sprite.width;
     contextTemp.canvas.height = context.canvas.height = sprite.height;
-
-    for (var j = sprite.layers; j > 0; j--) {
+    
+    for (var j = sprite.layers -1; j >= 0; j--) {
       context.drawImage(image.canvas,
         sprite.width * j, 0, sprite.width, sprite.height,
         0, 0, sprite.width, sprite.height
