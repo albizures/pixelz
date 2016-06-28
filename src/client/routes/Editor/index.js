@@ -10,8 +10,38 @@ const Panel = require('./components/Panel.js');
 const Frame = require('./components/Frame.js');
 const Layer = require('./components/Layer.js');
 const List = require('./components/List.js');
+const Preview = require('./components/Preview.js');
 
 const Editor = React.createClass({
+  render () {
+    var frameFilter;
+    var layerFilter;
+    if (this.props.sprite !== null && this.props.frame !== null && this.props.layer !== null) {
+      frameFilter = this.props.sprites[this.props.sprite].frames;
+      layerFilter = this.props.frames[this.props.frame].layers;
+    }
+    return <div className="editor-content">
+      <Canvas/>
+      <Panel name='Menus' style={this.state.style.Menus} dragBar={false}>
+        {'Menus'}
+      </Panel>
+      <Panel name='Left' contentPanels tabs style={this.state.style.Left} tabDefault={0} dragBar={false}>
+        <Panel name='frames' dragBar={false}>
+          <button className="add-frame">add frame</button>
+          <List name='frames' component={Frame} filter={frameFilter} items={this.props.frames} current={this.props.frame}/>
+        </Panel>
+        <Panel name='layers' dragBar={false}>
+          <button className='add-layer'>add layer</button>
+          <List name='layers' component={Layer} filter={layerFilter} items={this.props.layers} current={this.props.layer}/>
+        </Panel>
+      </Panel>
+      <Panel name="Right" contentPanels style={this.state.style.Right} dragBar={false}>
+        <Panel name="Preview" style={this.state.style.Preview}>
+          <Preview frames={this.props.frames} fps={12}/>
+        </Panel>
+      </Panel>
+    </div>;
+  },
   getInitialState () {
     return {
       style: {
@@ -26,6 +56,18 @@ const Editor = React.createClass({
           left : 0,
           width : '12%',
           height : 'calc(100% - 25px)'
+        },
+        Right: {
+          top : '25px',
+          right : 0,
+          width : '15%',
+          height : 'calc(100% - 25px)'
+        },
+        Preview : {
+          top: 0,
+          left: 0,
+          width: '100%',
+          height : '30%'
         }
       }
     };
@@ -123,30 +165,6 @@ const Editor = React.createClass({
       sprite : sprite.index,
       frame : frame
     });
-  },
-  render () {
-    var frameFilter;
-    var layerFilter;
-    if (this.props.sprite !== null && this.props.frame !== null && this.props.layer !== null) {
-      frameFilter = this.props.sprites[this.props.sprite].frames;
-      layerFilter = this.props.frames[this.props.frame].layers;
-    }
-    return <div className="editor-content">
-      <Canvas/>
-      <Panel name='Menus' style={this.state.style.Menus} dragBar={false}>
-        {'Menus'}
-      </Panel>
-      <Panel contentPanels={true} style={this.state.style.Left} tabDefault={0} tabs={true} name='Left' dragBar={false}>
-        <Panel name='frames' dragBar={false}>
-          <button className="add-frame">add frame</button>
-          <List name='frames' component={Frame} filter={frameFilter} items={this.props.frames} current={this.props.frame}/>
-        </Panel>
-        <Panel name='layers' dragBar={false}>
-          <button className='add-layer'>add layer</button>
-          <List name='layers' component={Layer} filter={layerFilter} items={this.props.layers} current={this.props.layer}/>
-        </Panel>
-      </Panel>
-    </div>;
   }
 });
 

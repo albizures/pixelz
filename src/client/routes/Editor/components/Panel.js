@@ -40,7 +40,7 @@ const Panel = React.createClass({
       </div>;
     });
   },
-  getPanelChildren (style) {
+  getPanelChildren(style) {
     return this.props.children.map((item, index) => {
       return React.cloneElement(item,
         Object.assign({},
@@ -66,7 +66,8 @@ const Panel = React.createClass({
       width : this.state.style.width,
       height : this.state.style.height,
       top : this.state.style.top,
-      left : this.state.style.left,
+      left: this.state.style.left,
+      right : this.state.style.right,
       visibility : this.props.style.visibility || 'visible'
     };
   },
@@ -80,7 +81,7 @@ const Panel = React.createClass({
         this.props.tabs? this.getTabs() : undefined
       }
       {
-        this.props.contentPanels? this.getPanelChildren() : this.props.children
+        this.props.contentPanels && this.props.tabs? this.getPanelChildren() : this.props.children
       }
     </div>;
   }

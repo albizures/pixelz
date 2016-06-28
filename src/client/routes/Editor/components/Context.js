@@ -7,6 +7,9 @@ const { imageSmoothingDisabled } = require('utils/canvas.js');
 const Context = React.createClass({
   propTypes : {
   },
+  getInitialState() {
+    return {};
+  },
   componentDidMount() {
     let context = ReactDOM.findDOMNode(this).getContext('2d');
     this.setState({
@@ -14,10 +17,6 @@ const Context = React.createClass({
     });
   },
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(this.props.width !== nextProps.width
-      || this.props.height !== nextProps.height
-      || this.props.image !== nextProps.image
-      || this.state.context !== nextState.context);
     return this.props.width !== nextProps.width
       || this.props.height !== nextProps.height
       || this.props.image !== nextProps.image
@@ -35,7 +34,7 @@ const Context = React.createClass({
   componentDidUpdate(prevProps, prevState) {
     this.paint();
   },
-  render(){
+  render() {
     return <canvas height={this.props.height} width={this.props.width}></canvas>;
   }
 });
