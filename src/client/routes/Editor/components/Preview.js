@@ -1,70 +1,48 @@
 const React = require('react');
-// const { connect } = require('react-redux');
+const ReactDOM = require('react-dom');
 
-// const { actions } = require('../ducks/frames.js');
-// const { currentActions} = require('../ducks');
 const { getPreviewSize } = require('utils/canvas.js');
 const Context = require('./Context.js');
 const Range = require('./Range.js');
 
+const style = {};
 const Preview = React.createClass({
   getInitialState(){
     return {
-      index: 0,
-      context: document.createElement('canvas').getContext('2d')
+      fps : this.props.fps
     };
   },
-  setCanvasContext(index, props) {
-    var context = (props.frames[index] || { context: document.createElement('canvas').getContext('2d') }).context; 
-    this.setState({
-      index,
-      context: context
-    });
-    return context; 
-  },
-  clearInterval() {
-    clearInterval(this.state.interval);
-    this.setState({
-      interval : null
-    });
-  },
-  setInterval(prop) {
-    var interval = setInterval(this.onInterval, 1000 / props.fps);
-    this.setState({
-      interval : interval
-    });
-    return interval;
-  },
-  componentDidMount() {
-    if (this.props.frames.length === 1) {
-      this.setCanvasContext(0);
-    } if (this.props.frames.length > 1) {
-      this.setInterval();
+  initPreivew(props) {
+    if (props.frames[0]) {
+      this.setState(
+        getPreviewSize(
+          ReactDOM.findDOMNode(this).clientWidth,
+          props.frames[0].width,
+          props.frames[0].height
+        )
+      );
     }
   },
-  onInterval() {
-    var index = this.state.index++;
-    console.log(index);
-    if (index > this.props.frames.length) {
-      index = 0;
-    }
-    this.setCanvasContext(index);
-  },
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.frames.length === 1) {
-      this.setCanvasContext(0, nextProps);
-    } if (nextProps.frames.length > 1) {
-      this.setInterval(nextProps);
-    }
+    this.initPreivew(nextProps);
   },
+  onChangeRange(value) {
+    this.setState({
+      fps : value
+    });
+  },
+  
   onClick() { },
   render(){
+    style.marginTop = this.state.marginTop || '0px';
+    style.marginLeft = this.state.marginLeft || '0px';
     return <div style={this.props.style} onClick={this.onClick}>
-      <Context width={180} height={180} image={this.state.context}/>
+      <Context interval={1000 / this.state.fps} style={style} width={this.state.width} height={this.state.height} images={this.props.frames}/>
       <div>
         <span>FPS</span>
-        <Range/>
-        <span>{this.props.fps}</span>
+        <Range value={this.state.fps} handleChange={this.onChangeRange} min={1} max={24}/>
+        <span>{this.state.fps}</span>
       </div>
     </div>;
   }

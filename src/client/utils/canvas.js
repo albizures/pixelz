@@ -20,7 +20,7 @@ exports.imageSmoothingDisabled = function imageSmoothingDisabled(ctx) {
 
 exports.getPreviewSize = function getPreviewSize(size, width, height) {
   var newWidth, newHeight, scale;
-  var marginTop = 0, marginLeft = 0;
+  var marginTop = '0px', marginLeft = '0px';
   if (width > height) {
     newWidth = size;
     scale = size / width;
