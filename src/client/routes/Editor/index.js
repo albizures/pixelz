@@ -77,7 +77,36 @@ const Editor = React.createClass({
       width : window.innerWidth,
       height : window.innerHeight
     });
-    http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
+    if (this.props.params.id) {
+      http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
+    } else {
+      this.createSprite('test', 36, 36);
+    }
+  },
+  createSprite(name, width, height) {
+    let sprite, frame, layer;
+    sprite = this.props.addSprite({
+      name,
+      width,
+      height
+    });
+    frame = this.props.addFrame({
+      width,
+      height,
+      sprite
+    });
+    this.props.addFrameSprite(sprite, frame);
+    layer = this.props.addLayer({
+      width,
+      height,
+      sprite,
+      frame
+    });
+    this.props.addLayerFrame(frame, layer);
+
+    this.props.setCurrentSprite(sprite);
+    this.props.setCurrentFrame(frame);
+    this.props.setCurrentLayer(layer);
   },
   onGetSprite (result) {
     let sprite, image = new Image(), width, height; 

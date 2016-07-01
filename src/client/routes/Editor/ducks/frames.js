@@ -1,6 +1,7 @@
 
 const ADD_FRAME = 'ADD_FRAME';
 const ADD_lAYER_FRAME = 'ADD_lAYER_FRAME';
+const { getNewContext } = require('utils/canvas.js');
 
 
 exports.reducer = function (state = [], action) {
@@ -9,10 +10,10 @@ exports.reducer = function (state = [], action) {
       return state.concat([{
         width : action.frame.width,
         height : action.frame.height,
-        index : action.index,
-        layers : action.frame.layers,
         sprite : action.frame.sprite,
-        context : action.frame.context
+        layers : action.frame.layers || [],
+        context : getNewContext(action.frame),
+        index : action.index
       }]);
     case ADD_lAYER_FRAME:
       return state.map((item, index) =>{

@@ -1,5 +1,6 @@
 
 const ADD_LAYER = 'ADD_LAYER';
+const { getNewContext } = require('utils/canvas.js');
 
 exports.reducer = function (state = [], action) {
   switch (action.type) {
@@ -7,9 +8,9 @@ exports.reducer = function (state = [], action) {
       return state.concat([{
         width : action.layer.width,
         height : action.layer.height,
-        context : action.layer.context,
         sprite : action.layer.sprite,
         frame : action.layer.frame,
+        context : getNewContext(action.layer),
         index : action.index
       }]);
     default:

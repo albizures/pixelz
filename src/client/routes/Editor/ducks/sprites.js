@@ -10,8 +10,8 @@ exports.reducer = function (state = [], action) {
         name : action.sprite.name,
         width : action.sprite.width,
         height : action.sprite.height,
-        colors : action.sprite.colors,
-        frames : [],
+        colors : action.sprite.colors || [],
+        frames : action.sprite.frames || [],
         index : action.index
       }]);
     case ADD_SPRITE_FRAME:
