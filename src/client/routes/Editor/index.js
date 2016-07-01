@@ -25,13 +25,13 @@ const Editor = React.createClass({
       <Panel name='Menus' style={this.state.style.Menus} dragBar={false}>
         {'Menus'}
       </Panel>
-      <Panel name='Left' contentPanels tabs style={this.state.style.Left} tabDefault={0} dragBar={false}>
+      <Panel name='Left' contentPanels tabs style={this.state.style.Left} tabDefault={1} dragBar={false}>
         <Panel name='frames' dragBar={false}>
-          <button className="add-frame">add frame</button>
+          <button className="add-frame" onClick={this.onClickAddFrame}>add frame</button>
           <List name='frames' component={Frame} filter={frameFilter} items={this.props.frames} current={this.props.frame}/>
         </Panel>
         <Panel name='layers' dragBar={false}>
-          <button className='add-layer'>add layer</button>
+          <button className='add-layer' onClick={this.onClickAddLayer}>add layer</button>
           <List name='layers' component={Layer} filter={layerFilter} items={this.props.layers} current={this.props.layer}/>
         </Panel>
       </Panel>
@@ -83,8 +83,38 @@ const Editor = React.createClass({
       this.createSprite('test', 36, 36);
     }
   },
+  onClickAddFrame() {
+    let sprite = this.props.sprite;
+    let numLayers = this.props.frames[this.props.frame].layers.length;
+    let frame = this.createFrame({sprite});
+    console.info(frame, numLayers);
+    for (let j = 0; j < numLayers; j++) {
+      let layer = this.createLayer({
+        sprite,
+        frame
+      });
+      if (j == 0) {
+        this.props.setCurrentLayer(layer);
+      }
+    }
+    this.props.setCurrentFrame(frame);
+  },
+  onClickAddLayer() {
+    let sprite = this.props.sprite;
+    let frames = this.props.sprites[sprite].frames;
+    for (let j = 0; j < frames.length; j++) {
+      let frame = frames[j];
+      let layer = this.createLayer({
+        sprite,
+        frame
+      });
+      if (frame == this.props.frame) {
+        this.props.setCurrentLayer(layer);
+      }
+    }
+  },
   createSprite(name, width, height) {
-    let sprite, frame, layer;
+    let sprite, frame;
     sprite = this.props.addSprite({
       name,
       width,
@@ -96,19 +126,12 @@ const Editor = React.createClass({
       sprite
     });
     this.props.addFrameSprite(sprite, frame);
-    layer = this.props.addLayer({
-      width,
-      height,
-      sprite,
-      frame
-    });
-    this.props.addLayerFrame(frame, layer);
 
     this.props.setCurrentSprite(sprite);
     this.props.setCurrentFrame(frame);
-    this.props.setCurrentLayer(layer);
+    this.props.setCurrentLayer(this.createLayer({sprite, frame, width, height}));
   },
-  onGetSprite (result) {
+  onGetSprite(result) {
     let sprite, image = new Image(), width, height; 
     let context = document.createElement('canvas').getContext('2d');
     if (result.code !== 0) {
@@ -125,19 +148,19 @@ const Editor = React.createClass({
         0, 0, width, height
       );
       this.props.setCurrentFrame(
-        this.createFrame(sprite, context)
+        this.createFrameFromContext(sprite, context)
       );
       for (let j = 1; j < sprite.frames; j++) {
         context.drawImage(image,
           0, j * height, width, height,
           0, 0, width, height
         );
-        this.createFrame(sprite, context);
+        this.createFrameFromContext(sprite, context);
       }
     };
     image.src = '/api/images/sprite/' + sprite._id;
   },
-  createFrame (sprite, image) {
+  createFrameFromContext(sprite, image) {
     let context = document.createElement('canvas').getContext('2d');
     let contextTemp = document.createElement('canvas').getContext('2d');
     let index;
@@ -168,7 +191,7 @@ const Editor = React.createClass({
         sprite.width * j, 0, sprite.width, sprite.height,
         0, 0, sprite.width, sprite.height
       );
-      layerIndex = this.createLayers(sprite, contextTemp, index);
+      layerIndex = this.createLayersFromContext(sprite, contextTemp, index);
       this.props.addLayerFrame(
         index,
         layerIndex
@@ -179,7 +202,7 @@ const Editor = React.createClass({
     }
     return index;
   },
-  createLayers(sprite, image, frame) {
+  createLayersFromContext(sprite, image, frame) {
     let context = document.createElement('canvas').getContext('2d');
     context.canvas.width = sprite.width;
     context.canvas.height = sprite.height;
@@ -194,6 +217,32 @@ const Editor = React.createClass({
       sprite : sprite.index,
       frame : frame
     });
+  },
+  createFrame({sprite, context}){
+    let width = this.props.sprites[sprite].width;
+    let height = this.props.sprites[sprite].height;
+    let frame = this.props.addFrame({
+      width,
+      height,
+      sprite,
+      context
+    });
+    this.props.addFrameSprite(sprite, frame);
+    return frame;
+  },
+  createLayer({sprite, frame, context, width, height}) {
+    var layer;
+    width = width || this.props.sprites[sprite].width;
+    height = height || this.props.sprites[sprite].height;
+    layer = this.props.addLayer({
+      width,
+      height,
+      sprite,
+      frame,
+      context
+    });
+    this.props.addLayerFrame(frame, layer);
+    return layer;
   }
 });
 
