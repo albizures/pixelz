@@ -46,7 +46,7 @@ const Editor = React.createClass({
         </Panel>
         <Palette style={this.state.Palette} />
       </Panel>
-      <Tools style={this.state.style.Tools}/>
+      <Tools style={this.state.Tools}/>
     </div>;
   },
   getInitialState () {
