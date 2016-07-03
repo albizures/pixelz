@@ -1,4 +1,6 @@
 
+const { push, updateArrayItem, editProp } = require('utils/ducks.js');
+
 const ADD_FRAME = 'ADD_FRAME';
 const ADD_lAYER_FRAME = 'ADD_lAYER_FRAME';
 const { getNewContext } = require('utils/canvas.js');
@@ -7,14 +9,14 @@ const { getNewContext } = require('utils/canvas.js');
 exports.reducer = function (state = [], action) {
   switch (action.type) {
     case ADD_FRAME:
-      return state.concat([{
+      return push(state, {
         width : action.frame.width,
         height : action.frame.height,
         sprite : action.frame.sprite,
         layers : action.frame.layers || [],
         context : getNewContext(action.frame),
         index : action.index
-      }]);
+      });
     case ADD_lAYER_FRAME:
       return state.map((item, index) =>{
         if (index !== action.frame) {
@@ -25,6 +27,12 @@ exports.reducer = function (state = [], action) {
           {layers : item.layers.concat([action.layer])}
         );
       });
+    case ADD_lAYER_FRAME:
+      let frame = state[action.frame];
+      return updateArrayItem(
+        state, action.frame,
+        editProp(frame, 'layers', push(frame.layers, action.layer))
+      );
     default:
       return state;
   }
