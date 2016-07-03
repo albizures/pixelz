@@ -1,6 +1,9 @@
 const { createStore, combineReducers, compose, applyMiddleware } = require('redux');
 const thunk = require('redux-thunk').default;
 
+const Editor = require('./routes/Editor/ducks');
+const Home = require('./routes/Home/ducks');
+
 function sprites(state = [], action) {
   switch (action.type) {
     case 'ADD_SPRITE':
@@ -14,12 +17,15 @@ function sprites(state = [], action) {
 
 
 const reducers = combineReducers({
-  Editor : require('./routes/Editor/ducks').reducer,
-  Home : require('./routes/Home/ducks').reducer
+  Editor : Editor.reducer,
+  Home : Home.reducer
 });
 
 
-const initialState = {};
+const initialState = {
+  Editor : Editor.initialState,
+  Home : Home.initialState
+};
 
 const store = exports.store = createStore(
   reducers,
