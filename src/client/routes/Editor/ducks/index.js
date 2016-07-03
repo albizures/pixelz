@@ -9,27 +9,37 @@ const actions = {};
 const SET_CURRENT_SPRITE = 'SET_CURRENT_SPRITE';
 const SET_CURRENT_FRAME = 'SET_CURRENT_FRAME';
 const SET_CURRENT_LAYER = 'SET_CURRENT_LAYER';
- 
+const SET_CURRENT_TOOL = 'SET_CURRENT_TOOL';
 
-function props(type) {
+const tools = [
+  'pen',
+  'erase',
+  'pick',
+  'bucket',
+  'line',
+  'rect'
+];
+
+function getReducer(type, prop) {
   return function (state = null, action) {
     switch (action.type) {
       case type:
-        return action.index;
+        return action[prop];
       default:
         return state;
     }
   };
 }
-
 exports.reducer = combineReducers({
-  sprite : props(SET_CURRENT_SPRITE),
-  frame : props(SET_CURRENT_FRAME),
-  layer : props(SET_CURRENT_LAYER),
+  sprite : getReducer(SET_CURRENT_SPRITE, 'index'),
+  frame : getReducer(SET_CURRENT_FRAME, 'index'),
+  layer : getReducer(SET_CURRENT_LAYER, 'index'),
+  tool : getReducer(SET_CURRENT_TOOL, 'tool'),
   sprites : sprites.reducer,
   frames : frames.reducer,
   layers : layers.reducer,
-  palettes : palettes.reducer
+  palettes : palettes.reducer,
+  tools : getReducer('blyat', 'tool')//function tools(state = tools) {return state;}
 });
 
 
@@ -53,6 +63,18 @@ actions.setCurrentLayer = function (index) {
     index
   };
 };
+
+actions.setCurrentTool = function (tool) {
+  return {
+    type : SET_CURRENT_TOOL,
+    tool
+  };
+};
+
+exports.initialState = {
+  tools : tools
+};
+
 exports.currentActions = actions;
 
 exports.actions = Object.assign({},

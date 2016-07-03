@@ -9,6 +9,7 @@ const Canvas = require('./components/Canvas');
 const Panel = require('./components/Panel.js');
 const Frame = require('./components/Frame.js');
 const Layer = require('./components/Layer.js');
+const Tools = require('./components/Tools.js');
 const List = require('./components/List.js');
 const Preview = require('./components/Preview.js');
 
@@ -40,6 +41,7 @@ const Editor = React.createClass({
           <Preview frames={this.props.frames} fps={12}/>
         </Panel>
       </Panel>
+      <Tools style={this.state.style.Tools}/>
     </div>;
   },
   getInitialState () {
@@ -68,6 +70,11 @@ const Editor = React.createClass({
           left: 0,
           width: '100%'//,
           //height : '30%'
+        },
+        Tools : {
+          top : '100px',
+          left : '150px',
+          width : '60px'
         }
       }
     };
