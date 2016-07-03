@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const http = require('http');
 const { connect } = require('react-redux');
+const { editProp } = require('utils/ducks.js');
 
 //const EditorClass = require('../../Editor');
 const ducks = require('./ducks');
@@ -11,6 +12,8 @@ const Frame = require('./components/Frame.js');
 const Layer = require('./components/Layer.js');
 const List = require('./components/List.js');
 const Preview = require('./components/Preview.js');
+const Palette = require('./components/Palette.js');
+const Palettes = require('./components/Palettes.js');
 
 const Editor = React.createClass({
   render () {
@@ -22,10 +25,10 @@ const Editor = React.createClass({
     }
     return <div className="editor-content">
       <Canvas/>
-      <Panel name='Menus' style={this.state.style.Menus} dragBar={false}>
+      <Panel name='Menus' style={this.state.Menus} dragBar={false}>
         {'Menus'}
       </Panel>
-      <Panel name='Left' contentPanels tabs style={this.state.style.Left} tabDefault={0} dragBar={false}>
+      <Panel name='Left' contentPanels tabs style={this.state.Left} tabDefault={0} dragBar={false}>
         <Panel name='frames' dragBar={false}>
           <button className="add-frame">add frame</button>
           <List name='frames' component={Frame} filter={frameFilter} items={this.props.frames} current={this.props.frame}/>
@@ -35,49 +38,74 @@ const Editor = React.createClass({
           <List name='layers' component={Layer} filter={layerFilter} items={this.props.layers} current={this.props.layer}/>
         </Panel>
       </Panel>
-      <Panel name="Right" contentPanels style={this.state.style.Right} dragBar={false}>
-        <Panel name="Preview" style={this.state.style.Preview}>
+      <Palettes style={this.state.Palettes} items={this.props.palettes}/>
+      <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>
+        <Panel name="Preview" style={this.state.Preview}>
           <Preview frames={this.props.frames} fps={12}/>
         </Panel>
+        <Palette style={this.state.Palette} />
       </Panel>
     </div>;
   },
   getInitialState () {
     return {
-      style: {
-        Menus : {
-          top : 0,
-          left : 0,
-          width : '100%',
-          height : '25px'
-        },
-        Left : {
-          top : '25px',
-          left : 0,
-          width : '12%',
-          height : 'calc(100% - 25px)'
-        },
-        Right: {
-          top : '25px',
-          right : 0,
-          width : '15%',
-          height : 'calc(100% - 25px)'
-        },
-        Preview : {
-          top: 0,
-          left: 0,
-          width: '100%'//,
-          //height : '30%'
-        }
+      Menus : {
+        top : 0,
+        left : 0,
+        width : '100%',
+        height : '25px'
+      },
+      Left : {
+        top : '25px',
+        left : 0,
+        width : '12%',
+        height : 'calc(100% - 25px)'
+      },
+      Right: {
+        top : '25px',
+        right : 0,
+        width : '15%',
+        height : 'calc(100% - 25px)'
+      },
+      Palette : {
+        position: 'initial',
+        width : '100%',
+      },
+      Palettes : {
+        top : '100px',
+        left : '400px',
+        visibility : 'hidden'
+      },
+      Preview : {
+        position : 'initial',
+        top: 0,
+        left: 0,
+        width: '100%'//,
+        //height : '30%'
       }
     };
   },
   componentDidMount() {
+    http.get('/api/palettes', result => console.info(result));
+    http.get('/api/palettes/' + '132asd', result => console.info(result));
+    http.post('/api/palettes', {
+      name : 'test',
+      colors : ['rgba(183, 96, 96, 1)', 'rgba(0, 96, 96, 1)'],
+      public : true
+    });
+    http.post('/api/palettes', {
+      name : 'test 2',
+      colors : [],
+      public : false
+    });
+    http.get('/api/palettes/search?name=test', result => console.info(result));
+    http.get('/api/palettes', result => console.info(result));
+    http.get('');
     this.setState({
       width : window.innerWidth,
       height : window.innerHeight
     });
-    http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
+    //http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
   },
   onGetSprite (result) {
     let sprite, image = new Image(), width, height; 

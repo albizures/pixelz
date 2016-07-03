@@ -44,7 +44,6 @@ const Context = React.createClass({
       || this.state.context !== nextState.context;
   },
   setInterval(props) {
-    console.log(interval);
     this.clearInterval();
     interval = setInterval(this.onInterval, props.interval);
   },

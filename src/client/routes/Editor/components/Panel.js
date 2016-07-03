@@ -1,6 +1,7 @@
 
-
 const React = require('react');
+
+const { editProp } = require('utils/ducks.js');
 
 const Panel = React.createClass({
   propTypes : {
@@ -15,11 +16,9 @@ const Panel = React.createClass({
     };
   },
   getInitialState () {
-    let style = this.props.style;
-    delete style.visibility;
     return {
       tabIndex : this.props.tabDefault,
-      style : style
+      style : editProp(this.props.style, 'visibility', undefined)
     };
   },
   setTabIndex(index){
@@ -68,11 +67,11 @@ const Panel = React.createClass({
       top : this.state.style.top,
       left: this.state.style.left,
       right : this.state.style.right,
+      position : this.state.style.position,
       visibility : this.props.style.visibility || 'visible'
     };
   },
   render(){
-    let tabActive = this.props.children[this.state.tabIndex];
     return <div style={this.getStylePanel()} className={'panel panel-' + this.props.name.toLowerCase()}>
       {
         this.props.dragBar? <div className="drag-bar">{this.props.name}</div> : undefined

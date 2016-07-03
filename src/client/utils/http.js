@@ -11,9 +11,10 @@ function checkStatus(response) {
   }
 }
 function request(url, protocol, cb, body, headers = true) {
-  if (body && !body instanceof FormData) {
+  if (body && !(body instanceof FormData)) {
     body = JSON.stringify(body);
   }
+  console.log(protocol,body, body instanceof FormData, url);
   fetch(url, {
     headers: headers? {
       'Accept': 'application/json',
