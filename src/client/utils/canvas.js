@@ -1,4 +1,5 @@
 'use strict';
+const { floor, round } = Math;
 
 exports.walkBitmap = function walkBitmap(bitmap, fn) {
   for (let x = 0; x < bitmap.length; x++) {
@@ -49,5 +50,16 @@ exports.getNewContext = function getNewContext(data) {
     newContext.canvas.width = data.width;
     newContext.canvas.height = data.height;
   }
+  newContext.fillRect(18, 18, 18, 18);
   return newContext;
+};
+
+exports.calculatePosition = function calculatePosition(artboard, x, y) {
+  x = floor((x - artboard.x) / artboard.scale);
+  y = floor((y - artboard.y) / artboard.scale);
+  return {x, y};
+};
+
+exports.validCord = function validCord(layer, cord) {
+  return cord.x >= 0 && cord.x < layer.width && cord.y >= 0 && cord.y < layer.height;
 };

@@ -57,6 +57,7 @@ module.exports = {
   resolve: {
     alias: {
       utils : path.join(config.CLIENT_PATH, 'utils/'),
+      constants : path.join(config.CLIENT_PATH, 'constants/'),
       make : path.join(config.CLIENT_PATH, 'utils/make.js'),
       http : path.join(config.CLIENT_PATH, 'utils/http.js')
     },

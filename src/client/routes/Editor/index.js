@@ -4,7 +4,6 @@ const http = require('http');
 const { connect } = require('react-redux');
 const { editProp } = require('utils/ducks.js');
 
-//const EditorClass = require('../../Editor');
 const ducks = require('./ducks');
 const Canvas = require('./components/Canvas');
 const Panel = require('./components/Panel.js');

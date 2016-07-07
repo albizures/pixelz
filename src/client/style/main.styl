@@ -100,10 +100,12 @@ body{
 .editor-content>.mask
   pointer-events: none
 .content-canvas
-  &>.background, &>.canvas, &>.canvas,&>.mask,&>.preview,.content-preview-animate
+  &>.background, &>.main, &>.canvas,&>.mask,&>.preview,.content-preview-animate
     position absolute
     top 0
     left 0
+  &>.mask
+    pointer-events none
 .backdrop-context-menu
   width 100%
   height 100%

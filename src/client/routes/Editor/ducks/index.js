@@ -10,6 +10,7 @@ const SET_CURRENT_SPRITE = 'SET_CURRENT_SPRITE';
 const SET_CURRENT_FRAME = 'SET_CURRENT_FRAME';
 const SET_CURRENT_LAYER = 'SET_CURRENT_LAYER';
 const SET_CURRENT_TOOL = 'SET_CURRENT_TOOL';
+const SET_CURRENT_ARTBOARD = 'SET_CURRENT_ARTBOARD';
 
 const tools = [
   'pen',
@@ -39,7 +40,8 @@ exports.reducer = combineReducers({
   frames : frames.reducer,
   layers : layers.reducer,
   palettes : palettes.reducer,
-  tools : getReducer('blyat', 'tool')//function tools(state = tools) {return state;}
+  tools : function tools(state = tools) {return state;},
+  artboard : getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
 });
 
 
@@ -71,8 +73,21 @@ actions.setCurrentTool = function (tool) {
   };
 };
 
+actions.setCurrentArtboard = function (artboard) {
+  return {
+    type : SET_CURRENT_ARTBOARD,
+    artboard
+  };
+};
+
+
 exports.initialState = {
-  tools : tools
+  tools : tools,
+  artboard : {
+  scale : 3,
+    x : 200,
+    y : 200
+  }
 };
 
 exports.currentActions = actions;
