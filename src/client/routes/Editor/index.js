@@ -21,7 +21,9 @@ obj.displayName = 'Editor';
 
 obj.render = function () {
   return <div className="editor-content">
-    <Canvas/>
+    {
+      this.props.layer !== null? <Canvas width={window.innerWidth} height={window.innerHeight}/> : <div></div> 
+    }
     <Panel name='Menus' style={this.state.Menus} dragBar={false}>
       {'Menus'}
     </Panel>

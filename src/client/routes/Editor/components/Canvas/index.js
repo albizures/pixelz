@@ -51,20 +51,21 @@ obj.setScale = function (scale) {
     scale : scale
   });
 };
-obj.componentDidMount = function() {
-  this.setState({
-    size : {
-      width : window.innerWidth,
-      height : window.innerHeight
-    }
-  });
+
+obj.shouldComponentUpdate = function(nextProps, nextState) {
+  return true;
 };
+
 obj.render = function() {
+  var size = {
+    width : this.props.width,
+    height : this.props.height
+  };
   return <div className='content-canvas' onWheel={this.onWheel}>
-    <Background size={this.state.size} artboard={this.props.artboard} layer={this.props.layer}/>
-    <Main size={this.state.size} artboard={this.props.artboard} layer={this.props.layer}/>
-    <Preview size={this.state.size} artboard={this.props.artboard} layer={this.props.layer}/>
-    <Mask size={this.state.size} artboard={this.props.artboard} layer={this.props.layer}/>
+    <Background size={size} artboard={this.props.artboard} layer={this.props.layer}/>
+    <Main size={size} artboard={this.props.artboard} layer={this.props.layer}/>
+    <Preview size={size} artboard={this.props.artboard} layer={this.props.layer}/>
+    <Mask size={size} artboard={this.props.artboard} layer={this.props.layer}/>
   </div>;
 };
 

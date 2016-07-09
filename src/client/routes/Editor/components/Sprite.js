@@ -5,7 +5,7 @@ const obj = {};
 obj.displayName = 'Sprite';
 
 obj.render = function () {
-  console.log(this.props.width, this.props.height);
+  console.log(this.props);
   return <canvas style={this.props.style} width={this.props.width} height={this.props.height}></canvas>;
 };
 obj.componentDidMount = function() {
@@ -22,8 +22,6 @@ obj.shouldComponentUpdate = function(nextProps, nextState) {
   var update = this.props.width !== nextProps.width
     || this.props.height !== nextProps.height
     || this.props.style !== nextProps.style;
-  console.log(nextState.context && nextProps.frames && nextProps.frames[0]
-      && (this.props.interval !== nextProps.interval || update), update);
   if (nextState.context && nextProps.frames && nextProps.frames[0]
       && (this.props.interval !== nextProps.interval || update)
   ) {
