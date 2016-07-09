@@ -87,7 +87,10 @@ exports.initialState = {
   scale : 3,
     x : 200,
     y : 200
-  }
+  },
+  sprites : [],
+  frames : [],
+  layers : []
 };
 
 exports.currentActions = actions;

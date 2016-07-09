@@ -2,13 +2,19 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 const { getPreviewSize } = require('utils/canvas.js');
-const Context = require('./Context.js');
+const Sprite = require('./Sprite.js');
+const Panel = require('./Panel.js');
 const Range = require('./Range.js');
 
-const style = {};
 const Preview = React.createClass({
   getInitialState(){
     return {
+      style : {
+        position : 'initial',
+        top: 0,
+        left: 0,
+        width: '100%'
+      },
       fps : this.props.fps
     };
   },
@@ -35,16 +41,17 @@ const Preview = React.createClass({
   
   onClick() { },
   render(){
+    var style = {};
     style.marginTop = this.state.marginTop || '0px';
     style.marginLeft = this.state.marginLeft || '0px';
-    return <div style={this.props.style} onClick={this.onClick}>
-      <Context interval={1000 / this.state.fps} style={style} width={this.state.width} height={this.state.height} images={this.props.frames}/>
+    return <Panel name="Preview" style={this.state.style}>
+      <Sprite interval={1000 / this.state.fps} style={style} width={this.state.width} height={this.state.height} frames={this.props.frames}/>
       <div>
         <span>FPS</span>
         <Range value={this.state.fps} handleChange={this.onChangeRange} min={1} max={24}/>
         <span>{this.state.fps}</span>
       </div>
-    </div>;
+    </Panel>;
   }
 });
 

@@ -2,13 +2,23 @@ const React = require('react');
 
 const Panel = require('./Panel.js');
 
-const Palettes = React.createClass({
+const obj = {};
+obj.displayName = 'Palette';
 
-  render() {
-    return <Panel name="Palettes" style={this.props.style}>
-      <button >=</button>
-    </Panel>;
-  }
-});
+obj.getInitialState = function () {
+  return {
+    style : {
+      position: 'initial',
+      width : '100%',
+    }
+  };
+};
 
-module.exports = Palettes;
+obj.render = function () {
+  return <Panel name="Palette" style={this.state.style}>
+    <button >=</button>
+  </Panel>;
+};
+const Palette = React.createClass(obj);
+
+module.exports = Palette;

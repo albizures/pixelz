@@ -46,11 +46,10 @@ exports.getPreviewSize = function getPreviewSize(size, width, height) {
 
 exports.getNewContext = function getNewContext(data) {
   var newContext = data.context || document.createElement('canvas').getContext('2d');
-  if (data.context) {
+  if (!data.context) {
     newContext.canvas.width = data.width;
     newContext.canvas.height = data.height;
   }
-  newContext.fillRect(18, 18, 18, 18);
   return newContext;
 };
 

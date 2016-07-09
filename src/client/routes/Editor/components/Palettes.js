@@ -2,13 +2,24 @@ const React = require('react');
 
 const Panel = require('./Panel.js');
 
-const Palettes = React.createClass({
+const obj = {};
+obj.displayName = 'Palettes';
 
-  render() {
-    return <Panel name="Palettes" style={this.props.style}>
+obj.getInitialState = function () {
+  return {
+    style : {
+      top : '100px',
+      left : '400px',
+      visibility : 'hidden'
+    }
+  };
+};
 
-    </Panel>;
-  }
-});
+obj.render = function () {
+  return <Panel name="Palettes" style={this.state.style}>
+  </Panel>;
+};
+
+const Palettes = React.createClass(obj);
 
 module.exports = Palettes;
