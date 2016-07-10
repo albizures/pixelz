@@ -15,7 +15,7 @@ obj.componentDidMount = function() {
   });
 };
 
-obj.componentWillUpdate = function(nextProps, nextState) {
+obj.shouldComponentUpdate = function(nextProps, nextState) {
   return nextProps.size.width !== this.props.size.width
     || nextProps.size.height !== this.props.size.height;
 };

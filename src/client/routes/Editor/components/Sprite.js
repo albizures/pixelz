@@ -5,7 +5,6 @@ const obj = {};
 obj.displayName = 'Sprite';
 
 obj.render = function () {
-  console.log(this.props);
   return <canvas style={this.props.style} width={this.props.width} height={this.props.height}></canvas>;
 };
 obj.componentDidMount = function() {

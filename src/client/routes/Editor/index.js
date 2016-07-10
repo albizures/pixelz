@@ -22,7 +22,7 @@ obj.displayName = 'Editor';
 obj.render = function () {
   return <div className="editor-content">
     {
-      this.props.layer !== null? <Canvas width={window.innerWidth} height={window.innerHeight}/> : <div></div> 
+      this.getCanvas()
     }
     <Panel name='Menus' style={this.state.Menus} dragBar={false}>
       {'Menus'}
@@ -38,6 +38,27 @@ obj.render = function () {
     </Panel>
     <Tools/>
   </div>;
+};
+
+obj.componentDidUpdate = function(prevProps, prevState) {
+  if (this.props.layer !== null && this.props.artboard === null) {
+    let scale = 15;
+    let width = this.props.layers[this.props.layer].width * scale;
+    let height = this.props.layers[this.props.layer].height * scale;
+    this.props.setCurrentArtboard({
+      x : (window.innerWidth / 2) - (width / 2),
+      y : (window.innerHeight / 2) - (height / 2),
+      scale : scale
+    });
+  }
+};
+
+
+obj.getCanvas = function () {
+  if (this.props.layer !== null && this.props.artboard !== null) {
+    return <Canvas width={window.innerWidth} height={window.innerHeight}/>;
+  }
+  return <div></div>;
 };
 
 obj.getInitialState = function () {
@@ -231,6 +252,7 @@ const Editor = React.createClass(obj);
 
 function mapStateToProps(state, props) {
   return {
+    artboard : state.Editor.artboard,
     sprite : state.Editor.sprite,
     frame : state.Editor.frame,
     layer : state.Editor.layer,

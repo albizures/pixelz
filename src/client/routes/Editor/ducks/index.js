@@ -83,11 +83,6 @@ actions.setCurrentArtboard = function (artboard) {
 
 exports.initialState = {
   tools : tools,
-  artboard : {
-  scale : 3,
-    x : 200,
-    y : 200
-  },
   sprites : [],
   frames : [],
   layers : []

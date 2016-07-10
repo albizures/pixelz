@@ -10,11 +10,8 @@ const Mask = require('./Mask.js');
 
 const obj = {};
 
-obj.getInitialState = function() {
-  return {
-    size : {}
-  };
-};
+obj.displayName = 'Canvas';
+
 var out;
 obj.onWheel = function (evt, xxx, real) {
   let deltaY = evt.deltaY;
