@@ -3,6 +3,7 @@ const { push, updateArrayItem, editProp } = require('utils/ducks.js');
 
 const ADD_FRAME = 'ADD_FRAME';
 const ADD_lAYER_FRAME = 'ADD_lAYER_FRAME';
+const NEW_FRAME_VERSION = 'NEW_FRAME_VERSION';
 const { getNewContext } = require('utils/canvas.js');
 
 
@@ -15,7 +16,8 @@ exports.reducer = function (state = [], action) {
         sprite : action.frame.sprite,
         layers : action.frame.layers || [],
         context : getNewContext(action.frame),
-        index : action.index
+        index : action.index,
+        version : 0
       });
     case ADD_lAYER_FRAME:
       return state.map((item, index) =>{
@@ -32,6 +34,12 @@ exports.reducer = function (state = [], action) {
       return updateArrayItem(
         state, action.frame,
         editProp(frame, 'layers', push(frame.layers, action.layer))
+      );
+    case NEW_FRAME_VERSION:
+      return updateArrayItem(
+        state,
+        action.frame,
+        editProp(state[action.frame], 'version', state[action.frame].version + 1)
       );
     default:
       return state;
@@ -55,5 +63,12 @@ exports.actions.addLayerFrame = function (frame, layer) {
     type : ADD_lAYER_FRAME,
     frame,
     layer
+  };
+};
+
+exports.actions.newFrameVersion = function (frame) {
+  return {
+      type : NEW_FRAME_VERSION,
+      frame
   };
 };

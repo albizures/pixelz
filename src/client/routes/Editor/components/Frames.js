@@ -36,8 +36,9 @@ obj.onClickAddFrame = function() {
 };
 
 obj.createFrame = function({sprite, context}){
-  let width = this.props.frame.width;
-  let height = this.props.frame.height;
+  let width = this.props.frames[this.props.frame].width;
+  let height = this.props.frames[this.props.frame].height;
+  console.log(width,height, this.props.frame);
   let frame = this.props.addFrame({
     width,
     height,
@@ -57,8 +58,8 @@ obj.render = function() {
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
   var layer;
-  width = width || this.props.frame.width;
-  height = height || this.props.frame.height;
+  width = width || this.props.frames[this.props.frame].width;
+  height = height || this.props.frames[this.props.frame].height;
   layer = this.props.addLayer({
     width,
     height,
@@ -72,7 +73,7 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
 
 const Frames = React.createClass(obj);
 
-module.exports = Frames;module.exports = connect(
+module.exports = connect(
   null,
   {setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer}
 )(Frames);

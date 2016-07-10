@@ -27,7 +27,7 @@ obj.render = function(){
   style.height = this.props.size;
   style.width = this.props.size;
   return <div style={style} onClick={this.onClick}>
-    <Context width={this.state.width} height={this.state.height} image={this.props.data.context}/>
+    <Context width={this.state.width} height={this.state.height} image={this.props.data.context} version={this.props.data.version}/>
     <button className="btn btn-clone">c</button>
     <button className="btn btn-hidden">h</button>
     <button className="btn btn-delete">d</button>

@@ -13,7 +13,7 @@ const SET_CURRENT_TOOL = 'SET_CURRENT_TOOL';
 const SET_CURRENT_ARTBOARD = 'SET_CURRENT_ARTBOARD';
 
 const tools = [
-  'pen',
+  'pencil',
   'erase',
   'pick',
   'bucket',

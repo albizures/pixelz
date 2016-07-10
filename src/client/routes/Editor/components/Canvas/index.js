@@ -61,7 +61,7 @@ obj.render = function() {
   return <div className='content-canvas' onWheel={this.onWheel}>
     <Background size={size} artboard={this.props.artboard} layer={this.props.layer}/>
     <Main size={size} artboard={this.props.artboard} layer={this.props.layer}/>
-    <Preview size={size} artboard={this.props.artboard} layer={this.props.layer}/>
+    <Preview size={size} artboard={this.props.artboard} layer={this.props.layer} tool={this.props.tool}/>
     <Mask size={size} artboard={this.props.artboard} layer={this.props.layer}/>
   </div>;
 };
