@@ -11,6 +11,8 @@ const SET_CURRENT_FRAME = 'SET_CURRENT_FRAME';
 const SET_CURRENT_LAYER = 'SET_CURRENT_LAYER';
 const SET_CURRENT_TOOL = 'SET_CURRENT_TOOL';
 const SET_CURRENT_ARTBOARD = 'SET_CURRENT_ARTBOARD';
+const SET_PRIMARY_COLOR = 'SET_PRIMARY_COLOR';
+const SET_SECONDARY_COLOR = 'SET_SECONDARY_COLOR';
 
 const tools = [
   'pencil',
@@ -36,6 +38,8 @@ exports.reducer = combineReducers({
   frame : getReducer(SET_CURRENT_FRAME, 'index'),
   layer : getReducer(SET_CURRENT_LAYER, 'index'),
   tool : getReducer(SET_CURRENT_TOOL, 'tool'),
+  primaryColor : getReducer(SET_PRIMARY_COLOR, 'color'),
+  secondaryColor : getReducer(SET_SECONDARY_COLOR, 'color'),
   sprites : sprites.reducer,
   frames : frames.reducer,
   layers : layers.reducer,
@@ -80,9 +84,24 @@ actions.setCurrentArtboard = function (artboard) {
   };
 };
 
+actions.setSecondaryColor = function (color) {
+  return {
+    type : SET_SECONDARY_COLOR,
+    color
+  };
+};
+
+actions.setPrimaryColor = function (color) {
+  return {
+    type : SET_PRIMARY_COLOR,
+    color
+  };
+};
 
 exports.initialState = {
   tools : tools,
+  primaryColor : 'rgba(255, 0, 0, 1)',
+  secondaryColor : 'rgba(0, 0, 0, 0)',
   sprites : [],
   frames : [],
   layers : []

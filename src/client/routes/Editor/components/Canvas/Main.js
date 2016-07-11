@@ -18,7 +18,6 @@ obj.componentDidMount = function() {
 };
 
 obj.shouldComponentUpdate = function(nextProps, nextState) {
-  console.log(this.props.layer.index !== nextProps.layer.index);
   if (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
     this.paint(this.state.context, nextProps.artboard, nextProps.layer);
   }

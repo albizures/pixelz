@@ -13,6 +13,8 @@ context.fillRect(0, 32,  32, 32);
 context.fillRect(32, 0,  32, 32);
 
 exports.transparent = context.canvas;
+exports.transparentB64 = context.canvas.toDataURL();
+exports.transparentImage = 'url(\'' + exports.transparentB64 + '\')';
 
 exports.LEFT_CLICK = 1;
 exports.MIDDLE_CLICK = 2;

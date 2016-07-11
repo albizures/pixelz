@@ -1,9 +1,15 @@
 const { store } = require('../../../../../store.js');
 const actionsFrames = require('../../../ducks/frames.js').actions;
 const actionsLayers = require('../../../ducks/layers.js').actions;
+const { RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 
 const { abs } = Math;
 const common = {};
+
+common.getColor = function (which) {
+  var state = store.getState();
+  return which === RIGHT_CLICK ? state.Editor.secondaryColor : state.Editor.primaryColor;
+};
 
 common.newVersion = function (layer) {
   var state = store.getState();

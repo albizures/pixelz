@@ -21,7 +21,7 @@ pencil.onMouseDown = function (evt, cord, _preview, _layer,  _artboard) {
   // this.layer.saveStatus();
   this.clicked = true;
   lastPixel = cord;
-  color = 'black';//evt.which === RIGHT_CLICK ? Tools.getSecondColor() : Tools.getPrimaryColor();
+  color = this.getColor(evt.which);
   // if (color == TRANSPARENT_COLOR) {
   //   at = 'cleanAt';
   // } else {

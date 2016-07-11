@@ -48,7 +48,7 @@ obj.paintPreview = function (cord, context, artboard) {
     y : cord.y * artboard.scale + artboard.y
   };
   context.strokeStyle = 'rgba(255, 255, 255, 0.6)';//COLOR_POINTER_PREW_DEF;
-  context.fillStyle = 'black';//Tools.getPrimaryColor();
+  context.fillStyle = this.props.primaryColor;
   context.strokeRect(realCord.x - 1, realCord.y - 1, artboard.scale + 2, artboard.scale + 2);
   context.fillRect(realCord.x, realCord.y, artboard.scale, artboard.scale);
 };
@@ -122,6 +122,10 @@ obj.render = function() {
 const Preview = React.createClass(obj);
 
 module.exports = connect(
-  null,
+  function (state, props) {
+    return {
+      primaryColor : state.Editor.primaryColor
+    };
+  },
   currentActions
 )(Preview);
