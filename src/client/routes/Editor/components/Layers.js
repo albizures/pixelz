@@ -10,11 +10,16 @@ const obj = {};
 obj.displayName = 'Layers';
 
 obj.onClickAddLayer = function() {
-  let layer = this.createLayer({
-    sprite : this.props.frame.sprite,
-    frame : this.props.frame.index
-  });
-  this.props.setCurrentLayer(layer);
+  for (var j = 0; j < this.props.sprite.frames.length; j++) {
+    var element = this.props.sprite.frames[j];
+    let layer = this.createLayer({
+      sprite : this.props.frame.sprite,
+      frame : element
+    });
+    if (this.props.frame.index == element) {
+      this.props.setCurrentLayer(layer);
+    }
+  }
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
@@ -40,15 +45,30 @@ obj.getDefaultProps = function() {
     }
   };
 };
+obj.getList = function() {
+  if (this.props.layer) {
+    return <List name='layers' component={Layer} filter={this.props.frame.layers} items={this.props.layers} current={this.props.layer.index}/>;
+  }
+  return <div className='list-content'></div>;
+};
 obj.render = function() {
   return <Panel name='layers' dragBar={false} style={this.props.style}>
     <button className="add-layer" onClick={this.onClickAddLayer}>add layer</button>
-    <List name='layers' component={Layer} filter={this.props.frame.layers} items={this.props.layers} current={this.props.layer}/>
+    {
+      this.getList()
+    }
   </Panel>;
 };
 const Layers = React.createClass(obj);
 
 module.exports = connect(
-  null,
+  function (state, props) {
+    return {
+      sprite : state.Editor.sprites[state.Editor.sprite],
+      layer : state.Editor.layers[state.Editor.layer],
+      layers : state.Editor.layers,
+      frame : state.Editor.frames[state.Editor.frame]
+    };
+  },
   { setCurrentLayer, addLayerFrame, addLayer }
 )(Layers);

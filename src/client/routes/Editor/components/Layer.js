@@ -5,7 +5,7 @@ const { getPreviewSize } = require('utils/canvas.js');
 const Context = require('./Context.js');
 const { setCurrentLayer } = require('../ducks').actions;
 
-const style = {};
+
 const obj = {};
 
 obj.displayName = 'Layer';
@@ -27,8 +27,9 @@ obj.onClick = function() {
 };
 
 obj.render = function(){
-  style.height = this.props.size;
-  style.width = this.props.size;
+  let style = {};
+  style.height = this.props.size + 'px';
+  style.width = this.props.size + 'px';
   return <div style={style} onClick={this.onClick}>
     <Context width={this.state.width} height={this.state.height} image={this.props.data.context} version={this.props.data.version}/>
     <button className="btn btn-clone">c</button>

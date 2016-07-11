@@ -27,9 +27,9 @@ obj.render = function () {
     <Panel name='Menus' style={this.state.Menus} dragBar={false}>
       {'Menus'}
     </Panel>
-    <Panel name='Left' contentPanels tabs style={this.state.Left} tabDefault={0} dragBar={false}>
+    <Panel name='Left' contentPanels tabs style={this.state.Left} tabDefault={1} dragBar={false}>
       <Frames name='Frames' frames={this.props.frames} frame={this.props.frame} sprite={this.props.sprites[this.props.sprite]}/>
-      <Layers name='Layers' layers={this.props.layers} layer={this.props.layer} frame={this.props.frames[this.props.frame]}/>
+      <Layers name='Layers' />
     </Panel>
     <Palettes items={this.props.palettes}/>
     <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>

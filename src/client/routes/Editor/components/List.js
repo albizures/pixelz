@@ -21,12 +21,15 @@ obj.componentDidMount = function() {
   });
 };
 obj.getItems = function() {
+  if (this.state.size === 0) {
+    return <li></li>;
+  }
   let Component = this.props.component;
   if (this.props.filter && this.props.filter.length) {
     return this.props.filter.map((item, index) => {
       return <li className={'preview-' + this.props.name  + (this.props.current == item? ' active' : '')} key={index}>
-            <Component size={this.state.size} data={this.props.items[item]}/>
-          </li>;
+        <Component size={this.state.size} data={this.props.items[item]}/>
+      </li>;
     });
   }
   return this.props.items.map((item, index) => {

@@ -35,7 +35,6 @@ obj.shouldComponentUpdate = function(nextProps, nextState) {
 };
 obj.initInterval = function (props, state) {
   if (props.frames.length > 1) {
-    console.log('init interval');
     this.index = 0;
     this.interval = clearInterval(this.interval);
     this.interval = setInterval(this.onInterval, props.interval);
@@ -45,7 +44,6 @@ obj.initInterval = function (props, state) {
 };
 
 obj.onInterval = function () {
-  console.log(this.index);
   this.paint(this.state.context, this.props.frames[this.index].context.canvas);
   this.index++;
   if (this.index > this.props.frames.length - 1) {

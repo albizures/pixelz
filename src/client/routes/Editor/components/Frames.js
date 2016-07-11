@@ -20,7 +20,7 @@ obj.getDefaultProps = function() {
 
 obj.onClickAddFrame = function() {
   let sprite = this.props.sprite.index;
-  let numLayers = this.props.frames[this.props.frame].layers.length;
+  let numLayers = this.props.frame.layers.length;
   let frame = this.createFrame({sprite});
   console.info(frame, numLayers);
   for (let j = 0; j < numLayers; j++) {
@@ -36,9 +36,8 @@ obj.onClickAddFrame = function() {
 };
 
 obj.createFrame = function({sprite, context}){
-  let width = this.props.frames[this.props.frame].width;
-  let height = this.props.frames[this.props.frame].height;
-  console.log(width,height, this.props.frame);
+  let width = this.props.frame.width;
+  let height = this.props.frame.height;
   let frame = this.props.addFrame({
     width,
     height,
@@ -49,17 +48,26 @@ obj.createFrame = function({sprite, context}){
   return frame;
 };
 
+obj.getList = function() {
+  if (this.props.frame) {
+    return <List name='frames' component={Frame} filter={this.props.sprite.frames} items={this.props.frames} current={this.props.frame.index}/>;
+  } 
+  return <div className='list-content'></div>;
+};
+
 obj.render = function() {
   return <Panel name='frames' dragBar={false} style={this.props.style}>
     <button className="add-frame" onClick={this.onClickAddFrame}>add frame</button>
-    <List name='frames' component={Frame} filter={this.props.sprite.frames} items={this.props.frames} current={this.props.frame}/>
+    {
+      this.getList()
+    }
   </Panel>;
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
   var layer;
-  width = width || this.props.frames[this.props.frame].width;
-  height = height || this.props.frames[this.props.frame].height;
+  width = width || this.props.frame.width;
+  height = height || this.props.frame.height;
   layer = this.props.addLayer({
     width,
     height,
@@ -74,6 +82,12 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
 const Frames = React.createClass(obj);
 
 module.exports = connect(
-  null,
+  function (state, props) {
+    return {
+      frame : state.Editor.frames[state.Editor.frame],
+      sprite : state.Editor.sprites[state.Editor.sprite],
+      frames : state.Editor.frames
+    };
+  },
   {setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer}
 )(Frames);
