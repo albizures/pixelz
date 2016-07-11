@@ -3,6 +3,8 @@ const ReactDOM = require('react-dom');
 
 const obj = {};
 
+obj.displayName = 'Mask';
+
 obj.getInitialState = function() {
   return {};
 };

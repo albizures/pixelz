@@ -5,6 +5,8 @@ const { imageSmoothingDisabled } = require('utils/canvas.js');
 
 const obj = {};
 
+obj.displayName = 'Main';
+
 obj.getInitialState = function () {
   return {};
 };
@@ -16,8 +18,9 @@ obj.componentDidMount = function() {
 };
 
 obj.shouldComponentUpdate = function(nextProps, nextState) {
-  if (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard) {
-    this.paint(this.state.context, nextProps.artboard, this.props.layer);
+  console.log(this.props.layer.index !== nextProps.layer.index);
+  if (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
+    this.paint(this.state.context, nextProps.artboard, nextProps.layer);
   }
   return nextProps.size.width !== this.props.size.width
     || nextProps.size.height !== this.props.size.height;

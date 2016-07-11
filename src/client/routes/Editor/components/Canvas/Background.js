@@ -4,6 +4,8 @@ const { transparent } = require('constants/index.js');
 
 const obj = {};
 
+obj.displayName = 'Background';
+
 obj.getInitialState = function () {
   return {};
 };
