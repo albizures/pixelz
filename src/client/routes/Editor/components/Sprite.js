@@ -7,7 +7,7 @@ const obj = {};
 obj.displayName = 'Sprite';
 
 obj.render = function () {
-  return <canvas style={this.props.style} width={this.props.width} height={this.props.height}></canvas>;
+  return <canvas className='transparent-bkg' style={this.props.style} width={this.props.width} height={this.props.height}></canvas>;
 };
 obj.componentDidMount = function() {
   let context = ReactDOM.findDOMNode(this).getContext('2d');

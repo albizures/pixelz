@@ -30,7 +30,7 @@ obj.render = function(){
   let style = {};
   style.height = this.props.size + 'px';
   style.width = this.props.size + 'px';
-  return <div style={style} onClick={this.onClick}>
+  return <div style={style} onClick={this.onClick} className='transparent-bkg'>
     <Context width={this.state.width} height={this.state.height} image={this.props.data.context} version={this.props.data.version}/>
     <button className="btn btn-clone">c</button>
     <button className="btn btn-hidden">h</button>

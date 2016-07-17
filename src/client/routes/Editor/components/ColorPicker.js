@@ -28,14 +28,14 @@ obj.getInitialState = function () {
     size : 300,
     bar : 20,
     SBPicker : {
-      top : size * (1 - b),
-      left : size * s
+      top : (size - bar) * (1 - b),
+      left : (size - bar) * s
     },
     APicker: {
       left : size * a
     },
     HPicker: {
-      top : size * h
+      top : (size - bar) * h
     },
     h,
     s,
@@ -45,22 +45,19 @@ obj.getInitialState = function () {
 };
 
 obj.componentWillReceiveProps = function(nextProps) {
-  console.log(this.props.params.color, nextProps.params.color);
   if (this.props.params.color !== nextProps.params.color) {
     this.initColor(nextProps.params.color);
   }
 };
 obj.initColor = function (color) {
   var h, s, b, a;
-  this.setState({color});
   color = getRGBAComponents(color);
   a = round(color[3] * 100);
-  console.log('alpha', a);
   color = rgbToHsv(color[0], color[1], color[2]);
   h = color[0];
   s = color[1];
   b = color[2];
-  this.setState({h, s, b, a});
+  this.setState({h, s, b, a, color});
   this.setPositions(h, s, b, a);
 };
 obj.setPositions = function (h, s, b, a) {
