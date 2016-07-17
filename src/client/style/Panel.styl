@@ -1,0 +1,53 @@
+.panel
+  position absolute
+  box-sizing: border-box;
+  //border 2px solid rgba(245, 245, 245, 0.7)
+  z-index 1
+  overflow hidden
+  //background panel-background
+  background rgb(220, 220, 220)
+  &.float
+    border-radius 4px
+    box-shadow rgba(0, 0, 0, 0.247059) 0px 0px 0px 1px, rgba(0, 0, 0, 0.14902) 0px 8px 16px
+  .drag-bar
+    line-height 24px
+    background-image: -webkit-linear-gradient(rgb(240, 240, 240) 0%, rgb(212, 212, 212) 100%)
+    background-image: -o-linear-gradient(rgb(240, 240, 240) 0%, rgb(212, 212, 212) 100%)
+    background-image: linear-gradient(rgb(240, 240, 240) 0%, rgb(212, 212, 212) 100%)
+    font-size: 15px
+    text-align center
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(177, 177, 177);
+    width 100%
+    cursor move
+  .resize-bar
+    background rgba(255, 0, 0, 0.1)
+    position absolute
+    &.T, &.B
+      height resize-bar-panel-size
+      width 100%
+      cursor n-resize
+    &.T, &.TL, &.TR
+      top resize-bar-panel-margin
+    &.B, &.BL, &.BR
+      bottom resize-bar-panel-margin
+    &.L, &.R
+      cursor e-resize
+      width resize-bar-panel-size
+      height 100%
+    &.L, &.TL, &.BL
+      left resize-bar-panel-margin
+    &.R, &.TR, &.BR
+      right resize-bar-panel-margin
+    &.TL, &.TR, &.BL, &.BR
+      height resize-bar-panel-size
+      width resize-bar-panel-size
+    &.TR
+      cursor ne-resize
+    &.TL
+      cursor nw-resize
+    &.BR
+      cursor se-resize
+    &.BL
+      cursor sw-resize

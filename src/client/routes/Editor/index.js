@@ -14,6 +14,7 @@ const List = require('./components/List.js');
 const Preview = require('./components/Preview.js');
 const Palette = require('./components/Palette.js');
 const Palettes = require('./components/Palettes.js');
+const ColorPicker = require('./components/ColorPicker.js');
 
 const obj = {};
 
@@ -31,6 +32,7 @@ obj.render = function () {
       <Frames name='Frames' frames={this.props.frames} frame={this.props.frame} sprite={this.props.sprites[this.props.sprite]}/>
       <Layers name='Layers' />
     </Panel>
+    <ColorPicker/>
     <Palettes items={this.props.palettes}/>
     <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>
       <Preview frames={this.props.frames} fps={12}/>

@@ -1,4 +1,6 @@
 
+const make = require('make');
+
 const context = document.createElement('canvas').getContext('2d'); 
 
 context.canvas.height = context.canvas.width = 64;
@@ -15,6 +17,12 @@ context.fillRect(32, 0,  32, 32);
 exports.transparent = context.canvas;
 exports.transparentB64 = context.canvas.toDataURL();
 exports.transparentImage = 'url(\'' + exports.transparentB64 + '\')';
+
+make([
+  'style',
+  {parent : document.head},
+  '.transparent-bkg{background-image:' + exports.transparentImage + '}'
+]);
 
 exports.LEFT_CLICK = 1;
 exports.MIDDLE_CLICK = 2;

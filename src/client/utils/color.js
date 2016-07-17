@@ -58,7 +58,11 @@ const rand = function (max) {
 };
 
 exports.getRGBAComponents = function getRGBAComponents(color) {
-  return color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
+  let components = color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
+  for (let j = 0; j < components.length; j++) {
+    components[j] = Number(components[j]);
+  }
+  return components;
 };
 
 exports.randomRGB = function () {

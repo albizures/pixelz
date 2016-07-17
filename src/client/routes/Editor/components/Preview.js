@@ -60,7 +60,7 @@ obj.render = function(){
     }
     <div>
       <span>FPS</span>
-      <Range value={this.state.fps} handleChange={this.onChangeRange} min={1} max={24}/>
+      <Range value={this.state.fps} large onChange={this.onChangeRange} min={1} max={24}/>
       <span>{this.state.fps}</span>
     </div>
   </Panel>;

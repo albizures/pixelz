@@ -9,7 +9,7 @@ exports.reducer = function (state = [], action) {
     case ADD_PALETTE:
       return push(
         state,
-        editProp(action.palette, {index : state.length})
+        editProp(action.palette, 'index', state.length)
       );
     case ADD_COLOR:
       let palette = state[action.palette];

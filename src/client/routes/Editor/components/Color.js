@@ -9,7 +9,6 @@ obj.displayName = 'Color';
 
 obj.getDefaultProps = function () {
   return {
-    background : transparentImage,
     click : true,
     size : 20,
     className : ''
@@ -25,9 +24,8 @@ obj.onClick = function () {
 };
 
 obj.render = function () {
-  var className = 'color ' + this.props.className;
+  var className = 'color transparent-bkg ' + this.props.className;
   var styleBackground = {
-    backgroundImage : this.props.background,
     width : this.props.size,
     height : this.props.size
   };

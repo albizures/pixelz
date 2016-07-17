@@ -15,6 +15,7 @@ obj.getDefaultProps = function () {
     dragBar : true,
     resize : false,
     tabs : false,
+    float : false,
     contentPanels : false,
     style : {}
   };
@@ -76,7 +77,8 @@ obj.getStylePanel = function() {
   };
 };
 obj.render = function(){
-  return <div style={this.getStylePanel()} className={'panel panel-' + this.props.name.toLowerCase()}>
+  var className = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '') + (this.props.float? ' float' : '');
+  return <div style={this.getStylePanel()} className={className}>
     {
       this.props.dragBar? <div className="drag-bar">{this.props.name}</div> : undefined
     }
