@@ -8,11 +8,18 @@ const def = {
   colorPicker : {
     style : {
       visibility : 'hidden',
-      top : '100px',
-      left : '300px'
+      top : 100,
+      left : 300
     },
     params : {
       color : 'rgba(0, 0, 0, 1)'
+    }
+  },
+  tools : {
+    style : {
+      top : 100,
+      left : 200,
+      width : 60
     }
   }
 };

@@ -1,8 +1,10 @@
-
 const React = require('react');
+const { connect } = require('react-redux');
 
+const { actions } = require('../ducks/panels.js');
 const { editProp } = require('utils/ducks.js');
 
+const $window = $(window);
 const obj = {};
 
 obj.displayName = 'Panel';
@@ -16,16 +18,24 @@ obj.getDefaultProps = function () {
     resize : false,
     tabs : false,
     float : false,
-    contentPanels : false,
-    style : {}
+    contentPanels : false
   };
 };
 obj.getInitialState = function () {
   return {
     tabIndex : this.props.tabDefault,
-    style : editProp(this.props.style, 'visibility', undefined)
+    style : Object.assign({}, this.props.style)
   };
 };
+
+obj.componentWillReceiveProps = function(nextProps) {
+  if (nextProps.style !== this.props.style) {
+    this.setState({
+      style : Object.assign({}, nextProps.style)
+    });
+  }
+};
+
 obj.setTabIndex = function(index){
   this.setState({
     tabIndex : index
@@ -33,7 +43,7 @@ obj.setTabIndex = function(index){
 };
 obj.getTabs = function() {
   let style = {
-    height : '25px',
+    height : 25,
     lineHeight : '25px',
     float : 'left',
     width : (100 / this.props.children.length) + '%'
@@ -60,7 +70,7 @@ obj.getStyleChildPanel = function(visibility) {
   return {
     width : '100%',
     height : 'calc(100% - 25px)',
-    top : '25px',
+    top : 25,
     left : 0,
     visibility
   };
@@ -73,14 +83,32 @@ obj.getStylePanel = function() {
     left: this.state.style.left,
     right : this.state.style.right,
     position : this.state.style.position,
-    visibility : this.props.style.visibility || 'visible'
+    visibility : this.state.style.visibility || 'visible'
   };
 };
+
+obj.onMouseDown = function (evt) {
+  var name = this.props.name.replace(' ', '');
+  var stats = evt.target.getBoundingClientRect();
+  var diffX = evt.clientX - stats.left;
+  var diffY = evt.clientY - stats.top;
+  $window.on('mousemove.drag', evt => {
+    this.setState({
+      style : Object.assign({}, this.state.style,{
+        top : evt.clientY - diffY,
+        left : evt.clientX - diffX
+      })
+    });
+  }).on('mouseup.drag', evt => {
+    $window.off('mousemove.drag').off('mouseup.drag');
+  });
+};
+
 obj.render = function(){
   var className = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '') + (this.props.float? ' float' : '');
   return <div style={this.getStylePanel()} className={className}>
     {
-      this.props.dragBar? <div className="drag-bar">{this.props.name}</div> : undefined
+      this.props.dragBar? <div className="drag-bar" onMouseDown={this.onMouseDown}>{this.props.name}</div> : undefined
     }
     {
       this.props.tabs? this.getTabs() : undefined
@@ -92,4 +120,4 @@ obj.render = function(){
 };
 const Panel = React.createClass(obj);
 
-module.exports = Panel;
+module.exports = connect(null, actions)(Panel);

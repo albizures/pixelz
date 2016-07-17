@@ -11,11 +11,12 @@ const obj = {};
 obj.displayName = 'Tools';
 
 obj.getInitialState = function(){
+  console.log(this.props.style);
   return {
     style : {
-      top : '100px',
-      left : '150px',
-      width : '60px'
+      top : 100,
+      left : 150,
+      width : 60
     }
   };
 };
@@ -29,6 +30,7 @@ obj.componentDidMount = function() {
 obj.shouldComponentUpdate = function(nextProps, nextState) {
   return nextProps.tools.length !== this.props.tools.length
     || nextProps.tool !== this.props.tool
+    || nextProps.style !== this.props.style
     || nextProps.secondaryColor !== this.props.secondaryColor
     || nextProps.primaryColor !== this.props.primaryColor;
 };
@@ -55,7 +57,7 @@ obj.onClickSecondary = function (evt) {
 };
 
 obj.render = function() {
-  return <Panel name="Tools" style={this.state.style} float={true}>
+  return <Panel name="Tools" style={this.props.style} float={true}>
     <div className='colors'>
       <Color onClick={this.onClickSecondary} color={this.props.secondaryColor} size={35} className={'secondary'}/>
       <Color onClick={this.onClickPrimary} color={this.props.primaryColor} size={35} className={'primary'}/>
@@ -76,6 +78,7 @@ function mapStateToProps(state, props) {
   return {
     tools : state.Editor.tools,
     tool : state.Editor.tool,
+    style : state.Editor.panels.tools.style,
     primaryColor : state.Editor.primaryColor,
     secondaryColor : state.Editor.secondaryColor
   };

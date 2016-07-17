@@ -12,29 +12,35 @@ const Context = require('./Context.js');
 const Panel = require('./Panel.js');
 
 const $window = $(window);
-const obj = {};
 const noop = function () {};
+
+const obj = {};
+
 obj.displayName = 'ColorPicker';
 
 obj.getInitialState = function () {
+  var size = 300;
+  var bar = 20;
+  var [r, g, b, a] = getRGBAComponents(this.props.params.color);
+  var [h, s, b] = rgbToHsv(r, g, b);
   return {
     color : this.props.params.color,
     size : 300,
     bar : 20,
     SBPicker : {
-      top : 0,
-      left : 0
+      top : size * (1 - b),
+      left : size * s
     },
     APicker: {
-      left : 0
+      left : size * a
     },
     HPicker: {
-      top : 0
+      top : size * h
     },
-    h : 0,
-    s : 0,
-    l : 0,
-    a : 0
+    h,
+    s,
+    b,
+    a
   };
 };
 
@@ -49,6 +55,7 @@ obj.initColor = function (color) {
   this.setState({color});
   color = getRGBAComponents(color);
   a = round(color[3] * 100);
+  console.log('alpha', a);
   color = rgbToHsv(color[0], color[1], color[2]);
   h = color[0];
   s = color[1];
