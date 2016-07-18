@@ -43,8 +43,6 @@ obj.setTabIndex = function(index){
 };
 obj.getTabs = function() {
   let style = {
-    height : 25,
-    lineHeight : '25px',
     float : 'left',
     width : (100 / this.props.children.length) + '%'
   };
@@ -69,8 +67,8 @@ obj.getPanelChildren = function(style) {
 obj.getStyleChildPanel = function(visibility) {
   return {
     width : '100%',
-    height : 'calc(100% - 25px)',
-    top : 25,
+    height : 'calc(100% - 20px)',
+    top : 20,
     left : 0,
     visibility
   };
