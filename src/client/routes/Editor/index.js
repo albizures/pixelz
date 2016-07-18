@@ -35,7 +35,7 @@ obj.render = function () {
     <ColorPicker/>
     <Palettes items={this.props.palettes}/>
     <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>
-      <Preview frames={this.props.frames} fps={12}/>
+      <Preview frames={this.props.frames} fps={5}/>
       <Palette style={this.state.Palette} />
     </Panel>
     <Tools/>
@@ -141,7 +141,13 @@ obj.onGetSprite = function(result) {
   sprite = result.data;
   context.canvas.width = width = sprite.width * sprite.layers;
   context.canvas.height = height = sprite.height;
-  sprite.index = this.props.addSprite(sprite);
+  sprite.index = this.props.addSprite({
+    _id : sprite._id,
+    name : sprite.name,
+    width : sprite.width,
+    height : sprite.height,
+    colors : sprite.colors,
+  });
   this.props.setCurrentSprite(sprite.index);
   image.onload = () => {
     context.drawImage(image,
