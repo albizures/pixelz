@@ -15,7 +15,8 @@ const Preview = require('./components/Preview.js');
 const Palette = require('./components/Palette.js');
 const Palettes = require('./components/Palettes.js');
 const ColorPicker = require('./components/ColorPicker.js');
-
+const History = require('./components/History.js');
+const shortcuts = require('./shortcuts');
 const obj = {};
 
 obj.displayName = 'Editor';
@@ -32,6 +33,7 @@ obj.render = function () {
       <Frames name='Frames' frames={this.props.frames} frame={this.props.frame} sprite={this.props.sprites[this.props.sprite]}/>
       <Layers name='Layers' />
     </Panel>
+    <History/>
     <ColorPicker/>
     <Palettes items={this.props.palettes}/>
     <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>
@@ -87,6 +89,7 @@ obj.getInitialState = function () {
 };
 
 obj.componentDidMount = function() {
+  shortcuts.init();
   this.setState({
     width : window.innerWidth,
     height : window.innerHeight

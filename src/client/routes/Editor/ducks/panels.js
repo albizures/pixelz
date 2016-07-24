@@ -21,6 +21,9 @@ const def = {
       left : 200,
       width : 60
     }
+  },
+  history : {
+    visible : false
   }
 };
 exports.reducer = function (state = def, action) {
