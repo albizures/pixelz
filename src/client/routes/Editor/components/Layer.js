@@ -22,7 +22,7 @@ obj.componentDidMount = function() {
 
 obj.onClick = function() {
   this.props.setCurrentLayer(
-    this.props.data.index
+    this.props.data.layerIndex
   );
 };
 
