@@ -57,6 +57,7 @@ obj.initColor = function (color) {
   h = color[0];
   s = color[1];
   b = color[2];
+  color = 'rgba(' + color[0].toFixed(0) + ', ' + color[1].toFixed(0) + ', ' + color[2].toFixed(0) + ', ' + this.state.a + ')';
   this.setState({h, s, b, a, color});
   this.setPositions(h, s, b, a);
 };
