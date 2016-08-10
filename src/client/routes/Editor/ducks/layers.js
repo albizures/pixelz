@@ -14,7 +14,6 @@ exports.reducer = function (state = [], action) {
         frame : action.layer.frame,
         context : getNewContext(action.layer),
         index : action.index,
-        layerIndex : action.layer.layerIndex,
         version : 0
       }]);
     case NEW_LAYER_VERSION:

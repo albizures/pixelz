@@ -1,10 +1,11 @@
 
-const { push, updateArrayItem, editProp } = require('utils/ducks.js');
+const { push, updateArrayItem, editProp, shiftPositions } = require('utils/ducks.js');
+const { getNewContext } = require('utils/canvas.js');
 
 const ADD_FRAME = 'ADD_FRAME';
 const ADD_lAYER_FRAME = 'ADD_lAYER_FRAME';
 const NEW_FRAME_VERSION = 'NEW_FRAME_VERSION';
-const { getNewContext } = require('utils/canvas.js');
+const CHANGE_LAYER_POSITION = 'CHANGE_LAYER_POSITION';
 
 
 exports.reducer = function (state = [], action) {
@@ -41,6 +42,15 @@ exports.reducer = function (state = [], action) {
         action.frame,
         editProp(state[action.frame], 'version', state[action.frame].version + 1)
       );
+    case CHANGE_LAYER_POSITION:
+      return updateArrayItem(
+        state, action.frame,
+        editProp(
+          state[action.frame],
+          'layers',
+          shiftPositions(state[action.frame].layers, action.fromIndex, action.toIndex)
+        )
+      );
     default:
       return state;
   }
@@ -70,5 +80,14 @@ exports.actions.newFrameVersion = function (frame) {
   return {
       type : NEW_FRAME_VERSION,
       frame
+  };
+};
+
+exports.actions.changeLayerPosition = function (frame, fromIndex, toIndex) {
+  return {
+    type : CHANGE_LAYER_POSITION,
+    frame,
+    fromIndex,
+    toIndex
   };
 };

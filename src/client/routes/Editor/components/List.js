@@ -28,7 +28,7 @@ obj.getItems = function() {
   if (this.props.filter && this.props.filter.length) {
     return this.props.filter.map((item, index) => {
       return <li className={'preview-' + this.props.name  + (this.props.current == item? ' active' : '')} key={index}>
-        <Component size={this.state.size} data={this.props.items[item]}/>
+        <Component size={this.state.size} data={this.props.items[item]} index={index}/>
       </li>;
     });
   }

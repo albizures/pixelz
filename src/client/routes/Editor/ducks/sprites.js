@@ -1,6 +1,9 @@
 
+const { editProp, updateArrayItem, shiftPositions } = require('utils/ducks.js');
+
 const ADD_SPRITE = 'ADD_SPRITE';
 const ADD_SPRITE_FRAME = 'ADD_SPRITE_FRAME';
+const CHANGE_FRAME_POSITION = 'CHANGE_FRAME_POSITION';
 
 exports.reducer = function (state = [], action) {
   switch (action.type) {
@@ -24,6 +27,15 @@ exports.reducer = function (state = [], action) {
           { frames : item.frames.concat([action.frame])}
         );
       });
+    case CHANGE_FRAME_POSITION:
+      return updateArrayItem(
+        state, action.sprite,
+        editProp(
+          state[action.sprite],
+          'frames',
+          shiftPositions(state[action.sprite].frames, action.fromIndex, action.toIndex)
+        )
+      );
     default:
       return state;
   }
@@ -35,8 +47,8 @@ exports.actions.addSprite = function (sprite) {
     let index = getState().Editor.sprites.length;
     dispatch({
       type : ADD_SPRITE,
-      sprite : sprite,
-      index: index
+      sprite,
+      index
     });
     return index;
   };
@@ -45,7 +57,16 @@ exports.actions.addSprite = function (sprite) {
 exports.actions.addFrameSprite  = function (sprite, frame) {
   return {
     type : ADD_SPRITE_FRAME,
-    sprite : sprite,
-    frame : frame
+    sprite,
+    frame
+  };
+};
+
+exports.actions.changeFramePosition = function (sprite, fromIndex, toIndex) {
+  return {
+    type : CHANGE_FRAME_POSITION,
+    sprite,
+    fromIndex,
+    toIndex
   };
 };
