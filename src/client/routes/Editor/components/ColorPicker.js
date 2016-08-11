@@ -19,14 +19,14 @@ const obj = {};
 obj.displayName = 'ColorPicker';
 
 obj.getInitialState = function () {
-  var size = 300;
+  var size = 280;
   var bar = 20;
   var [r, g, b, a] = getRGBAComponents(this.props.params.color);
   var [h, s, b] = rgbToHsv(r, g, b);
   return {
     color : this.props.params.color,
-    size : 300,
-    bar : 20,
+    size,
+    bar,
     SBPicker : {
       top : (size - bar) * (1 - b),
       left : (size - bar) * s
@@ -57,6 +57,7 @@ obj.initColor = function (color) {
   h = color[0];
   s = color[1];
   b = color[2];
+  color = 'rgba(' + color[0].toFixed(0) + ', ' + color[1].toFixed(0) + ', ' + color[2].toFixed(0) + ', ' + this.state.a + ')';
   this.setState({h, s, b, a, color});
   this.setPositions(h, s, b, a);
 };

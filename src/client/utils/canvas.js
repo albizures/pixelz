@@ -62,3 +62,16 @@ exports.calculatePosition = function calculatePosition(artboard, x, y) {
 exports.validCord = function validCord(layer, cord) {
   return cord.x >= 0 && cord.x < layer.width && cord.y >= 0 && cord.y < layer.height;
 };
+
+exports.cloneContext = function (context) {
+  let { width, height} = context.canvas;
+  let clone = document.createElement('canvas');
+  clone.width = width;
+  clone.height = height;
+  clone = clone.getContext('2d');
+  clone.drawImage(context.canvas,
+    0, 0, width, height,
+    0, 0, width, height
+  );
+  return clone;
+};

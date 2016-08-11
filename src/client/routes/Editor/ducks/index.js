@@ -5,6 +5,7 @@ const frames = require('./frames.js');
 const layers = require('./layers.js');
 const palettes = require('./palettes');
 const panels = require('./panels.js');
+const history = require('./history.js');
 
 const actions = {};
 const SET_CURRENT_SPRITE = 'SET_CURRENT_SPRITE';
@@ -35,6 +36,8 @@ function getReducer(type, prop) {
   };
 }
 exports.reducer = combineReducers({
+  history : history.reducer,
+  artboard : getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
   sprite : getReducer(SET_CURRENT_SPRITE, 'index'),
   frame : getReducer(SET_CURRENT_FRAME, 'index'),
   layer : getReducer(SET_CURRENT_LAYER, 'index'),
@@ -47,7 +50,6 @@ exports.reducer = combineReducers({
   panels : panels.reducer,
   palettes : palettes.reducer,
   tools : function tools(state = tools) {return state;},
-  artboard : getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
 });
 
 
@@ -101,6 +103,7 @@ actions.setPrimaryColor = function (color) {
 };
 
 exports.initialState = {
+  history : history.init,
   tools : tools,
   primaryColor : 'rgba(0, 0, 0, 1)',
   secondaryColor : 'rgba(0, 0, 0, 0)',
@@ -114,6 +117,7 @@ exports.currentActions = actions;
 
 exports.actions = Object.assign({},
   actions,
+  history.actions,
   sprites.actions,
   panels.actions,
   frames.actions,

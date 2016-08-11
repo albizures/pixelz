@@ -15,7 +15,8 @@ const Preview = require('./components/Preview.js');
 const Palette = require('./components/Palette.js');
 const Palettes = require('./components/Palettes.js');
 const ColorPicker = require('./components/ColorPicker.js');
-
+const History = require('./components/History.js');
+const shortcuts = require('./shortcuts');
 const obj = {};
 
 obj.displayName = 'Editor';
@@ -32,10 +33,11 @@ obj.render = function () {
       <Frames name='Frames' frames={this.props.frames} frame={this.props.frame} sprite={this.props.sprites[this.props.sprite]}/>
       <Layers name='Layers' />
     </Panel>
+    <History/>
     <ColorPicker/>
     <Palettes items={this.props.palettes}/>
     <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>
-      <Preview frames={this.props.frames} fps={12}/>
+      <Preview frames={this.props.frames} fps={5}/>
       <Palette style={this.state.Palette} />
     </Panel>
     <Tools/>
@@ -55,9 +57,10 @@ obj.componentDidUpdate = function(prevProps, prevState) {
   }
 };
 
-
 obj.getCanvas = function () {
-  if (this.props.layer !== null && this.props.artboard !== null) {
+  var frame = this.props.frames[this.props.frame];
+  
+  if (frame && this.props.layers[frame.layers[this.props.layer]] && this.props.artboard !== null) {
     return <Canvas width={window.innerWidth} height={window.innerHeight}/>;
   }
   return <div></div>;
@@ -87,6 +90,7 @@ obj.getInitialState = function () {
 };
 
 obj.componentDidMount = function() {
+  shortcuts.init();
   this.setState({
     width : window.innerWidth,
     height : window.innerHeight
@@ -95,21 +99,6 @@ obj.componentDidMount = function() {
     http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
   } else {
     this.createSprite('test', 36, 36);
-  }
-};
-
-obj.onClickAddLayer = function() {
-  let sprite = this.props.sprite;
-  let frames = this.props.sprites[sprite].frames;
-  for (let j = 0; j < frames.length; j++) {
-    let frame = frames[j];
-    let layer = this.createLayer({
-      sprite,
-      frame
-    });
-    if (frame == this.props.frame) {
-      this.props.setCurrentLayer(layer);
-    }
   }
 };
 
@@ -141,7 +130,13 @@ obj.onGetSprite = function(result) {
   sprite = result.data;
   context.canvas.width = width = sprite.width * sprite.layers;
   context.canvas.height = height = sprite.height;
-  sprite.index = this.props.addSprite(sprite);
+  sprite.index = this.props.addSprite({
+    _id : sprite._id,
+    name : sprite.name,
+    width : sprite.width,
+    height : sprite.height,
+    colors : sprite.colors,
+  });
   this.props.setCurrentSprite(sprite.index);
   image.onload = () => {
     context.drawImage(image,
@@ -151,6 +146,7 @@ obj.onGetSprite = function(result) {
     this.props.setCurrentFrame(
       this.createFrameFromContext(sprite, context)
     );
+    this.props.setCurrentLayer(0);
     for (let j = 1; j < sprite.frames; j++) {
       context.drawImage(image,
         0, j * height, width, height,
@@ -187,25 +183,22 @@ obj.createFrameFromContext = function(sprite, image) {
     index
   );
   for (let j = 0; j < sprite.layers; j++) {
-    let layerIndex;
+    let layer;
     contextTemp.canvas.height = sprite.height;// clean
     contextTemp.drawImage(image.canvas,
       sprite.width * j, 0, sprite.width, sprite.height,
       0, 0, sprite.width, sprite.height
     );
-    layerIndex = this.createLayersFromContext(sprite, contextTemp, index);
+    layer = this.createLayersFromContext(sprite, contextTemp, index, j);
     this.props.addLayerFrame(
       index,
-      layerIndex
+      layer
     );
-    if (j == 0) {
-      this.props.setCurrentLayer(layerIndex);
-    }
   }
   return index;
 };
 
-obj.createLayersFromContext = function(sprite, image, frame) {
+obj.createLayersFromContext = function(sprite, image, frame, index) {
   let context = document.createElement('canvas').getContext('2d');
   context.canvas.width = sprite.width;
   context.canvas.height = sprite.height;
@@ -218,7 +211,8 @@ obj.createLayersFromContext = function(sprite, image, frame) {
     width : sprite.width,
     height : sprite.height,
     sprite : sprite.index,
-    frame : frame
+    frame : frame,
+    layerIndex : index
   });
 };
 

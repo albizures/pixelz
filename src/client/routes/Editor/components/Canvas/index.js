@@ -69,10 +69,11 @@ obj.render = function() {
 const Canvas = React.createClass(obj);
 
 function mapStateToProps(state, props) {
+  var frame = state.Editor.frames[state.Editor.frame];
   return {
     sprite : state.Editor.sprites[state.Editor.sprite],
-    frame : state.Editor.frames[state.Editor.frame],
-    layer : state.Editor.layers[state.Editor.layer],
+    frame : frame,
+    layer : state.Editor.layers[frame.layers[state.Editor.layer]],
     tool : state.Editor.tool,
     artboard : state.Editor.artboard
   };

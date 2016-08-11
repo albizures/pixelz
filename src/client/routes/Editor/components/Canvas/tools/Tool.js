@@ -1,6 +1,8 @@
 const { store } = require('../../../../../store.js');
-const actionsFrames = require('../../../ducks/frames.js').actions;
-const actionsLayers = require('../../../ducks/layers.js').actions;
+const frameActions = require('../../../ducks/frames.js').actions;
+const layerActions = require('../../../ducks/layers.js').actions;
+const historyActions = require('../../../ducks/history.js').actions;
+
 const { RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 
 const { abs } = Math;
@@ -9,6 +11,10 @@ const common = {};
 common.getColor = function (which) {
   var state = store.getState();
   return which === RIGHT_CLICK ? state.Editor.secondaryColor : state.Editor.primaryColor;
+};
+
+common.addUndo = function (data) {
+  store.dispatch(historyActions.addUndoPaint(data));
 };
 
 common.newVersion = function (layer) {
@@ -22,8 +28,8 @@ common.newVersion = function (layer) {
       0, 0, frame.width, frame.height
     );
   });
-  store.dispatch(actionsLayers.newLayerVersion(layer.index));
-  store.dispatch(actionsFrames.newFrameVersion(layer.frame));
+  store.dispatch(layerActions.newLayerVersion(layer.index));
+  store.dispatch(frameActions.newFrameVersion(layer.frame));
 };
 
 common.lineBetween = function (x1, y1, x2, y2, fn) {

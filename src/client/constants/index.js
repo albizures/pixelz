@@ -24,6 +24,7 @@ make([
   '.transparent-bkg{background-image:' + exports.transparentImage + '}'
 ]);
 
+exports.TRANSPARENT_COLOR = 'rgba(0, 0, 0, 0)';
 exports.LEFT_CLICK = 1;
 exports.MIDDLE_CLICK = 2;
 exports.RIGHT_CLICK = 3;
