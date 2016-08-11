@@ -5,7 +5,7 @@ const path = require('path');
 const config = require('./src/server/config/environment');
 
 module.exports = {
-  watch : true,
+  watch : config.isDev,
   devtool : '#inline-source-map',
   entry:[
     config.APP_PATH
