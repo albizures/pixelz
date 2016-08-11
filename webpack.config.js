@@ -12,18 +12,25 @@ module.exports = {
   ],
   output: {
     path: config.PUBLIC_PATH,
-    filename: "[name].js",
+    filename: "bundle.js",
     publicPath : '/'
   },
   plugins: [
     new ExtractTextPlugin("styles.css"),
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'Pixelz Studio',
       filename: 'index.html',
       template: config.MAIN_TEMPLATE
     })
-  ],
+  ].concat(config.isProd? [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    })
+  ] : []),
 
   module: {
     loaders: [{

@@ -25,6 +25,7 @@ gulp.task('server', function () {
   server.start();
 
   gulp.watch([path.join(webpackConfig.output.path, '/**/*.{html,css,js}')], function (file) {
+    console.log('change');
     server.notify.apply(server, [file]);
   });
 
