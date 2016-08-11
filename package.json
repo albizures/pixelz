@@ -5,9 +5,7 @@
   "main": "index.js",
   "homepage": "http://pixelzstudio.com",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development&set NODE_ENV=development&concurrently \"node webpack.config.js\" \"nodemon index.js\"",
-    "deploy": "NODE_ENV=production&set NODE_ENV=production&node src/webpack.production.config.js"
+    "start" : "grunt"
   },
   "keywords": [
     "express",
@@ -53,6 +51,9 @@
     "express-livereload": "0.0.24",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-live-server": "0.0.30",
     "html-webpack-plugin": "^2.7.2",
     "image-webpack-loader": "^1.6.2",
     "imports-loader": "^0.6.5",
@@ -67,6 +68,7 @@
     "webpack": "^1.12.8",
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.10.0",
+    "webpack-stream": "^3.2.0",
     "worker-loader": "^0.7.0"
   }
 }

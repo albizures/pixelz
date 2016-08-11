@@ -1,3 +1,4 @@
+const express = require('express');
 const livereload = require('express-livereload');
 const config = require('./environment');
 const favicon = require('serve-favicon');
@@ -10,9 +11,9 @@ module.exports = function (app) {
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(favicon('src/favicon.ico'));
 
-	if (config.isProduction) {
+	//if (config.isProduction) {
 		app.use(express.static(config.PUBLIC_PATH));
-	} else {
+	//} else {
 		app.use(morgan('dev'));
-	}
+	//}
 };

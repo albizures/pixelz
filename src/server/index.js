@@ -7,9 +7,9 @@ const express = require('express'),
 
 require("./config/express.js")(app);
 require("./router.js")(app);
-if (!config.isProduction) {
-	require('./config/proxy.js')(app);
-}
+// if (!config.isProduction) {
+// 	require('./config/proxy.js')(app);
+// }
 
 var a = require('./components/connect.js');
 

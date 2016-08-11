@@ -1,13 +1,13 @@
 const webpack = require('webpack');
-const WebpackDevServer = require("webpack-dev-server");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const config = require('./src/server/config/environment');
 
 module.exports = {
+  watch : true,
   devtool : '#inline-source-map',
   entry:[
-    'webpack-dev-server/client?http://localhost:8081', // &reload=true
     config.APP_PATH
   ],
   output: {
@@ -16,6 +16,7 @@ module.exports = {
     publicPath : '/'
   },
   plugins: [
+    new ExtractTextPlugin("styles.css"),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'Pixelz Studio',
@@ -28,7 +29,7 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       include: config.CLIENT_PATH,
-      loader: "babel-loader"
+      loader: "babel"
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       loaders: [
@@ -37,21 +38,21 @@ module.exports = {
       ]
     }, {
       test: /\.jade$/,
-      loader: 'jade-loader'
+      loader: 'jade'
     }, {
       test: /\.css?$/,
-      loaders: ['style-loader', 'css-loader']
+      loader: ExtractTextPlugin.extract('style', 'css')
     }, {
       test: /\.styl?$/,
-      loaders: ['style-loader', 'css-loader', 'stylus-loader']
+      loader: ExtractTextPlugin.extract('style', 'css!stylus')
     }, {
       test : /workers/,
-      loaders : ['worker?name=workers/[name].[ext]', 'babel-loader']
+      loaders : ['worker?name=workers/[name].[ext]', 'babel']
     }],
     preLoaders: [{
       test: /\.js?$/,
       exclude: [/build/, /node_modules/],
-      loaders: ['eslint-loader']
+      loaders: ['eslint']
     }]
   },
   resolve: {
@@ -66,29 +67,4 @@ module.exports = {
   resolveLoader: {
     root: config.MODULES_PATH
   }
-
 };
-var compiler = webpack(module.exports);
-
-var server = new WebpackDevServer(compiler, {
-  historyApiFallback: true,
-  //hot : true,
-  proxy : {
-    '*' : {
-      target: 'http://localhost:8080/',
-      secure: false,
-      bypass: function(req, res, proxyOptions) {
-        if (req.headers.accept.indexOf('html') !== -1) {
-          console.log('Skipping proxy for browser request.');
-          return '/index.html';
-        }
-      }
-    }
-  },
-  headers: {
-    "X-Custom-Header": "yes",
-    "Access-Control-Allow-Origin": "*"
-  }
-});
-
-server.listen(8081, "localhost", function() {});
