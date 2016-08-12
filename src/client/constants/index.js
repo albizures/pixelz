@@ -5,7 +5,7 @@ const context = document.createElement('canvas').getContext('2d');
 
 context.canvas.height = context.canvas.width = 64;
 
-context.fillStyle = 'white',
+context.fillStyle = '#989898',
 context.fillRect(0, 0,  32, 32);
 context.fillRect(32, 32,  32, 32);
 
