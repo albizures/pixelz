@@ -5,6 +5,7 @@ const { store } = require('../../../../../store.js');
 const {actions} = require('../../../ducks/layers.js');
 const Tool = require('./Tool.js');
 const { calculatePosition, validCord, cloneContext } = require('utils/canvas.js');
+const { isTransparent } = require('utils/color.js');
 //const Actions = require('../panels/Actions.js');
 //const Layers = require('../panels/Layers.js');
 //const actions = require('../constants').actions;
@@ -24,7 +25,7 @@ pencil.onMouseDown = function (evt, cord, _preview, _layer,  _artboard) {
   this.clicked = true;
   lastPixel = cord;
   color = this.getColor(evt.which);
-  if (color == TRANSPARENT_COLOR) {
+  if (isTransparent(color)) {
     at = pencil.clean;
   } else {
     at = pencil.paint;

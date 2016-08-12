@@ -17,15 +17,15 @@ obj.componentDidMount = function() {
   });
 };
 
-obj.shouldComponentUpdate = function(nextProps, nextState) {
-  if (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
-    this.paint(this.state.context, nextProps.artboard, nextProps.layer);
+obj.shouldComponentUpdate = function (nextProps, nextState) {
+  if (this.state.context !== nextState.context || nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
+    this.paint(nextState.context, nextProps.artboard, nextProps.layer);
   }
   return nextProps.size.width !== this.props.size.width
     || nextProps.size.height !== this.props.size.height;
 };
 
-obj.paint = function(context, artboard, layer){
+obj.paint = function (context, artboard, layer) {
   let width = (layer.width * artboard.scale);
   let height = (layer.height * artboard.scale);
   this.clean(context);
@@ -35,7 +35,7 @@ obj.paint = function(context, artboard, layer){
     artboard.x, artboard.y, width, height);
 };
 
-obj.componentDidUpdate = function(prevProps, prevState) {
+obj.componentDidUpdate = function (prevProps, prevState) {
   if (this.state.context && this.props.layer && this.props.artboard) {
     this.paint(this.state.context, this.props.artboard, this.props.layer);
   }

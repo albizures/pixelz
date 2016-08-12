@@ -60,7 +60,6 @@ obj.componentDidUpdate = function(prevProps, prevState) {
 
 obj.getCanvas = function () {
   var frame = this.props.frames[this.props.frame];
-  
   if (frame && this.props.layers[frame.layers[this.props.layer]] && this.props.artboard !== null) {
     return <Canvas width={window.innerWidth} height={window.innerHeight}/>;
   }

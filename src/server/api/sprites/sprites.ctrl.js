@@ -12,7 +12,7 @@ exports.post = function (req, res) {
   let type = req.body.type;
   console.log(req.files.length);
   model.post({
-    user : db.newId('5761fcf1a4a36ca01877f912'),
+    user : db.newId('576209aca666379a7acd5d18'),
     name: req.body.name,
     modificationDate: date,
     creationDate : date,

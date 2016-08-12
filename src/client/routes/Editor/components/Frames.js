@@ -22,15 +22,11 @@ obj.onClickAddFrame = function() {
   let sprite = this.props.sprite.index;
   let numLayers = this.props.frame.layers.length;
   let frame = this.createFrame({sprite});
-  console.info(frame, numLayers);
   for (let j = 0; j < numLayers; j++) {
     let layer = this.createLayer({
       sprite,
       frame
     });
-    if (j == 0) {
-      this.props.setCurrentLayer(layer);
-    }
   }
   this.props.setCurrentFrame(frame);
 };
