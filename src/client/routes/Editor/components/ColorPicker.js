@@ -252,24 +252,24 @@ obj.render = function () {
       </div>
       <Color color={this.props.params.color} size={36} onClick={noop}/>
       <Color color={this.state.color} size={36} onClick={noop}/>
-      <div className='input' >
+      <div className='input-group' >
         <label>R</label>
         <Range value={rgba[0]} onChange={this.getHandleRGBA(0)} min={0} max={255} />
       </div>
-      <div className='input' >
+      <div className='input-group' >
         <label>G</label>
         <Range value={rgba[1]} onChange={this.getHandleRGBA(1)} min={0} max={255} />
       </div>
-      <div className='input' >
+      <div className='input-group' >
         <label>B</label>
         <Range value={rgba[2]} onChange={this.getHandleRGBA(2)} min={0} max={255} />
       </div>
-      <div className='input' >
+      <div className='input-group' >
         <label>A</label>
         <Range value={rgba[3]} onChange={this.getHandleRGBA(3)} min={0} max={100} />
       </div>
-      <button onClick={this.onClickOK}>OK</button>
-      <button onClick={this.onClickCancel}>Cancel</button>
+      <button className='btn' onClick={this.onClickOK}>OK</button>
+      <button className='btn' onClick={this.onClickCancel}>Cancel</button>
     </div>
   </Panel>;
 };

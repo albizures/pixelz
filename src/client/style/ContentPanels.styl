@@ -3,11 +3,23 @@
   margin 0
   display inline-block
   text-align center
-  font-size 12px
+  font bold 12px sans-serif
+  color disabled-gray
   height 20px
-  line-height 20px
-  background whitesmoke
+  line-height 1.5
+  background background-black
   box-sizing border-box
-  box-shadow inset 0 0 10px rgba(0, 0, 0, 0.5)
+  border-left 1px solid main-black
+  z-index 3
   &.active
-    box-shadow inset 0 0 0px rgba(0, 0, 0, 0.5)
+    color text-color
+    position relative
+    background main-gray
+    &:after
+     content ''
+     position absolute
+     width 100%
+     height 1px
+     bottom -1px
+     left 0
+     background main-gray

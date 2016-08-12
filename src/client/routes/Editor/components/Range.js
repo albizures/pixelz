@@ -67,7 +67,7 @@ obj.onMouseDown = function (evt) {
 
 obj.getBackground = function () {
   var position = (( (this.props.value - this.props.min) / (this.props.max  - this.props.min)) * 100) + '%';
-  return 'linear-gradient(to right, gray, gray ' + position + ', white ' + position + ')';
+  return 'linear-gradient(to right, gray, gray ' + position + ', transparent ' + position + ')';
 };
 obj.componentWillReceiveProps = function(nextProps) {
   this.bigDiff = Math.round(nextProps.max * 0.03);
@@ -79,7 +79,7 @@ obj.render = function() {
     return <input className='range-large' type="range" max={this.props.max} min={this.props.min} value={this.props.value} onChange={this.onChange}/>;
   }
   return <div className='range-small' onWheel={this.onWheel} style={{backgroundImage : this.getBackground()}} onMouseDown={this.onMouseDown}>
-    <input value={this.props.value} onChange={this.onChange}/>
+    <input className='input' value={this.props.value} onChange={this.onChange}/>
   </div>;
 };
 

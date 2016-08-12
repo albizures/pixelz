@@ -53,7 +53,7 @@ obj.getList = function() {
 };
 obj.render = function() {
   return <Panel name='layers' dragBar={false} style={this.props.style}>
-    <button className="add-layer" onClick={this.onClickAddLayer}>add layer</button>
+    <button className="btn add-layer" onClick={this.onClickAddLayer}>add layer</button>
     {
       this.getList()
     }

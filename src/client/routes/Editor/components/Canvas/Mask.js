@@ -23,7 +23,7 @@ obj.componentWillUpdate = function(nextProps, nextState) {
 obj.paint = function(context, artboard, layer){
   let width = (layer.width * artboard.scale);
   let height = (layer.height * artboard.scale);
-  context.fillStyle = 'gray';
+  context.fillStyle = '#494949';
   context.fillRect(0, 0, context.canvas.width, context.canvas.width);
   context.clearRect(artboard.x, artboard.y, width, height);
 };

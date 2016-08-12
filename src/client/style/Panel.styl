@@ -1,24 +1,31 @@
 .panel
   position absolute
+  border border-panel solid main-black
+  padding padding-panel
   box-sizing: border-box;
   //border 2px solid rgba(245, 245, 245, 0.7)
   z-index 1
   overflow hidden
   //background panel-background
-  background rgb(220, 220, 220)
+  background background-black
+  .panel
+    background main-gray
   &.float
+    background main-gray
     border-radius 4px
+    padding 0
     box-shadow rgba(0, 0, 0, 0.247059) 0px 0px 0px 1px, rgba(0, 0, 0, 0.14902) 0px 8px 16px
   .drag-bar
     line-height 20px
-    background-image: -webkit-linear-gradient(rgb(240, 240, 240) 0%, rgb(212, 212, 212) 100%)
-    background-image: -o-linear-gradient(rgb(240, 240, 240) 0%, rgb(212, 212, 212) 100%)
-    background-image: linear-gradient(rgb(240, 240, 240) 0%, rgb(212, 212, 212) 100%)
-    font-size: 12px
+    background-image: -webkit-linear-gradient(rgb(66, 66, 66) 0%, rgb(48, 48, 48) 100%)
+    background-image: -o-linear-gradient(rgb(66, 66, 66) 0%, rgb(48, 48, 48) 100%)
+    background-image: linear-gradient(rgb(66, 66, 66) 0%, rgb(48, 48, 48) 100%)
+    font bold 12px sans-serif
+    line-height 1.5
     text-align center
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: rgb(177, 177, 177);
+    border-bottom-color: gradient-bottom-gray
     width 100%
     cursor move
   .resize-bar

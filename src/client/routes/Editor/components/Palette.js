@@ -16,7 +16,7 @@ obj.getInitialState = function () {
 
 obj.render = function () {
   return <Panel name="Palette" style={this.state.style}>
-    <button >=</button>
+    <button className='btn' >=</button>
   </Panel>;
 };
 const Palette = React.createClass(obj);

@@ -57,7 +57,7 @@ obj.getList = function() {
 
 obj.render = function() {
   return <Panel name='frames' dragBar={false} style={this.props.style}>
-    <button className="add-frame" onClick={this.onClickAddFrame}>add frame</button>
+    <button className="add-frame btn" onClick={this.onClickAddFrame}>add frame</button>
     {
       this.getList()
     }

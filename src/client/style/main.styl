@@ -4,6 +4,14 @@
 @import './Panel.styl'
 @import './Range.styl'
 
+.btn 
+  btn-bg()
+  border 1px solid main-black
+.input
+  border 1px solid main-black
+  background input-background
+  color black
+
 #root
   position absolute
   width 100%
@@ -39,11 +47,12 @@ canvas {
   -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
 }
 body{
-  background grey
-  position: absolute
-  width : 100%
-  height : 100%;
-  overflow : hidden;
+  background background-black
+  position absolute
+  width 100%
+  height 100%
+  color text-color
+  overflow hidden
 }
 .list-content
   position: relative
@@ -112,11 +121,11 @@ body{
     background: whitesmoke
     padding: 5px
 .panel-menus
-  border: 0;
+  border 0
   z-depth-1 0
-  z-index: 10
-  transition: 0.3s height
-  background: whitesmoke
+  z-index 10
+  transition 0.3s height
+  background #494949
   &.down
     z-depth-2 0
   .center

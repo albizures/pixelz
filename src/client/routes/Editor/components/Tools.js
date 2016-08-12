@@ -16,7 +16,7 @@ obj.getInitialState = function(){
     style : {
       top : 100,
       left : 150,
-      width : 60
+      width : 65
     }
   };
 };
