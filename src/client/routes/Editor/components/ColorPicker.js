@@ -50,16 +50,16 @@ obj.componentWillReceiveProps = function(nextProps) {
   }
 };
 obj.initColor = function (color) {
-  var h, s, b, a;
-  color = getRGBAComponents(color);
-  a = round(color[3] * 100);
-  color = rgbToHsv(color[0], color[1], color[2]);
+  var h, s, b, a, rgbaComponets;
+  rgbaComponets = getRGBAComponents(color);
+  a = rgbaComponets[3]; //round(color[3] * 100);
+  color = rgbToHsv(rgbaComponets[0], rgbaComponets[1], rgbaComponets[2]);
   h = color[0];
   s = color[1];
   b = color[2];
-  color = 'rgba(' + color[0].toFixed(0) + ', ' + color[1].toFixed(0) + ', ' + color[2].toFixed(0) + ', ' + this.state.a + ')';
+  color = 'rgba(' + rgbaComponets[0].toFixed(0) + ', ' + rgbaComponets[1].toFixed(0) + ', ' + rgbaComponets[2].toFixed(0) + ', ' + a + ')';
   this.setState({h, s, b, a, color});
-  this.setPositions(h, s, b, a);
+  this.setPositions(h, s, b, round(a * 100));
 };
 obj.setPositions = function (h, s, b, a) {
   var size = this.state.size - this.state.bar;
