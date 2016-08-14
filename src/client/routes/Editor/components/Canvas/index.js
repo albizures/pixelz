@@ -8,7 +8,7 @@ const Main = require('./Main.js');
 const Preview = require('./Preview.js');
 const Mask = require('./Mask.js');
 
-const obj = {};
+const obj = require('./events.js');
 
 obj.displayName = 'Canvas';
 
@@ -53,16 +53,31 @@ obj.shouldComponentUpdate = function(nextProps, nextState) {
   return true;
 };
 
+obj.setContextType = function (type, context) {
+  let state = {};
+  let $canvas = $(context.canvas);
+  state[type] = {
+    context,
+    $canvas
+  };
+  this.setState(state);
+
+  if (type === 'preview') {
+    $canvas.off('mousedown.preview').on('mousedown.preview', this.onMouseDown, false);
+    $canvas.off('mousemove.preview').on('mousemove.preview', this.onMouseMove, false);
+  }
+};
+
 obj.render = function() {
   var size = {
     width : this.props.width,
     height : this.props.height
   };
   return <div className='content-canvas' onWheel={this.onWheel}>
-    <Background size={size} artboard={this.props.artboard} layer={this.props.layer}/>
-    <Main size={size} artboard={this.props.artboard} layer={this.props.layer}/>
-    <Preview size={size} artboard={this.props.artboard} layer={this.props.layer} tool={this.props.tool}/>
-    <Mask size={size} artboard={this.props.artboard} layer={this.props.layer}/>
+    <Background size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+    <Main size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+    <Preview size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+    <Mask size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
   </div>;
 };
 

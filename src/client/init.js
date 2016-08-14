@@ -6,6 +6,7 @@ window.hasVal = (val) => {
   return typeof val !== 'undefined' && val !== null;
 };
 window.$ = require('utils/dom.js').$;
+window.$window = $(window);
 
 Element.prototype.requestPointerLock = Element.prototype.requestPointerLock || Element.prototype.mozRequestPointerLock;
 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;

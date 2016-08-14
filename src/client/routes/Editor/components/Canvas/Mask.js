@@ -2,7 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 const obj = {};
-
+let canvas, context;
 obj.displayName = 'Mask';
 
 obj.getInitialState = function() {
@@ -10,9 +10,10 @@ obj.getInitialState = function() {
 };
 
 obj.componentDidMount = function() {
-  this.setState({
-    context : ReactDOM.findDOMNode(this).getContext('2d')
-  });
+  canvas = ReactDOM.findDOMNode(this);
+  context = canvas.getContext('2d');
+  this.setState({context});
+  this.props.setContext('mask', context);
 };
 
 obj.componentWillUpdate = function(nextProps, nextState) {
