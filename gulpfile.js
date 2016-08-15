@@ -1,11 +1,13 @@
 const path = require('path');
-var os = require('os');
+const os = require('os');
 const gulp = require('gulp');
+const gulplog = require('gulplog');
+const webpack = require('webpack');
 const gutil = require('gulp-util');
 const open = require('gulp-open');
 const clean = require('gulp-clean');
 const gls = require('gulp-live-server');
-const webpack = require('webpack-stream');
+//const webpack = require('webpack-stream');
 const config = require('./src/server/config/environment');
 var webpackConfig;
 
@@ -20,52 +22,20 @@ gulp.task('set-prod', function () {
 let callingDone = false;
 let firstCompile = true; 
 gulp.task('webpack', ['clean'], function (cb) {
-  return gulp.src('src/entry.js')
-    .pipe(webpack(webpackConfig, undefined, function done(err, stats) {
-      if (err) {
-        // The err is here just to match the API but isnt used
-        return;
-      }
-      stats = stats || {};
-      if (callingDone) {
-        return;
-      }
-      // Debounce output a little for watch mode
-      callingDone = true;
-      setTimeout(function () {
-        callingDone = false;
-      }, 500);
+  webpack(webpackConfig, function(err, stats) {
+    if (err) {
+      throw err; // hard error
+    }
 
-      // if (options.verbose) {
-      //   gutil.log(stats.toString({
-      //     colors: gutil.colors.supportsColor
-      //   }));
-      // } else {
-      var statsOptions = {
-        colors: gutil.colors.supportsColor,
-        hash: false,
-        timings: false,
-        chunks: false,
-        chunkModules: false,
-        modules: false,
-        children: true,
-        version: true,
-        cached: false,
-        cachedAssets: false,
-        reasons: false,
-        source: false,
-        errorDetails: false
-      };
+    gulplog[stats.hasErrors() ? 'error' : 'info'](stats.toString({
+      colors: true
+    }));
 
-      gutil.log(stats.toString(statsOptions));
-      // }
-      if (firstCompile) {
-        console.log('init compile');
-        cb();
-        firstCompile = false;
-      }
-    }))
-    .pipe(gulp.dest(webpackConfig.output.path));
+    if (!cb.called) {
+      cb.called = true;
+      cb();
+    }
+  });
 });
 
 gulp.task('server', function () {

@@ -61,7 +61,6 @@
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",
     "morgan": "^1.7.0",
-    "piping": "^0.3.2",
     "proxy-middleware": "^0.15.0",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.5",
