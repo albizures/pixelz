@@ -9,13 +9,13 @@ exports.walkBitmap = function walkBitmap(bitmap, fn) {
   }
 };
 
-exports.imageSmoothing = function imageSmoothing(ctx, value) {
+function imageSmoothing(ctx, value) {
   ctx.imageSmoothingEnabled = value;
   ctx.mozImageSmoothingEnabled = value;
   ctx.msImageSmoothingEnabled = value;
 };
 
-exports.imageSmoothingDisabled = function imageSmoothingDisabled(ctx) {
+function imageSmoothingDisabled(ctx) {
   exports.imageSmoothing(ctx, false);
 };
 
@@ -63,8 +63,8 @@ exports.validCord = function validCord(layer, cord) {
   return cord.x >= 0 && cord.x < layer.width && cord.y >= 0 && cord.y < layer.height;
 };
 
-exports.cloneContext = function (context) {
-  let { width, height} = context.canvas;
+function cloneContext(context) {
+  let { width, height } = context.canvas;
   let clone = document.createElement('canvas');
   clone.width = width;
   clone.height = height;
@@ -75,3 +75,46 @@ exports.cloneContext = function (context) {
   );
   return clone;
 };
+
+function scaleContext(context, scale = 1) {
+  let { width, height } = context.canvas;
+  let clone = document.createElement('canvas');
+  let scaleHeight = height * scale;
+  let scaleWidth = width * scale;
+  clone.width = scaleWidth;
+  clone.height = scaleHeight;
+  clone = clone.getContext('2d');
+  imageSmoothingDisabled(clone);
+  clone.drawImage(context.canvas,
+    0, 0, width, height,
+    0, 0, scaleWidth, scaleHeight
+  );
+  return clone;
+}
+
+function getImageData(context) {
+  return context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+};
+
+exports.noTransparent = function (context, scale, transparent) {
+  let { width, height } = context.canvas;
+  let data = getImageData(context);
+  context = scaleContext(context, scale);
+
+  context.fillStyle = transparent;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] === 0) {
+      let pos = i / 4,
+        x = pos % 20,
+        y = ~~(pos / 20);
+
+      context.fillRect(x * scale, y * scale, scale, scale);
+    }
+  }
+  return context;
+};
+
+exports.getImageData = getImageData;
+exports.imageSmoothing = imageSmoothing;
+exports.cloneContext = cloneContext;
+exports.imageSmoothingDisabled = imageSmoothingDisabled;
