@@ -93,7 +93,7 @@ function scaleContext(context, scale = 1) {
 }
 
 function getImageData(context) {
-  return context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+  return context.getImageData(0, 0, context.canvas.width, context.canvas.height).data;
 };
 
 exports.noTransparent = function (context, scale, transparent) {

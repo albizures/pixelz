@@ -1,6 +1,7 @@
 const { store } = require('../../../../../store.js');
 const frameActions = require('../../../ducks/frames.js').actions;
 const layerActions = require('../../../ducks/layers.js').actions;
+const spriteActions = require('../../../ducks/sprites.js').actions;
 const historyActions = require('../../../ducks/history.js').actions;
 const { cloneContext } = require('utils/canvas.js');
 
@@ -31,6 +32,7 @@ common.newVersion = function (layer) {
   });
   store.dispatch(layerActions.newLayerVersion(layer.index));
   store.dispatch(frameActions.newFrameVersion(layer.frame));
+  store.dispatch(spriteActions.newSpriteVersion(layer.sprite));
 };
 
 common.lineBetween = function (x1, y1, x2, y2, fn) {
