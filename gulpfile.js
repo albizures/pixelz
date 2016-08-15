@@ -11,6 +11,23 @@ const gls = require('gulp-live-server');
 const config = require('./src/server/config/environment');
 var webpackConfig;
 
+var defaultStatsOptions = {
+  colors: true,
+  hash: false,
+  timings: false,
+  chunks: false,
+  chunkModules: false,
+  modules: false,
+  children: true,
+  version: true,
+  cached: false,
+  cachedAssets: false,
+  reasons: false,
+  source: false,
+  errorDetails: false
+};
+
+
 gulp.task('set-dev', function () {
   return process.env.NODE_ENV = 'development';
 });
@@ -27,9 +44,7 @@ gulp.task('webpack', ['clean'], function (cb) {
       throw err; // hard error
     }
 
-    gulplog[stats.hasErrors() ? 'error' : 'info'](stats.toString({
-      colors: true
-    }));
+    gulplog[stats.hasErrors() ? 'error' : 'info'](stats.toString(defaultStatsOptions));
 
     if (!cb.called) {
       cb.called = true;
@@ -44,6 +59,7 @@ gulp.task('server', function () {
   server.start();
 
   gulp.watch([path.join(webpackConfig.output.path, '/**/*.{html,css,js}')], function (file) {
+    console.log('change public files');
     server.notify.apply(server, [file]);
   });
 
