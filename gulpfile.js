@@ -36,8 +36,8 @@ gulp.task('set-prod', function () {
   return process.env.NODE_ENV = 'production';
 });
 
-let callingDone = false;
-let firstCompile = true; 
+var callingDone = false;
+var firstCompile = true; 
 gulp.task('webpack', ['clean'], function (cb) {
   webpack(webpackConfig, function(err, stats) {
     if (err) {

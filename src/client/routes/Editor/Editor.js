@@ -116,7 +116,7 @@ obj.createSprite = function(name, width, height) {
   this.props.setCurrentLayer(this.createLayer({sprite, frame, width, height}));
 };
 
-obj.onGetSprite = function(result) {
+obj.onGetSprite = function (result) {
   let sprite, image = new Image(), width, height; 
   let context = document.createElement('canvas').getContext('2d');
   if (result.code !== 0) {
@@ -143,6 +143,7 @@ obj.onGetSprite = function(result) {
     );
     this.props.setCurrentLayer(0);
     for (let j = 1; j < sprite.frames; j++) {
+      context.canvas.height = height;// clean
       context.drawImage(image,
         0, j * height, width, height,
         0, 0, width, height

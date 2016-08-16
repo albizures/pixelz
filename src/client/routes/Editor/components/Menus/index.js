@@ -1,4 +1,5 @@
 const React = require('react');
+const { Link } = require('react-router');
 const { connect } = require('react-redux');
 
 const Panel = require('../Panel.js');
@@ -34,7 +35,9 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
 
 obj.render = function () {
   return <Panel name='Menus' style={this.state.style} dragBar={false}>
-    <image className='logo'/>
+    <Link to='/'>
+      <image className='logo'/>
+    </Link>
     <ul className='list-menus'>
       {[
         this.getMenu('project',undefined, [
