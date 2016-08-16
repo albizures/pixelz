@@ -2,7 +2,8 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 const { imageSmoothingDisabled } = require('utils/canvas.js');
-
+let canvas;
+let context;
 const obj = {};
 
 obj.displayName = 'Main';
@@ -12,9 +13,10 @@ obj.getInitialState = function () {
 };
 
 obj.componentDidMount = function() {
-  this.setState({
-    context : ReactDOM.findDOMNode(this).getContext('2d')
-  });
+  canvas = ReactDOM.findDOMNode(this);
+  context = canvas.getContext('2d');
+  this.setState({context});
+  this.props.setContext('main', context);
 };
 
 obj.shouldComponentUpdate = function (nextProps, nextState) {

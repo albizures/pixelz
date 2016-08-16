@@ -1,5 +1,7 @@
 .panel-menus.panel
-  position: absolute;
+  position absolute
+  border 0
+  padding 0
   top 0
   left 0
   overflow visible
@@ -14,7 +16,7 @@
     height 25px
     display inline-block;
 .list-menus
-  height 100%
+  //height 100%
   vertical-align top
   margin 0
   padding 0
@@ -28,6 +30,7 @@
     line-height: 1.5;
     &:hover
       background #A3C4FF
+      color black
       cursor pointer
   .menu
     //background whitesmoke
@@ -37,13 +40,13 @@
     margin 0
     padding 0
     white-space nowrap
-    width: auto
+    width auto
     padding 0 5px
     list-style none
     .list-menus
-      border 1px solid gray
-      box-shadow 0 0 3px rgba(0, 0, 0, 0.2)
-      background whitesmoke
+      border 0
+      box-shadow rgba(0, 0, 0, 0.247) 3px 3px 2px -1px, rgba(0, 0, 0, 0.149) 0px 0px 0px
+      background main-gray
       position absolute
       top 100%
       left 0
@@ -58,8 +61,11 @@
           left 100%
           top 0
         &:hover
+          color black
           &>.list-menus
             display inline-block
     &:hover
       &>.list-menus
         display inline-block
+        .menu 
+          color text-color

@@ -17,7 +17,10 @@ const Palette = require('./components/Palette.js');
 const Palettes = require('./components/Palettes.js');
 const ColorPicker = require('./components/ColorPicker.js');
 const History = require('./components/History.js');
+const Menus = require('./components/Menus');
+
 const shortcuts = require('./shortcuts');
+
 const obj = {};
 
 obj.displayName = 'Editor';
@@ -25,11 +28,9 @@ obj.displayName = 'Editor';
 obj.render = function () {
   return <div className="editor-content">
     {
-      this.getCanvas('aaaaaaaa')
+      this.getCanvas()
     }
-    <Panel name='Menus' style={this.state.Menus} dragBar={false}>
-      {'Menus'}
-    </Panel>
+    <Menus/>
     <Panel name='Left' contentPanels tabs style={this.state.Left} tabDefault={1} dragBar={false}>
       <Frames name='Frames' frames={this.props.frames} frame={this.props.frame} sprite={this.props.sprites[this.props.sprite]}/>
       <Layers name='Layers' />
@@ -68,12 +69,6 @@ obj.getCanvas = function () {
 
 obj.getInitialState = function () {
   return {
-    Menus : {
-      top : 0,
-      left : 0,
-      width : '100%',
-      height : '25px'
-    },
     Left : {
       top : '25px',
       left : 0,

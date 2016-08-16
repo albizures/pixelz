@@ -40,7 +40,7 @@ Selector.prototype.contentWidth = function (val) {
 Selector.prototype.contentHeight = function (val) {
   return dimensions.bind(this)('Height', val, true);
 };
-Selector.prototype.on = function (name, handler) {
+Selector.prototype.on = function (name, handler, bind = true) {
 
   var suffix = name.split('.')[1];
   name = name.split('.')[0];
@@ -58,7 +58,7 @@ Selector.prototype.on = function (name, handler) {
       this[i]._events[name] = {};
     }
     if (!hasVal(this[i]._events[name][suffix])) {
-      this[i]._events[name][suffix] =  handler.bind(this[i]);
+      this[i]._events[name][suffix] = bind? handler.bind(this[i]) : handler;
       this[i].addEventListener(name, this[i]._events[name][suffix]);
     }else {
       console.log(this[i]._events[name][suffix]);

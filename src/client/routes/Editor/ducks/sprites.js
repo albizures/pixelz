@@ -4,6 +4,9 @@ const { editProp, updateArrayItem, shiftPositions } = require('utils/ducks.js');
 const ADD_SPRITE = 'ADD_SPRITE';
 const ADD_SPRITE_FRAME = 'ADD_SPRITE_FRAME';
 const CHANGE_FRAME_POSITION = 'CHANGE_FRAME_POSITION';
+const NEW_SPRITE_VERSION = 'NEW_SPRITE_VERSION';
+const SET_TRANSPARENT_COLOR = 'SET_TRANSPARENT_COLOR';
+const SET_CURRENT_PALETTE = 'SET_CURRENT_PALETTE';
 
 exports.reducer = function (state = [], action) {
   switch (action.type) {
@@ -15,7 +18,8 @@ exports.reducer = function (state = [], action) {
         height : action.sprite.height,
         colors : action.sprite.colors || [],
         frames : action.sprite.frames || [],
-        index : action.index
+        index : action.index,
+        version : 0
       }]);
     case ADD_SPRITE_FRAME:
       return state.map((item, index) =>{
@@ -36,13 +40,31 @@ exports.reducer = function (state = [], action) {
           shiftPositions(state[action.sprite].frames, action.fromIndex, action.toIndex)
         )
       );
+    case NEW_SPRITE_VERSION:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'version', state[action.sprite].version + 1)
+      );
+    case SET_TRANSPARENT_COLOR:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'transparent', action.transparent)
+      );
+    case SET_CURRENT_PALETTE:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'palette', action.palette)
+      );
     default:
       return state;
   }
 };
-exports.actions = {};
+const actions = {};
 
-exports.actions.addSprite = function (sprite) {
+actions.addSprite = function (sprite) {
   return (dispatch, getState) => {
     let index = getState().Editor.sprites.length;
     dispatch({
@@ -54,7 +76,7 @@ exports.actions.addSprite = function (sprite) {
   };
 };
 
-exports.actions.addFrameSprite  = function (sprite, frame) {
+actions.addFrameSprite  = function (sprite, frame) {
   return {
     type : ADD_SPRITE_FRAME,
     sprite,
@@ -62,7 +84,14 @@ exports.actions.addFrameSprite  = function (sprite, frame) {
   };
 };
 
-exports.actions.changeFramePosition = function (sprite, fromIndex, toIndex) {
+actions.newSpriteVersion = function (sprite) {
+  return {
+    type : NEW_SPRITE_VERSION,
+    sprite
+  };
+};
+
+actions.changeFramePosition = function (sprite, fromIndex, toIndex) {
   return {
     type : CHANGE_FRAME_POSITION,
     sprite,
@@ -70,3 +99,21 @@ exports.actions.changeFramePosition = function (sprite, fromIndex, toIndex) {
     toIndex
   };
 };
+
+actions.setTransparentColor = function (sprite, transparent) {
+  return {
+    type : SET_TRANSPARENT_COLOR,
+    sprite,
+    transparent
+  };
+};
+
+actions.setCurrentPalette = function (sprite, palette) {
+  return {
+    type : SET_CURRENT_PALETTE,
+    sprite,
+    palette
+  };
+};
+
+exports.actions = actions;

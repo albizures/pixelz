@@ -53,7 +53,7 @@ module.exports = {
       test: /\.styl?$/,
       loader: ExtractTextPlugin.extract('style', 'css!stylus')
     }, {
-      test : /workers/,
+      test : /\.worker\.js?$/,
       loaders : ['worker?name=workers/[name].[ext]', 'babel']
     }],
     preLoaders: [{
@@ -64,6 +64,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      workers : path.join(config.CLIENT_PATH, 'workers/'),
       utils : path.join(config.CLIENT_PATH, 'utils/'),
       constants : path.join(config.CLIENT_PATH, 'constants/'),
       make : path.join(config.CLIENT_PATH, 'utils/make.js'),

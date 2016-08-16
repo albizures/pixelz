@@ -1,7 +1,9 @@
 const { store } = require('../../../../../store.js');
 const frameActions = require('../../../ducks/frames.js').actions;
 const layerActions = require('../../../ducks/layers.js').actions;
+const spriteActions = require('../../../ducks/sprites.js').actions;
 const historyActions = require('../../../ducks/history.js').actions;
+const { cloneContext } = require('utils/canvas.js');
 
 const { RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 
@@ -30,6 +32,7 @@ common.newVersion = function (layer) {
   });
   store.dispatch(layerActions.newLayerVersion(layer.index));
   store.dispatch(frameActions.newFrameVersion(layer.frame));
+  store.dispatch(spriteActions.newSpriteVersion(layer.sprite));
 };
 
 common.lineBetween = function (x1, y1, x2, y2, fn) {
@@ -51,8 +54,29 @@ common.lineBetween = function (x1, y1, x2, y2, fn) {
   fn(x1, y1);
 };
 
-exports.create = function (name) {
+common.onMouseDown = () => console.log('create onMouseDown function');
+
+common.onMouseDownInit = function (evt, initCord, layer, artboard, main, preview, background, mask) {
+  this.layer = layer;
+  this.prevStatus = cloneContext(this.layer.context);
+  this.artboard = artboard;
+  this.initCord = initCord;
+  this.main = main;
+  this.preview = preview;
+  this.background = background;
+  this.mask = mask;
+  this.onMouseDown(evt);
+};
+
+exports.create = function (name, custom) {
   let tool = Object.create(common);
+  let keys = Object.keys(custom);
+  for (var j = 0; j < keys.length; j++) {
+    var element = keys[j];
+    if (typeof custom[[keys[j]]] === "function") {
+      tool[keys[j]] = custom[[keys[j]]].bind(tool);
+    }
+  }
   tool.name = name;
   return tool;
 };

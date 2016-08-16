@@ -11,7 +11,6 @@ const APP_PATH = path.join(CLIENT_PATH, 'init.js');
 const MODULES_PATH = path.join(ROOT_PATH, 'node_modules');
 const ASSETS_PATH = path.join(CLIENT_PATH, 'assets');
 const TEMPLATE_PATH = path.join(CLIENT_PATH, 'template');
-console.log(env);
 const all = {
   isDev : env === 'development',
   isProduction: env != 'development',
