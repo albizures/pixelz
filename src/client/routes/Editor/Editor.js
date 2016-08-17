@@ -93,7 +93,7 @@ obj.componentDidMount = function() {
   if (this.props.params.id) {
     http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
   } else {
-    this.createSprite('test', 36, 36);
+    this.createSprite('unnamed', 36, 36);
   }
 };
 
