@@ -55,3 +55,7 @@ exports.postFile = function (data, cb) {
 exports.updateFile = function (data, cb) {
   db.updateFile(data, cb);
 };
+
+exports.putName = function (id, name, cb) {
+  db.update(collection, id, {name}, cb);
+};

@@ -15,7 +15,7 @@ function request(url, protocol, cb, body, headers = true) {
     body = JSON.stringify(body);
   }
   console.log(protocol,body, body instanceof FormData, url);
-  fetch(url, {
+  return fetch(url, {
     headers: headers? {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -41,8 +41,8 @@ exports.delete = function (url, cb) {
   request(url, 'DELETE', cb);
 };
 
-exports.put = function (url, body, cb) {
-  request(url, 'PUT', cb, body);
+function put (url, body, cb) {
+  return request(url, 'PUT', cb, body);
 };
 
 exports.upload = function (url, data, files, method, cb) {
@@ -57,4 +57,12 @@ exports.upload = function (url, data, files, method, cb) {
     console.log(typeof key);
   }
   request(url, method, cb, form, false);
+};
+
+exports.put = put;
+
+exports.sprite = {};
+
+exports.sprite.putName = function (id, name, cb) {
+  return put('/api/sprites/' + id + '/name', {name}, cb);
 };

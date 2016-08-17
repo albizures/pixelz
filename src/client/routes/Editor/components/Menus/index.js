@@ -2,6 +2,8 @@ const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
 
+const { actions } = require('../../ducks');
+const Name = require('./Name.js');
 const Panel = require('../Panel.js');
 const { noopF, noopA } = require('utils/noop.js');
 const obj = require('./events.js');
@@ -19,6 +21,12 @@ obj.getInitialState = function () {
   };
 };
 
+obj.getName = function () {
+  if (this.props.sprite) {
+    return this.props.sprite.name;
+  }
+  return '';
+};
 
 let menuCount = -1;
 obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
@@ -31,6 +39,13 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
       </ul>
     }
   </li>;
+};
+obj.shouldComponentUpdate = function (nextProps, nextState) {
+  return nextProps.spriteIndex !== this.props.spriteIndex;
+};
+
+obj.onSubmitName = function (name) {
+  console.log(this.props.putName(this.props.sprite, name));
 };
 
 obj.render = function () {
@@ -51,6 +66,7 @@ obj.render = function () {
         ])
       ]}
     </ul>
+    <Name name={this.getName() } onSubmit={this.onSubmitName}/>
   </Panel>;
 };
 
@@ -59,10 +75,15 @@ const Menus = React.createClass(obj);
 
 
 function mapStateToProps(state, props) {
-  return state.Editor;
+  return {
+    spriteIndex: state.Editor.sprite,
+    sprite: state.Editor.sprites[state.Editor.sprite],
+    frames: state.Editor.frames,
+    layers: state.Editor.layers
+  };
 }
 
 module.exports = connect(
   mapStateToProps,
-  undefined//ducks.actions
+  actions//ducks.actions
 )(Menus);

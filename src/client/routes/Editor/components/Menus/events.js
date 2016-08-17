@@ -12,7 +12,7 @@ exports.onSetBackground = function (evt) {
 
 
 exports.onSave = function (evt) {
-  let sprite = this.props.sprites[this.props.sprite];
+  let sprite = this.props.sprite;
   let numFrames = sprite.frames.length;
   let numLayers = this.props.frames[sprite.frames[0]].layers.length;
   let isGif = sprite.frames.length > 1;

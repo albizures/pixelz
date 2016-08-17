@@ -137,7 +137,7 @@ exports.put = function (req, res) {
     );
   }
   function onPostFile(result, id) {
-    response.commonPut(res, model.put, req.params.id, {
+    response.commonPutHistory(res, model.put, req.params.id, {
       name: req.body.name,
       width: req.body.width,
       height: req.body.height,
@@ -152,4 +152,8 @@ exports.put = function (req, res) {
       modificationDate: date
     }));
   }
+};
+
+exports.putName = function (req, res) {
+  response.commonPut(res, model.putName, req.params.id, req.body.name);
 };

@@ -36,8 +36,8 @@ function getReducer(type, prop) {
   };
 }
 exports.reducer = combineReducers({
-  history : history.reducer,
   artboard : getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
+  history : history.reducer,
   sprite : getReducer(SET_CURRENT_SPRITE, 'index'),
   frame : getReducer(SET_CURRENT_FRAME, 'index'),
   layer : getReducer(SET_CURRENT_LAYER, 'index'),

@@ -1,4 +1,4 @@
-
+const http = require('http');
 const { editProp, updateArrayItem, shiftPositions } = require('utils/ducks.js');
 
 const ADD_SPRITE = 'ADD_SPRITE';
@@ -7,6 +7,7 @@ const CHANGE_FRAME_POSITION = 'CHANGE_FRAME_POSITION';
 const NEW_SPRITE_VERSION = 'NEW_SPRITE_VERSION';
 const SET_TRANSPARENT_COLOR = 'SET_TRANSPARENT_COLOR';
 const SET_CURRENT_PALETTE = 'SET_CURRENT_PALETTE';
+const PUT_NAME = 'PUT_NAME';
 
 exports.reducer = function (state = [], action) {
   switch (action.type) {
@@ -57,6 +58,12 @@ exports.reducer = function (state = [], action) {
         state,
         action.sprite,
         editProp(state[action.sprite], 'palette', action.palette)
+      );
+    case PUT_NAME:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'name', action.name)
       );
     default:
       return state;
@@ -113,6 +120,27 @@ actions.setCurrentPalette = function (sprite, palette) {
     type : SET_CURRENT_PALETTE,
     sprite,
     palette
+  };
+};
+
+actions.putName = function (sprite, name) {
+  
+  return (dispatch, getState) => {
+    if (sprite._id) {
+      return http.sprite.putName(sprite._id, name, onPut);
+    }
+    return onPut({ code: 0 });
+
+    function onPut(result) {
+      if (result.code !== 0) {
+        return;// alert
+      }
+      dispatch({
+        type: PUT_NAME,
+        sprite: sprite.index,
+        name
+      });
+    }
   };
 };
 
