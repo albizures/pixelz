@@ -1,6 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 
+const { Tooltipy } = require('../../../components/Tooltipy.js');
 const Panel = require('./Panel.js');
 const Color = require('./Color.js');
 const { actions } = require('../ducks/panels.js');
@@ -55,7 +56,6 @@ obj.onClickSecondary = function (evt) {
     action : 'setSecondaryColor'
   });
 };
-
 obj.render = function() {
   return <Panel name="Tools" style={this.props.style} float={true}>
     <div className='colors'>
@@ -64,8 +64,10 @@ obj.render = function() {
     </div>
     <div className='tools'>
       {
-        this.props.tools.map((item, index) => 
-          <button className={this.props.tool == item? 'active' : '' } key={index}>{item.slice(0, 1)}</button>
+        this.props.tools.map((item, index) =>
+          <Tooltipy key={index} text={item} mode="top">
+            <button className={this.props.tool == item ? 'active' : '' } >{item.slice(0, 1) }</button>
+          </Tooltipy>
         )
       }
     </div>

@@ -28,12 +28,17 @@ const {Provider} = require('react-redux');
 const store = require('./store.js').store;
 const Home = require('./routes/Home');
 const Editor = require('./routes/Editor'); 
-console.log('init');
+const Tooltip = require('./components/Tooltip.js');
+
+
 ReactDOM.render((
-  <Provider store={store}>
-    <Router history={browserHistory }>
-      <Route path="/" component={Home} />
-      <Route path="/editor(/:id)" component={Editor} />
-    </Router>
-  </Provider>
+  <div className="root">
+    <Tooltip/>
+    <Provider store={store}>
+      <Router history={browserHistory }>
+        <Route path="/" component={Home} />
+        <Route path="/editor(/:id)" component={Editor} />
+      </Router>
+    </Provider>
+  </div>
 ), document.getElementById('root'));

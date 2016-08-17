@@ -1,5 +1,5 @@
 const React = require('react');
-
+const { Tooltipy } = require('../../../../components/Tooltipy.js');
 const obj = {};
 
 obj.displayName = 'Name';
@@ -34,7 +34,9 @@ obj.onChange = function (evt) {
 
 obj.render = function () {
   return <form onSubmit={this.onSubmit} className="name-form">
-    <input className='name-sprite' onChange={this.onChange} value={this.state.name}></input>
+    <Tooltipy text="blyat?" mode="bottom">
+      <input className='name-sprite' onChange={this.onChange} value={this.state.name}/>
+    </Tooltipy>
     <button type="submit">submit</button>
   </form>;
 };

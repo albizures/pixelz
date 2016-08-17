@@ -39,13 +39,11 @@ gulp.task('set-prod', function () {
 var callingDone = false;
 var firstCompile = true; 
 gulp.task('webpack', ['clean'], function (cb) {
-  webpack(webpackConfig, function(err, stats) {
+  webpack(webpackConfig, function (err, stats) {
     if (err) {
       throw err; // hard error
     }
-
-    gulplog[stats.hasErrors() ? 'error' : 'info'](stats.toString(defaultStatsOptions));
-
+    console.log(stats.toString(defaultStatsOptions));
     if (!cb.called) {
       cb.called = true;
       cb();
