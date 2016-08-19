@@ -11,10 +11,11 @@ function checkStatus(response) {
   }
 }
 function request(url, protocol, cb, body, headers = true) {
-  if (body && !body instanceof FormData) {
+  if (body && !(body instanceof FormData)) {
     body = JSON.stringify(body);
   }
-  fetch(url, {
+  console.log(protocol,body, body instanceof FormData, url);
+  return fetch(url, {
     headers: headers? {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -22,7 +23,8 @@ function request(url, protocol, cb, body, headers = true) {
     method: protocol,
     body: body
   }).then(checkStatus).then(parseJSON).then(cb).catch(function (ex) {
-    cb({code : 1, description : 'Connection error'});
+    console.error(ex);
+    cb({code : 1, description : ex});
   });
 }
 
@@ -39,8 +41,8 @@ exports.delete = function (url, cb) {
   request(url, 'DELETE', cb);
 };
 
-exports.put = function (url, body, cb) {
-  request(url, 'PUT', cb, body);
+function put (url, body, cb) {
+  return request(url, 'PUT', cb, body);
 };
 
 exports.upload = function (url, data, files, method, cb) {
@@ -55,4 +57,12 @@ exports.upload = function (url, data, files, method, cb) {
     console.log(typeof key);
   }
   request(url, method, cb, form, false);
+};
+
+exports.put = put;
+
+exports.sprite = {};
+
+exports.sprite.putName = function (id, name, cb) {
+  return put('/api/sprites/' + id + '/name', {name}, cb);
 };

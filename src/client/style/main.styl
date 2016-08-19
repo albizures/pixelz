@@ -1,8 +1,18 @@
 @import './vendor/normalize.css'
 @import './variables.styl'
 @import './mixins.styl'
+@import './Panel.styl'
+@import './Range.styl'
 
-#root
+.btn 
+  btn-bg()
+  border 1px solid main-black
+.input
+  border 1px solid main-black
+  background input-background
+  color black
+
+.root
   position absolute
   width 100%
   height 100%
@@ -26,7 +36,7 @@
  }
 
  ::-webkit-scrollbar-track {
-     background: rgba(0,0,0,.5);
+     background: rgba(0,0,0,.3);
  }
 canvas {
   image-rendering: optimizeSpeed;             /* Older versions of FF          */
@@ -37,71 +47,31 @@ canvas {
   -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
 }
 body{
-  background grey
-  position: absolute
-  width : 100%
-  height : 100%;
-  overflow : hidden;
+  background background-black
+  position absolute
+  width 100%
+  height 100%
+  color text-color
+  overflow hidden
 }
-.list
+.list-content
   position: relative
-  list-style: none
-  box-sizing border-box
   padding 30px
-  margin 0
-.panel-colorpicker
-  .color
-    vertical-align: top
-    margin 3px
-    margin-top: 6px
-.canvas-picker
-  margin 5px
-  display inline-block
-  // canvas
-  //   vertical-align top
-  .content-canvas
-    display: inline-block
-    position: relative
-    .canvas-picker
-      top 0
-      left 0
-      position: absolute
-      border-radius: 100%
-      height: 8px
-      width: 8px
-      pointer-events: none
-      border: 2px solid white
-      box-sizing: border-box
-      box-shadow: 0 0 3px black
-  .content-rainbow
-    display inline-block
-    position relative
-    .rainbow-picker
-      pointer-events none
-      top 0
-      left -3px
-      position absolute
-      width calc(100% + 3px)
-      border 2px solid white
-      height 4px
-  .content-alpha
-    background url('../assets/images/transparent.png')
-    background-size 10%
-    position relative
-    .alpha-picker
-      pointer-events none
-      top -3px
-      position absolute
-      width 4px
-      border 2px solid white
-      height calc(100% + 3px)
+  .list
+    padding 0
+    list-style: none
+    box-sizing border-box
+    margin 0
+
 .editor-content>.mask
   pointer-events: none
-.editor-content
-  &>.background, &>.canvas, &>.canvas,&>.mask,&>.preview,.content-preview-animate
+.content-canvas
+  &>.background, &>.main, &>.canvas,&>.mask,&>.preview,.content-preview-animate
     position absolute
     top 0
     left 0
+  &>.mask
+    pointer-events none
 .backdrop-context-menu
   width 100%
   height 100%
@@ -132,6 +102,9 @@ body{
 .content-preview-animate
   left auto
   right 0
+.panel.panel-left
+  left 0
+  top 0
 .panel.panel-float
   box-shadow 3px 3px 3px rgba(0, 0, 0, 0.3)
 .panel.panel-modal
@@ -147,61 +120,12 @@ body{
     margin-top 5%
     background: whitesmoke
     padding: 5px
-.panel
-  //box-sizing border-box
-  position absolute
-  overflow: hidden;
-  box-sizing: border-box;
-  border 2px solid rgba(245, 245, 245, 0.7)
-  //margin-top drag-bar-panel-size
-  z-index 1
-  //padding panel-padding
-  background panel-background
-  .drag-bar
-    font-size: 15px;
-    text-align center
-    //position absolute
-    //top - drag-bar-panel-size
-    background whitesmoke
-    width 100%
-    //left 0
-    cursor move
-  .resize-bar
-    background rgba(255, 0, 0, 0.1)
-    position absolute
-    &.T, &.B
-      height resize-bar-panel-size
-      width 100%
-      cursor n-resize
-    &.T, &.TL, &.TR
-      top resize-bar-panel-margin
-    &.B, &.BL, &.BR
-      bottom resize-bar-panel-margin
-    &.L, &.R
-      cursor e-resize
-      width resize-bar-panel-size
-      height 100%
-    &.L, &.TL, &.BL
-      left resize-bar-panel-margin
-    &.R, &.TR, &.BR
-      right resize-bar-panel-margin
-    &.TL, &.TR, &.BL, &.BR
-      height resize-bar-panel-size
-      width resize-bar-panel-size
-    &.TR
-      cursor ne-resize
-    &.TL
-      cursor nw-resize
-    &.BR
-      cursor se-resize
-    &.BL
-      cursor sw-resize
 .panel-menus
-  border: 0;
+  border 0
   z-depth-1 0
-  z-index: 10
-  transition: 0.3s height
-  background: whitesmoke
+  z-index 10
+  transition 0.3s height
+  background #494949
   &.down
     z-depth-2 0
   .center
@@ -215,21 +139,6 @@ body{
       &:active,&:focus
         border-bottom: 1px gray solid
         outline: none
-.panel-tools
-  .colors
-    margin 5px
-    position relative
-    height 50px
-    div
-      position absolute
-      cursor pointer
-    .primary
-      box-shadow 0 0 5px rgba(0,0,0,.7)
-      top 0
-      left 0
-    .secondary
-      right 0
-      bottom 0
 
 
 .color
@@ -246,7 +155,8 @@ body{
       box-shadow 0 0 5px rgba(0,0,0,0.7);
       transform-origin 50%
 
-
+@import './tooltip.styl'
+@import './Tools.styl'
 @import './Frames.styl'
 @import './Layers.styl'
 @import './Preview.styl'
@@ -256,3 +166,4 @@ body{
 @import './Resize.styl'
 @import './Palette.styl'
 @import './home.styl'
+@import './ColorPicker.styl'

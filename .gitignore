@@ -3,6 +3,7 @@ build/style.css
 build/assets
 public
 src/libs/gif/*.coffee
+.vscode
 # Logs
 logs
 *.log

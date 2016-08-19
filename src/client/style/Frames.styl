@@ -2,7 +2,7 @@ size-btn-preview = 20px
 size-font-preview = 0.65em
 
 .panel.panel-frames
-  background: whitesmoke
+  //background: whitesmoke
   z-index 2
   top 0
   left 0
@@ -11,9 +11,10 @@ size-font-preview = 0.65em
   button.add-frame
     width 94%
     margin 3%
-  ul
+  .list-content
+    height calc(100% - 95px)
     overflow-y scroll
-    height calc(100% - 53px)
+  ul
     li
       transition 0.3s top, 0.1s transform //cubic-bezier(0.46, 0.03, 0.52, 0.96)
       border 1px solid
@@ -28,12 +29,14 @@ size-font-preview = 0.65em
         *
           opacity: 0.4
 
-.preview-frame
+.preview-frames
   cursor move
   position relative
-  canvas
+  margin-bottom 10px
+  span
     position absolute
-    top 0
+    bottom 0
+    left 0
   .btn,.index
     position absolute
     width size-btn-preview
@@ -55,4 +58,4 @@ size-font-preview = 0.65em
     .btn
       opacity 1
   &.active
-    outline 2px yellow solid
+    outline 2px rgba(223,116,12, 1) solid

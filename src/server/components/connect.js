@@ -48,6 +48,7 @@ exports.getOne = function (collection, id, fields, cb) {
 exports.newId = function (id) {
   return new ObjectID(id);
 };
+exports.validId = ObjectID.isValid;
 exports.getAll = function (collection, cb) {
   db.collection(collection).find().toArray(onFind);
   function onFind(err, result) {

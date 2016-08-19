@@ -1,34 +1,42 @@
 const webpack = require('webpack');
-const WebpackDevServer = require("webpack-dev-server");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const config = require('./src/server/config/environment');
 
 module.exports = {
-  devtool : '#inline-source-map',
+  watch : config.isDev,
+  devtool : 'source-map',
   entry:[
-    'webpack-dev-server/client?http://localhost:8081', // &reload=true
     config.APP_PATH
   ],
   output: {
     path: config.PUBLIC_PATH,
-    filename: "[name].js",
+    filename: "bundle.js",
     publicPath : '/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("styles.css"),
+    //new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'Pixelz Studio',
       filename: 'index.html',
       template: config.MAIN_TEMPLATE
     })
-  ],
+  ].concat(config.isProd? [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    })
+  ] : []),
 
   module: {
     loaders: [{
       test: /\.js$/,
       include: config.CLIENT_PATH,
-      loader: "babel-loader"
+      loader: "babel"
     }, {
       test: /\.(jpe?g|png|gif|svg)$/i,
       loaders: [
@@ -37,26 +45,28 @@ module.exports = {
       ]
     }, {
       test: /\.jade$/,
-      loader: 'jade-loader'
+      loader: 'jade'
     }, {
       test: /\.css?$/,
-      loaders: ['style-loader', 'css-loader']
+      loader: ExtractTextPlugin.extract('style', 'css')
     }, {
       test: /\.styl?$/,
-      loaders: ['style-loader', 'css-loader', 'stylus-loader']
+      loader: ExtractTextPlugin.extract('style', 'css!stylus')
     }, {
-      test : /workers/,
-      loaders : ['worker?name=workers/[name].[ext]', 'babel-loader']
+      test : /\.worker\.js?$/,
+      loaders : ['worker?name=workers/[name].[ext]', 'babel']
     }],
     preLoaders: [{
       test: /\.js?$/,
       exclude: [/build/, /node_modules/],
-      loaders: ['eslint-loader']
+      loaders: ['eslint']
     }]
   },
   resolve: {
     alias: {
+      workers : path.join(config.CLIENT_PATH, 'workers/'),
       utils : path.join(config.CLIENT_PATH, 'utils/'),
+      constants : path.join(config.CLIENT_PATH, 'constants/'),
       make : path.join(config.CLIENT_PATH, 'utils/make.js'),
       http : path.join(config.CLIENT_PATH, 'utils/http.js')
     },
@@ -65,29 +75,4 @@ module.exports = {
   resolveLoader: {
     root: config.MODULES_PATH
   }
-
 };
-var compiler = webpack(module.exports);
-
-var server = new WebpackDevServer(compiler, {
-  historyApiFallback: true,
-  //hot : true,
-  proxy : {
-    '*' : {
-      target: 'http://localhost:8080/',
-      secure: false,
-      bypass: function(req, res, proxyOptions) {
-        if (req.headers.accept.indexOf('html') !== -1) {
-          console.log('Skipping proxy for browser request.');
-          return '/index.html';
-        }
-      }
-    }
-  },
-  headers: {
-    "X-Custom-Header": "yes",
-    "Access-Control-Allow-Origin": "*"
-  }
-});
-
-server.listen(8081, "localhost", function() {});

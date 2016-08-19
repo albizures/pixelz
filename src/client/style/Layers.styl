@@ -1,19 +1,20 @@
 
 
 .panel.panel-layers
-  background: whitesmoke
+  //background: whitesmoke
   button.add-layer
     width 94%
     margin 3%
-  .layers-list
-    height calc(100% - 53px)
+  .list-content
+    height calc(100% - 95px)
     overflow-y scroll
 
 
 
-.preview-layer
+.preview-layers
   transition 0.3s top, 0.1s transform //cubic-bezier(0.46, 0.03, 0.52, 0.96)
   border 1px solid
+  margin-bottom 10px 
   z-depth-1() 0
   cursor move
   position relative
@@ -25,9 +26,10 @@
     background: rgba(0, 0, 0, 0.6);
     *
       opacity: 0.4
-  canvas
+  span
     position absolute
-    top 0
+    bottom 0
+    left 0
   .btn,.index
     position absolute
     width size-btn-preview
@@ -49,4 +51,4 @@
     .btn
       opacity 1
   &.active
-    outline 2px yellow solid
+    outline 2px rgba(223,116,12, 1) solid

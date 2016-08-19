@@ -12,7 +12,7 @@ exports.post = function (req, res) {
   let type = req.body.type;
   console.log(req.files.length);
   model.post({
-    user : db.newId('5761fcf1a4a36ca01877f912'),
+    user : db.newId('576209aca666379a7acd5d18'),
     name: req.body.name,
     modificationDate: date,
     creationDate : date,
@@ -137,7 +137,7 @@ exports.put = function (req, res) {
     );
   }
   function onPostFile(result, id) {
-    response.commonPut(res, model.put, req.params.id, {
+    response.commonPutHistory(res, model.put, req.params.id, {
       name: req.body.name,
       width: req.body.width,
       height: req.body.height,
@@ -152,4 +152,8 @@ exports.put = function (req, res) {
       modificationDate: date
     }));
   }
+};
+
+exports.putName = function (req, res) {
+  response.commonPut(res, model.putName, req.params.id, req.body.name);
 };

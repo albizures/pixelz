@@ -57,9 +57,20 @@ const rand = function (max) {
   return Math.floor(Math.random() * max);
 };
 
-exports.getRGBAComponents = function getRGBAComponents(color) {
-  return color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
+function getRGBAComponents(color) {
+  let components = color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
+  for (let j = 0; j < components.length; j++) {
+    components[j] = Number(components[j]);
+  }
+  return components;
 };
+exports.getRGBAComponents = getRGBAComponents;
+
+function isTransparent(color) {
+  return 0 === getRGBAComponents(color)[3];
+}
+
+exports.isTransparent = isTransparent;
 
 exports.randomRGB = function () {
   return 'rgb(' + rand(255) + ', ' + rand(255) + ', ' + rand(255) + ')';

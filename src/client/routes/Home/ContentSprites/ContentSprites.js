@@ -3,6 +3,7 @@ const ReactDOM = require('react-dom');
 const http = require('http');
 const { connect } = require('react-redux');
 
+const ducks = require('../ducks/sprites.js');
 const Sprite = require('./Sprite/Sprite.js');
 
 const ContentSprites = React.createClass({
@@ -11,7 +12,7 @@ const ContentSprites = React.createClass({
     var stats = node.getBoundingClientRect();
     console.log(stats.width);
     
-    http.get('/api/sprites', result => this.props.addSprites(result.data));
+    http.get('/api/sprites', result => result.data.forEach(item => this.props.addSprite(item)));
   },
   render () {
     return <div className="content-sprites">
@@ -28,24 +29,8 @@ const ContentSprites = React.createClass({
 
 function mapStateToProps(state, props) {
   return {
-    sprites: state.sprites,
+    sprites: state.Home.sprites,
   };
 }
 
-const actions = {};
-
-actions.addSprites = sprites => {
-  return {
-    type: 'ADD_SPRITES',
-    sprites
-  };
-};
-
-actions.addSprite = sprite => {
-  return {
-    type: 'ADD_SPRITE',
-    sprite
-  };
-};
-
-module.exports = connect(mapStateToProps, actions)(ContentSprites);
+module.exports = connect(mapStateToProps, ducks.actions)(ContentSprites);

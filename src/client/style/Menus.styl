@@ -1,18 +1,33 @@
 .panel-menus.panel
-  position: inherit;
+  position absolute
+  border 0
+  padding 0
+  top 0
+  left 0
   overflow visible
-  .name-project
-    float right
-    background transparent
-    border 0
-    text-align right
+  .name-form
+    button 
+      display none
+    .name-sprite
+      position absolute
+      width 400px
+      margin-left -200px
+      left 50%
+      top 0
+      text-align center
+      font-weight bold
+      font-size 18px
+      line-height 1.4
+      text-transform capitalize
+      border 0
+      background transparent
   .logo
     background gray
     width 25px
     height 25px
     display inline-block;
 .list-menus
-  height 100%
+  //height 100%
   vertical-align top
   margin 0
   padding 0
@@ -26,22 +41,23 @@
     line-height: 1.5;
     &:hover
       background #A3C4FF
+      color black
       cursor pointer
   .menu
-    background whitesmoke
+    //background whitesmoke
     height 100%
     float left
     position relative
     margin 0
     padding 0
     white-space nowrap
-    width: auto
+    width auto
     padding 0 5px
     list-style none
     .list-menus
-      border 1px solid gray
-      box-shadow 0 0 3px rgba(0, 0, 0, 0.2)
-      background whitesmoke
+      border 0
+      box-shadow rgba(0, 0, 0, 0.247) 3px 3px 2px -1px, rgba(0, 0, 0, 0.149) 0px 0px 0px
+      background main-gray
       position absolute
       top 100%
       left 0
@@ -56,8 +72,11 @@
           left 100%
           top 0
         &:hover
+          color black
           &>.list-menus
             display inline-block
     &:hover
       &>.list-menus
         display inline-block
+        .menu 
+          color text-color
