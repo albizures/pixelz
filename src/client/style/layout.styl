@@ -1,0 +1,61 @@
+.layout
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  box-sizing border-box
+  background layout-background
+  .col-item, .stack-item, .row-item
+    border 1px solid layout-border-color
+    box-sizing border-box
+    position absolute
+    background layout-content-background
+  &.row, &.col, &.stack
+    background layout-background
+    //padding 1px
+.row,.col,.stack
+  position absolute
+
+.col
+  .col-item
+    height 100%
+
+.stack
+  .tab
+    cursor pointer
+    display inline-block
+    text-align center
+    font bold 12px sans-serif
+    color disabled-gray
+    height 20px
+    line-height 1.5
+    padding 0 5px
+    background background-black
+    box-sizing border-box
+    border-left 1px solid main-black
+    z-index 3
+    &.active
+      color text-color
+      position relative
+      background main-gray
+      &:after
+        content ''
+        position absolute
+        width 100%
+        height 1px
+        bottom -1px
+        left 0
+        background main-gray
+  .stack-item
+    top 20px
+    height calc(100% - 20px)
+    left 0
+    width 100%
+    z-index 1
+    &.active
+      z-index 2
+
+.row
+  .row-item
+    width 100%

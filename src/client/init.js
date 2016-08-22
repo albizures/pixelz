@@ -27,7 +27,7 @@ const {Provider} = require('react-redux');
 
 const store = require('./store.js').store;
 const Home = require('./routes/Home');
-const Editor = require('./routes/Editor'); 
+const Editor = require('./routes/Editor');
 const Tooltip = require('./components/Tooltip.js');
 
 

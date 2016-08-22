@@ -1,7 +1,10 @@
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const { connect } = require('react-redux');
 
+const { noopFrame } = require('utils/noop.js');
+const { register } = require('../Layout.js');
 const { currentActions } = require('../../ducks');
 const Background = require('./Background.js');
 const Main = require('./Main.js');
@@ -52,6 +55,17 @@ obj.setScale = function (scale) {
 obj.shouldComponentUpdate = function(nextProps, nextState) {
   return true;
 };
+obj.getInitialState = function () {
+  return {};
+};
+obj.componentDidMount = function () {
+  let el = ReactDOM.findDOMNode(this);
+  let stats = el.getBoundingClientRect();
+  this.setState({
+    marginTop : -stats.top,
+    marginLeft: -stats.left
+  });
+};
 
 obj.setContextType = function (type, context) {
   let state = {};
@@ -69,22 +83,32 @@ obj.setContextType = function (type, context) {
 };
 
 obj.render = function() {
-  var size = {
+  let size = {
     width : this.props.width,
     height : this.props.height
   };
-  return <div className='content-canvas' onWheel={this.onWheel}>
-    <Background size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-    <Main size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-    <Preview size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-    <Mask size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-  </div>;
+  let style = {
+    marginLeft: this.state.marginLeft,
+    marginTop: this.state.marginTop//,
+    // width: '100%',
+    // height : '100%'
+  };
+    
+  if (this.props.layer && this.props.artboard !== null) {
+    return <div className='content-canvas' onWheel={this.onWheel} style={style}>
+      <Background size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Main size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Preview size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Mask size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+    </div>;
+  }
+  return <div></div>;
 };
 
-const Canvas = React.createClass(obj);
+
 
 function mapStateToProps(state, props) {
-  var frame = state.Editor.frames[state.Editor.frame];
+  var frame = state.Editor.frames[state.Editor.frame] || noopFrame;
   return {
     sprite : state.Editor.sprites[state.Editor.sprite],
     frame : frame,
@@ -94,7 +118,11 @@ function mapStateToProps(state, props) {
   };
 }
 
-module.exports = connect(
+const Canvas = connect(
   mapStateToProps,
   currentActions
-)(Canvas);
+)(React.createClass(obj));
+
+register(Canvas, obj.displayName);
+
+module.exports = Canvas;

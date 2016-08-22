@@ -16,14 +16,11 @@ obj.getDefaultProps = function () {
   return {
     dragBar : true,
     resize : false,
-    tabs : false,
-    float : false,
-    contentPanels : false
+    float : false
   };
 };
 obj.getInitialState = function () {
   return {
-    tabIndex : this.props.tabDefault,
     style : Object.assign({}, this.props.style)
   };
 };
@@ -34,23 +31,6 @@ obj.componentWillReceiveProps = function(nextProps) {
       style : Object.assign({}, nextProps.style)
     });
   }
-};
-
-obj.setTabIndex = function(index){
-  this.setState({
-    tabIndex : index
-  });
-};
-obj.getTabs = function() {
-  let style = {
-    float : 'left',
-    width : (100 / this.props.children.length) + '%'
-  };
-  return this.props.children.map((item, index) => {
-    return <div key={index} style={style} onClick={() => this.setTabIndex(index)} className={'content-panel-tab' + (index == this.state.tabIndex? ' active' : '')}>
-      {item.props.name}
-    </div>;
-  });
 };
 obj.getPanelChildren = function(style) {
   return this.props.children.map((item, index) => {
@@ -102,17 +82,23 @@ obj.onMouseDown = function (evt) {
   });
 };
 
+obj.getDragbar = function () {
+  if (!this.props.dragBar) {
+    return '';
+  }
+  if (this.props.float) {
+    return <div className="drag-bar" onMouseDown={this.onMouseDown}>{this.props.name}</div>;
+  }
+  return <div className="drag-bar">{this.props.name}</div>;
+};
 obj.render = function(){
-  var className = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '') + (this.props.float? ' float' : '');
+  var className = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '') + (this.props.float? ' float ' : ' ') + this.props.className;
   return <div style={this.getStylePanel()} className={className}>
     {
-      this.props.dragBar? <div className="drag-bar" onMouseDown={this.onMouseDown}>{this.props.name}</div> : undefined
+      this.getDragbar()
     }
-    {
-      this.props.tabs? this.getTabs() : undefined
-    }
-    {
-      this.props.contentPanels && this.props.tabs? this.getPanelChildren() : this.props.children
+    { 
+      this.props.children
     }
   </div>;
 };

@@ -1,6 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 
+const { register } = require('./Layout.js');
 const { Tooltipy } = require('../../../components/Tooltipy.js');
 const Panel = require('./Panel.js');
 const Color = require('./Color.js');
@@ -74,7 +75,6 @@ obj.render = function() {
   </Panel>;
 };
 
-const Tools = React.createClass(obj);
 
 function mapStateToProps(state, props) {
   return {
@@ -86,7 +86,11 @@ function mapStateToProps(state, props) {
   };
 }
 
-module.exports = connect(
+const Tools = connect(
   mapStateToProps,
   Object.assign({}, currentActions, actions)
-)(Tools);
+)(React.createClass(obj));
+
+register(Tools, obj.displayName);
+
+module.exports = Tools;
