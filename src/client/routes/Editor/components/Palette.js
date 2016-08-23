@@ -1,4 +1,6 @@
 const React = require('react');
+
+const { register } = require('./Layout.js');
 const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
 const { connect } = require('react-redux');
 const spriteActions = require('../ducks/sprites.js').actions;
@@ -34,17 +36,20 @@ obj.shouldComponentUpdate = function (nextProps, nextState) {
 };
 
 obj.render = function () {
-  return <Panel name="Palette" style={this.state.style}>
+  return <Panel name='Palette' className={'palette ' + this.props.className} style={this.props.style}>
     <button className='btn' >=</button>
   </Panel>;
 };
-const Palette = React.createClass(obj);
 
-module.exports = connect(
+const Palette = connect(
   function (state, props) {
     return {
       sprite : state.Editor.sprites[state.Editor.sprite],
     };
   },
   spriteActions
-)(Palette);
+)(React.createClass(obj));
+
+register(Palette, obj.displayName);
+
+module.exports = Palette;

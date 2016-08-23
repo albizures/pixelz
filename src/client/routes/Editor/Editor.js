@@ -6,43 +6,53 @@ const { editProp } = require('utils/ducks.js');
 
 const ducks = require('./ducks');
 
-const Canvas = require('./components/Canvas');
+require('./components/Canvas');
+require('./components/Preview.js');
+require('./components/Palette.js');
+require('./components/Layers.js');
+require('./components/Frames.js');
+require('./components/Label.js');
+require('./components/Left.js');
+require('./components/Center.js');
+require('./components/Right.js');
+require('./components/Tools.js');
+require('./components/ColorPicker.js');
+
+const { Layout } = require('./components/Layout.js');
+
 const Panel = require('./components/Panel.js');
-const Frames = require('./components/Frames.js');
-const Layers = require('./components/Layers.js');
-const Tools = require('./components/Tools.js');
-const List = require('./components/List.js');
-const Preview = require('./components/Preview.js');
-const Palette = require('./components/Palette.js');
 const Palettes = require('./components/Palettes.js');
-const ColorPicker = require('./components/ColorPicker.js');
 const History = require('./components/History.js');
 const Menus = require('./components/Menus');
 
 const shortcuts = require('./shortcuts');
+
+const conf = {
+  mode : 'col',
+  name : 'Main',
+  style : {
+    height: 'calc(100% - 25px)',
+    top: '25px'
+  },
+  children : [
+    {name: 'Left', width: 12, component: 'Left'},
+    {name: 'Center', width: 73, component: 'Center'},
+    {name: 'Right', width: 15, component: 'Right'}
+  ],
+  float : [
+    {name : 'Tools', component: 'Tools'},
+    {name : 'ColorPicker', component: 'ColorPicker'}
+  ]
+};
 
 const obj = {};
 
 obj.displayName = 'Editor';
 
 obj.render = function () {
-  return <div className="editor-content">
-    {
-      this.getCanvas()
-    }
+  return <div className='editor-content'>
     <Menus/>
-    <Panel name='Left' contentPanels tabs style={this.state.Left} tabDefault={1} dragBar={false}>
-      <Frames name='Frames' frames={this.props.frames} frame={this.props.frame} sprite={this.props.sprites[this.props.sprite]}/>
-      <Layers name='Layers' />
-    </Panel>
-    <History/>
-    <ColorPicker/>
-    <Palettes items={this.props.palettes}/>
-    <Panel name="Right" contentPanels style={this.state.Right} dragBar={false}>
-      <Preview frames={this.props.frames} fps={5}/>
-      <Palette style={this.state.Palette} />
-    </Panel>
-    <Tools/>
+    <Layout {...conf}/>
   </div>;
 };
 
@@ -59,29 +69,8 @@ obj.componentDidUpdate = function(prevProps, prevState) {
   }
 };
 
-obj.getCanvas = function () {
-  var frame = this.props.frames[this.props.frame];
-  if (frame && this.props.layers[frame.layers[this.props.layer]] && this.props.artboard !== null) {
-    return <Canvas width={window.innerWidth} height={window.innerHeight}/>;
-  }
-  return <div></div>;
-};
-
 obj.getInitialState = function () {
-  return {
-    Left : {
-      top : '25px',
-      left : 0,
-      width : '12%',
-      height : 'calc(100% - 25px)'
-    },
-    Right: {
-      top : '25px',
-      right : 0,
-      width : '15%',
-      height : 'calc(100% - 25px)'
-    }
-  };
+  return {};
 };
 
 obj.componentDidMount = function() {
@@ -93,7 +82,7 @@ obj.componentDidMount = function() {
   if (this.props.params.id) {
     http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
   } else {
-    this.createSprite('unnamed', 36, 36);
+    this.createSprite('untitle', 36, 36);
   }
 };
 

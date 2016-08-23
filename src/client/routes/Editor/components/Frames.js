@@ -1,12 +1,13 @@
 const React = require('react');
 const { connect } = require('react-redux');
 
-const Panel = require('./Panel.js');
+const { register } = require('./Layout.js');
 const List = require('./List.js');
 const Frame = require('./Frame.js');
 const { setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer } = require('../ducks').actions;
 
 const obj = {};
+
 obj.displayName = 'Frames';
 
 obj.getDefaultProps = function() {
@@ -52,12 +53,12 @@ obj.getList = function() {
 };
 
 obj.render = function() {
-  return <Panel name='frames' dragBar={false} style={this.props.style}>
+  return <div className={'frames ' + this.props.className} style={this.props.style}>
     <button className="add-frame btn" onClick={this.onClickAddFrame}>add frame</button>
     {
       this.getList()
     }
-  </Panel>;
+  </div>;
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
@@ -75,9 +76,7 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
   return layer;
 };
 
-const Frames = React.createClass(obj);
-
-module.exports = connect(
+const Frames = connect(
   function (state, props) {
     return {
       frame : state.Editor.frames[state.Editor.frame],
@@ -86,4 +85,8 @@ module.exports = connect(
     };
   },
   {setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer}
-)(Frames);
+)(React.createClass(obj));
+
+register(Frames, obj.displayName);
+
+module.exports = Frames;

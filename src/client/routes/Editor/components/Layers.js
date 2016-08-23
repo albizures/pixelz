@@ -1,7 +1,8 @@
 const React = require('react');
 const { connect } = require('react-redux');
 
-const Panel = require('./Panel.js');
+const { register } = require('./Layout');
+
 const List = require('./List.js');
 const Layer = require('./Layer.js');
 const { setCurrentLayer, addLayerFrame, addLayer } = require('../ducks').actions;
@@ -52,16 +53,15 @@ obj.getList = function() {
   return <div className='list-content'></div>;
 };
 obj.render = function() {
-  return <Panel name='layers' dragBar={false} style={this.props.style}>
+  return <div className={'layers ' + this.props.className} style={this.props.style}>
     <button className="btn add-layer" onClick={this.onClickAddLayer}>add layer</button>
     {
       this.getList()
     }
-  </Panel>;
+  </div>;
 };
-const Layers = React.createClass(obj);
 
-module.exports = connect(
+const Layers = connect(
   function (state, props) {
     return {
       sprite : state.Editor.sprites[state.Editor.sprite],
@@ -71,4 +71,8 @@ module.exports = connect(
     };
   },
   { setCurrentLayer, addLayerFrame, addLayer }
-)(Layers);
+)(React.createClass(obj));
+
+register(Layers, obj.displayName);
+
+module.exports =  Layers;

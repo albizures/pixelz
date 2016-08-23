@@ -1,5 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
+
+const { register } = require('./Layout');
 const { hsvToRgb, rgbToHsv, getRGBAComponents} = require('utils/color.js');
 const { round } = Math;
 
@@ -274,11 +276,14 @@ obj.render = function () {
   </Panel>;
 };
 
-const ColorPicker = React.createClass(obj);
-
-module.exports = connect(
+const ColorPicker = connect(
   function (state, props) {
     return state.Editor.panels.colorPicker;
   },
   Object.assign({}, actions, currentActions)
-)(ColorPicker);
+)(React.createClass(obj));
+
+
+register(ColorPicker, obj.displayName);
+
+module.exports = ColorPicker;
