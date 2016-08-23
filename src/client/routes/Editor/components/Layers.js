@@ -13,12 +13,13 @@ obj.displayName = 'Layers';
 obj.onClickAddLayer = function() {
   for (var j = 0; j < this.props.sprite.frames.length; j++) {
     var element = this.props.sprite.frames[j];
+    var index = this.props.frame.layers.length;
     let layer = this.createLayer({
       sprite : this.props.frame.sprite,
       frame : element
     });
     if (this.props.frame.index == element) {
-      this.props.setCurrentLayer(layer);
+      this.props.setCurrentLayer(index);
     }
   }
 };

@@ -39,7 +39,8 @@ exports.getSpritePalette = function (sprite, cb) {
   for (let i = 0; i < frames.length; i++) {
     let layers = state.frames[frames[i]].layers;
     for (let j = 0; j < layers.length; j++) {
-      dataList.push(getImageData(state.frames[layers[j]].context));
+      //console.log(typeof state.frames[layers[j]], layers[j], j, layers, );
+      dataList.push(getImageData(state.layers[layers[j]].context));
     }
   }
 

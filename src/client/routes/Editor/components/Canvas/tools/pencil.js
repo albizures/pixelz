@@ -17,7 +17,6 @@ obj.onMouseDown = function (evt) {
   color = this.getColor(evt.which);
   if (isTransparent(color)) {
     at = this.clean;
-
   } else {
     at = this.paint;
   }
@@ -68,7 +67,8 @@ obj.onMouseUp = function (evt) {
   $window.off('mousemove.moveCanvas');
   if (this.clicked) {
     this.clicked = false;
-    //let newPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
+    let newPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
+    at(newPixel.x, newPixel.y);
     lastPixel = undefined;
     this.newVersion(this.layer);
     this.addUndo({
