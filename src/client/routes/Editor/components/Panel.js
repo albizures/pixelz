@@ -70,11 +70,27 @@ obj.onMouseDown = function (evt) {
   var stats = evt.target.getBoundingClientRect();
   var diffX = evt.clientX - stats.left;
   var diffY = evt.clientY - stats.top;
+  var maxLeft = window.innerWidth - evt.target.clientWidth;
+  var maxTop = window.innerHeight - evt.target.clientHeight;
   $window.on('mousemove.drag', evt => {
+    let top = evt.clientY - diffY;
+    let left = evt.clientX - diffX;
+    if (top < 25) {
+      top = 25;
+    }
+    if (left < 0) {
+      left = 0;
+    }
+    if (left > maxLeft) {
+      left = maxLeft;
+    }
+    if (top > maxTop) {
+      top = maxTop;
+    }
     this.setState({
       style : Object.assign({}, this.state.style,{
-        top : evt.clientY - diffY,
-        left : evt.clientX - diffX
+        top,
+        left
       })
     });
   }).on('mouseup.drag', evt => {
@@ -92,7 +108,11 @@ obj.getDragbar = function () {
   return <div className="drag-bar">{this.props.name}</div>;
 };
 obj.render = function(){
-  var className = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '') + (this.props.float? ' float ' : ' ') + this.props.className;
+  var className = 
+    'panel panel-' + 
+    this.props.name.toLowerCase().replace(' ', '') + 
+    (this.props.float? ' float ' : ' ') + 
+    (this.props.className? this.props.className: ' ');
   return <div style={this.getStylePanel()} className={className}>
     {
       this.getDragbar()
