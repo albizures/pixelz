@@ -50,9 +50,10 @@ obj.componentWillUpdate = function(nextProps, nextState) {
 
 obj.render = function() {
   return <canvas
-      width={this.props.size.width}
-      height={this.props.size.height}
-      className='preview'>
+    style={this.props.style}
+    width={this.props.size.width}
+    height={this.props.size.height}
+    className='preview'>
   </canvas>;
 };
 

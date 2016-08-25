@@ -49,9 +49,10 @@ obj.clean = function(context) {
 
 obj.render = function() {
   return <canvas 
-      width={this.props.size.width}
-      height={this.props.size.height} 
-      className='main'>
+    style={this.props.style}
+    width={this.props.size.width}
+    height={this.props.size.height} 
+    className='main'>
   </canvas>;
 };
 

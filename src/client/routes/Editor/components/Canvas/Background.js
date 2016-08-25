@@ -39,9 +39,10 @@ obj.componentDidUpdate = function(prevProps, prevState) {
 };
 obj.render = function() {
   return <canvas
-      width={this.props.size.width}
-      height={this.props.size.height}
-      className='background' >
+    style={this.props.style}
+    width={this.props.size.width}
+    height={this.props.size.height}
+    className='background' >
   </canvas>;
 };
 

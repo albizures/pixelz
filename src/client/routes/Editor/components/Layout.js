@@ -23,11 +23,16 @@ obj.getChildrenCol = function (children) {
   
   return children.map((item, key) => {
     let Component = components[item.component];
-    let style = {
-      width: item.width  + '%'
-    };
-    style.left = offset + '%';
-    offset += item.width;
+    let style;
+    if (item.style) {
+      style = item.style;
+    } else {
+      style = {
+        width: item.width  + '%'
+      };
+      style.left = offset + '%';
+      offset += item.width;
+    }
     return <Component style={style} className='col-item' key={key} {...item.props}/>;
   });
 };
@@ -36,11 +41,16 @@ obj.getChildrenRow = function (children) {
   let offset = 0;
   return children.map((item, key) => {
     let Component = components[item.component];
-    let style = {
-      height: item.height  + '%'
-    };
-    style.top = offset + '%';
-    offset += item.height;
+    let style;
+    if (item.style) {
+      style = item.style;
+    } else {
+      style = {
+        height: item.height  + '%'
+      };
+      style.top = offset + '%';
+      offset += item.height;
+    }
     return <Component style={style} className='row-item' key={key} {...item.props}/>;
   });
 };

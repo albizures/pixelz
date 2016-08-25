@@ -95,14 +95,14 @@ obj.render = function() {
   };
     
   if (this.props.layer && this.props.artboard !== null) {
-    return <div className='content-canvas' onWheel={this.onWheel} style={style}>
-      <Background size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-      <Main size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-      <Preview size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-      <Mask size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+    return <div style={this.props.style} className={this.props.className + ' content-canvas'} onWheel={this.onWheel}>
+      <Background style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Main style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Preview style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Mask style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
     </div>;
   }
-  return <div></div>;
+  return <div style={this.props.style} className={this.props.className + ' content-canvas'}></div>;
 };
 
 

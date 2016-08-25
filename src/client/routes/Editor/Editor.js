@@ -6,6 +6,7 @@ const { editProp } = require('utils/ducks.js');
 
 const ducks = require('./ducks');
 
+require('./components/Sprites.js');
 require('./components/Canvas');
 require('./components/Preview.js');
 require('./components/Palette.js');
