@@ -21,19 +21,17 @@ function imageSmoothingDisabled(ctx) {
 
 exports.getPreviewSize = function getPreviewSize(size, width, height) {
   var newWidth, newHeight, scale;
-  var marginTop = '0px', marginLeft = '0px';
+  var marginTop = 0, marginLeft = 0;
   if (width > height) {
     newWidth = size;
     scale = size / width;
     newHeight = height * scale;
     marginTop = size - newHeight;
-    marginTop += 'px';
   } else {
     newHeight = size;
     scale = size / height;
     newWidth = width * scale;
     marginLeft = size - newWidth;
-    marginLeft += 'px';
   }
   return {
     width : newWidth,

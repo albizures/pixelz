@@ -5,7 +5,7 @@ const { Layout, register } = require('./Layout');
 const conf = {
   mode : 'stack',
   name : 'Left',
-  active : 1,
+  active : 0,
   children : [
     {name: 'Frames', component: 'Frames'},
     {name: 'Layers', component: 'Layers'}

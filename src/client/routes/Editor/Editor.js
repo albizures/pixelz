@@ -60,7 +60,6 @@ obj.openNewSpriteModal = function () {
 };
 
 obj.render = function () {
-  console.log(this.state);
   return <div className='editor-content'>
     <Menus openNewSpriteModal={this.openNewSpriteModal}/>
     <Layout {...conf}/>

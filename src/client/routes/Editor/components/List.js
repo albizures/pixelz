@@ -21,19 +21,23 @@ obj.componentDidMount = function() {
   });
 };
 obj.getItems = function() {
+  let style = {
+    width: this.state.size,
+    height: this.state.size
+  };
   if (this.state.size === 0) {
     return <li></li>;
   }
   let Component = this.props.component;
   if (this.props.filter && this.props.filter.length) {
     return this.props.filter.map((item, index) => {
-      return <li className={'preview-' + this.props.name  + (this.props.current == item? ' active' : '')} key={index}>
+      return <li style={style} className={'preview-' + this.props.name  + (this.props.current == item? ' active' : '')} key={index}>
         <Component size={this.state.size} data={this.props.items[item]} index={index}/>
       </li>;
     });
   }
   return this.props.items.map((item, index) => {
-    return <li className={'preview-' + this.props.name + (this.props.current == index? ' active' : '')} key={index}>
+    return <li style={style} className={'preview-' + this.props.name + (this.props.current == index? ' active' : '')} key={index}>
       <Component size={this.state.size} data={item}/>
     </li>;
   });

@@ -12,13 +12,26 @@ const obj = {};
 obj.displayName = 'Layer';
 
 obj.getInitialState = function(){
-  return {};
+  return {
+    width : 0,
+    height: 0,
+    marginLeft: 0,
+    marginTop: 0
+  };
 };
 
 obj.componentDidMount = function() {
   this.setState(
     getPreviewSize(this.props.size, this.props.data.width, this.props.data.height)
   );
+};
+
+obj.componentWillReceiveProps = function (nextProps) {
+  if (nextProps.data.index !== this.props.data.index) {
+   this.setState(
+      getPreviewSize(nextProps.size, nextProps.data.width, nextProps.data.height)
+    );
+  }
 };
 
 obj.onClick = function() {
@@ -44,8 +57,10 @@ obj.onDrop = function (e) {
 
 obj.render = function(){
   let style = {};
-  style.height = this.props.size + 'px';
-  style.width = this.props.size + 'px';
+  style.height = this.state.height;
+  style.width = this.state.width;
+  style.marginLeft = this.state.marginLeft / 2;
+  style.marginTop = this.state.marginTop / 2;
   return <div onDrop={this.onDrop} draggable="true" onDragOver={this.onDragOver} onDragStart={this.onDragStart} style={style} onClick={this.onClick} className='transparent-bkg'>
     <Context width={this.state.width} height={this.state.height} image={this.props.data.context} version={this.props.data.version}/>
     <button className="btn btn-clone">c</button>
