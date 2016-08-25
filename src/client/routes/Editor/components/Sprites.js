@@ -24,7 +24,7 @@ obj.getTabs = function () {
   let tabs = [];
   for (let j = 0; j < this.props.sprites.length; j++) {
     let element = this.props.sprites[j];
-    let className = (j == this.props.sprite? 'active' : '') + ' tab ' + element.name.replace(' ', '-').toLowerCase() 
+    let className = (j == this.props.sprite? 'active' : '') + ' tab ' + element.name.replace(' ', '-').toLowerCase(); 
     tabs.push(
       <div 
         className={className} 
@@ -33,7 +33,6 @@ obj.getTabs = function () {
           {element.name}
       </div>
     );
-    element
   }
   return tabs;
 };

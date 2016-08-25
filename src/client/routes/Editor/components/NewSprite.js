@@ -40,7 +40,7 @@ obj.createSprite = function(name, width, height) {
 
   this.props.setCurrentSprite(sprite);
   this.props.setCurrentFrame(frame);
-  this.createLayer({sprite, frame, width, height})
+  this.createLayer({sprite, frame, width, height});
   this.props.setCurrentLayer(0);
 };
 
