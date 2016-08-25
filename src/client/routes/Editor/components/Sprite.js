@@ -39,14 +39,14 @@ obj.initInterval = function (props, state) {
     this.interval = clearInterval(this.interval);
     this.interval = setInterval(this.onInterval, props.interval);
   } else {
-    this.paint(state.context, props.frames[0].context.canvas);
+    this.paint(state.context, props.frames[this.props.filter[0]].context.canvas);
   }
 };
 
 obj.onInterval = function () {
-  this.paint(this.state.context, this.props.frames[this.index].context.canvas);
+  this.paint(this.state.context, this.props.frames[this.props.filter[this.index]].context.canvas);
   this.index++;
-  if (this.index > this.props.frames.length - 1) {
+  if (this.index > this.props.filter.length - 1) {
     this.index = 0;
   }
 };
