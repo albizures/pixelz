@@ -4,14 +4,6 @@
 @import './Panel.styl'
 @import './Range.styl'
 
-.btn 
-  btn-bg()
-  border 1px solid main-black
-.input
-  border 1px solid main-black
-  background input-background
-  color black
-
 .root
   position absolute
   width 100%
@@ -68,6 +60,7 @@ body{
   pointer-events: none
 .center
   overflow hidden
+  background main-gray !important
 .content-canvas
   position absolute
   &>.background, &>.main, &>.canvas,&>.mask,&>.preview,.content-preview-animate
@@ -159,6 +152,7 @@ body{
       box-shadow 0 0 5px rgba(0,0,0,0.7);
       transform-origin 50%
       
+@import './input.styl'
 @import './layout'
 @import './tooltip.styl'
 @import './Tools.styl'

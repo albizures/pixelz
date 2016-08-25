@@ -1,8 +1,4 @@
 const React = require('react');
-const { connect } = require('react-redux');
-
-const { actions } = require('../ducks/panels.js');
-const { editProp } = require('utils/ducks.js');
 
 const $window = $(window);
 const obj = {};
@@ -107,12 +103,29 @@ obj.getDragbar = function () {
   }
   return <div className="drag-bar">{this.props.name}</div>;
 };
-obj.render = function(){
-  var className = 
-    'panel panel-' + 
-    this.props.name.toLowerCase().replace(' ', '') + 
-    (this.props.float? ' float ' : ' ') + 
-    (this.props.className? this.props.className: ' ');
+
+obj.onClickBackdrop = function (evt) {
+  var modal = evt.target.parentElement;
+  modal.classList.add('clicked');
+  setTimeout(() => modal.classList.remove('clicked'), 200);
+};
+
+obj.getModal = function () {
+  return <div className='modal' style={{display: this.props.modalOpen? 'block' : 'none'}}>
+    <div className='backdrop' onClick={this.onClickBackdrop}/>
+    {this.getPanel()}
+  </div>;
+};
+
+obj.getClassName = function () {
+  var base = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '-');
+  base += (this.props.float? ' float ' : ' ');
+  base += (this.props.className? this.props.className: ' ');
+  return base;
+};
+
+obj.getPanel = function () {
+  var className = this.getClassName();
   return <div style={this.getStylePanel()} className={className}>
     {
       this.getDragbar()
@@ -122,6 +135,13 @@ obj.render = function(){
     }
   </div>;
 };
+
+obj.render = function(){
+  if(this.props.modal) {
+    return this.getModal();
+  }
+  return this.getPanel();
+};
 const Panel = React.createClass(obj);
 
-module.exports = connect(null, actions)(Panel);
+module.exports = Panel;

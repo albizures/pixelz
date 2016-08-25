@@ -58,7 +58,7 @@ obj.render = function () {
         this.getMenu('project',undefined, [
           this.getMenu('new project'),
           this.getMenu('save project', this.onSave),
-          this.getMenu('new sprite')
+          this.getMenu('new sprite', this.props.openNewSpriteModal)
         ]),
         this.getMenu('sprite',undefined, [
           this.getMenu('resize', this.onResize),

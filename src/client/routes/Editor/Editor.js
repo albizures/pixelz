@@ -20,6 +20,7 @@ require('./components/ColorPicker.js');
 
 const { Layout } = require('./components/Layout.js');
 
+const NewSprite = require('./components/NewSprite.js');
 const Panel = require('./components/Panel.js');
 const Palettes = require('./components/Palettes.js');
 const History = require('./components/History.js');
@@ -49,10 +50,20 @@ const obj = {};
 
 obj.displayName = 'Editor';
 
+obj.onClose = function (newSprite) {
+  this.setState({open : false});
+};
+
+obj.openNewSpriteModal = function () {
+  this.setState({open : true});
+};
+
 obj.render = function () {
+  console.log(this.state);
   return <div className='editor-content'>
-    <Menus/>
+    <Menus openNewSpriteModal={this.openNewSpriteModal}/>
     <Layout {...conf}/>
+    <NewSprite modalOpen={this.state.open} onClose={this.onClose} />
   </div>;
 };
 
@@ -70,7 +81,12 @@ obj.componentDidUpdate = function(prevProps, prevState) {
 };
 
 obj.getInitialState = function () {
-  return {};
+  if (this.props.params.id) {
+    http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
+  } else {
+    return {open : true};
+  }
+  return {open : false};
 };
 
 obj.componentDidMount = function() {
@@ -79,30 +95,7 @@ obj.componentDidMount = function() {
     width : window.innerWidth,
     height : window.innerHeight
   });
-  if (this.props.params.id) {
-    http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
-  } else {
-    this.createSprite('untitle', 36, 36);
-  }
-};
-
-obj.createSprite = function(name, width, height) {
-  let sprite, frame;
-  sprite = this.props.addSprite({
-    name,
-    width,
-    height
-  });
-  frame = this.props.addFrame({
-    width,
-    height,
-    sprite
-  });
-  this.props.addFrameSprite(sprite, frame);
-
-  this.props.setCurrentSprite(sprite);
-  this.props.setCurrentFrame(frame);
-  this.props.setCurrentLayer(this.createLayer({sprite, frame, width, height}));
+  
 };
 
 obj.onGetSprite = function (result) {
@@ -212,21 +205,6 @@ obj.createFrame = function({sprite, context}){
   });
   this.props.addFrameSprite(sprite, frame);
   return frame;
-};
-
-obj.createLayer = function({sprite, frame, context, width, height}) {
-  var layer;
-  width = width || this.props.sprites[sprite].width;
-  height = height || this.props.sprites[sprite].height;
-  layer = this.props.addLayer({
-    width,
-    height,
-    sprite,
-    frame,
-    context
-  });
-  this.props.addLayerFrame(frame, layer);
-  return layer;
 };
 
 function mapStateToProps(state, props) {
