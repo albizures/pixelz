@@ -71,14 +71,14 @@ obj.render = function () {
       <div className='form-group'>
         <label>Width</label>
         <div className='input-group'>
-          <input className='input' type='number' name='width' defaultValue='36'/>
+          <input className='input' type='number' name='width' defaultValue='50'/>
           <span>px</span>
         </div>
       </div>
       <div className='form-group'>
         <label>Height</label>
         <div className='input-group'>
-          <input className='input' type='number' name='height' defaultValue='36'/>
+          <input className='input' type='number' name='height' defaultValue='10'/>
           <span>px</span>
         </div>
       </div>

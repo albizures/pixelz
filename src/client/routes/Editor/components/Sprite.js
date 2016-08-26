@@ -7,16 +7,19 @@ const obj = {};
 obj.displayName = 'Sprite';
 
 obj.render = function () {
-  return <canvas className='transparent-bkg' style={this.props.style} width={this.props.width} height={this.props.height}></canvas>;
+    
+  return <canvas
+    style={this.props.style}
+    className='transparent-bkg'
+    width={this.props.width}
+    height={this.props.height}
+  ></canvas>;
 };
 obj.componentDidMount = function() {
   let context = ReactDOM.findDOMNode(this).getContext('2d');
   this.setState({
     context : context
   });
-};
-obj.componentDidUpdate = function(prevProps, prevState) {
-
 };
 
 obj.shouldComponentUpdate = function(nextProps, nextState) {
@@ -26,6 +29,7 @@ obj.shouldComponentUpdate = function(nextProps, nextState) {
   if (nextState.context && nextProps.frames && nextProps.frames[0]
       && (this.props.interval !== nextProps.interval || update || this.props.frames.length !== nextProps.frames.length)
   ) {
+    this.index = 0;
     setTimeout(() => {
       this.initInterval(nextProps, nextState);
     }, 500);

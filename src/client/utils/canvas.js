@@ -19,28 +19,59 @@ function imageSmoothingDisabled(ctx) {
   exports.imageSmoothing(ctx, false);
 };
 
-exports.getPreviewSize = function getPreviewSize(size, width, height) {
+function getPreviewSize(maxWidth, maxHeight, width, height) {
   var newWidth, newHeight, scale;
+  var maxSize = 0;
   var marginTop = 0, marginLeft = 0;
+
+  // if (maxWidth > maxHeight) {
+  //   if (width > height) {
+  //     newWidth = maxWidth;
+  //     scale = maxWidth / width;
+  //     newHeight = height * scale;
+  //     marginTop = (maxWidth - newHeight) / 2;
+  //   } else {
+  //     maxSize = newHeight = maxHeight;
+  //     scale = maxHeight / height;
+  //     newWidth = width * scale;
+  //     marginLeft = (maxHeight - newWidth) / 2;
+  //   }
+  // } else {
+  //   maxWidth
+  //   if (width > height) {
+  //     newWidth = maxWidth;
+  //     scale = maxWidth / width;
+  //     newHeight = height * scale;
+  //     marginTop = (maxWidth - newHeight) / 2;
+  //   } else {
+  //     maxSize = newHeight = maxHeight;
+  //     scale = maxHeight / height;
+  //     newWidth = width * scale;
+  //     marginLeft = (maxHeight - newWidth) / 2;
+  //   }
+  // }
+
   if (width > height) {
-    newWidth = size;
-    scale = size / width;
+    maxSize = newWidth = maxWidth;
+    scale = maxWidth / width;
     newHeight = height * scale;
-    marginTop = size - newHeight;
+    marginTop = (maxHeight - newHeight) / 2;
   } else {
-    newHeight = size;
-    scale = size / height;
+    maxSize = newHeight = maxHeight;
+    scale = maxHeight / height;
     newWidth = width * scale;
-    marginLeft = size - newWidth;
+    marginLeft = (maxWidth - newWidth) / 2;
   }
   return {
+    maxWidth,
+    maxHeight,
     width : newWidth,
     height : newHeight,
     marginTop,
     marginLeft,
     scale
   };
-};
+}
 
 exports.getNewContext = function getNewContext(data) {
   var newContext = data.context || document.createElement('canvas').getContext('2d');
@@ -112,6 +143,7 @@ exports.noTransparent = function (context, scale, transparent) {
   return context;
 };
 
+exports.getPreviewSize = getPreviewSize;
 exports.getImageData = getImageData;
 exports.imageSmoothing = imageSmoothing;
 exports.cloneContext = cloneContext;

@@ -25,11 +25,11 @@
 
 .input-group
   display table
-  span
+  &> span, &>.span
     padding 0 5px
     btn-bg()
     border 1px solid main-black
-  .input, span
+  &> .input, &> span, &> .span
     display table-cell
   .input:not(:first-child):not(:last-child)
     border-radius 0

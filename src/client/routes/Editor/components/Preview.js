@@ -27,14 +27,12 @@ obj.initPreivew = function(props) {
   if (props.frames[0]) {
     let el = ReactDOM.findDOMNode(this);
     let size = getPreviewSize(
-      el.clientWidth > el.clientHeight? el.clientHeight : el.clientWidth,
+      el.clientWidth,
+      el.clientHeight - (25 + 20),
       props.frames[0].width,
       props.frames[0].height
     );
-    this.setState({
-      width : size.width - (25 + 20),
-      height : size.height - (25 + 20)
-    });
+    this.setState(size);
   }
 };
 
@@ -50,16 +48,20 @@ obj.onChangeRange = function(value) {
   
 obj.getSprite = function() {
   var style = {}, interval = 1000 / this.state.fps;
-  style.width = this.state.width;
+  style.width = this.state.maxWidth;
+  style.height = this.state.maxHeight;
+  console.log(this.state);
   if (this.state.width && this.state.height && this.props.frames.length > 0) {
-    return <Sprite 
-      interval={interval}
-      style={style}
-      width={this.state.width}
-      height={this.state.height}
-      frames={this.props.frames}
-      filter={this.props.sprite.frames}
-    />;
+    return <div style={style} className='context-preview'> 
+      <Sprite 
+        interval={interval}
+        style={{marginTop : this.state.marginTop, marginLeft : this.state.marginLeft}}
+        width={this.state.width}
+        height={this.state.height}
+        frames={this.props.frames}
+        filter={this.props.sprite.frames}
+      />
+    </div>;
   }
   return <div></div>;
 };
@@ -69,10 +71,14 @@ obj.render = function(){
     {
       this.getSprite()
     }
-    <div className='fps-range'>
-      <span>FPS</span>
+    <div className='fps-range input-group'>
+      <div className='span'>
+        <span>FPS</span>
+      </div>
       <Range value={this.state.fps} large onChange={this.onChangeRange} min={1} max={24}/>
-      <span>{this.state.fps}</span>
+      <div className='span'>
+        <span>{this.state.fps}</span>
+      </div>
     </div>
   </Panel>;
 };

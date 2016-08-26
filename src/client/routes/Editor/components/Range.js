@@ -76,7 +76,7 @@ obj.componentWillReceiveProps = function(nextProps) {
 
 obj.render = function() {
   if (this.props.large) {
-    return <input className='range-large' type="range" max={this.props.max} min={this.props.min} value={this.props.value} onChange={this.onChange}/>;
+    return <input className='range-large span' type="range" max={this.props.max} min={this.props.min} value={this.props.value} onChange={this.onChange}/>;
   }
   return <div className='range-small' onWheel={this.onWheel} style={{backgroundImage : this.getBackground()}} onMouseDown={this.onMouseDown}>
     <input className='input' value={this.props.value} onChange={this.onChange}/>
