@@ -1,4 +1,4 @@
-const { calculatePosition, validCord } = require('utils/canvas.js');
+const { calculatePosition, validCord, getPreviewSize } = require('utils/canvas.js');
 const { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 const tools = require('./tools');
 let lastDragX, lastDragY;
@@ -36,6 +36,32 @@ exports.paintPreview = function (cord, context, artboard) {
   context.fillRect(realCord.x, realCord.y, artboard.scale, artboard.scale);
 };
 
+exports.openContextMenu = function (evt) {
+  this.setState({
+    activeContextMenu: true,
+    contextMenuPosition : {
+      x: evt.clientX,
+      y: evt.clientY
+    }
+  });
+};
+exports.center = function (stats) {
+  stats = stats || this.state.stats;
+  let { sprite } = this.props;
+  let size = getPreviewSize(stats.width, stats.height, sprite.width, sprite.height);
+  this.props.setCurrentArtboard({
+    scale: size.scale,
+    x: stats.left + size.marginLeft,
+    y: stats.top + size.marginTop
+  });
+};
+exports.onCenter = function (evt) {
+  this.setState({
+    activeContextMenu: false
+  });
+  this.center();
+};
+
 exports.onMouseDown = function (evt) {
   let cord; 
   let {$canvas, context} = this.state.preview;
@@ -43,7 +69,18 @@ exports.onMouseDown = function (evt) {
   evt.preventDefault();
   cord = calculatePosition(this.props.artboard, evt.clientX, evt.clientY);
   if (!validCord(this.props.layer, cord)) {
-    console.info('create contextMenu');
+    if (evt.which === RIGHT_CLICK) {
+      this.openContextMenu(evt);
+    } else if(this.state.activeContextMenu){
+      this.setState({
+        activeContextMenu: false
+      });
+    }
+    return;
+  } else if(this.state.activeContextMenu){
+    this.setState({
+      activeContextMenu: false
+    });
   }
   if (evt.which === RIGHT_CLICK || evt.which === LEFT_CLICK) {
     this.clean(context);

@@ -81,3 +81,52 @@
         display inline-block
         .menu 
           color text-color
+
+
+.content-menu
+  &.hidden
+    display none
+  &.inline
+    &>ul
+      &>li
+        display inline
+        &>ul
+          top 100%
+          left 0
+  position: fixed;
+  left: 400px;
+  top: 100px;
+  background main-gray
+  z-index 42
+  border-radius 1px
+  box-shadow rgba(0, 0, 0, 0.247059) 0px 0px 0px 1px, rgba(0, 0, 0, 0.14902) 0px 8px 16px
+  display inline-block
+  ul
+
+    list-style none
+    padding 2px 0
+  ul, li
+    cursor pointer
+    margin 0
+    box-sizing border-box
+  li
+    background bakcground-gray
+    padding 2px 15px 3px 15px
+  &>ul
+    position relative
+    border 1px
+    ul
+      box-shadow rgba(0, 0, 0, 0.247059) 0px 0px 0px 1px, rgba(0, 0, 0, 0.14902) 0px 8px 16px
+    li
+      position relative
+      &>ul
+        position absolute
+        left calc(100% + 1px)
+        top 0
+        display none
+    li:hover
+      background select-item
+      &>ul
+        display initial
+      
+

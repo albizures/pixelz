@@ -50,7 +50,6 @@ obj.getSprite = function() {
   var style = {}, interval = 1000 / this.state.fps;
   style.width = this.state.maxWidth;
   style.height = this.state.maxHeight;
-  console.log(this.state);
   if (this.state.width && this.state.height && this.props.frames.length > 0) {
     return <div style={style} className='context-preview'> 
       <Sprite 

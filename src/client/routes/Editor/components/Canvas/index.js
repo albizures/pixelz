@@ -6,6 +6,7 @@ const { connect } = require('react-redux');
 const { noopFrame } = require('utils/noop.js');
 const { register } = require('../Layout.js');
 const { currentActions } = require('../../ducks');
+const Menu = require('../Menu.js');
 const Background = require('./Background.js');
 const Main = require('./Main.js');
 const Preview = require('./Preview.js');
@@ -52,6 +53,12 @@ obj.setScale = function (scale) {
   });
 };
 
+obj.componentDidUpdate = function(nextProps, nextState) {
+  if (!this.props.artboard && this.props.layer !== undefined) {
+    this.center();
+  }
+};
+
 obj.shouldComponentUpdate = function(nextProps, nextState) {
   return true;
 };
@@ -62,6 +69,7 @@ obj.componentDidMount = function () {
   let el = ReactDOM.findDOMNode(this);
   let stats = el.getBoundingClientRect();
   this.setState({
+    stats,
     marginTop : -stats.top,
     marginLeft: -stats.left
   });
@@ -93,13 +101,22 @@ obj.render = function() {
     // width: '100%',
     // height : '100%'
   };
-    
+  var props = {
+    style,
+    size,
+    artboard: this.props.artboard,
+    layer: this.props.layer,
+    setContext: this.setContextType
+  };
   if (this.props.layer && this.props.artboard !== null) {
     return <div style={this.props.style} className={this.props.className + ' content-canvas'} onWheel={this.onWheel}>
-      <Background style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-      <Main style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-      <Preview style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
-      <Mask style={style} size={size} artboard={this.props.artboard} layer={this.props.layer} setContext={this.setContextType}/>
+      <Background {...props}/>
+      <Main {...props}/>
+      <Preview {...props}/>
+      <Mask {...props}/>
+      <Menu active={this.state.activeContextMenu} position={this.state.contextMenuPosition}>
+        <li onClick={this.onCenter}>Center</li>
+      </Menu>
     </div>;
   }
   return <div style={this.props.style} className={this.props.className + ' content-canvas'}></div>;

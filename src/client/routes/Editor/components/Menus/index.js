@@ -34,7 +34,7 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
   return <li key={menuCount} className={'menu ' + name.toLowerCase().replace(/ /g, '-')} onClick={handle}>
     {name}
     {
-      children.lenngth == 0? '' : <ul className='list-menus'>
+      children.length == 0? '' : <ul className='list-menus'>
         {children}
       </ul>
     }
