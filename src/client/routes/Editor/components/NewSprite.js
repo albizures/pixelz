@@ -59,6 +59,10 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
   return layer;
 };
 
+obj.onClose = function (evt) {
+  evt.preventDefault();
+  this.props.onClose();
+};
 
 const style = { width : 200 };
 obj.render = function () {
@@ -83,6 +87,7 @@ obj.render = function () {
         </div>
       </div>
       <button className='btn' type="submit">Create Sprite</button>
+      <button className='btn' onClick={this.onClose}>Cancel</button>
     </form>
   </Panel>;
 };

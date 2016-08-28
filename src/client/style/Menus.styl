@@ -26,71 +26,27 @@
     background gray
     width 25px
     height 25px
-    display inline-block;
-.list-menus
-  //height 100%
-  vertical-align top
-  margin 0
-  padding 0
-  display inline-block
-  list-style none
-  ul, li
-    margin 0
-    padding 0
-    box-sizing border-box
-  li
-    line-height: 1.5;
-    &:hover
-      background #A3C4FF
-      color black
-      cursor pointer
-  .menu
-    //background whitesmoke
-    height 100%
-    float left
-    position relative
-    margin 0
-    padding 0
-    white-space nowrap
-    width auto
-    padding 0 5px
-    list-style none
-    .list-menus
-      border 0
-      box-shadow rgba(0, 0, 0, 0.247) 3px 3px 2px -1px, rgba(0, 0, 0, 0.149) 0px 0px 0px
-      background main-gray
-      position absolute
-      top 100%
-      left 0
-      display none
-      list-style none
-      .menu
-        padding 2px 4px
-        height 100%
-        width: 100%
-        position relative
-        .list-menus
-          left 100%
-          top 0
-        &:hover
-          color black
-          &>.list-menus
-            display inline-block
-    &:hover
-      &>.list-menus
-        display inline-block
-        .menu 
-          color text-color
+    display inline-block
 
 
 .content-menu
   &.hidden
     display none
   &.inline
+    box-shadow 0px 0px 0px
+    vertical-align top
+    position initial
+    height 100%
     &>ul
+      height 100%
+      padding 0
       &>li
-        display inline
+        padding-top 4px
+        padding-bottom 0
+        display inline-block
+        height 100%
         &>ul
+          padding 0
           top 100%
           left 0
   position: fixed;
@@ -110,6 +66,7 @@
     margin 0
     box-sizing border-box
   li
+    white-space: nowrap;
     background bakcground-gray
     padding 2px 15px 3px 15px
   &>ul
