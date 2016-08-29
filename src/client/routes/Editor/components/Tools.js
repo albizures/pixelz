@@ -57,6 +57,11 @@ obj.onClickSecondary = function (evt) {
     action : 'setSecondaryColor'
   });
 };
+
+obj.onClickTool = function (name) {
+  this.props.setCurrentTool(name);
+};
+
 obj.render = function() {
   return <Panel name="Tools" style={this.props.style} float={true}>
     <div className='colors'>
@@ -67,7 +72,11 @@ obj.render = function() {
       {
         this.props.tools.map((item, index) =>
           <Tooltipy key={index} text={item} mode="top">
-            <button className={this.props.tool == item ? 'active' : '' } >{item.slice(0, 1) }</button>
+            <button 
+              onClick={this.onClickTool.bind(this, item)}
+              className={this.props.tool == item ? 'active' : '' } >
+              {item.slice(0, 1) }
+            </button>
           </Tooltipy>
         )
       }

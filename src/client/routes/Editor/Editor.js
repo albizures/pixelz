@@ -67,18 +67,6 @@ obj.render = function () {
   </div>;
 };
 
-obj.componentDidUpdate = function(prevProps, prevState) {
-  if (this.props.layer !== null && this.props.artboard === null) {
-    let scale = 15;
-    let width = this.props.layers[this.props.layer].width * scale;
-    let height = this.props.layers[this.props.layer].height * scale;
-    this.props.setCurrentArtboard({
-      x : (window.innerWidth / 2) - (width / 2),
-      y : (window.innerHeight / 2) - (height / 2),
-      scale : scale
-    });
-  }
-};
 
 obj.getInitialState = function () {
   if (this.props.params.id) {

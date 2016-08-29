@@ -24,33 +24,6 @@ function getPreviewSize(maxWidth, maxHeight, width, height) {
   var maxSize = 0;
   var marginTop = 0, marginLeft = 0;
 
-  // if (maxWidth > maxHeight) {
-  //   if (width > height) {
-  //     newWidth = maxWidth;
-  //     scale = maxWidth / width;
-  //     newHeight = height * scale;
-  //     marginTop = (maxWidth - newHeight) / 2;
-  //   } else {
-  //     maxSize = newHeight = maxHeight;
-  //     scale = maxHeight / height;
-  //     newWidth = width * scale;
-  //     marginLeft = (maxHeight - newWidth) / 2;
-  //   }
-  // } else {
-  //   maxWidth
-  //   if (width > height) {
-  //     newWidth = maxWidth;
-  //     scale = maxWidth / width;
-  //     newHeight = height * scale;
-  //     marginTop = (maxWidth - newHeight) / 2;
-  //   } else {
-  //     maxSize = newHeight = maxHeight;
-  //     scale = maxHeight / height;
-  //     newWidth = width * scale;
-  //     marginLeft = (maxHeight - newWidth) / 2;
-  //   }
-  // }
-
   if (width > height) {
     maxSize = newWidth = maxWidth;
     scale = maxWidth / width;

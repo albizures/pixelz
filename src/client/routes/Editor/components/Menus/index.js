@@ -4,6 +4,7 @@ const { connect } = require('react-redux');
 
 const { actions } = require('../../ducks');
 const Name = require('./Name.js');
+const Menu = require('../Menu.js');
 const Panel = require('../Panel.js');
 const { noopF, noopA } = require('utils/noop.js');
 const obj = require('./events.js');
@@ -34,7 +35,7 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
   return <li key={menuCount} className={'menu ' + name.toLowerCase().replace(/ /g, '-')} onClick={handle}>
     {name}
     {
-      children.lenngth == 0? '' : <ul className='list-menus'>
+      children.length == 0? '' : <ul className='list-menus'>
         {children}
       </ul>
     }
@@ -53,19 +54,19 @@ obj.render = function () {
     <Link to='/'>
       <image className='logo'/>
     </Link>
-    <ul className='list-menus'>
-      {[
-        this.getMenu('project',undefined, [
-          this.getMenu('new project'),
-          this.getMenu('save project', this.onSave),
-          this.getMenu('new sprite', this.props.openNewSpriteModal)
-        ]),
-        this.getMenu('sprite',undefined, [
-          this.getMenu('resize', this.onResize),
-          this.getMenu('set background', this.onSetBackground)
-        ])
-      ]}
-    </ul>
+    <Menu active inline>
+      <Menu child>
+        Project
+        <li >new project</li>
+        <li onClick={this.onSave}>save project</li>
+        <li onClick={this.props.openNewSpriteModal}>new sprite</li>
+      </Menu>
+      <Menu child>
+        Sprite
+        <li onClick={this.onResize}>resize</li>
+        <li onClick={this.onSetBackground}>set background</li>
+      </Menu>
+    </Menu>
     <Name name={this.getName() } onSubmit={this.onSubmitName}/>
   </Panel>;
 };

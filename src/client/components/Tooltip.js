@@ -13,40 +13,42 @@ obj.getInitialState = function () {
     active : false
   };
 };
+obj.shouldComponentUpdate = function(nextProps, nextState) {
+  return false;
+};
+
 
 obj.onSetStatus = function (active, text, stats, mode) {
+  let el = this.refs.el;
   let top;
   let left;
-  if (stats) {
-    top = stats.top;
-    left = stats.left ;
+  if (!stats) {
+    return el.classList.remove('active');
   }
+
+  el.className = 'tooltip active ' + mode;
+  el.textContent = text;
+  let { clientWidth, clientHeight } = el;
+
+  top = stats.top;
+  left = stats.left;
+
   if (mode === 'top') {
     top -= 30;
-    left -= stats.width / 2;
+    left += (stats.width / 2) - (clientWidth / 2);
   }
   if (mode === 'bottom') {
     top += 30;
-    left -= stats.width / 2;
+    left += (stats.width / 2) - (clientWidth / 2);
   }
-  this.setState({
-    active,
-    top,
-    left,
-    mode,
-    text
-  });
+
+  el.style.top = top + 'px';
+  el.style.left = left + 'px';
+
 };
 
 obj.render = function () {
-  let style = {
-    top: this.state.top,
-    left: this.state.left
-  };
-  let classState = this.state.mode || '';
-  classState += this.state.active ? ' active ' : '';
-  return <div className={'tooltip ' + classState  } style={style}>
-    {this.state.text}
+  return <div className='tooltip' ref='el'>
   </div>;
 };
 
