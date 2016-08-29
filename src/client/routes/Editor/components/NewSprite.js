@@ -21,6 +21,7 @@ obj.onSubmit = function (evt) {
     Number(evt.target.width.value),
     Number(evt.target.height.value)
   );
+  this.resetValues();
   this.props.onClose(sprite);
 };
 
@@ -64,10 +65,14 @@ obj.onClose = function (evt) {
   this.props.onClose();
 };
 
+obj.resetValues = function (form) {
+  this.refs.form.name.value = 'Untitled';
+};
+
 const style = { width : 200 };
 obj.render = function () {
   return <Panel name='New Sprite' modal style={style} modalOpen={this.props.modalOpen}>
-    <form className='form' onSubmit={this.onSubmit}>
+    <form className='form' onSubmit={this.onSubmit} ref='form'>
       <div className='form-group'>
         <label>Name</label>
         <input className='input' type='text' name='name' defaultValue='Untitled'/>
@@ -82,7 +87,7 @@ obj.render = function () {
       <div className='form-group'>
         <label>Height</label>
         <div className='input-group'>
-          <input className='input' type='number' name='height' defaultValue='10'/>
+          <input className='input' type='number' name='height' defaultValue='50'/>
           <span>px</span>
         </div>
       </div>
