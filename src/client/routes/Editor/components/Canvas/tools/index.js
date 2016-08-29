@@ -1,4 +1,5 @@
 
 module.exports = {
-  pencil : require('./pencil.js')
+  pencil : require('./pencil.js'),
+  eraser : require('./eraser.js'),
 };

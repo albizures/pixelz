@@ -18,7 +18,7 @@ const SET_SECONDARY_COLOR = 'SET_SECONDARY_COLOR';
 
 const tools = [
   'pencil',
-  'erase',
+  'eraser',
   'pick',
   'bucket',
   'line',
