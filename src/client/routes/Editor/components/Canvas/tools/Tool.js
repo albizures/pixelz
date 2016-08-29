@@ -24,6 +24,7 @@ common.newVersion = function (layer) {
   var frame = state.Editor.frames[layer.frame];
   var layers = state.Editor.layers;
   var context = frame.context;
+  context.canvas.width = context.canvas.width; // clean
   frame.layers.forEach(function(index) {
     context.drawImage(layers[index].context.canvas,
       0, 0, frame.width, frame.height,
