@@ -8,9 +8,8 @@ obj.displayName = 'ToolTipy';
 
 
 obj.componentDidMount = function () {
-  this.elDOM = ReactDOM.findDOMNode(this);
-  this.elDOM.addEventListener('mouseleave', this.onMouseLeave);
-  this.elDOM.addEventListener('mouseenter', this.onMouseEnter);
+  this.refs.el.addEventListener('mouseleave', this.onMouseLeave);
+  this.refs.el.addEventListener('mouseenter', this.onMouseEnter);
 };
 
 
@@ -19,7 +18,7 @@ obj.onMouseLeave = function () {
 };
 
 obj.onMouseEnter = function () {
-  setStatusTooltip(true, this.props.text ,this.elDOM.getBoundingClientRect(), this.props.mode);
+  setStatusTooltip(true, this.props.text ,this.refs.el.getBoundingClientRect(), this.props.mode);
 };
 
 obj.render = function () {
@@ -27,7 +26,7 @@ obj.render = function () {
   let type = Component.type;
   let children = Component.props.children;
   let props = Component.props;
-  return React.createElement(type, props);
+  return React.createElement(type, Object.assign({ref: 'el'}, props));
 };
 
 const Tooltipy = React.createClass(obj);
