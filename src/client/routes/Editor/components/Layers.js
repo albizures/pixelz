@@ -3,7 +3,6 @@ const { connect } = require('react-redux');
 
 const { register } = require('./Layout');
 
-const List = require('./List.js');
 const Layer = require('./Layer.js');
 const { setCurrentLayer, addLayerFrame, addLayer } = require('../ducks').actions;
 
@@ -58,19 +57,13 @@ obj.getDefaultProps = function() {
     }
   };
 };
-obj.getList = function() {
-  if (this.props.layer) {
-    return <List name='layers' component={Layer} filter={this.props.frame.layers} items={this.props.layers} current={this.props.layer.index}/>;
-  }
-  return <div className='list-content'></div>;
-};
 
 obj.getList = function() {
   if (this.props.layer !== null) {
     let children = [];
     for (let j = 0; j < this.props.frame.layers.length; j++) {
       let layer = this.props.layers[this.props.frame.layers[j]];
-      let className = 'preview-frames ' + (this.props.layer == j? 'active' : '');
+      let className = 'preview-layer ' + (this.props.layer == j? 'active' : '');
       children.push(
         <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
           <Layer data={layer} size={this.state.size} index={j}/>
@@ -86,7 +79,7 @@ obj.render = function() {
   return <div className={'layers ' + this.props.className} style={this.props.style}>
     <button className="btn add-layer" onClick={this.onClickAddLayer}>add layer</button>
     <div className='list-content'>
-      <ul className='list frames-list' ref='list'>
+      <ul className='list layers-list' ref='list'>
         {this.getList()}
       </ul>
     </div>

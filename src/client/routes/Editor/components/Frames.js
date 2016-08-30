@@ -2,7 +2,6 @@ const React = require('react');
 const { connect } = require('react-redux');
 
 const { register } = require('./Layout.js');
-const List = require('./List.js');
 const Frame = require('./Frame.js');
 const { setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer } = require('../ducks').actions;
 
@@ -68,8 +67,7 @@ obj.getList = function() {
       );
     }
     return children;
-    //return <List name='frames' component={Frame} filter={this.props.sprite.frames} items={this.props.frames} current={this.props.frame.index}/>;
-  } 
+  }
   return [];
 };
 
