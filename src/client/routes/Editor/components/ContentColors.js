@@ -19,12 +19,17 @@ obj.getDefaultProps = function () {
   };
 };
 
+obj.onSelectColor = function (color, primary) {
+  console.log(color, primary);
+  primary? this.props.setPrimaryColor(color) : this.props.setSecondaryColor(color);
+};
+
 obj.getColors = function () {
   let colors = [];
   for (let i = 0; i < this.props.palette.colors.length; i++) {
     let element = this.props.palette.colors[i];
     colors.push(
-      <Color {...element} size={this.props.size} key={i} index={i}/>
+      <Color {...element} onSelectColor={this.onSelectColor}  size={this.props.size} key={i} index={i}/>
     );
   }
   return colors;

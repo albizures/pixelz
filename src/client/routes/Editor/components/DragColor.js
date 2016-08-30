@@ -2,7 +2,7 @@
 const React = require('react');
 
 const { transparentImage } = require('constants/index.js');
-
+const { RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 const obj = {};
 
 obj.displayName = 'DragColor';
@@ -10,6 +10,7 @@ obj.displayName = 'DragColor';
 obj.propTypes = {
   index : React.PropTypes.number.isRequired,
   size : React.PropTypes.number.isRequired,
+  onSelectColor : React.PropTypes.func.isRequired,
   position : React.PropTypes.shape({
     x: React.PropTypes.number,
     y: React.PropTypes.number
@@ -51,9 +52,10 @@ obj.onMouseDown = function (evt) {
   // });
 };
 
-obj.onClick = function () {
-  console.log('color select');
+obj.onClick = function(evt) {
+  this.props.onSelectColor(this.props.color, evt.nativeEvent.which === LEFT_CLICK);
 };
+
 obj.render = function () {
   var styleBackground = {
     width : this.props.size,
@@ -66,7 +68,7 @@ obj.render = function () {
     width : this.props.size,
     height : this.props.size
   };
-  return <div className='drag-color transparent-bkg' style={styleBackground} onClick={this.onClick} onMouseDown={this.onMouseDown}>
+  return <div className='drag-color transparent-bkg' style={styleBackground} onContextMenu={this.onClick} onClick={this.onClick} onMouseDown={this.onMouseDown}>
     <div style={styleColor}></div>
   </div>;
 };
