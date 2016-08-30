@@ -18,6 +18,16 @@ obj.getDefaultProps = function() {
     }
   };
 };
+obj.getInitialState = function() {
+  return {
+    size : 0
+  };
+};
+obj.componentDidMount = function () {
+  this.setState({
+    size : this.refs.list.clientWidth
+  });
+};
 
 obj.onClickAddFrame = function() {
   let sprite = this.props.sprite.index;
@@ -47,17 +57,30 @@ obj.createFrame = function({sprite, context}){
 
 obj.getList = function() {
   if (this.props.frame) {
-    return <List name='frames' component={Frame} filter={this.props.sprite.frames} items={this.props.frames} current={this.props.frame.index}/>;
+    let children = [];
+    for (let j = 0; j < this.props.sprite.frames.length; j++) {
+      let frame = this.props.frames[this.props.sprite.frames[j]];
+      let className = 'preview-frames ' + (this.props.frame.index == frame.index? 'active' : '');
+      children.push(
+        <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
+          <Frame data={frame} size={this.state.size} index={j}/>
+        </li>
+      );
+    }
+    return children;
+    //return <List name='frames' component={Frame} filter={this.props.sprite.frames} items={this.props.frames} current={this.props.frame.index}/>;
   } 
-  return <div className='list-content'></div>;
+  return [];
 };
 
 obj.render = function() {
   return <div className={'frames ' + this.props.className} style={this.props.style}>
     <button className="add-frame btn" onClick={this.onClickAddFrame}>add frame</button>
-    {
-      this.getList()
-    }
+    <div className='list-content'>
+      <ul className='list frames-list' ref='list'>
+        {this.getList()}
+      </ul>
+    </div>
   </div>;
 };
 

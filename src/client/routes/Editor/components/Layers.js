@@ -24,6 +24,17 @@ obj.onClickAddLayer = function() {
   }
 };
 
+obj.getInitialState = function() {
+  return {
+    size : 0
+  };
+};
+obj.componentDidMount = function () {
+  this.setState({
+    size : this.refs.list.clientWidth
+  });
+};
+
 obj.createLayer = function({sprite, frame, context, width, height}) {
   var layer;
   width = width || this.props.frame.width;
@@ -53,12 +64,32 @@ obj.getList = function() {
   }
   return <div className='list-content'></div>;
 };
+
+obj.getList = function() {
+  if (this.props.layer !== null) {
+    let children = [];
+    for (let j = 0; j < this.props.frame.layers.length; j++) {
+      let layer = this.props.layers[this.props.frame.layers[j]];
+      let className = 'preview-frames ' + (this.props.layer == j? 'active' : '');
+      children.push(
+        <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
+          <Layer data={layer} size={this.state.size} index={j}/>
+        </li>
+      );
+    }
+    return children;
+  } 
+  return [];
+};
+
 obj.render = function() {
   return <div className={'layers ' + this.props.className} style={this.props.style}>
     <button className="btn add-layer" onClick={this.onClickAddLayer}>add layer</button>
-    {
-      this.getList()
-    }
+    <div className='list-content'>
+      <ul className='list frames-list' ref='list'>
+        {this.getList()}
+      </ul>
+    </div>
   </div>;
 };
 
@@ -66,7 +97,7 @@ const Layers = connect(
   function (state, props) {
     return {
       sprite : state.Editor.sprites[state.Editor.sprite],
-      layer : state.Editor.layers[state.Editor.layer],
+      layer : state.Editor.layer,
       layers : state.Editor.layers,
       frame : state.Editor.frames[state.Editor.frame]
     };
