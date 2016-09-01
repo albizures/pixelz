@@ -14,49 +14,42 @@ obj.onMouseDown = function (evt) {
   lastPixel = this.initCord;
   color = this.getColor(evt.which);
   if (isTransparent(color)) {
-    at = this.clean;
+    at = this.previewClean;
   } else {
-    at = this.paint;
+    at = this.previewPaint;
   }
   $window.off('mouseup.upCanvas').on('mouseup.upCanvas', this.onMouseUp, false);
-  $window.off('mouseout.leaveCanvas').on('mouseout.leaveCanvas', this.onMouseLeave, false);
   $window.off('mousemove.moveCanvas').on('mousemove.moveCanvas', this.onMouseMove, false);
 };
-obj.onMouseLeave = function (evt) {
-  let e = evt.toElement || evt.relatedTarget;
-  if (e !== document.children[0]) {
-    return;
-  }
-  lastPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
-};
-obj.clean = function (x, y) {
-  this.main.clearRect(
+obj.previewClean = function (x, y) {
+  this.preview.clearRect(
     (x * this.artboard.scale) + this.artboard.x,
     (y * this.artboard.scale) + this.artboard.y,
     this.artboard.scale, this.artboard.scale);
-  this.layer.context.clearRect(x, y, 1, 1);
 };
-obj.paint = function (x, y) {
-  this.main.fillStyle = color;
-  this.main.fillRect(
+obj.previewPaint = function (x, y) {
+  this.preview.fillStyle = color;
+  this.preview.fillRect(
     (x * this.artboard.scale) + this.artboard.x,
     (y * this.artboard.scale) + this.artboard.y,
     this.artboard.scale, this.artboard.scale);
-  this.layer.context.fillStyle = color;
-  this.layer.context.fillRect(x, y, 1, 1);
 };
 obj.onMouseMove = function (evt) {
   if (this.clicked) {
+    console.log('onMouseMove',evt);
     let newPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
     if (validCord(this.layer, newPixel) || validCord(this.layer, lastPixel)) {
-      if (abs(lastPixel.y - newPixel.y) > 1 || abs(lastPixel.x - newPixel.x) > 1) { // importantDiff
-        this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, at);
-      } else {
-        at(newPixel.x, newPixel.y);
-      }
+      this.preview.canvas.width = this.preview.canvas.width;
+      this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, at);
     }
-    lastPixel = newPixel;
   }
+};
+obj.clean = function (x, y) {
+  this.layer.context.clearRect(x, y, 1, 1);
+};
+obj.paint = function (x, y) {
+  this.layer.context.fillStyle = color;
+  this.layer.context.fillRect(x, y, 1, 1);
 };
 obj.onMouseUp = function (evt) {
   $window.off('mouseup.upCanvas');
@@ -64,8 +57,16 @@ obj.onMouseUp = function (evt) {
   $window.off('mousemove.moveCanvas');
   if (this.clicked) {
     this.clicked = false;
+    if (isTransparent(color)) {
+      at = this.clean;
+    } else {
+      at = this.paint;
+    }
     let newPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
-    at(newPixel.x, newPixel.y);
+    if (validCord(this.layer, newPixel) || validCord(this.layer, lastPixel)) {
+      this.preview.canvas.width = this.preview.canvas.width;
+      this.lineBetween(lastPixel.x, lastPixel.y, newPixel.x, newPixel.y, at);
+    }
     lastPixel = undefined;
     this.newVersion(this.layer);
     this.addUndo({
