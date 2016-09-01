@@ -32,6 +32,9 @@ obj.getColors = function () {
       <Color {...element} onSelectColor={this.onSelectColor}  size={this.props.size} key={i} index={i}/>
     );
   }
+  if (colors.length === 0) {
+    colors = <span>It's empty</span>;
+  }
   return colors;
 };
 

@@ -20,6 +20,7 @@ exports.reducer = function (state = [], action) {
         colors : action.sprite.colors || [],
         frames : action.sprite.frames || [],
         index : action.index,
+        palette : [],
         version : 0
       }]);
     case ADD_SPRITE_FRAME:

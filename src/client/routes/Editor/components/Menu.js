@@ -47,7 +47,7 @@ obj.render = function () {
   let style = {
     top: this.props.position.y,
     left: this.props.position.x
-  }
+  };
   let className = 'content-menu '; 
   className += (this.props.inline? 'inline' : '');
   className += (this.props.active? '' : 'hidden');

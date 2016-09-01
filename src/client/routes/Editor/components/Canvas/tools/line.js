@@ -36,7 +36,6 @@ obj.previewPaint = function (x, y) {
 };
 obj.onMouseMove = function (evt) {
   if (this.clicked) {
-    console.log('onMouseMove',evt);
     let newPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
     if (validCord(this.layer, newPixel) || validCord(this.layer, lastPixel)) {
       this.preview.canvas.width = this.preview.canvas.width;
