@@ -3,7 +3,8 @@ const React = require('react');
 const { register } = require('./Layout.js');
 const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
 const { connect } = require('react-redux');
-const spriteActions = require('../ducks/sprites.js').actions;
+const { actions: {setTransparentColor, setCurrentPalette}} = require('../ducks/sprites.js');
+const { currentActions: {setSecondaryColor, setPrimaryColor} } = require('../ducks');
 const Panel = require('./Panel.js');
 const ContentColors = require('./ContentColors.js');
 const obj = {};
@@ -40,16 +41,28 @@ var tempPalette = {
   colors: [
     {
       position : {
-        x: 3,
-        y: 3
+        x: 0,
+        y: 0
       },
-      color : 'green'
+      color : 'rgba(15, 56, 15, 1)'
     }, {
       position : {
-        x: 4,
-        y: 3
+        x: 1,
+        y: 0
       },
-      color : 'whitesmoke' 
+      color : 'rgba(48, 98, 48, 1)' 
+    }, {
+      position : {
+        x: 2,
+        y: 0
+      },
+      color : 'rgba(139, 172, 15, 1)' 
+    }, {
+      position : {
+        x: 3,
+        y: 0
+      },
+      color : 'rgba(155, 188, 15, 1)' 
     }
   ]
 };
@@ -68,7 +81,7 @@ obj.render = function () {
       title="Current Palette"
       onClick={this.toggleCurrent}
     >C</button>
-    <ContentColors palette={this.getPalette()}/>
+    <ContentColors setPrimaryColor={this.props.setPrimaryColor} setSecondaryColor={this.props.setSecondaryColor} palette={this.getPalette()}/>
   </Panel>;
 };
 obj.getPalette = function () {
@@ -89,20 +102,13 @@ obj.getPalette = function () {
   return tempPalette;
 };
 
-obj.getColors = function (colors) {
-  for (let j = 0; j < colors.length; j++) {
-    let element = colors[j];
-    
-  }
-};
-
 const Palette = connect(
   function (state, props) {
     return {
       sprite : state.Editor.sprites[state.Editor.sprite],
     };
   },
-  spriteActions
+  {setTransparentColor, setCurrentPalette, setPrimaryColor, setSecondaryColor}
 )(React.createClass(obj));
 
 register(Palette, obj.displayName);
