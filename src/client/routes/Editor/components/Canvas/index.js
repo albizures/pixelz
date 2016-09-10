@@ -131,7 +131,8 @@ function mapStateToProps(state, props) {
     frame : frame,
     layer : state.Editor.layers[frame.layers[state.Editor.layer]],
     tool : state.Editor.tool,
-    artboard : state.Editor.artboard
+    artboard : state.Editor.artboard,
+    primaryColor: state.Editor.primaryColor
   };
 }
 
