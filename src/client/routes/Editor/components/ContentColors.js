@@ -15,7 +15,7 @@ obj.propTypes = {
 
 obj.getDefaultProps = function () {
   return {
-    size : 20
+    size : 15
   };
 };
 

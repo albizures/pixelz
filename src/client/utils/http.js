@@ -30,15 +30,15 @@ function request(url, protocol, cb, body, headers = true) {
 
 
 exports.post = function (url, body, cb) {
-  request(url, 'POST', cb, body);
+  return request(url, 'POST', cb, body);
 };
 
 exports.get = function (url, cb) {
-  request(url, 'GET', cb);
+  return request(url, 'GET', cb);
 };
 
 exports.delete = function (url, cb) {
-  request(url, 'DELETE', cb);
+  return request(url, 'DELETE', cb);
 };
 
 function put (url, body, cb) {

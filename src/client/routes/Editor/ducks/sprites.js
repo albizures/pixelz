@@ -6,7 +6,7 @@ const ADD_SPRITE_FRAME = 'ADD_SPRITE_FRAME';
 const CHANGE_FRAME_POSITION = 'CHANGE_FRAME_POSITION';
 const NEW_SPRITE_VERSION = 'NEW_SPRITE_VERSION';
 const SET_TRANSPARENT_COLOR = 'SET_TRANSPARENT_COLOR';
-const SET_CURRENT_PALETTE = 'SET_CURRENT_PALETTE';
+const SET_CURRENT_PALETTE_SPRITE = 'SET_CURRENT_PALETTE_SPRITE';
 const PUT_NAME = 'PUT_NAME';
 
 exports.reducer = function (state = [], action) {
@@ -53,12 +53,6 @@ exports.reducer = function (state = [], action) {
         state,
         action.sprite,
         editProp(state[action.sprite], 'transparent', action.transparent)
-      );
-    case SET_CURRENT_PALETTE:
-      return updateArrayItem(
-        state,
-        action.sprite,
-        editProp(state[action.sprite], 'palette', action.palette)
       );
     case PUT_NAME:
       return updateArrayItem(
@@ -118,7 +112,7 @@ actions.setTransparentColor = function (sprite, transparent) {
 
 actions.setCurrentPalette = function (sprite, palette) {
   return {
-    type : SET_CURRENT_PALETTE,
+    type : SET_CURRENT_PALETTE_SPRITE,
     sprite,
     palette
   };

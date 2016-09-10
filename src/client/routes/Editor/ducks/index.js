@@ -3,7 +3,6 @@ const { combineReducers } = require('redux');
 const sprites = require('./sprites.js');
 const frames = require('./frames.js');
 const layers = require('./layers.js');
-const palettes = require('./palettes');
 const panels = require('./panels.js');
 const history = require('./history.js');
 
@@ -15,6 +14,7 @@ const SET_CURRENT_TOOL = 'SET_CURRENT_TOOL';
 const SET_CURRENT_ARTBOARD = 'SET_CURRENT_ARTBOARD';
 const SET_PRIMARY_COLOR = 'SET_PRIMARY_COLOR';
 const SET_SECONDARY_COLOR = 'SET_SECONDARY_COLOR';
+const SET_CURRENT_PALETTE = 'SET_CURRENT_PALETTE';
 
 const tools = [
   'pencil',
@@ -41,6 +41,7 @@ exports.reducer = combineReducers({
   sprite : getReducer(SET_CURRENT_SPRITE, 'index'),
   frame : getReducer(SET_CURRENT_FRAME, 'index'),
   layer : getReducer(SET_CURRENT_LAYER, 'index'),
+  palette : getReducer(SET_CURRENT_PALETTE, 'index'),
   tool : getReducer(SET_CURRENT_TOOL, 'tool'),
   primaryColor : getReducer(SET_PRIMARY_COLOR, 'color'),
   secondaryColor : getReducer(SET_SECONDARY_COLOR, 'color'),
@@ -48,9 +49,18 @@ exports.reducer = combineReducers({
   frames : frames.reducer,
   layers : layers.reducer,
   panels : panels.reducer,
-  palettes : palettes.reducer,
+  //palettes : palettes.reducer,
   tools : function tools(state = tools) {return state;},
 });
+
+
+actions.setCurrentPalette = function (index) {
+  return {
+    type : SET_CURRENT_PALETTE,
+    index
+  };
+};
+
 
 
 actions.setCurrentSprite = function (index) {
@@ -121,6 +131,5 @@ exports.actions = Object.assign({},
   sprites.actions,
   panels.actions,
   frames.actions,
-  layers.actions,
-  palettes.actions
+  layers.actions
 );

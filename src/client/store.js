@@ -3,6 +3,7 @@ const thunk = require('redux-thunk').default;
 
 const Editor = require('./routes/Editor/ducks');
 const Home = require('./routes/Home/ducks');
+const palettes = require('./ducks/palettes.js');
 
 function sprites(state = [], action) {
   switch (action.type) {
@@ -18,15 +19,17 @@ function sprites(state = [], action) {
 
 const reducers = combineReducers({
   Editor : Editor.reducer,
-  Home : Home.reducer
+  Home : Home.reducer,
+  palettes: palettes.reducer
 });
 
 
 const initialState = {
   Editor : Editor.initialState,
-  Home : Home.initialState
+  Home : Home.initialState,
+  palettes: palettes.initialState
 };
-
+console.log(initialState);
 const store = exports.store = createStore(
   reducers,
   initialState,

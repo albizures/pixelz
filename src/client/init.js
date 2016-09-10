@@ -29,7 +29,17 @@ const store = require('./store.js').store;
 const Home = require('./routes/Home');
 const Editor = require('./routes/Editor');
 const Tooltip = require('./components/Tooltip.js');
+const http = require('http');
+const palettes = require('./ducks/palettes.js');
+const { currentActions:editorActions } = require('./routes/Editor/ducks');
 
+http.get('/api/palettes').then(function (result) {
+  if (result.code !== 0 || !result.data) {
+    return;
+  }
+  let index = store.dispatch(palettes.actions.addPalettes(result.data));
+  store.dispatch(editorActions.setCurrentPalette(0));
+});
 
 ReactDOM.render((
   <div className="root">

@@ -36,36 +36,6 @@ obj.shouldComponentUpdate = function (nextProps, nextState) {
   } 
   return true;
 };
-var tempPalette = {
-  name : 'test',
-  colors: [
-    {
-      position : {
-        x: 0,
-        y: 0
-      },
-      color : 'rgba(15, 56, 15, 1)'
-    }, {
-      position : {
-        x: 1,
-        y: 0
-      },
-      color : 'rgba(48, 98, 48, 1)' 
-    }, {
-      position : {
-        x: 2,
-        y: 0
-      },
-      color : 'rgba(139, 172, 15, 1)' 
-    }, {
-      position : {
-        x: 3,
-        y: 0
-      },
-      color : 'rgba(155, 188, 15, 1)' 
-    }
-  ]
-};
 
 obj.toggleCurrent = function () {
   this.setState({
@@ -77,11 +47,15 @@ obj.render = function () {
   return <Panel name='Palette' className={'palette ' + this.props.className} style={this.props.style}>
     <button className='btn' >=</button>
     <button 
+      disabled={this.props.palettes.length < 1}
       className={'btn ' + (this.state.current? 'active' : '') } 
       title="Current Palette"
       onClick={this.toggleCurrent}
     >C</button>
-    <ContentColors setPrimaryColor={this.props.setPrimaryColor} setSecondaryColor={this.props.setSecondaryColor} palette={this.getPalette()}/>
+    <ContentColors 
+      setPrimaryColor={this.props.setPrimaryColor} 
+      setSecondaryColor={this.props.setSecondaryColor} 
+      palette={this.getPalette()}/>
   </Panel>;
 };
 obj.getPalette = function () {
@@ -99,13 +73,15 @@ obj.getPalette = function () {
       })
     };
   }
-  return tempPalette;
+  return this.props.palettes[this.props.palette] || {};
 };
 
 const Palette = connect(
   function (state, props) {
     return {
       sprite : state.Editor.sprites[state.Editor.sprite],
+      palettes: state.palettes,
+      palette: state.Editor.palette
     };
   },
   {setTransparentColor, setCurrentPalette, setPrimaryColor, setSecondaryColor}
