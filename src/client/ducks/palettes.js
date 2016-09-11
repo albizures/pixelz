@@ -2,7 +2,7 @@
 const { editProp, updateArrayItem } = require('utils/ducks.js');
 const ADD_PALETTES = 'ADD_PALETTES';
 const ADD_PALETTE = 'ADD_PALETTE';
-
+const ADD_COLOR = 'ADD_COLOR';
 
 exports.initialState = [];
 
@@ -14,10 +14,21 @@ exports.reducer = function (state = [], action) {
       ]);
     case ADD_PALETTES:
       return state.concat(action.palettes);
+    case ADD_COLOR: 
+      return updateArrayItem(
+        state, action.palette,
+        addColor(state[action.palette], action.color)
+      );
     default:
       return state;
   }
 };
+
+function addColor(palette, color) {
+  palette = editProp(palette, 'colors', palette.colors.concat([color]));
+  palette.unsaved = true;
+  return palette;
+}
 
 const actions = {};
 
@@ -37,6 +48,14 @@ actions.addPalettes = function (palettes) {
   return {
     type : ADD_PALETTES,
     palettes
+  };
+};
+
+actions.addColor = function (palette, color) {
+  return {
+    type: ADD_COLOR,
+    palette,
+    color
   };
 };
 

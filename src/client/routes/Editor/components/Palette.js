@@ -3,6 +3,7 @@ const React = require('react');
 const { register } = require('./Layout.js');
 const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
 const { connect } = require('react-redux');
+const { actions: {setStyle, setParams} } = require('../ducks/panels.js');
 const { actions: {setTransparentColor, setCurrentPalette}} = require('../ducks/sprites.js');
 const { currentActions: {setSecondaryColor, setPrimaryColor} } = require('../ducks');
 const Panel = require('./Panel.js');
@@ -43,6 +44,33 @@ obj.toggleCurrent = function () {
   });
 };
 
+obj.onAddColor = function () {
+  this.props.setStyle('colorPicker', {
+    visibility : 'visible'
+  });
+  
+
+  this.props.setParams('colorPicker', {
+    color: this.props.primaryColor,
+    action: 'addColor',
+    palette: this.props.palette,
+    position: this.getNextPosition()
+  });
+};
+obj.getNextPosition = function() {
+  let nextPosition = {};
+  let palette = this.props.palettes[this.props.palette];
+  let max = 6;
+  
+  Object.assign(nextPosition, palette.colors[palette.colors.length - 1].position);
+  nextPosition.x++;
+  if (nextPosition.x > max) {
+    nextPosition.x = 0;
+    nextPosition.y++;
+  }
+  return nextPosition;
+};
+
 obj.render = function () {
   return <Panel name='Palette' className={'palette ' + this.props.className} style={this.props.style}>
     <button className='btn' >=</button>
@@ -52,6 +80,9 @@ obj.render = function () {
       title="Current Palette"
       onClick={this.toggleCurrent}
     >C</button>
+    <button className='btn'
+      onClick={this.onAddColor}
+    >+</button>
     <ContentColors 
       setPrimaryColor={this.props.setPrimaryColor} 
       setSecondaryColor={this.props.setSecondaryColor} 
@@ -81,10 +112,11 @@ const Palette = connect(
     return {
       sprite : state.Editor.sprites[state.Editor.sprite],
       palettes: state.palettes,
-      palette: state.Editor.palette
+      palette: state.Editor.palette,
+      primaryColor: state.Editor.primaryColor
     };
   },
-  {setTransparentColor, setCurrentPalette, setPrimaryColor, setSecondaryColor}
+  {setTransparentColor, setCurrentPalette, setPrimaryColor, setSecondaryColor, setStyle, setParams}
 )(React.createClass(obj));
 
 register(Palette, obj.displayName);

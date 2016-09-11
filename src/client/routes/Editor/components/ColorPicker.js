@@ -5,8 +5,9 @@ const { register } = require('./Layout');
 const { hsvToRgb, rgbToHsv, getRGBAComponents} = require('utils/color.js');
 const { round } = Math;
 
-const { currentActions } = require('../ducks/index.js');
-const { actions } = require('../ducks/panels.js');
+const { currentActions: {setSecondaryColor, setPrimaryColor} } = require('../ducks/index.js');
+const { actions: {addColor} } = require('../../../ducks/palettes.js');
+const { actions: {setStyle} } = require('../ducks/panels.js');
 
 const Range = require('./Range.js');
 const Color = require('./Color.js');
@@ -218,8 +219,19 @@ obj.getHandleRGBA = function (position) {
 };
 
 obj.onClickOK = function () {
+  let params = this.props.params;
   this.props.setStyle('colorPicker', {visibility : 'hidden'});
-  this.props[this.props.params.action](this.state.color);
+  switch (params.action) {
+    case 'addColor':
+      this.props[params.action](
+        params.palette,
+        {position: params.position, color: this.state.color}
+      );
+      break;
+    default:
+      this.props[params.action](this.state.color);
+      break;
+  }
 };
 obj.onClickCancel = function () {
   this.props.setStyle('colorPicker', {visibility : 'hidden'});
@@ -280,7 +292,7 @@ const ColorPicker = connect(
   function (state, props) {
     return state.Editor.panels.colorPicker;
   },
-  Object.assign({}, actions, currentActions)
+  {addColor, setPrimaryColor, setSecondaryColor, setStyle}
 )(React.createClass(obj));
 
 
