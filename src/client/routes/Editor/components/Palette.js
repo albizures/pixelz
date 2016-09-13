@@ -4,6 +4,7 @@ const { register } = require('./Layout.js');
 const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
 const { connect } = require('react-redux');
 const { actions: {setStyle, setParams} } = require('../ducks/panels.js');
+const { actions: {savePalette} } = require('../../../ducks/palettes.js');
 const { actions: {setTransparentColor, setCurrentPalette}} = require('../ducks/sprites.js');
 const { currentActions: {setSecondaryColor, setPrimaryColor} } = require('../ducks');
 const Panel = require('./Panel.js');
@@ -57,6 +58,11 @@ obj.onAddColor = function () {
     position: this.getNextPosition()
   });
 };
+
+obj.onSave = function () {
+  this.props.savePalette(this.props.palette);
+};
+
 obj.getNextPosition = function() {
   let nextPosition = {};
   let palette = this.props.palettes[this.props.palette];
@@ -83,6 +89,7 @@ obj.render = function () {
     <button className='btn'
       onClick={this.onAddColor}
     >+</button>
+    {this.getPalette().unsaved? <span onClick={this.onSave}>!¡</span> : null}
     <ContentColors 
       setPrimaryColor={this.props.setPrimaryColor} 
       setSecondaryColor={this.props.setSecondaryColor} 
@@ -116,7 +123,7 @@ const Palette = connect(
       primaryColor: state.Editor.primaryColor
     };
   },
-  {setTransparentColor, setCurrentPalette, setPrimaryColor, setSecondaryColor, setStyle, setParams}
+  {setTransparentColor, setCurrentPalette, setPrimaryColor, setSecondaryColor, setStyle, setParams, savePalette}
 )(React.createClass(obj));
 
 register(Palette, obj.displayName);

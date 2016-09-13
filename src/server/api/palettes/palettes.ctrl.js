@@ -31,5 +31,9 @@ exports.getSearch = function (req, res) {
 };
 
 exports.put = function (req, res) {
-  
+  response.commonPut(res, model.put, req.params.id, {
+    colors : req.body.colors,
+    name: req.body.name,
+    modifiedAt: new Date()
+  });
 };

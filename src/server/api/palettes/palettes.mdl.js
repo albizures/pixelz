@@ -17,4 +17,8 @@ exports.getSearch = function (data, cb) {
   db.getSearch(collection, data, cb);
 };
 
+exports.put = function (id, data, cb) {
+  db.update(collection, id, data, cb);
+};
+
 exports.collection = collection;
