@@ -7,10 +7,7 @@ const obj = {};
 obj.displayName = 'ContentColors';
 
 obj.propTypes = {
-  palette : React.PropTypes.shape({
-    colors: React.PropTypes.array,
-    name: React.PropTypes.string
-  }).isRequired
+  colors: React.PropTypes.array,
 };
 
 obj.getDefaultProps = function () {
@@ -26,8 +23,11 @@ obj.onSelectColor = function (color, primary) {
 
 obj.getColors = function () {
   let colors = [];
-  for (let i = 0; i < this.props.palette.colors.length; i++) {
-    let element = this.props.palette.colors[i];
+  if (!this.props.colors) {
+    return <span>It's empty</span>;
+  }
+  for (let i = 0; i < this.props.colors.length; i++) {
+    let element = this.props.colors[i];
     colors.push(
       <Color {...element} onSelectColor={this.onSelectColor}  size={this.props.size} key={i} index={i}/>
     );

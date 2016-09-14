@@ -17,8 +17,9 @@ obj.getInitialState = function () {
   return {
     style : {
       position: 'initial',
-      width : '100%',
-    }
+      width : '100%'
+    },
+    current : this.props.palettes.length < 1
   };
 };
 
@@ -86,30 +87,32 @@ obj.render = function () {
       title="Current Palette"
       onClick={this.toggleCurrent}
     >C</button>
-    <button className='btn'
+    <button 
+      className='btn'
+      disabled={this.state.current}
       onClick={this.onAddColor}
     >+</button>
     {this.getPalette().unsaved? <span onClick={this.onSave}>!¡</span> : null}
     <ContentColors 
       setPrimaryColor={this.props.setPrimaryColor} 
       setSecondaryColor={this.props.setSecondaryColor} 
-      palette={this.getPalette()}/>
+      colors={this.getPalette()}/>
   </Panel>;
 };
 obj.getPalette = function () {
   if (this.state.current) {
-    return {
-      name : 'current',
-      colors : this.props.sprite.palette.map((item, index) => {
-        return {
-          color: item,
-          position : {
-            x: index,
-            y: 0
-          }
-        };
-      })
-    };
+    if (!this.props.sprite || !this.props.sprite.palette) {
+      return [];
+    }
+    return this.props.sprite.palette.map((item, index) => {
+      return {
+        color: item,
+        position : {
+          x: index,
+          y: 0
+        }
+      };
+    });
   }
   return this.props.palettes[this.props.palette] || {};
 };

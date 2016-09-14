@@ -48,6 +48,12 @@ exports.reducer = function (state = [], action) {
         action.sprite,
         editProp(state[action.sprite], 'version', state[action.sprite].version + 1)
       );
+    case SET_CURRENT_PALETTE_SPRITE:
+       return updateArrayItem(
+         state,
+         action.sprite,
+         editProp(state[action.sprite], 'palette', action.palette)		
+       );
     case SET_TRANSPARENT_COLOR:
       return updateArrayItem(
         state,
