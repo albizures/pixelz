@@ -23,7 +23,15 @@ const all = {
   TEMPLATE_PATH,
   ASSETS_PATH,
   FILES_PATH,
-  PORT : 8080
+  PORT : 8080,
+};
+
+all.auth = {
+  twitter:{
+    TWITTER_CONSUMER_KEY : process.env.TWITTER_CONSUMER_KEY,
+    TWITTER_CONSUMER_SECRET: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: 'http://pixore.test' 
+  }
 };
 module.exports = _.merge(
   all,
