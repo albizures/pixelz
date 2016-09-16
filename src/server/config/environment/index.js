@@ -1,3 +1,4 @@
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const path = require('path');
 const _ = require('lodash');
@@ -18,11 +19,13 @@ config.TEMPLATE_PATH = path.join(config.CLIENT_PATH, 'template');
 config.MAIN_TEMPLATE = path.join(config.TEMPLATE_PATH, 'production.jade');
 config.auth = {
   twitter:{
-    TWITTER_CONSUMER_KEY : process.env.TWITTER_CONSUMER_KEY,
-    TWITTER_CONSUMER_SECRET: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: 'http://pixore.test'
+    consumerKey : process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: 'http://127.0.0.1:8000/api/auth/twitter/callback',
+    includeEmail: true
   }
 };
+config.secret = process.env.PIXORE_SECRET || 'super duper secret for pixore';
 
 if (config.isDev) {
   config.MAIN_TEMPLATE = path.join(config.TEMPLATE_PATH, 'development.jade');

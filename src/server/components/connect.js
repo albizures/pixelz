@@ -12,11 +12,7 @@ let option = {w : 1};
 
 var url = 'mongodb://localhost:27017/pixelz';
 
-
-MongoClient.connect(url, function(err, result) {
-  if (err) {
-    throw 'Error mongo';
-  }
+exports.dbPromise = MongoClient.connect(url).then(function(result) {
   console.log("Connected correctly to server");
   db = result;
 
@@ -37,6 +33,7 @@ MongoClient.connect(url, function(err, result) {
       }
     }
   }
+  return result;
 });
 
 exports.getOne = function (collection, id, fields, cb) {
@@ -45,6 +42,11 @@ exports.getOne = function (collection, id, fields, cb) {
     cb(response.commonResult(err, result));
   }
 };
+
+exports.collection = function (name) {
+  return db.collection(name);
+};
+
 exports.newId = function (id) {
   return new ObjectID(id);
 };
@@ -70,8 +72,11 @@ exports.post = function (collection, data, cb) {
   }
 };
 exports.update = function (collection, id, data, cb) {
-  db.collection(collection)
-    .updateOne({_id : new ObjectID(id)}, {$set: data}, (err, r) => cb(response.commonResult(err, r)));
+  db.collection(collection).updateOne({
+    _id : new ObjectID(id)},
+    {$set: data},
+    (err, r) => cb(response.commonResult(err, r))
+  );
 };
 
 exports.postFile = function (data, cb) {
