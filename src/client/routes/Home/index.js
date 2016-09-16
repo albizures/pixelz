@@ -3,14 +3,15 @@ const { Link } = require('react-router');
 const { connect } = require('react-redux');
 const http = require('http');
 
+const Navbar = require('../../components/Navbar.js');
 const ducks = require('./ducks');
 const ContentSprites = require('./ContentSprites/ContentSprites.js');
 
 const Home = React.createClass({
   render () {
     return <div className="content-home">
+      <Navbar/>
       <h1> Home</h1>
-      <Link to='/editor'>Editor</Link>
       <ContentSprites/>
     </div>;
   }

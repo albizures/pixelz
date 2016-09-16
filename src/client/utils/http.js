@@ -1,5 +1,8 @@
+'ues strict';
+const axios = require('axios');
+
 function parseJSON(response) {
-  return response.json();
+  return response.data;
 }
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -10,21 +13,22 @@ function checkStatus(response) {
     throw error;
   }
 }
-function request(url, protocol, cb, body, headers = true) {
-  if (body && !(body instanceof FormData)) {
-    body = JSON.stringify(body);
-  }
-  console.log(protocol,body, body instanceof FormData, url);
-  return fetch(url, {
+function request(url, method, cb, body, headers = true) {
+  // if (body && !(body instanceof FormData)) {
+  //   body = JSON.stringify(body);
+  // }
+  console.log(method,body, body instanceof FormData, url);
+  return axios({
+    url,
     headers: headers? {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     } : undefined,
-    method: protocol,
-    body: body
+    method,
+    data: body
   }).then(checkStatus).then(parseJSON).then(cb).catch(function (ex) {
     console.error(ex);
-    cb({code : 1, description : ex});
+    if(cb) cb({code : 1, description : ex});
   });
 }
 

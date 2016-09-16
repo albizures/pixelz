@@ -41,6 +41,10 @@ http.get('/api/palettes').then(function (result) {
   store.dispatch(editorActions.setCurrentPalette(0));
 });
 
+http.get('/api/auth/whoami').then(function (result) {
+  console.log('result whoami', result);
+});
+
 ReactDOM.render((
   <div className="root">
     <Tooltip/>
