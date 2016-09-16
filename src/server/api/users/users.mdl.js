@@ -26,7 +26,11 @@ exports.getAll = function (cb) {
 };
 
 exports.getOne = function (id, cb) {
-  db.getOne(collection, id, cb);
+  db.getOne(collection, {_id : db.newId(id)},{
+    displayName: 1,
+    username: 1,
+    _id: 1
+  }, cb);
 };
 
 exports.getSearch = function (data, cb) {

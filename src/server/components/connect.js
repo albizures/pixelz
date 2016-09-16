@@ -36,8 +36,8 @@ exports.dbPromise = MongoClient.connect(url).then(function(result) {
   return result;
 });
 
-exports.getOne = function (collection, id, fields, cb) {
-  db.collection(collection).findOne({_id : new ObjectID(id)}, {fields : fields}, onFindOne);
+exports.getOne = function (collection, data, fields, cb) {
+  db.collection(collection).findOne(data, {fields}, onFindOne);
   function onFindOne(err, result) {
     cb(response.commonResult(err, result));
   }
