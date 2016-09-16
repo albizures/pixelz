@@ -53,8 +53,9 @@ const serializeUser = function(user, cb) {
 };
 
 const deserializeUser = function(obj, cb) {
-  console.log('deserializeUser');
-  cb(null, obj);
+  userModel.getOne(obj._id, function (result) {
+    cb(result.description, result.data);
+  });
 };
 
 module.exports = function (app) {
