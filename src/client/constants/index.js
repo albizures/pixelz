@@ -1,3 +1,5 @@
+'use strict';
+require('../assets/images/profile.png');
 
 const make = require('make');
 
