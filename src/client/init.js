@@ -31,6 +31,7 @@ const Editor = require('./routes/Editor');
 const Tooltip = require('./components/Tooltip.js');
 const http = require('http');
 const palettes = require('./ducks/palettes.js');
+const user = require('./ducks/user.js');
 const { currentActions:editorActions } = require('./routes/Editor/ducks');
 
 http.get('/api/palettes').then(function (result) {
@@ -42,7 +43,12 @@ http.get('/api/palettes').then(function (result) {
 });
 
 http.get('/api/auth/whoami').then(function (result) {
-  console.log('result whoami', result);
+  if (!result) {
+    return;
+  }
+  console.log(result);
+
+  let index = store.dispatch(user.actions.setUser(result));
 });
 
 ReactDOM.render((

@@ -17,7 +17,7 @@ exports.getFile = function (req, res) {
 };
 
 exports.getProfile = function (req, res) {
-  var fileName = path.join(config.FILES_PATH, name);
+  var fileName = path.join(config.FILES_PATH, req.params.name);
   res.sendFile(fileName, function (err) {
     if (err) {
       console.log(err);
