@@ -23,6 +23,7 @@ module.exports = function (app) {
   }));
   app.use(favicon('src/favicon.ico'));
   app.use(express.static(config.PUBLIC_PATH));
+  app.use(express.static(config.FILES_PATH));
   
   require('./passport.js')(app);
 };

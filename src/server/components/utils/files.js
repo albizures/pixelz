@@ -17,11 +17,21 @@ function mkdir(folder, cb, parent) {
 }
 
 function write(file, data, cb) {
+  let resolve, reject;
+  let defer = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+
   file = path.join(config.FILES_PATH, file);
+  write();
+
+  return defer;
 
   function write(result) {
     if (result && result.code !== 0 && result.description && result.description.code !== 'EEXIST' ) {
-      return cb(result);
+      if (cb) return cb(result);
+      reject(result);
     }
     fs.writeFile(
       file,
@@ -33,9 +43,10 @@ function write(file, data, cb) {
     if (err && err.code == 'ENOENT') {
       return mkdir(path.dirname(file), write);
     }
-    cb(response.commonResult(err, file));
+    if (cb) return cb(response.commonResult(err, file));
+    if (err) reject(err);
+    resolve(file);
   }
-  write();
 }
 
 function update(file, data, cb) {

@@ -37,9 +37,21 @@ exports.dbPromise = MongoClient.connect(url).then(function(result) {
 });
 
 exports.getOne = function (collection, data, fields, cb) {
+  let resolve;
+  let reject;
+
+  let defer = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
   db.collection(collection).findOne(data, fields, onFindOne);
+
+  return defer;
+  
   function onFindOne(err, result) {
-    cb(response.commonResult(err, result));
+    if (cb) return cb(response.commonResult(err, result));
+    if (err) return reject(err);
+    resolve(result);
   }
 };
 
@@ -66,17 +78,48 @@ exports.getSearch = function (collection, data, cb) {
 };
 
 exports.post = function (collection, data, cb) {
+  let resolve;
+  let reject;
+
+  let defer = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+
   db.collection(collection).insertOne(data, option, onInserOne);
+
+  return defer;
   function onInserOne(err, r) {
-    cb(response.generate(err ? 1 : 0, err, r.insertedId));
+    if (cb) {
+      return cb(response.generate(err ? 1 : 0, err, r.insertedId));
+    } 
+    if (err) {
+      return reject(err);
+    }
+    resolve(r.insertedId);
   }
 };
 exports.update = function (collection, id, data, cb) {
+  let resolve;
+  let reject;
+
+  let defer = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+  
   db.collection(collection).updateOne({
     _id : new ObjectID(id)},
     {$set: data},
-    (err, r) => cb(response.commonResult(err, r))
+    onUpdate
   );
+  return defer;
+
+  function onUpdate(err, r) {
+    if (cb) return cb(response.commonResult(err, r));
+    if (err) return reject(err);
+    resolve(r);
+  }
 };
 
 exports.postFile = function (data, cb) {

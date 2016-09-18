@@ -121,7 +121,7 @@ obj.onGetSprite = function (result) {
       this.createFrameFromContext(sprite, context);
     }
   };
-  image.src = '/api/images/sprite/' + sprite._id;
+  image.src = sprite.file;
 };
 
 obj.createFrameFromContext = function(sprite, image) {
