@@ -93,7 +93,7 @@ exports.put = function (req, res) {
     sprite.frames = req.body.frames;
     sprite.layers = req.body.layers;
     sprite.file = '/' + nameSpriteFile;
-    sprite.preview = '/' + preview;
+    sprite.preview = '/' + namePreview;
 
     yield model.put(sprite._id, sprite);
     yield model.postHistory({
