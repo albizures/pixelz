@@ -114,7 +114,7 @@ obj.getPalette = function () {
       };
     });
   }
-  return this.props.palettes[this.props.palette] || {};
+  return this.props.palettes[this.props.palette].colors 
 };
 
 const Palette = connect(

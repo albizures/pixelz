@@ -5,9 +5,9 @@ const { editProp, updateArrayItem } = require('utils/ducks.js');
 
 const SET_USER = 'SET_USER';
 
-exports.initialState = {};
+exports.initialState = null;
 
-exports.reducer = function (state = {}, action) {
+exports.reducer = function (state = null, action) {
   switch (action.type) {
     case SET_USER:
       return action.user;

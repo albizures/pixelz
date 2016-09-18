@@ -8,7 +8,7 @@ obj.displayName = 'Narbar';
 
 obj.render = function () {
   let profile;
-  if (this.props.user._id) {
+  if (this.props.user) {
     profile = <div className='nav-item img dropdown'>
       <img src={this.props.user.profileImage}/>
     </div>;
