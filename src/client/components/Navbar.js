@@ -2,6 +2,7 @@ const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
 
+const LoginButton = require('./LoginButton.js'); 
 const obj = {};
 
 obj.displayName = 'Narbar';
@@ -16,7 +17,7 @@ obj.render = function () {
       //   <li></li>
       // </ul>
   } else {
-    profile = <a className='nav-item' href='/api/auth/twitter'>Login / Sign in</a>;
+    profile = <LoginButton className='nav-item'/>;
   } 
 
   return <nav className='navbar'>

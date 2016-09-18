@@ -7,5 +7,5 @@ exports.logout = function (req, res) {
 };
 
 exports.whoAmI = function (req, res) {
-  res.json(req.user);
+  res.json(response.generate(0, '', req.user));
 };

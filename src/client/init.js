@@ -48,7 +48,7 @@ http.get('/api/auth/whoami').then(function (result) {
   }
   console.log(result);
 
-  let index = store.dispatch(user.actions.setUser(result));
+  let index = store.dispatch(user.actions.setUser(result.data));
 });
 
 ReactDOM.render((
