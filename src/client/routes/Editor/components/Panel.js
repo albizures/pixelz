@@ -57,6 +57,7 @@ obj.getStylePanel = function() {
     left: this.state.style.left,
     right : this.state.style.right,
     position : this.state.style.position,
+    background: this.props.style.background,
     visibility : this.state.style.visibility || 'visible'
   };
 };

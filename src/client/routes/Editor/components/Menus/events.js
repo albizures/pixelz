@@ -1,6 +1,9 @@
 const http = require('http');
+const React = require('react');
 const Gif = require('utils/gif/gif.js');
 const { noTransparent } = require('utils/canvas.js');
+const { ModalManager } = require('react-dynamic-modal');
+const Login = require('../../../../modals/Login.js');
 
 exports.onResize = function (evt) {
   alert('resize');
@@ -10,8 +13,15 @@ exports.onSetBackground = function (evt) {
   alert('setBackgroud');
 };
 
+exports.onLogin = function () {
+  console.log('now save the sprite');
+};
 
 exports.onSave = function (evt) {
+  if (!this.props.user) {
+    return ModalManager.open(<Login onLogin={this.onLogin}/>);
+  }
+
   let sprite = this.props.sprite;
   let numFrames = sprite.frames.length;
   let numLayers = this.props.frames[sprite.frames[0]].layers.length;

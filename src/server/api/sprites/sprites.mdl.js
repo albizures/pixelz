@@ -11,7 +11,7 @@ exports.getAll = function (cb) {
 };
 
 exports.getOne = function (id, cb) {
-  db.getOne(collection, id, {
+  db.getOne(collection, {_id: db.newId(id)}, {
     _id : 1,
     name : 1,
     width : 1,

@@ -24,7 +24,7 @@ function addColor(palette, color) {
 
 const actions = {};
 
-actions.setUser = function (user) {
+actions.setUser = function (user = null) {
   return {
     type : SET_USER,
     user

@@ -58,7 +58,7 @@ obj.render = function () {
       <Menu child>
         Project
         <li >new project</li>
-        <li onClick={this.onSave}>save project</li>
+        <li onClick={this.onSave}>save sprite</li>
         <li onClick={this.props.openNewSpriteModal}>new sprite</li>
       </Menu>
       <Menu child>
@@ -80,7 +80,8 @@ function mapStateToProps(state, props) {
     spriteIndex: state.Editor.sprite,
     sprite: state.Editor.sprites[state.Editor.sprite],
     frames: state.Editor.frames,
-    layers: state.Editor.layers
+    layers: state.Editor.layers,
+    user: state.user
   };
 }
 

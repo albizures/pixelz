@@ -1,11 +1,15 @@
 const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
-
-const LoginButton = require('./LoginButton.js'); 
+const { ModalManager } = require('react-dynamic-modal');
+const Login = require('../modals/Login.js');
 const obj = {};
 
 obj.displayName = 'Narbar';
+
+obj.onLogin = function () {
+  ModalManager.open(<Login/>);
+};
 
 obj.render = function () {
   let profile;
@@ -13,11 +17,8 @@ obj.render = function () {
     profile = <div className='nav-item img dropdown'>
       <img src={this.props.user.profileImage}/>
     </div>;
-      // <ul>
-      //   <li></li>
-      // </ul>
   } else {
-    profile = <LoginButton className='nav-item'/>;
+    profile = <a className='nav-item' onClick={this.onLogin}>Login / Sign in</a>;
   } 
 
   return <nav className='navbar'>
