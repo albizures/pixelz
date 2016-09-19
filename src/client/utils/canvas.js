@@ -107,8 +107,8 @@ exports.noTransparent = function (context, scale, transparent) {
   for (let i = 0; i < data.length; i += 4) {
     if (data[i + 3] === 0) {
       let pos = i / 4,
-        x = pos % 20,
-        y = ~~(pos / 20);
+        x = pos % width,
+        y = ~~(pos / width);
 
       context.fillRect(x * scale, y * scale, scale, scale);
     }
