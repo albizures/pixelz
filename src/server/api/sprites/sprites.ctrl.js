@@ -78,7 +78,7 @@ exports.put = function (req, res) {
 
     let file = req.files.shift();
     let namePreview = Date.now() + '.' + type;
-    let preview = yield files.write(sprite.preview, file.buffer);
+    let preview = yield files.write(namePreview, file.buffer);
 
     file = req.files.shift();
     let nameSpriteFile = Date.now() + '.png';
