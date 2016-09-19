@@ -48,6 +48,30 @@ exports.post = function (req, res) {
   });
 };
 
+
+exports.getFile = function (req, res) {
+  model.getSearch({
+    _id: db.newId(req.params.id),
+    user: req.user._id
+  }, {
+    file: 1
+  }, onSearch);
+  function onSearch(result) {
+    if (result.code !== 0) {
+      return res.status(500).end();
+    }
+    res.sendFile(files.join(files.FILES_PATH, result.data.file), function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:',  result.data.file);
+    }
+  });
+  }
+};
+
 exports.getOne = function (req, res) {
   response.commonData(res, model.getOne, req.params.id);
 };

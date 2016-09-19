@@ -91,3 +91,4 @@ exports.update = write;
 exports.join = path.join;
 exports.mkdir = mkdir;
 exports.remove = remove;
+exports.FILES_PATH = config.FILES_PATH;

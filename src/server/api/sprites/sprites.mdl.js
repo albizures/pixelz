@@ -47,13 +47,12 @@ exports.getOne = function (id, cb) {
     frames : 1,
     layers : 1,
     type : 1,
-    preview: 1,
-    file: 1
+    preview: 1
   }, cb);
 };
 
-exports.getSearch = function (data, cb) {
-  db.getOne(collection, data, cb);
+exports.getSearch = function (data, fields, cb) {
+  db.getOne(collection, data, fields, cb);
 };
 
 exports.collection = collection;
