@@ -127,7 +127,7 @@ obj.render = function() {
 function mapStateToProps(state, props) {
   var frame = state.Editor.frames[state.Editor.frame] || noopFrame;
   return {
-    sprite : state.Editor.sprites[state.Editor.sprite],
+    sprite : state.sprites[state.Editor.sprite],
     frame : frame,
     layer : state.Editor.layers[frame.layers[state.Editor.layer]],
     tool : state.Editor.tool,

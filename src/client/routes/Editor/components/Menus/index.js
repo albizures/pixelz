@@ -78,7 +78,7 @@ const Menus = React.createClass(obj);
 function mapStateToProps(state, props) {
   return {
     spriteIndex: state.Editor.sprite,
-    sprite: state.Editor.sprites[state.Editor.sprite],
+    sprite: state.sprites[state.Editor.sprite],
     frames: state.Editor.frames,
     layers: state.Editor.layers,
     user: state.user

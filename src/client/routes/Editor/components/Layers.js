@@ -89,7 +89,7 @@ obj.render = function() {
 const Layers = connect(
   function (state, props) {
     return {
-      sprite : state.Editor.sprites[state.Editor.sprite],
+      sprite : state.sprites[state.Editor.sprite],
       layer : state.Editor.layer,
       layers : state.Editor.layers,
       frame : state.Editor.frames[state.Editor.frame]

@@ -5,12 +5,52 @@
   "main": "index.js",
   "homepage": "http://pixelzstudio.com",
   "scripts": {
-    "start": "gulp"
+    "start": "gulp",
+    "test": "ava"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.js",
+      "!test/utils.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-destructuring",
+      "syntax-object-rest-spread"
+    ],
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "rules": {
+      "semi": 2,
+      "no-continue": 0,
+      "require-jsdoc": [2, {
+        "require": {
+          "FunctionDeclaration": false,
+          "MethodDefinition": false,
+          "ClassDeclaration": true
+        }
+      }]
+    },
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
   "keywords": [
     "express",
     "webpack",
-    "template"
+    "pixel",
+    "art"
   ],
   "repository": {
     "type": "git",
@@ -46,6 +86,7 @@
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
     "babel-core": "^6.2.1",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.0",
@@ -55,6 +96,7 @@
     "babel-preset-react": "^6.5.0",
     "concurrently": "^2.1.0",
     "css-loader": "^0.23.0",
+    "enzyme": "^2.4.1",
     "eslint": "^2.12.0",
     "eslint-loader": "^1.3.0",
     "eslint-plugin-jsx-a11y": "^1.4.2",
@@ -75,6 +117,7 @@
     "jade-loader": "^0.8.0",
     "morgan": "^1.7.0",
     "proxy-middleware": "^0.15.0",
+    "react-addons-test-utils": "^15.3.2",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.1.1",

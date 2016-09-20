@@ -5,7 +5,7 @@ const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
 const { connect } = require('react-redux');
 const { actions: {setStyle, setParams} } = require('../ducks/panels.js');
 const { actions: {savePalette} } = require('../../../ducks/palettes.js');
-const { actions: {setTransparentColor, setCurrentPalette}} = require('../ducks/sprites.js');
+const { actions: {setTransparentColor, setCurrentPalette}} = require('../../../ducks/sprites.js');
 const { currentActions: {setSecondaryColor, setPrimaryColor} } = require('../ducks');
 const Panel = require('./Panel.js');
 const ContentColors = require('./ContentColors.js');
@@ -120,7 +120,7 @@ obj.getPalette = function () {
 const Palette = connect(
   function (state, props) {
     return {
-      sprite : state.Editor.sprites[state.Editor.sprite],
+      sprite : state.sprites[state.Editor.sprite],
       palettes: state.palettes,
       palette: state.Editor.palette,
       primaryColor: state.Editor.primaryColor

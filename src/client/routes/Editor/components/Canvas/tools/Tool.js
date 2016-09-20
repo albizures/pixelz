@@ -1,7 +1,7 @@
 const { store } = require('../../../../../store.js');
 const frameActions = require('../../../ducks/frames.js').actions;
 const layerActions = require('../../../ducks/layers.js').actions;
-const spriteActions = require('../../../ducks/sprites.js').actions;
+const spriteActions = require('../../../../../ducks/sprites.js').actions;
 const historyActions = require('../../../ducks/history.js').actions;
 const { cloneContext } = require('utils/canvas.js');
 

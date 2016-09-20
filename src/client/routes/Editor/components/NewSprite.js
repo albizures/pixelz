@@ -3,9 +3,11 @@ const { connect } = require('react-redux');
 
 const Panel = require('./Panel.js');
 
+const { actions: {addSprite, addFrameSprite} } = require('../../../ducks/sprites');
+
 const {
   setCurrentSprite, setCurrentFrame, setCurrentLayer, 
-  addSprite, addFrameSprite,
+  openSprite,
   addFrame, addLayerFrame,
   addLayer 
 } = require('../ducks/index.js').actions;
@@ -32,6 +34,7 @@ obj.createSprite = function(name, width, height) {
     width,
     height
   });
+  this.props.openSprite(sprite);
   frame = this.props.addFrame({
     width,
     height,
@@ -103,7 +106,7 @@ const NewSprite = connect(
     setCurrentSprite, setCurrentFrame, setCurrentLayer, 
     addSprite, addFrameSprite,
     addFrame, addLayerFrame,
-    addLayer
+    addLayer, openSprite
   }
 )(React.createClass(obj));
 

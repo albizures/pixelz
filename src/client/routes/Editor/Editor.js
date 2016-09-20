@@ -197,14 +197,15 @@ obj.createFrame = function({sprite, context}){
 
 function mapStateToProps(state, props) {
   return {
-    artboard : state.Editor.artboard,
-    sprite : state.Editor.sprite,
-    frame : state.Editor.frame,
-    layer : state.Editor.layer,
-    sprites :  state.Editor.sprites,
-    frames :  state.Editor.frames,
-    layers :  state.Editor.layers,
-    palettes :  state.Editor.palettes
+    artboard: state.Editor.artboard,
+    sprite: state.Editor.sprite,
+    frame: state.Editor.frame,
+    layer: state.Editor.layer,
+    sprites: state.sprites,
+    filterSprites: state.Editor.sprites,
+    frames: state.Editor.frames,
+    layers: state.Editor.layers,
+    palettes:  state.Editor.palettes
   };
 }
 

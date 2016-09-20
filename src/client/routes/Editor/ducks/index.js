@@ -117,7 +117,7 @@ exports.initialState = {
   tools : tools,
   primaryColor : 'rgba(0, 0, 0, 1)',
   secondaryColor : 'rgba(0, 0, 0, 0)',
-  sprites : [],
+  sprites : sprites.initialState,
   frames : [],
   layers : [],
   panels : panels.init

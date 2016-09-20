@@ -74,7 +74,7 @@ gulp.task('default', ['set-dev', 'webpack', 'server'], function () {
   var browser = os.platform() === 'linux' ? 'google-chrome' : (
     os.platform() === 'darwin' ? 'google chrome' : 'chrome');
   var options = {
-    uri: 'http://localhost:' + config.PORT,
+    uri: 'http://127.0.0.1:' + config.PORT,
     app: browser
   };
   return gulp.src(__filename)

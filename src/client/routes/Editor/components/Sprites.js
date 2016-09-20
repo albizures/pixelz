@@ -22,15 +22,15 @@ obj.onClickTab = function (evt, sprite) {
 
 obj.getTabs = function () {
   let tabs = [];
-  for (let j = 0; j < this.props.sprites.length; j++) {
-    let element = this.props.sprites[j];
-    let className = (j == this.props.sprite? 'active' : '') + ' tab ' + element.name.replace(' ', '-').toLowerCase(); 
+  for (let j = 0; j < this.props.filter.length; j++) {
+    let sprite = this.props.sprites[this.props.filter[j]];
+    let className = (j == this.props.sprite? 'active' : '') + ' tab ' + sprite.name.replace(' ', '-').toLowerCase(); 
     tabs.push(
       <div 
         className={className} 
         key={j} 
-        onClick={evt => this.onClickTab(evt, element)}>
-          {element.name}
+        onClick={evt => this.onClickTab(evt, sprite)}>
+          {sprite.name}
       </div>
     );
   }
@@ -39,8 +39,9 @@ obj.getTabs = function () {
 
 function mapStateToProps(state, props) {
   return {
-    sprites :state.Editor.sprites,
-    sprite : state.Editor.sprite
+    filter: state.Editor.sprites,
+    sprites: state.sprites,
+    sprite: state.Editor.sprite
   };
 }
 

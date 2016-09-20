@@ -5,23 +5,14 @@ const Editor = require('./routes/Editor/ducks');
 const Home = require('./routes/Home/ducks');
 const palettes = require('./ducks/palettes.js');
 const user = require('./ducks/user.js');
-
-function sprites(state = [], action) {
-  switch (action.type) {
-    case 'ADD_SPRITE':
-      return state.concat([action.sprite]);
-    case 'ADD_SPRITES':
-      return state.concat(action.sprites);
-    default:
-      return state;
-  }
-}
+const sprites = require('./ducks/sprites.js');
 
 
 const reducers = combineReducers({
   Editor : Editor.reducer,
-  Home : Home.reducer,
+  sprites: sprites.reducer,
   palettes: palettes.reducer,
+  Home : Home.reducer,
   user : user.reducer
 });
 
@@ -30,7 +21,8 @@ const initialState = {
   Editor : Editor.initialState,
   Home : Home.initialState,
   palettes: palettes.initialState,
-  user: user.initialState
+  user: user.initialState,
+  sprites: sprites.initialState
 };
 
 console.log(initialState);

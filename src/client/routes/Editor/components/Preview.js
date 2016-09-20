@@ -85,7 +85,7 @@ obj.render = function(){
 const Preview = connect(
   function (state, props) {
     return {
-      sprite : state.Editor.sprites[state.Editor.sprite],
+      sprite : state.sprites[state.Editor.sprite],
       frames : state.Editor.frames,
       fps : 5
     };

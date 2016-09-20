@@ -3,7 +3,8 @@ const { connect } = require('react-redux');
 
 const { register } = require('./Layout.js');
 const Frame = require('./Frame.js');
-const { setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer } = require('../ducks').actions;
+const { actions: { addFrameSprite } } = require('../../../ducks/sprites.js');
+const { setCurrentFrame, setCurrentLayer, addFrame,  addLayerFrame, addLayer } = require('../ducks').actions;
 
 const obj = {};
 
@@ -101,7 +102,7 @@ const Frames = connect(
   function (state, props) {
     return {
       frame : state.Editor.frames[state.Editor.frame],
-      sprite : state.Editor.sprites[state.Editor.sprite],
+      sprite : state.sprites[state.Editor.sprite],
       frames : state.Editor.frames
     };
   },
