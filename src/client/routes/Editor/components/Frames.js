@@ -12,20 +12,20 @@ obj.displayName = 'Frames';
 
 obj.getDefaultProps = function() {
   return {
-    frames : [],
-    sprite : {
-      frames : []
+    frames: [],
+    sprite: {
+      frames: []
     }
   };
 };
 obj.getInitialState = function() {
   return {
-    size : 0
+    size: 0
   };
 };
 obj.componentDidMount = function () {
   this.setState({
-    size : this.refs.list.clientWidth
+    size: this.refs.list.clientWidth
   });
 };
 
@@ -34,7 +34,7 @@ obj.onClickAddFrame = function() {
   let numLayers = this.props.frame.layers.length;
   let frame = this.createFrame({sprite});
   for (let j = 0; j < numLayers; j++) {
-    let layer = this.createLayer({
+    this.createLayer({
       sprite,
       frame
     });
@@ -60,7 +60,7 @@ obj.getList = function() {
     let children = [];
     for (let j = 0; j < this.props.sprite.frames.length; j++) {
       let frame = this.props.frames[this.props.sprite.frames[j]];
-      let className = 'preview-frames ' + (this.props.frame.index == frame.index? 'active' : '');
+      let className = 'preview-frames ' + (this.props.frame.index === frame.index ? 'active' : '');
       children.push(
         <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
           <Frame data={frame} size={this.state.size} index={j}/>
@@ -99,11 +99,11 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
 };
 
 const Frames = connect(
-  function (state, props) {
+  function (state) {
     return {
-      frame : state.Editor.frames[state.Editor.frame],
-      sprite : state.sprites[state.Editor.sprite],
-      frames : state.Editor.frames
+      frame: state.Editor.frames[state.Editor.frame],
+      sprite: state.sprites[state.Editor.sprite],
+      frames: state.Editor.frames
     };
   },
   {setCurrentFrame, setCurrentLayer, addFrame, addFrameSprite, addLayerFrame, addLayer}

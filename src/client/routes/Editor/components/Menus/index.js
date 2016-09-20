@@ -6,18 +6,18 @@ const { actions } = require('../../ducks');
 const Name = require('./Name.js');
 const Menu = require('../Menu.js');
 const Panel = require('../Panel.js');
-const { noopF, noopA } = require('utils/noop.js');
+const { noopF } = require('utils/noop.js');
 const obj = require('./events.js');
 
 obj.displayName = 'Menus';
 
 obj.getInitialState = function () {
   return {
-    style : {
-      top : 0,
-      left : 0,
-      width : '100%',
-      height : '25px'
+    style: {
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '25px'
     }
   };
 };
@@ -35,13 +35,13 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
   return <li key={menuCount} className={'menu ' + name.toLowerCase().replace(/ /g, '-')} onClick={handle}>
     {name}
     {
-      children.length == 0? '' : <ul className='list-menus'>
+      children.length === 0 ? '' : <ul className='list-menus'>
         {children}
       </ul>
     }
   </li>;
 };
-obj.shouldComponentUpdate = function (nextProps, nextState) {
+obj.shouldComponentUpdate = function (nextProps) {
   return nextProps.spriteIndex !== this.props.spriteIndex;
 };
 
@@ -75,7 +75,7 @@ obj.render = function () {
 const Menus = React.createClass(obj);
 
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     spriteIndex: state.Editor.sprite,
     sprite: state.sprites[state.Editor.sprite],

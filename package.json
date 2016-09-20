@@ -6,7 +6,7 @@
   "homepage": "http://pixelzstudio.com",
   "scripts": {
     "start": "gulp",
-    "test": "ava"
+    "test": "eslint ./src"
   },
   "ava": {
     "files": [
@@ -21,7 +21,8 @@
   "babel": {
     "plugins": [
       "transform-es2015-destructuring",
-      "syntax-object-rest-spread"
+      "syntax-object-rest-spread",
+       "react"
     ],
     "presets": [
       "es2015",
@@ -29,17 +30,36 @@
     ]
   },
   "eslintConfig": {
+    "plugins": [
+      "react"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
     "parser": "babel-eslint",
     "rules": {
+      "eqeqeq": ["error", "always"],
+      "strict": ["error", "global"],
+      "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "varsIgnorePattern": "React" }],
+      "space-infix-ops": ["error", {"int32Hint": false}],
+      "key-spacing": ["error", { "afterColon": true }],
+      "keyword-spacing": ["error", { "before": true }],
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
       "semi": 2,
+      "indent": ["error", 2, {"SwitchCase": 1}],
       "no-continue": 0,
-      "require-jsdoc": [2, {
-        "require": {
-          "FunctionDeclaration": false,
-          "MethodDefinition": false,
-          "ClassDeclaration": true
+      "require-jsdoc": [
+        2,
+        {
+          "require": {
+            "FunctionDeclaration": false,
+            "MethodDefinition": false
+          }
         }
-      }]
+      ]
     },
     "env": {
       "browser": true,
@@ -88,7 +108,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "babel-core": "^6.2.1",
-    "babel-eslint": "^6.0.4",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.0",
     "babel-plugin-syntax-object-rest-spread": "^6.3.13",
     "babel-plugin-transform-es2015-destructuring": "^6.3.15",
@@ -100,7 +120,7 @@
     "eslint": "^2.12.0",
     "eslint-loader": "^1.3.0",
     "eslint-plugin-jsx-a11y": "^1.4.2",
-    "eslint-plugin-react": "^5.1.1",
+    "eslint-plugin-react": "^5.2.2",
     "eslint-plugin-standard": "^1.3.2",
     "exports-loader": "^0.6.3",
     "express-livereload": "0.0.24",

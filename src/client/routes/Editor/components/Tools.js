@@ -15,10 +15,10 @@ obj.displayName = 'Tools';
 obj.getInitialState = function(){
   console.log(this.props.style);
   return {
-    style : {
-      top : 100,
-      left : 150,
-      width : 65
+    style: {
+      top: 100,
+      left: 150,
+      width: 65
     }
   };
 };
@@ -29,7 +29,7 @@ obj.componentDidMount = function() {
   }
 };
 
-obj.shouldComponentUpdate = function(nextProps, nextState) {
+obj.shouldComponentUpdate = function(nextProps) {
   return nextProps.tools.length !== this.props.tools.length
     || nextProps.tool !== this.props.tool
     || nextProps.style !== this.props.style
@@ -39,22 +39,22 @@ obj.shouldComponentUpdate = function(nextProps, nextState) {
 obj.onClickPrimary = function (evt) {
   evt.preventDefault();
   this.props.setStyle('colorPicker', {
-    visibility : 'visible'
+    visibility: 'visible'
   });
   this.props.setParams('colorPicker', {
-    color : this.props.primaryColor,
-    action : 'setPrimaryColor'
+    color: this.props.primaryColor,
+    action: 'setPrimaryColor'
   });
 };
 
 obj.onClickSecondary = function (evt) {
   evt.preventDefault();
   this.props.setStyle('colorPicker', {
-    visibility : 'visible'
+    visibility: 'visible'
   });
   this.props.setParams('colorPicker', {
-    color : this.props.secondaryColor,
-    action : 'setSecondaryColor'
+    color: this.props.secondaryColor,
+    action: 'setSecondaryColor'
   });
 };
 
@@ -74,7 +74,7 @@ obj.render = function() {
           <Tooltipy key={index} text={item} mode="top">
             <button 
               onClick={this.onClickTool.bind(this, item)}
-              className={this.props.tool == item ? 'active' : '' } >
+              className={this.props.tool === item ? 'active' : '' } >
               {item.slice(0, 1) }
             </button>
           </Tooltipy>
@@ -85,13 +85,13 @@ obj.render = function() {
 };
 
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
-    tools : state.Editor.tools,
-    tool : state.Editor.tool,
-    style : state.Editor.panels.tools.style,
-    primaryColor : state.Editor.primaryColor,
-    secondaryColor : state.Editor.secondaryColor
+    tools: state.Editor.tools,
+    tool: state.Editor.tool,
+    style: state.Editor.panels.tools.style,
+    primaryColor: state.Editor.primaryColor,
+    secondaryColor: state.Editor.secondaryColor
   };
 }
 

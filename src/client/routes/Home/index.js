@@ -1,7 +1,5 @@
 const React = require('react');
-const { Link } = require('react-router');
 const { connect } = require('react-redux');
-const http = require('http');
 
 const Navbar = require('../../components/Navbar.js');
 const ducks = require('./ducks');
@@ -17,7 +15,7 @@ const Home = React.createClass({
   }
 });
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     Home: state.Home,
   };

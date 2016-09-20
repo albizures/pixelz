@@ -5,11 +5,11 @@ const { noTransparent } = require('utils/canvas.js');
 const { ModalManager } = require('react-dynamic-modal');
 const Login = require('../../../../modals/Login.js');
 
-exports.onResize = function (evt) {
+exports.onResize = function () {
   alert('resize');
 };
 
-exports.onSetBackground = function (evt) {
+exports.onSetBackground = function () {
   alert('setBackgroud');
 };
 
@@ -17,7 +17,7 @@ exports.onLogin = function () {
   console.log('now save the sprite');
 };
 
-exports.onSave = function (evt) {
+exports.onSave = function () {
   if (!this.props.user) {
     return ModalManager.open(<Login onLogin={this.onLogin}/>);
   }
@@ -42,12 +42,12 @@ exports.onSave = function (evt) {
       0, sprite.height * index, width, sprite.height
     );
   });
-  isGif?
+  isGif ?
     this.generateGif(sprite, 1, onGeneratePreview)
     : this.props.frames[sprite.frames[0]].context.canvas.toBlob(onGeneratePreview);
 
   function onGeneratePreview(blob) {
-    files.push({file : blob, name: 'preview.'  + (isGif? 'gif' : 'png')});
+    files.push({file: blob, name: 'preview.'  + (isGif ? 'gif' : 'png')});
     context.canvas.toBlob(onGenerateBlob);
   }
   function onGenerateBlob(blob) {
@@ -60,7 +60,7 @@ exports.onSave = function (evt) {
       url = '/api/sprites/' + sprite._id;
     }
 
-    files.push({file : blob, name: 'sprite.png'});
+    files.push({file: blob, name: 'sprite.png'});
 
     http.upload(url, {
       name: sprite.name,
@@ -68,7 +68,7 @@ exports.onSave = function (evt) {
       height: sprite.height,
       frames: numFrames,
       layers: numLayers,
-      type: isGif? 'gif' : 'png',
+      type: isGif ? 'gif' : 'png',
       private: false,
       colors: sprite.palette
     }, files, method, onUpload);
@@ -99,7 +99,7 @@ exports.generateGif = function (sprite, scale, cb) {
       gif.addFrame(
         noTransparent(this.props.frames[sprite.frames[i]].context, scale, transparent),
         {
-          transparent : transparentDec
+          transparent: transparentDec
         }
       );
     }

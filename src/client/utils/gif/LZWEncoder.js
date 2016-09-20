@@ -111,7 +111,7 @@ function LZWEncoder(width, height, pixels, colorDepth) {
 
     output(ClearCode, outs);
 
-    outer_loop:    while ((c = nextPixel()) != EOF) {
+    outer_loop:    while ((c = nextPixel()) !== EOF) {
       fcode = (c << BITS) + ent;
       i = (c << hshift) ^ ent; // xor hashing
       if (htab[i] === fcode) {
@@ -203,7 +203,7 @@ function LZWEncoder(width, height, pixels, colorDepth) {
         clear_flg = false;
       } else {
         ++n_bits;
-        if (n_bits == BITS) {
+        if (n_bits === BITS) {
           maxcode = 1 << BITS;
         } else {
           maxcode = MAXCODE(n_bits);
@@ -211,7 +211,7 @@ function LZWEncoder(width, height, pixels, colorDepth) {
       }
     }
 
-    if (code == EOFCode) {
+    if (code === EOFCode) {
       // At EOF, write the rest of the buffer.
       while (cur_bits > 0) {
         char_out((cur_accum & 0xff), outs);

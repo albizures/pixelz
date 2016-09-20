@@ -1,5 +1,3 @@
-'use strict';
-
 const config = require('../../config/environment');
 const path = require('path');
 const fs = require('fs');
@@ -65,7 +63,7 @@ function makeBitmapFromHash(size, hash) {
 }
 
 
-exports.generate = function ({hash, name, isBlack = true}, cb) {
+exports.generate = function ({hash, name, isBlack = true}) {
   let bgColor, imgBase;
   hash = crypto.createHash('sha256').update(hash.toString()).digest('hex');
   name = name || Date.now() + '.png';
@@ -77,8 +75,8 @@ exports.generate = function ({hash, name, isBlack = true}, cb) {
     imgBase = 'white.png';
   }
 
-  return new Promise(function (resolve, reject) {
-    const {png, width, height} = scalePaint(
+  return new Promise(function (resolve) {
+    const {png, width} = scalePaint(
       makeBitmapFromHash(6, hash),
       60,
       '#' + hash.substr(hash.length - 6, hash.length),
@@ -93,4 +91,4 @@ exports.generate = function ({hash, name, isBlack = true}, cb) {
         resolve(path.join('/api/images/', name));
       });
   });
-}
+};

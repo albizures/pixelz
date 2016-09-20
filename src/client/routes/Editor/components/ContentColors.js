@@ -12,13 +12,13 @@ obj.propTypes = {
 
 obj.getDefaultProps = function () {
   return {
-    size : 15
+    size: 15
   };
 };
 
 obj.onSelectColor = function (color, primary) {
   console.log(color, primary);
-  primary? this.props.setPrimaryColor(color) : this.props.setSecondaryColor(color);
+  primary ? this.props.setPrimaryColor(color) : this.props.setSecondaryColor(color);
 };
 
 obj.getColors = function () {

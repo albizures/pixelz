@@ -1,6 +1,3 @@
-const http = require('../../../utils/http.js');
-const { editProp, updateArrayItem, shiftPositions } = require('../../../utils/ducks.js');
-
 const ADD_SPRITE_HOME = 'ADD_SPRITE_HOME';
 const ADD_SPRITES_HOME = 'ADD_SPRITES_HOME';
 
@@ -20,14 +17,14 @@ const actions = {};
 
 actions.addSpriteHome  = function (sprite) {
   return {
-    type : ADD_SPRITE_HOME,
+    type: ADD_SPRITE_HOME,
     sprite,
   };
 };
 
 actions.addSpritesHome  = function (sprites) {
   return {
-    type : ADD_SPRITES_HOME,
+    type: ADD_SPRITES_HOME,
     sprites,
   };
 };

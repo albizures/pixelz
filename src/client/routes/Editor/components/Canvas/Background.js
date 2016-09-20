@@ -11,13 +11,13 @@ obj.getInitialState = function () {
 };
 
 obj.componentDidMount = function() {
-    canvas = ReactDOM.findDOMNode(this);
+  canvas = ReactDOM.findDOMNode(this);
   context = canvas.getContext('2d');
   this.setState({context});
   this.props.setContext('background', context);
 };
 
-obj.componentWillUpdate = function(nextProps, nextState) {
+obj.componentWillUpdate = function(nextProps) {
   return nextProps.size.width !== this.props.size.width
     || nextProps.size.height !== this.props.size.height;
 };
@@ -32,7 +32,7 @@ obj.paint = function(context, artboard, layer) {
 obj.clean = function(context) {
   context.canvas.width = context.canvas.width;
 };
-obj.componentDidUpdate = function(prevProps, prevState) {
+obj.componentDidUpdate = function() {
   if (this.state.context && this.props.layer && this.props.artboard) {
     this.paint(this.state.context, this.props.artboard, this.props.layer);
   }

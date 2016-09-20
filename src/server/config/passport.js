@@ -4,7 +4,6 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const config = require('./environment');
 const userModel = require('../api/users/users.mdl.js');
 
-
 function TwitterStrategyCallback(token, tokenSecret, profile, done) {
   let userProfile = {
     username: profile._json.screen_name,

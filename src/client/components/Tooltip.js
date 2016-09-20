@@ -10,10 +10,10 @@ obj.getInitialState = function () {
   return {
     top: 0,
     left: 0,
-    active : false
+    active: false
   };
 };
-obj.shouldComponentUpdate = function(nextProps, nextState) {
+obj.shouldComponentUpdate = function() {
   return false;
 };
 
@@ -28,7 +28,7 @@ obj.onSetStatus = function (active, text, stats, mode) {
 
   el.className = 'tooltip active ' + mode;
   el.textContent = text;
-  let { clientWidth, clientHeight } = el;
+  let { clientWidth } = el;
 
   top = stats.top;
   left = stats.left;

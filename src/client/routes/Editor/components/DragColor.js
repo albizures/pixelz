@@ -1,24 +1,22 @@
 
 const React = require('react');
-
-const { transparentImage } = require('constants/index.js');
-const { RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
+const { LEFT_CLICK } = require('constants/index.js');
 const obj = {};
 
 obj.displayName = 'DragColor';
 
 obj.propTypes = {
-  index : React.PropTypes.number.isRequired,
-  size : React.PropTypes.number.isRequired,
-  onSelectColor : React.PropTypes.func.isRequired,
-  position : React.PropTypes.shape({
+  index: React.PropTypes.number.isRequired,
+  size: React.PropTypes.number.isRequired,
+  onSelectColor: React.PropTypes.func.isRequired,
+  position: React.PropTypes.shape({
     x: React.PropTypes.number,
     y: React.PropTypes.number
   }).isRequired,
-  color : React.PropTypes.string.isRequired
+  color: React.PropTypes.string.isRequired
 };
 
-obj.onMouseDown = function (evt) {
+obj.onMouseDown = function () {
   console.log('onMouseDown color');
   // var name = this.props.name.replace(' ', '');
   // var stats = evt.target.getBoundingClientRect();
@@ -58,15 +56,15 @@ obj.onClick = function(evt) {
 
 obj.render = function () {
   var styleBackground = {
-    width : this.props.size,
-    height : this.props.size,
+    width: this.props.size,
+    height: this.props.size,
     top: this.props.position.y * this.props.size,
     left: this.props.position.x * this.props.size, 
   };
   var styleColor = {
-    background : this.props.color,
-    width : this.props.size,
-    height : this.props.size
+    background: this.props.color,
+    width: this.props.size,
+    height: this.props.size
   };
   return <div className='drag-color transparent-bkg' style={styleBackground} onContextMenu={this.onClick} onClick={this.onClick} onMouseDown={this.onMouseDown}>
     <div style={styleColor}></div>

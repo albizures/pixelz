@@ -6,9 +6,9 @@ exports.downloadBlob = function downloadBlob(file, name) {
   } else {
     file = window.URL.createObjectURL(file);
     let link = make('a', {
-      parent : document.body,
-      href : file,
-      download : name
+      parent: document.body,
+      href: file,
+      download: name
     });
     link.click();
     link.remove();

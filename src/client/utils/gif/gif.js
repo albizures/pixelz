@@ -2,7 +2,6 @@
   Johan Nordberg (origianl version - code@johan-nordberg.com)
 */
 
-'use strict';
 const EventEmitter = require('events').EventEmitter;
 const browser = require('utils/browser.js');
 const {inheritanceObject} = require('utils/object.js');
@@ -17,11 +16,11 @@ let defaults = {
   height: null,
   transparent: null,
   preserveColors: false
-},
-frameDefaults = {
+};
+let frameDefaults = {
   delay: 500,
   copy: false,
-  transparent : null
+  transparent: null
 };
 
 function GIF(options) {
@@ -42,7 +41,7 @@ inheritanceObject(GIF, EventEmitter);
 
 GIF.prototype.setOption = function (key, value) {
   this.options[key] = value;
-  if ((this._canvas != null) && (key === 'width' || key === 'height')) {
+  if ((this._canvas !== null) && (key === 'width' || key === 'height')) {
     this._canvas[key] = value;
   }
 };
@@ -222,11 +221,11 @@ GIF.prototype.getTask = function (frame) {
     repeat: this.options.repeat,
     canTransfer: browser.name === 'chrome'
   };
-  if (frame.data != null) {
+  if (frame.data !== null) {
     task.data = frame.data;
-  } else if (frame.context != null) {
+  } else if (frame.context !== null) {
     task.data = this.getContextData(frame.context);
-  } else if (frame.image != null) {
+  } else if (frame.image !== null) {
     task.data = this.getImageData(frame.image);
   } else {
     throw new Error('Invalid frame');

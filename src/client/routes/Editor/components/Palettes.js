@@ -7,10 +7,10 @@ obj.displayName = 'Palettes';
 
 obj.getInitialState = function () {
   return {
-    style : {
-      top : '100px',
-      left : '400px',
-      visibility : 'hidden'
+    style: {
+      top: '100px',
+      left: '400px',
+      visibility: 'hidden'
     }
   };
 };

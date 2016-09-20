@@ -1,5 +1,3 @@
-'use strict';
-
 const http = require('../utils/http');
 const { editProp, updateArrayItem, shiftPositions } = require('../utils/ducks.js');
 
@@ -14,7 +12,7 @@ const ADD_SPRITES = 'ADD_SPRITES';
 
 exports.initialState = [];
 
-exports.reducer = function (state = [], action) {
+exports.reducer = function(state = [], action) {
   switch (action.type) {
     case ADD_SPRITE:
       return state.concat([
@@ -26,13 +24,14 @@ exports.reducer = function (state = [], action) {
         }, action.sprite)
       ]);
     case ADD_SPRITE_FRAME:
-      return state.map((item, index) =>{
+      return state.map((item, index) => {
         if (index !== action.sprite) {
           return item;
         }
         return Object.assign({},
-          item,
-          { frames : item.frames.concat([action.frame])}
+          item, {
+            frames: item.frames.concat([action.frame])
+          }
         );
       });
     case ADD_SPRITES:
@@ -53,11 +52,11 @@ exports.reducer = function (state = [], action) {
         editProp(state[action.sprite], 'version', state[action.sprite].version + 1)
       );
     case SET_CURRENT_PALETTE_SPRITE:
-       return updateArrayItem(
-         state,
-         action.sprite,
-         editProp(state[action.sprite], 'palette', action.palette)
-       );
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'palette', action.palette)
+      );
     case SET_TRANSPARENT_COLOR:
       return updateArrayItem(
         state,
@@ -76,11 +75,11 @@ exports.reducer = function (state = [], action) {
 };
 const actions = {};
 
-actions.addSprite = function (sprite) {
+actions.addSprite = function(sprite) {
   return (dispatch, getState) => {
     let index = getState().sprites.length;
     dispatch({
-      type : ADD_SPRITE,
+      type: ADD_SPRITE,
       sprite,
       index
     });
@@ -88,57 +87,61 @@ actions.addSprite = function (sprite) {
   };
 };
 
-actions.addFrameSprite  = function (sprite, frame) {
+actions.addFrameSprite = function(sprite, frame) {
   return {
-    type : ADD_SPRITE_FRAME,
+    type: ADD_SPRITE_FRAME,
     sprite,
     frame
   };
 };
 
-actions.newSpriteVersion = function (sprite) {
+actions.newSpriteVersion = function(sprite) {
   return {
-    type : NEW_SPRITE_VERSION,
+    type: NEW_SPRITE_VERSION,
     sprite
   };
 };
 
-actions.changeFramePosition = function (sprite, fromIndex, toIndex) {
+actions.changeFramePosition = function(sprite, fromIndex, toIndex) {
   return {
-    type : CHANGE_FRAME_POSITION,
+    type: CHANGE_FRAME_POSITION,
     sprite,
     fromIndex,
     toIndex
   };
 };
 
-actions.setTransparentColor = function (sprite, transparent) {
+actions.setTransparentColor = function(sprite, transparent) {
   return {
-    type : SET_TRANSPARENT_COLOR,
+    type: SET_TRANSPARENT_COLOR,
     sprite,
     transparent
   };
 };
 
-actions.setCurrentPalette = function (sprite, palette) {
+actions.setCurrentPalette = function(sprite, palette) {
   return {
-    type : SET_CURRENT_PALETTE_SPRITE,
+    type: SET_CURRENT_PALETTE_SPRITE,
     sprite,
     palette
   };
 };
 
-actions.putName = function (sprite, name) {
-  return (dispatch, getState) => {
+actions.putName = function(sprite, name) {
+  return (dispatch) => {
     if (sprite._id) {
       return http.sprite.putName(sprite._id, name, onPut);
     }
-    onPut({ code: 0 });
-    return Promise.resolve({code: 0});
+    onPut({
+      code: 0
+    });
+    return Promise.resolve({
+      code: 0
+    });
 
     function onPut(result) {
       if (result.code !== 0) {
-        return;// alert
+        return; // alert
       }
       dispatch({
         type: PUT_NAME,
@@ -149,14 +152,15 @@ actions.putName = function (sprite, name) {
   };
 };
 
-actions.addSprites = function (sprites) {
+actions.addSprites = function(sprites) {
   return (dispatch, getState) => {
     setIndex(getState().sprites.length, sprites);
     dispatch({
-      type : ADD_SPRITES,
+      type: ADD_SPRITES,
       sprites,
     });
   };
+
   function setIndex(initIndex, sprites) {
     for (var j = 0; j < sprites.length; j++) {
       sprites[j].index = j + initIndex;

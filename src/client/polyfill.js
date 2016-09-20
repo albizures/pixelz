@@ -2,7 +2,7 @@ if (!Array.prototype.fill) {
   Array.prototype.fill = function (value) {
 
     // Steps 1-2.
-    if (this == null) {
+    if (this === null) {
       throw new TypeError('this is null or not defined');
     }
 

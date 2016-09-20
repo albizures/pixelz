@@ -26,42 +26,42 @@ function toInt(v) {
 }
 
 let ncycles = 100; // number of learning cycles
-  netsize = 256, // number of colors used
-  maxnetpos = netsize - 1,  // defs for freq and bias
-  netbiasshift = 4, // bias for colour values
-  intbiasshift = 16, // bias for fractions
-  intbias = (1 << intbiasshift),
-  gammashift = 10,
-  gamma = (1 << gammashift),
-  betashift = 10,
-  beta = (intbias >> betashift), /* beta = 1/1024 */
-  betagamma = (intbias << (gammashift - betashift)),
+netsize = 256, // number of colors used
+maxnetpos = netsize - 1,  // defs for freq and bias
+netbiasshift = 4, // bias for colour values
+intbiasshift = 16, // bias for fractions
+intbias = (1 << intbiasshift),
+gammashift = 10,
+gamma = (1 << gammashift),
+betashift = 10,
+beta = (intbias >> betashift), /* beta = 1/1024 */
+betagamma = (intbias << (gammashift - betashift)),
 
 // defs for decreasing radius factor
-  initrad = (netsize >> 3), // for 256 cols, radius starts
-  radiusbiasshift = 6, // at 32.0 biased by 6 bits
-  radiusbias = (1 << radiusbiasshift),
-  initradius = (initrad * radiusbias), //and decreases by a
-  radiusdec = 30, // factor of 1/30 each cycle
+initrad = (netsize >> 3), // for 256 cols, radius starts
+radiusbiasshift = 6, // at 32.0 biased by 6 bits
+radiusbias = (1 << radiusbiasshift),
+initradius = (initrad * radiusbias), //and decreases by a
+radiusdec = 30, // factor of 1/30 each cycle
 
 // defs for decreasing alpha factor
-  alphabiasshift = 10, // alpha starts at 1.0
-  initalpha = (1 << alphabiasshift),
-  alphadec, // biased by 10 bits
+alphabiasshift = 10, // alpha starts at 1.0
+initalpha = (1 << alphabiasshift),
+alphadec, // biased by 10 bits
 
 /* radbias and alpharadbias used for radpower calculation */
-  radbiasshift = 8,
-  radbias = (1 << radbiasshift),
-  alpharadbshift = (alphabiasshift + radbiasshift),
-  alpharadbias = (1 << alpharadbshift),
+radbiasshift = 8,
+radbias = (1 << radbiasshift),
+alpharadbshift = (alphabiasshift + radbiasshift),
+alpharadbias = (1 << alpharadbshift),
 
 // four primes near 500 - assume no image has a length so large that it is
 // divisible by all four primes
-  prime1 = 499,
-  prime2 = 491,
-  prime3 = 487,
-  prime4 = 503,
-  minpicturebytes = (3 * prime4);
+prime1 = 499,
+prime2 = 491,
+prime3 = 487,
+prime4 = 503,
+minpicturebytes = (3 * prime4);
 
 /*
   Constructor: NeuQuant
@@ -230,7 +230,7 @@ function NeuQuant(pixels, samplefac) {
       }
       q = network[smallpos];
       // swap p (i) and q (smallpos) entries
-      if (i != smallpos) {
+      if (i !== smallpos) {
         j = q[0];
         q[0] = p[0];
         p[0] = j;
@@ -246,7 +246,7 @@ function NeuQuant(pixels, samplefac) {
       }
       // smallval entry is now in position i
 
-      if (smallval != previouscol) {
+      if (smallval !== previouscol) {
         netindex[previouscol] = (startpos + i) >> 1;
         for (j = previouscol + 1; j < smallval; j++)
           netindex[j] = i;

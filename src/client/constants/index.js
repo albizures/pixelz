@@ -1,4 +1,3 @@
-'use strict';
 require('../assets/images/profile.png');
 
 const make = require('make');
@@ -22,7 +21,7 @@ exports.transparentImage = 'url(\'' + exports.transparentB64 + '\')';
 
 make([
   'style',
-  {parent : document.head},
+  {parent: document.head},
   '.transparent-bkg{background-image:' + exports.transparentImage + '}'
 ]);
 

@@ -1,4 +1,3 @@
-'use strict';
 require('./style/main.styl');
 require('./polyfill.js');
 
@@ -16,7 +15,7 @@ $window.on('keydown.general', evt =>{
   window.CTRL_KEY = evt.ctrlKey;
   window.ALT_KEY = evt.altKey;
 }).on('keyup.general', evt => {
-    window.CTRL_KEY = evt.ctrlKey;
+  window.CTRL_KEY = evt.ctrlKey;
   window.ALT_KEY = evt.altKey;
 });
 
@@ -32,13 +31,13 @@ const Tooltip = require('./components/Tooltip.js');
 const http = require('http');
 const palettes = require('./ducks/palettes.js');
 const user = require('./ducks/user.js');
-const { currentActions:editorActions } = require('./routes/Editor/ducks');
+const { currentActions: editorActions } = require('./routes/Editor/ducks');
 
 http.get('/api/palettes').then(function (result) {
   if (result.code !== 0 || !result.data) {
     return;
   }
-  let index = store.dispatch(palettes.actions.addPalettes(result.data));
+  store.dispatch(palettes.actions.addPalettes(result.data));
   store.dispatch(editorActions.setCurrentPalette(0));
 });
 
@@ -48,7 +47,7 @@ http.get('/api/auth/whoami').then(function (result) {
   }
   console.log(result);
 
-  let index = store.dispatch(user.actions.setUser(result.data));
+  store.dispatch(user.actions.setUser(result.data));
 });
 
 ReactDOM.render((

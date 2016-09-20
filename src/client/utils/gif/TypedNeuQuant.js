@@ -30,7 +30,7 @@ var ncycles = 100, // number of learning cycles
   intbiasshift = 16, // bias for fractions
   intbias = (1 << intbiasshift),
   gammashift = 10,
-  gamma = (1 << gammashift),
+  //gamma = (1 << gammashift),
   betashift = 10,
   beta = (intbias >> betashift),
   /* beta = 1/1024 */
@@ -46,7 +46,7 @@ var ncycles = 100, // number of learning cycles
   // defs for decreasing alpha factor
   alphabiasshift = 10, // alpha starts at 1.0
   initalpha = (1 << alphabiasshift),
-  alphadec, // biased by 10 bits
+  //alphadec, // biased by 10 bits
 
   /* radbias and alpharadbias used for radpower calculation */
   radbiasshift = 8,
@@ -230,7 +230,7 @@ function NeuQuant(pixels, samplefac) {
       }
       q = network[smallpos];
       // swap p (i) and q (smallpos) entries
-      if (i != smallpos) {
+      if (i !== smallpos) {
         j = q[0];
         q[0] = p[0];
         p[0] = j;
@@ -246,7 +246,7 @@ function NeuQuant(pixels, samplefac) {
       }
       // smallval entry is now in position i
 
-      if (smallval != previouscol) {
+      if (smallval !== previouscol) {
         netindex[previouscol] = (startpos + i) >> 1;
         for (j = previouscol + 1; j < smallval; j++) {
           netindex[j] = i;

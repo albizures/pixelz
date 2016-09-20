@@ -26,7 +26,7 @@ const tools = [
 ];
 
 function getReducer(type, prop) {
-  return function (state = null, action) {
+  return function(state = null, action) {
     switch (action.type) {
       case type:
         return action[prop];
@@ -36,91 +36,93 @@ function getReducer(type, prop) {
   };
 }
 exports.reducer = combineReducers({
-  artboard : getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
-  history : history.reducer,
-  sprite : getReducer(SET_CURRENT_SPRITE, 'index'),
-  frame : getReducer(SET_CURRENT_FRAME, 'index'),
-  layer : getReducer(SET_CURRENT_LAYER, 'index'),
-  palette : getReducer(SET_CURRENT_PALETTE, 'index'),
-  tool : getReducer(SET_CURRENT_TOOL, 'tool'),
-  primaryColor : getReducer(SET_PRIMARY_COLOR, 'color'),
-  secondaryColor : getReducer(SET_SECONDARY_COLOR, 'color'),
-  sprites : sprites.reducer,
-  frames : frames.reducer,
-  layers : layers.reducer,
-  panels : panels.reducer,
+  artboard: getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
+  history: history.reducer,
+  sprite: getReducer(SET_CURRENT_SPRITE, 'index'),
+  frame: getReducer(SET_CURRENT_FRAME, 'index'),
+  layer: getReducer(SET_CURRENT_LAYER, 'index'),
+  palette: getReducer(SET_CURRENT_PALETTE, 'index'),
+  tool: getReducer(SET_CURRENT_TOOL, 'tool'),
+  primaryColor: getReducer(SET_PRIMARY_COLOR, 'color'),
+  secondaryColor: getReducer(SET_SECONDARY_COLOR, 'color'),
+  sprites: sprites.reducer,
+  frames: frames.reducer,
+  layers: layers.reducer,
+  panels: panels.reducer,
   //palettes : palettes.reducer,
-  tools : function tools(state = tools) {return state;},
+  tools: function tools(state = tools) {
+    return state;
+  },
 });
 
 
-actions.setCurrentPalette = function (index) {
+actions.setCurrentPalette = function(index) {
   return {
-    type : SET_CURRENT_PALETTE,
+    type: SET_CURRENT_PALETTE,
     index
   };
 };
 
 
 
-actions.setCurrentSprite = function (index) {
+actions.setCurrentSprite = function(index) {
   return {
-    type : SET_CURRENT_SPRITE,
+    type: SET_CURRENT_SPRITE,
     index
   };
 };
 
-actions.setCurrentFrame = function (index) {
+actions.setCurrentFrame = function(index) {
   return {
-    type : SET_CURRENT_FRAME,
+    type: SET_CURRENT_FRAME,
     index
   };
 };
 
-actions.setCurrentLayer = function (index) {
+actions.setCurrentLayer = function(index) {
   return {
-    type : SET_CURRENT_LAYER,
+    type: SET_CURRENT_LAYER,
     index
   };
 };
 
-actions.setCurrentTool = function (tool) {
+actions.setCurrentTool = function(tool) {
   return {
-    type : SET_CURRENT_TOOL,
+    type: SET_CURRENT_TOOL,
     tool
   };
 };
 
-actions.setCurrentArtboard = function (artboard) {
+actions.setCurrentArtboard = function(artboard) {
   return {
-    type : SET_CURRENT_ARTBOARD,
+    type: SET_CURRENT_ARTBOARD,
     artboard
   };
 };
 
-actions.setSecondaryColor = function (color) {
+actions.setSecondaryColor = function(color) {
   return {
-    type : SET_SECONDARY_COLOR,
+    type: SET_SECONDARY_COLOR,
     color
   };
 };
 
-actions.setPrimaryColor = function (color) {
+actions.setPrimaryColor = function(color) {
   return {
-    type : SET_PRIMARY_COLOR,
+    type: SET_PRIMARY_COLOR,
     color
   };
 };
 
 exports.initialState = {
-  history : history.init,
-  tools : tools,
-  primaryColor : 'rgba(0, 0, 0, 1)',
-  secondaryColor : 'rgba(0, 0, 0, 0)',
-  sprites : sprites.initialState,
-  frames : [],
-  layers : [],
-  panels : panels.init
+  history: history.init,
+  tools: tools,
+  primaryColor: 'rgba(0, 0, 0, 1)',
+  secondaryColor: 'rgba(0, 0, 0, 0)',
+  sprites: sprites.initialState,
+  frames: [],
+  layers: [],
+  panels: panels.init
 };
 
 exports.currentActions = actions;

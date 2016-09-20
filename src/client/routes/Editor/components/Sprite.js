@@ -18,7 +18,7 @@ obj.render = function () {
 obj.componentDidMount = function() {
   let context = ReactDOM.findDOMNode(this).getContext('2d');
   this.setState({
-    context : context
+    context: context
   });
 };
 

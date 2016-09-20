@@ -1,11 +1,8 @@
-const http = require('../../../utils/http.js');
-const { editProp, updateArrayItem, shiftPositions } = require('../../../utils/ducks.js');
-
 const OPEN_SPRITE = 'OPEN_SPRITE';
 
 exports.initialState = [];
 
-exports.reducer = function (state = [], action) {
+exports.reducer = function(state = [], action) {
   switch (action.type) {
     case OPEN_SPRITE:
       return state.concat([action.sprite]);
@@ -15,9 +12,9 @@ exports.reducer = function (state = [], action) {
 };
 const actions = {};
 
-actions.openSprite  = function (sprite) {
+actions.openSprite = function(sprite) {
   return {
-    type : OPEN_SPRITE,
+    type: OPEN_SPRITE,
     sprite,
   };
 };

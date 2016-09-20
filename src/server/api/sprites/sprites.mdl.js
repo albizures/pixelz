@@ -39,14 +39,14 @@ exports.getAll = function (cb) {
 
 exports.getOne = function (id, cb) {
   return db.getOne(collection, {_id: db.newId(id)}, {
-    _id : 1,
-    name : 1,
-    width : 1,
-    height : 1,
+    _id: 1,
+    name: 1,
+    width: 1,
+    height: 1,
     colors: 1,
-    frames : 1,
-    layers : 1,
-    type : 1,
+    frames: 1,
+    layers: 1,
+    type: 1,
     preview: 1
   }, cb);
 };

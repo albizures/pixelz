@@ -3,10 +3,10 @@ const path = require('path');
 const config = require('../../config/environment');
 const response = require('./response.js');
 
-function mkdir(folder, cb, parent) {
+function mkdir(folder, cb) {
   fs.mkdir(folder, onMkdir);
   function onMkdir(err) {
-    if (err && err.code == 'ENOENT') {
+    if (err && err.code === 'ENOENT') {
       return mkdir(path.dirname(folder), onMkParent, true);
     }
     cb(response.commonResult(err, folder));
@@ -40,7 +40,7 @@ function write(file, data, cb) {
     );
   }
   function onWrite(err) {
-    if (err && err.code == 'ENOENT') {
+    if (err && err.code === 'ENOENT') {
       return mkdir(path.dirname(file), write);
     }
     if (cb) return cb(response.commonResult(err, file));
@@ -49,11 +49,11 @@ function write(file, data, cb) {
   }
 }
 
-function update(file, data, cb) {
-  fs.unlink(path.join(config.FILES_PATH, file), err => {
-    writeFile(file, data, cb);
-  });
-}
+// function update(file, data, cb) {
+//   fs.unlink(path.join(config.FILES_PATH, file), () => {
+//     writeFile(file, data, cb);
+//   });
+// }
 
 function move(oldPath, newPath, cb) {
   newPath = path.join(config.FILES_PATH, newPath);
@@ -69,7 +69,7 @@ function move(oldPath, newPath, cb) {
     );
   }
   function onMove(err) {
-    if (err && err.code == 'ENOENT') {
+    if (err && err.code === 'ENOENT') {
       return mkdir(path.dirname(newPath), move);
     }
     cb(response.commonResult(err, newPath));

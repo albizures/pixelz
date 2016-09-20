@@ -1,5 +1,3 @@
-'use strict';
-
 const Joi = require('joi');
 const db = require('../../components/connect.js');
 const identicons = require('../../components/utils/identicons.js');
@@ -22,7 +20,7 @@ exports.post = function (data, cb) {
   Joi.validate(
     data,
     userSchema.with('username', 'displayName', 'createdAt', 'email'),
-    (err, value) => err === null? db.post(collection, data, onPost) : null
+    (err) => err === null ? db.post(collection, data, onPost) : null
   );
 
   function onPost(result) {
@@ -48,7 +46,7 @@ exports.getAll = function (cb) {
 };
 
 exports.getOne = function (id, cb) {
-  db.getOne(collection, {_id : db.newId(id)},{
+  db.getOne(collection, {_id: db.newId(id)},{
     displayName: 1,
     username: 1,
     _id: 1,
@@ -65,8 +63,6 @@ exports.getByTwitterID = function (twitterID, cb) {
     db.getSearch(collection, {twitterID}, cb);
   });
 };
-
-
 
 exports.put = function (id, data, cb) {
   

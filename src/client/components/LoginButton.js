@@ -1,4 +1,3 @@
-'use strict';
 
 const React = require('react');
 const { store } = require('../store.js');
@@ -10,7 +9,7 @@ obj.displayName = 'LoginButton';
 
 obj.getDefaultProps = function () {
   return {
-    onLogin : () => {}
+    onLogin: () => {}
   };
 };
 

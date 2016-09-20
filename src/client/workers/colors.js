@@ -3,8 +3,8 @@ const { getImageData } = require('utils/canvas.js');
 const { store } = require('../store.js');
 
 const cbs = {
-  transparent : [],
-  palette : []
+  transparent: [],
+  palette: []
 }; 
 
 colors.onmessage = onMessage;
@@ -17,7 +17,7 @@ exports.getTransparentColor = function (sprite, cb) {
   for (let i = 0; i < frames.length; i++) {
     dataList.push(getImageData(state.Editor.frames[frames[i]].context));
   }
-  colors.postMessage({type : 'transparent', data : dataList});
+  colors.postMessage({type: 'transparent', data: dataList});
   cbs.transparent.push(cb);
 };
 
@@ -44,7 +44,7 @@ exports.getSpritePalette = function (sprite, cb) {
     }
   }
 
-  colors.postMessage({type : 'palette', data : dataList});
+  colors.postMessage({type: 'palette', data: dataList});
   cbs.palette.push(cb);
 };
 

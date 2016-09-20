@@ -5,7 +5,7 @@ let lastDragX, lastDragY;
 
 exports.onMouseMove = function (evt) {
   let cord;
-  if (evt.target.tagName == 'CANVAS') {
+  if (evt.target.tagName === 'CANVAS') {
     evt.preventDefault();
     cord = calculatePosition(this.props.artboard, evt.clientX, evt.clientY);
     if (validCord(this.props.layer, cord)) {
@@ -27,8 +27,8 @@ exports.paintPreview = function (cord, context, artboard) {
     //this.paintAreaSelect();
   }
   let realCord = {
-    x : cord.x * artboard.scale + artboard.x,
-    y : cord.y * artboard.scale + artboard.y
+    x: cord.x * artboard.scale + artboard.x,
+    y: cord.y * artboard.scale + artboard.y
   };
   context.strokeStyle = 'rgba(255, 255, 255, 0.6)';//COLOR_POINTER_PREW_DEF;
   context.fillStyle = this.props.primaryColor;
@@ -39,7 +39,7 @@ exports.paintPreview = function (cord, context, artboard) {
 exports.openContextMenu = function (evt) {
   this.setState({
     activeContextMenu: true,
-    contextMenuPosition : {
+    contextMenuPosition: {
       x: evt.clientX,
       y: evt.clientY
     }
@@ -55,7 +55,7 @@ exports.center = function (stats) {
     y: stats.top + size.marginTop
   });
 };
-exports.onCenter = function (evt) {
+exports.onCenter = function () {
   this.setState({
     activeContextMenu: false
   });
@@ -71,13 +71,13 @@ exports.onMouseDown = function (evt) {
   if (!validCord(this.props.layer, cord)) {
     if (evt.which === RIGHT_CLICK) {
       this.openContextMenu(evt);
-    } else if(this.state.activeContextMenu){
+    } else if (this.state.activeContextMenu){
       this.setState({
         activeContextMenu: false
       });
     }
     return;
-  } else if(this.state.activeContextMenu){
+  } else if (this.state.activeContextMenu){
     this.setState({
       activeContextMenu: false
     });
@@ -132,8 +132,8 @@ exports.onDragMove = function (evt) {
 };
 exports.shiftDiff = function (diffX, diffY) {
   this.props.setCurrentArtboard({
-    scale : this.props.artboard.scale,
-    x : this.props.artboard.x + diffX,
-    y : this.props.artboard.y + diffY
+    scale: this.props.artboard.scale,
+    x: this.props.artboard.x + diffX,
+    y: this.props.artboard.y + diffY
   });
 };

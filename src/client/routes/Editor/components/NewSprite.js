@@ -68,11 +68,11 @@ obj.onClose = function (evt) {
   this.props.onClose();
 };
 
-obj.resetValues = function (form) {
+obj.resetValues = function () {
   this.refs.form.name.value = 'Untitled';
 };
 
-const style = { width : 200 };
+const style = { width: 200 };
 obj.render = function () {
   return <Panel name='New Sprite' modal style={style} modalOpen={this.props.modalOpen}>
     <form className='form' onSubmit={this.onSubmit} ref='form'>

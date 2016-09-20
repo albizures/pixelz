@@ -6,17 +6,17 @@ exports.post = function (req, res) {
   var date = new Date();
   console.log(req.body);
   response.commonData(res, model.post, {
-    name : req.body.name,
-    user : db.newId('5761fcf1a4a36ca01877f912'),
+    name: req.body.name,
+    user: db.newId('5761fcf1a4a36ca01877f912'),
     modificationDate: date,
-    creationDate : date,
-    colors : req.body.colors,
-    public : req.body.public
+    creationDate: date,
+    colors: req.body.colors,
+    public: req.body.public
   });
 };
 
 exports.getOne = function (req, res) {
-  if(!db.validId(req.params.id)) {
+  if (!db.validId(req.params.id)) {
     return res.json(response.commonResult('Invalid id'));
   }
   response.commonData(res, model.getOne, req.params.id);
@@ -32,7 +32,7 @@ exports.getSearch = function (req, res) {
 
 exports.put = function (req, res) {
   response.commonPut(res, model.put, req.params.id, {
-    colors : req.body.colors,
+    colors: req.body.colors,
     name: req.body.name,
     modifiedAt: new Date()
   });

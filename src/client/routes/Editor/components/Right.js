@@ -4,9 +4,9 @@ const { Layout, register } = require('./Layout.js');
 
 
 const conf = {
-  mode : 'row',
-  name : 'Right',
-  children : [
+  mode: 'row',
+  name: 'Right',
+  children: [
     {name: 'Preview', height: 30, component: 'Preview'},
     {name: 'Palette', height: 20, component: 'Palette'}
   ]

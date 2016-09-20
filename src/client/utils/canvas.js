@@ -1,5 +1,4 @@
-'use strict';
-const { floor, round } = Math;
+const { floor } = Math;
 
 exports.walkBitmap = function walkBitmap(bitmap, fn) {
   for (let x = 0; x < bitmap.length; x++) {
@@ -21,7 +20,6 @@ function imageSmoothingDisabled(ctx) {
 
 function getPreviewSize(maxWidth, maxHeight, width, height) {
   var newWidth, newHeight, scale;
-  var maxSize = 0;
   var marginTop = 0, marginLeft = 0;
 
   if (width > height) {
@@ -38,8 +36,8 @@ function getPreviewSize(maxWidth, maxHeight, width, height) {
   return {
     maxWidth,
     maxHeight,
-    width : newWidth,
-    height : newHeight,
+    width: newWidth,
+    height: newHeight,
     marginTop,
     marginLeft,
     scale
@@ -99,7 +97,7 @@ function getImageData(context) {
 };
 
 exports.noTransparent = function (context, scale, transparent) {
-  let { width, height } = context.canvas;
+  let { width } = context.canvas;
   let data = getImageData(context);
   context = scaleContext(context, scale);
 

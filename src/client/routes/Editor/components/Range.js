@@ -6,14 +6,14 @@ const $window = $(window);
 obj.displayName = 'Range';
 
 obj.propTypes =  {
-  min : React.PropTypes.number.isRequired,
-  max : React.PropTypes.number.isRequired,
-  value : React.PropTypes.number.isRequired
+  min: React.PropTypes.number.isRequired,
+  max: React.PropTypes.number.isRequired,
+  value: React.PropTypes.number.isRequired
 };
 
 obj.getDefaultProps = function () {
   return {
-    large : false
+    large: false
   };
 };
 
@@ -41,7 +41,7 @@ obj.onWheel = function (evt) {
   }
 };
 obj.getDiff = function () {
-  return window.CTRL_KEY? this.smallDiff : this.bigDiff;
+  return window.CTRL_KEY ? this.smallDiff : this.bigDiff;
 };
 obj.onMouseDown = function (evt) {
   evt.preventDefault();
@@ -61,7 +61,7 @@ obj.onMouseDown = function (evt) {
     //document.exitPointerLock();
     document.body.style.cursor = '';
     $window.off('mousemove.range').off('mouseup.range');
-    evt.clientY == originalY && input.focus();
+    evt.clientY === originalY && input.focus();
   });
 };
 
@@ -78,7 +78,7 @@ obj.render = function() {
   if (this.props.large) {
     return <input className='range-large span' type="range" max={this.props.max} min={this.props.min} value={this.props.value} onChange={this.onChange}/>;
   }
-  return <div className='range-small' onWheel={this.onWheel} style={{backgroundImage : this.getBackground()}} onMouseDown={this.onMouseDown}>
+  return <div className='range-small' onWheel={this.onWheel} style={{backgroundImage: this.getBackground()}} onMouseDown={this.onMouseDown}>
     <input className='input' value={this.props.value} onChange={this.onChange}/>
   </div>;
 };

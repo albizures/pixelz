@@ -256,7 +256,7 @@ GIFEncoder.prototype.toRGBComponents = function (color) {
 /*
   Index pixels, without dithering
 */
-GIFEncoder.prototype.indexPixels = function (imgq) {
+GIFEncoder.prototype.indexPixels = function () {
   var nPix = this.pixels.length / 3,
     k = 0;
   this.indexedPixels = new Uint8Array(nPix);

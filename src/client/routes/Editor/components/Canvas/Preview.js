@@ -1,13 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const { connect } = require('react-redux');
-const { floor } = Math;
-
-const { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 const { currentActions } = require('../../ducks');
-const { calculatePosition, validCord } = require('utils/canvas.js');
-const tools = require('./tools');
-const $window = $(window);
 const obj = {};
 let canvas;
 let context;
@@ -30,8 +24,8 @@ obj.paintPreview = function (cord, context, artboard) {
     //this.paintAreaSelect();
   }
   let realCord = {
-    x : cord.x * artboard.scale + artboard.x,
-    y : cord.y * artboard.scale + artboard.y
+    x: cord.x * artboard.scale + artboard.x,
+    y: cord.y * artboard.scale + artboard.y
   };
   context.strokeStyle = 'rgba(255, 255, 255, 0.6)';//COLOR_POINTER_PREW_DEF;
   context.fillStyle = this.props.primaryColor;
@@ -42,10 +36,6 @@ obj.paintPreview = function (cord, context, artboard) {
 
 obj.getInitialState = function() {
   return {};
-};
-
-obj.componentWillUpdate = function(nextProps, nextState) {
-  //return false;
 };
 
 obj.render = function() {
@@ -60,9 +50,9 @@ obj.render = function() {
 const Preview = React.createClass(obj);
 
 module.exports = connect(
-  function (state, props) {
+  function (state) {
     return {
-      primaryColor : state.Editor.primaryColor
+      primaryColor: state.Editor.primaryColor
     };
   },
   currentActions

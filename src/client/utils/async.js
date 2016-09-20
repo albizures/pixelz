@@ -28,7 +28,6 @@ exports.parallel = function (array, cb, cbDone) {
   var results = [];
 
   for (let j = 0; j < array.length; j++) {
-    var element = array[j];
     cb(array[j], j, (abort, result) =>{
       results[j] = result;
       index++;
@@ -37,9 +36,5 @@ exports.parallel = function (array, cb, cbDone) {
         return cbDone = function () {};
       }
     });
-  }
-
-  function done(abort, result) {
-    
   }
 };

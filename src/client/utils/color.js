@@ -1,5 +1,3 @@
-'use strict';
-const DEFAULT_COLOR = '#000';
 const RGBA = 'rgba';
 const RGBA_PER = 'rgbaPer';
 const ABBR_HEX = 'abbrHex';
@@ -18,18 +16,22 @@ function isValid(color) {
 function detectType(color) {
   if (exports.isAbbrHex(color)) {
     return ABBR_HEX;
-  }else if (exports.isHex(color)) {
+  } else if (exports.isHex(color)) {
     return HEX;
-  }else if (exports.isRGBA(color)) {
+  } else if (exports.isRGBA(color)) {
     return RGBA;
-  }else if (exports.isRGBAPer(color)) {
+  } else if (exports.isRGBAPer(color)) {
     return RGBA_PER;
-  }else if (exports.isHSL(color)) {
+  } else if (exports.isHSL(color)) {
     return HSL;
-  }else {
+  } else {
     return NAC;
   }
 }
+exports.isValid = isValid;
+exports.detectType = detectType;
+
+
 exports.isAbbrHex = function (color) {
   return color.match(abbrHex) || false;
 };
@@ -62,9 +64,9 @@ exports.hexToRgb = function hexToRgb(hex) {
 
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
   } : null;
 };
 
@@ -103,7 +105,7 @@ exports.randomHex = function () {
 
 function componentToHex(c) {
   var hex = Number(c).toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
+  return hex.length === 1 ? "0" + hex : hex;
 }
 
 exports.rgbToHex = function (r, g, b) {
@@ -117,7 +119,7 @@ exports.unusedColor = function unusedColor (usedColors) {
   for (let i = 0; i < uglyColors.length; i++) {
     if (!usedColors[uglyColors[i]]) {
       let components = uglyColors[i].split('.');
-      return {r : components[0], g : components[1], b : components[2]};
+      return {r: components[0], g: components[1], b: components[2]};
     }
   }
 
@@ -125,7 +127,7 @@ exports.unusedColor = function unusedColor (usedColors) {
     for (let g = 0; g < 255; g++) {
       for (let b = 0; b < 255; b++) {
         if (!usedColors[r + '.' + g + '.' + b]) {
-          return {r : r, g : g, b : b};
+          return {r: r, g: g, b: b};
         }
       }
     }
@@ -147,13 +149,13 @@ exports.unusedColor = function unusedColor (usedColors) {
  * @return  Array           The HSL representation
  */
 exports.rgbToHsl = function rgbToHsl(r, g, b) {
-  var max, mix, h, s, l, d;
+  var max, min, h, s, l, d;
   r /= 255, g /= 255, b /= 255;
   max = Math.max(r, g, b);
   min = Math.min(r, g, b);
   l = (max + min) / 2;
 
-  if (max == min) {
+  if (max === min) {
     h = s = 0; // achromatic
   } else {
     d = max - min;
@@ -192,7 +194,7 @@ exports.rgbToHsl = function rgbToHsl(r, g, b) {
 exports.hslToRgb = function hslToRgb(h, s, l) {
   var r, g, b, q, p;
 
-  if (s == 0) {
+  if (s === 0) {
     r = g = b = l; // achromatic
   } else {
     function hue2rgb(p, q, t) {
@@ -243,9 +245,9 @@ exports.rgbToHsv = function rgbToHsv(r, g, b) {
   v = max;
 
   d = max - min;
-  s = max == 0 ? 0 : d / max;
+  s = max === 0 ? 0 : d / max;
 
-  if (max == min) {
+  if (max === min) {
     h = 0; // achromatic
   } else {
     switch (max) {

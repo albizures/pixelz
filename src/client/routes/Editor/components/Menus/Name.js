@@ -14,7 +14,7 @@ obj.shouldComponentUpdate = function (nextProps, nextState) {
 
 obj.getInitialState = function () {
   return {
-    name : this.props.name
+    name: this.props.name
   };
 };
 

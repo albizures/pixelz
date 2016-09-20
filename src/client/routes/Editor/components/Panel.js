@@ -6,35 +6,35 @@ const obj = {};
 obj.displayName = 'Panel';
 
 obj.propTypes =  {
-  name : React.PropTypes.string.isRequired
+  name: React.PropTypes.string.isRequired
 };
 obj.getDefaultProps = function () {
   return {
-    dragBar : true,
-    resize : false,
-    float : false
+    dragBar: true,
+    resize: false,
+    float: false
   };
 };
 obj.getInitialState = function () {
   return {
-    style : Object.assign({}, this.props.style)
+    style: Object.assign({}, this.props.style)
   };
 };
 
 obj.componentWillReceiveProps = function(nextProps) {
   if (nextProps.style !== this.props.style) {
     this.setState({
-      style : Object.assign({}, nextProps.style)
+      style: Object.assign({}, nextProps.style)
     });
   }
 };
-obj.getPanelChildren = function(style) {
+obj.getPanelChildren = function() {
   return this.props.children.map((item, index) => {
     return React.cloneElement(item,
       Object.assign({},
         item.props, {
-          style : this.getStyleChildPanel(index == this.state.tabIndex? 'visible' : 'hidden'),
-          key : index,
+          style: this.getStyleChildPanel(index === this.state.tabIndex ? 'visible' : 'hidden'),
+          key: index,
         }
       )
     );
@@ -42,28 +42,27 @@ obj.getPanelChildren = function(style) {
 };
 obj.getStyleChildPanel = function(visibility) {
   return {
-    width : '100%',
-    height : 'calc(100% - 20px)',
-    top : 20,
-    left : 0,
+    width: '100%',
+    height: 'calc(100% - 20px)',
+    top: 20,
+    left: 0,
     visibility
   };
 };
 obj.getStylePanel = function() {
   return {
-    width : this.state.style.width,
-    height : this.state.style.height,
-    top : this.state.style.top,
+    width: this.state.style.width,
+    height: this.state.style.height,
+    top: this.state.style.top,
     left: this.state.style.left,
-    right : this.state.style.right,
-    position : this.state.style.position,
+    right: this.state.style.right,
+    position: this.state.style.position,
     background: this.props.style.background,
-    visibility : this.state.style.visibility || 'visible'
+    visibility: this.state.style.visibility || 'visible'
   };
 };
 
 obj.onMouseDown = function (evt) {
-  var name = this.props.name.replace(' ', '');
   var stats = evt.target.getBoundingClientRect();
   var diffX = evt.clientX - stats.left;
   var diffY = evt.clientY - stats.top;
@@ -85,12 +84,12 @@ obj.onMouseDown = function (evt) {
       top = maxTop;
     }
     this.setState({
-      style : Object.assign({}, this.state.style,{
+      style: Object.assign({}, this.state.style,{
         top,
         left
       })
     });
-  }).on('mouseup.drag', evt => {
+  }).on('mouseup.drag', () => {
     $window.off('mousemove.drag').off('mouseup.drag');
   });
 };
@@ -112,7 +111,7 @@ obj.onClickBackdrop = function (evt) {
 };
 
 obj.getModal = function () {
-  return <div className='modal' style={{display: this.props.modalOpen? 'block' : 'none'}}>
+  return <div className='modal' style={{display: this.props.modalOpen ? 'block' : 'none'}}>
     <div className='backdrop' onClick={this.onClickBackdrop}/>
     {this.getPanel()}
   </div>;
@@ -120,8 +119,8 @@ obj.getModal = function () {
 
 obj.getClassName = function () {
   var base = 'panel panel-' + this.props.name.toLowerCase().replace(' ', '-');
-  base += (this.props.float? ' float ' : ' ');
-  base += (this.props.className? this.props.className: ' ');
+  base += (this.props.float ? ' float ' : ' ');
+  base += (this.props.className ? this.props.className : ' ');
   return base;
 };
 
@@ -138,7 +137,7 @@ obj.getPanel = function () {
 };
 
 obj.render = function(){
-  if(this.props.modal) {
+  if (this.props.modal) {
     return this.getModal();
   }
   return this.getPanel();

@@ -1,4 +1,3 @@
-
 function generate(code, description, data) {
   return {
     code,
@@ -42,12 +41,14 @@ exports.commonPutHistory = function (res, model, id, data, history) {
   model(id, data, history,
     function (result) {
       res.json(result);
-  });
+    }
+  );
 };
 
 exports.commonPut = function (res, model, id, data) {
   model(id, data,
     function (result) {
       res.json(result);
-  });
+    }
+  );
 };

@@ -17,7 +17,7 @@ const obj = require('./events.js');
 obj.displayName = 'Canvas';
 
 var out;
-obj.onWheel = function (evt, xxx, real) {
+obj.onWheel = function (evt) {
   let deltaY = evt.deltaY;
   
   if (out) {
@@ -30,7 +30,7 @@ obj.onWheel = function (evt, xxx, real) {
     if (deltaY > 0) {
       diff = 0.9;
       method = 'floor';
-    }else if (deltaY < 0) {
+    } else if (deltaY < 0) {
       diff = 1.1;
       method = 'ceil';
     }
@@ -47,21 +47,18 @@ obj.setScale = function (scale) {
   var diffY = (this.props.layer.height * scale) - (this.props.artboard.scale * this.props.layer.height);
 
   this.props.setCurrentArtboard({
-    x : this.props.artboard.x - Math.round(diffX / 2),
-    y : this.props.artboard.y - Math.round(diffY / 2),
-    scale : scale
+    x: this.props.artboard.x - Math.round(diffX / 2),
+    y: this.props.artboard.y - Math.round(diffY / 2),
+    scale: scale
   });
 };
 
-obj.componentDidUpdate = function(nextProps, nextState) {
+obj.componentDidUpdate = function() {
   if (!this.props.artboard && this.props.layer !== undefined) {
     this.center();
   }
 };
 
-obj.shouldComponentUpdate = function(nextProps, nextState) {
-  return true;
-};
 obj.getInitialState = function () {
   return {};
 };
@@ -70,7 +67,7 @@ obj.componentDidMount = function () {
   let stats = el.getBoundingClientRect();
   this.setState({
     stats,
-    marginTop : -stats.top,
+    marginTop: -stats.top,
     marginLeft: -stats.left
   });
 };
@@ -92,8 +89,8 @@ obj.setContextType = function (type, context) {
 
 obj.render = function() {
   let size = {
-    width : this.props.width,
-    height : this.props.height
+    width: this.props.width,
+    height: this.props.height
   };
   let style = {
     marginLeft: this.state.marginLeft,
@@ -124,14 +121,14 @@ obj.render = function() {
 
 
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   var frame = state.Editor.frames[state.Editor.frame] || noopFrame;
   return {
-    sprite : state.sprites[state.Editor.sprite],
-    frame : frame,
-    layer : state.Editor.layers[frame.layers[state.Editor.layer]],
-    tool : state.Editor.tool,
-    artboard : state.Editor.artboard,
+    sprite: state.sprites[state.Editor.sprite],
+    frame: frame,
+    layer: state.Editor.layers[frame.layers[state.Editor.layer]],
+    tool: state.Editor.tool,
+    artboard: state.Editor.artboard,
     primaryColor: state.Editor.primaryColor
   };
 }

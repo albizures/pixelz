@@ -3,4 +3,4 @@
 exports.noopF = function () {};
 
 exports.noopA = [];
-exports.noopFrame = {layers : []};
+exports.noopFrame = {layers: []};

@@ -14,13 +14,13 @@ obj.displayName = 'Preview';
 
 obj.getInitialState = function(){
   return {
-    style : {
-      position : 'initial',
+    style: {
+      position: 'initial',
       top: 0,
       left: 0,
       width: '100%'
     },
-    fps : this.props.fps
+    fps: this.props.fps
   };
 };
 obj.initPreivew = function(props) {
@@ -42,7 +42,7 @@ obj.componentWillReceiveProps = function(nextProps) {
 
 obj.onChangeRange = function(value) {
   this.setState({
-    fps : value
+    fps: value
   });
 };
   
@@ -54,7 +54,7 @@ obj.getSprite = function() {
     return <div style={style} className='context-preview'> 
       <Sprite 
         interval={interval}
-        style={{marginTop : this.state.marginTop, marginLeft : this.state.marginLeft}}
+        style={{marginTop: this.state.marginTop, marginLeft: this.state.marginLeft}}
         width={this.state.width}
         height={this.state.height}
         frames={this.props.frames}
@@ -83,11 +83,11 @@ obj.render = function(){
 };
 
 const Preview = connect(
-  function (state, props) {
+  function (state) {
     return {
-      sprite : state.sprites[state.Editor.sprite],
-      frames : state.Editor.frames,
-      fps : 5
+      sprite: state.sprites[state.Editor.sprite],
+      frames: state.Editor.frames,
+      fps: 5
     };
   }
 )(React.createClass(obj));

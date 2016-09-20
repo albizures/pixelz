@@ -40,7 +40,7 @@ obj.render = function () {
 
 const Narbar = React.createClass(obj);
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     user: state.user,
   };

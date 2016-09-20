@@ -7,7 +7,7 @@ exports.initialState = {
 };
 
 exports.reducer = combineReducers({
-  sprites : sprites.reducer
+  sprites: sprites.reducer
 });
 
 exports.actions = Object.assign({}, sprites.actions);

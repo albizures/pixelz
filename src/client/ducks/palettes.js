@@ -47,7 +47,7 @@ actions.savePalette = function (palette) {
         return; // alert
       }
       dispatch({
-        type : SAVE_PALETTE,
+        type: SAVE_PALETTE,
         palette
       });
     });
@@ -58,7 +58,7 @@ actions.addPalette = function (palette) {
   return (dispatch, getState) => {
     let index = getState().palettes.length;
     dispatch({
-      type : ADD_PALETTE,
+      type: ADD_PALETTE,
       palette,
       index
     });
@@ -68,7 +68,7 @@ actions.addPalette = function (palette) {
 
 actions.addPalettes = function (palettes) {
   return {
-    type : ADD_PALETTES,
+    type: ADD_PALETTES,
     palettes
   };
 };

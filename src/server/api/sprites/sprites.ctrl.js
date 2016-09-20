@@ -1,4 +1,3 @@
-'use strict';
 const co = require('co');
 const model = require('./sprites.mdl.js');
 const response = require('../../components/utils/response.js');
@@ -11,31 +10,31 @@ exports.post = function (req, res) {
   co(function* () {
     let date = new Date();
     var id = yield model.post({
-      user : req.user._id,
+      user: req.user._id,
       name: req.body.name,
       modificatedAt: date,
-      createdAt : date,
+      createdAt: date,
       width: req.body.width,
       height: req.body.height,
-      private : req.body.private,
+      private: req.body.private,
       colors: req.body.colors,
       type: type,
       frames: req.body.frames,
-      layers : req.body.layers
+      layers: req.body.layers
     });
     id = id.toString();
 
     let file = req.files.shift();
     let namePreview = Date.now() + '.' + type;
-    let preview = yield files.write(namePreview, file.buffer);
+    yield files.write(namePreview, file.buffer);
 
     
     file = req.files.shift();
     let nameSpriteFile = Date.now() + '.png';
-    let spriteFile = yield files.write(nameSpriteFile, file.buffer);
+    yield files.write(nameSpriteFile, file.buffer);
 
     yield model.put(id, {
-      available : true,
+      available: true,
       file: '/' + nameSpriteFile,
       preview: '/' + namePreview
     });
@@ -61,14 +60,14 @@ exports.getFile = function (req, res) {
       return res.status(500).end();
     }
     res.sendFile(files.join(files.FILES_PATH, result.data.file), function (err) {
-    if (err) {
-      console.log(err);
-      res.status(err.status).end();
-    }
-    else {
-      console.log('Sent:',  result.data.file);
-    }
-  });
+      if (err) {
+        console.log(err);
+        res.status(err.status).end();
+      }
+      else {
+        console.log('Sent:',  result.data.file);
+      }
+    });
   }
 };
 
@@ -85,15 +84,8 @@ exports.getSearch = function (req, res) {
 };
 
 exports.put = function (req, res) {
-  var current;
-  var date = new Date();
   var id = req.params.id;
   var type = req.body.type;
-  var name = id + '.png';
-  var historyId = db.newId();
-  var newName = historyId + '.png';
-  var historyPath = files.join(newName);
-
 
   co(function *() {
     let sprite = yield model.getOne(id);
@@ -102,17 +94,17 @@ exports.put = function (req, res) {
 
     let file = req.files.shift();
     let namePreview = Date.now() + '.' + type;
-    let preview = yield files.write(namePreview, file.buffer);
+    yield files.write(namePreview, file.buffer);
 
     file = req.files.shift();
     let nameSpriteFile = Date.now() + '.png';
-    let spriteFile = yield files.write(nameSpriteFile, file.buffer);
+    yield files.write(nameSpriteFile, file.buffer);
 
     sprite.name = req.body.name;
     sprite.width = req.body.width;
     sprite.height = req.body.height;
     sprite.private = req.body.private;
-    sprite.colors= req.body.colors;
+    sprite.colors = req.body.colors;
     sprite.type = type;
     sprite.frames = req.body.frames;
     sprite.layers = req.body.layers;
@@ -132,72 +124,6 @@ exports.put = function (req, res) {
     console.log('catch', err);
     res.json(response.generate(1, err));
   });
-
-
-  
-
-  // function onGetOne(result) {
-  //   if (result.code !== 0) {
-  //     return res.json(result);
-  //   }
-  //   current = result.data;
-  //   files.move(
-  //     files.join(name),
-  //     historyPath,
-  //     onMove
-  //   );
-  // }
-  // function onMove(result) {
-  //   if (result.code !== 0) {
-  //     return res.json(result);
-  //   }
-  //   files.remove(
-  //     files.join(id + '_p.' + current.type), 
-  //     onRemove
-  //   );
-  // }
-  // function onRemove(result) {
-  //   if (result.code !== 0) {
-  //     return res.json(result);
-  //   }
-  //   postFile(
-  //     true,
-  //     id,
-  //     result => postFile(false, id, onPostFile)
-  //   );
-  // }
-
-  // function postFile(isPreview, id, cb) {
-  //   let file = req.files.shift();
-  //   let name = isPreview? id + '_p.' + type : id + '.png';
-  //   let path = files.join(name);
-  //   files.write(
-  //     path,
-  //     file.buffer,
-  //     result => {
-  //       if (result.code !== 0) {
-  //         return res.json(result);
-  //       }
-  //       cb(result, id);
-  //     }
-  //   );
-  // }
-  // function onPostFile(result, id) {
-  //   response.commonPutHistory(res, model.put, req.params.id, {
-  //     name: req.body.name,
-  //     width: req.body.width,
-  //     height: req.body.height,
-  //     private : req.body.private,
-  //     colors: req.body.colors,
-  //     type: type,
-  //     frames: req.body.frames,
-  //     layers : req.body.layers
-  //   }, Object.assign({}, current, {
-  //     path : historyPath,
-  //     _id : historyId,
-  //     modificationDate: date
-  //   }));
-  // }
 };
 
 exports.putName = function (req, res) {

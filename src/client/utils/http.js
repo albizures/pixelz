@@ -1,4 +1,3 @@
-'ues strict';
 const axios = require('axios');
 
 function parseJSON(response) {
@@ -20,7 +19,7 @@ function request(url, method, cb, body, headers = true) {
   console.log(method,body, body instanceof FormData, url);
   return axios({
     url,
-    headers: headers? {
+    headers: headers ? {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     } : undefined,
@@ -28,7 +27,7 @@ function request(url, method, cb, body, headers = true) {
     data: body
   }).then(checkStatus).then(parseJSON).then(cb).catch(function (ex) {
     console.error(ex);
-    if(cb) cb({code : 1, description : ex});
+    if (cb) cb({code: 1, description: ex});
   });
 }
 
@@ -51,7 +50,6 @@ function put (url, body, cb) {
 
 exports.upload = function (url, data, files, method, cb) {
   const form = new FormData();
-  const dataKeys = Object.keys(data);
   for (let j = 0; j < files.length; j++) {
     let element = files[j];
     form.append('files', element.file, element.name);

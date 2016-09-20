@@ -1,7 +1,4 @@
 const React = require('react');
-const { Link } = require('react-router');
-const { connect } = require('react-redux');
-
 
 const components = {};
 
@@ -12,7 +9,7 @@ obj.displayName = 'Layout';
 obj.getInitialState = function () {
   if (this.props.mode === 'stack') {
     return {
-      active : this.props.active
+      active: this.props.active
     };
   }
   return {};
@@ -59,7 +56,7 @@ obj.getChildrenStack = function (children, active = 0) {
   let result = [], tabs = [];
   let key = 0;
   for (let j = 0; j < children.length; j++) {
-    let className = active == j? 'active' : '';
+    let className = active === j ? 'active' : '';
     let item = children[j];
     let Component = components[item.component];
     tabs.push(
@@ -105,7 +102,7 @@ obj.getChildren = function () {
 };
 
 obj.render = function () {
-  let className = this.props.mode +' layout ' + this.props.name.toLowerCase() + ' ' + (this.props.className || '');
+  let className = this.props.mode + ' layout ' + this.props.name.toLowerCase() + ' ' + (this.props.className || '');
   return <div className={className} style={this.props.style}>
     {this.getChildren()}
   </div>;
@@ -116,7 +113,7 @@ const Layout = React.createClass(obj);
 function register(component, name) {
   name = name || component.displayName;
   if (components[name]) {
-    throw 'Component \''+ name +'\' already exists';
+    throw 'Component \'' + name + '\' already exists';
   }
   components[name] = component;
 };

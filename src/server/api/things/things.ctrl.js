@@ -19,9 +19,9 @@ exports.getSearch = function (req, res) {
 
 exports.postFile = function (req, res) {
   model.postFile({
-    buffer : req.files[0].buffer,
-    name : Date.now(),
-    meta : req.body
+    buffer: req.files[0].buffer,
+    name: Date.now(),
+    meta: req.body
   }, result => console.log(result));
   res.json([]);
 };

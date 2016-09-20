@@ -1,15 +1,12 @@
-'use strict';
-const { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR} = require('constants/index.js');
 const { abs } = Math;
 const Tool = require('./Tool.js');
-const { calculatePosition, validCord, cloneContext } = require('utils/canvas.js');
-const { isTransparent } = require('utils/color.js');
+const { calculatePosition, validCord } = require('utils/canvas.js');
 
 
 const obj = {};
-let lastPixel, color, lineBetween, at;
+let lastPixel;
 
-obj.onMouseDown = function (evt) {
+obj.onMouseDown = function () {
   this.clicked = true;
   lastPixel = this.initCord;
   $window.off('mouseup.upCanvas').on('mouseup.upCanvas', this.onMouseUp, false);
@@ -56,7 +53,7 @@ obj.onMouseUp = function (evt) {
     this.newVersion(this.layer);
     this.addUndo({
       layer: this.layer,
-      prevStatus : this.prevStatus
+      prevStatus: this.prevStatus
     });
   }
 };

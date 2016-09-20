@@ -1,7 +1,6 @@
-const livereload = require('express-livereload'),
-      path = require('path'),
-      express = require('express'),
-      favicon = require('serve-favicon');
+const path = require('path');
+const express = require('express');
+const favicon = require('serve-favicon');
 
 module.exports = function (app) {
   app.use(express.static(path.resolve(__dirname,'..' ,'..','..','public')));

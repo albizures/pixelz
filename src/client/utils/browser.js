@@ -1,4 +1,3 @@
-'use strict';
 let platform = navigator.platform.toLowerCase(),
   ua = navigator.userAgent.toLowerCase(),
   UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, 'unknown', 0],

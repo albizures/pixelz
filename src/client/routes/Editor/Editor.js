@@ -2,7 +2,6 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const http = require('http');
 const { connect } = require('react-redux');
-const { editProp } = require('utils/ducks.js');
 
 const ducks = require('./ducks');
 
@@ -22,28 +21,28 @@ require('./components/ColorPicker.js');
 const { Layout } = require('./components/Layout.js');
 
 const NewSprite = require('./components/NewSprite.js');
-const Panel = require('./components/Panel.js');
-const Palettes = require('./components/Palettes.js');
-const History = require('./components/History.js');
+// const Panel = require('./components/Panel.js');
+// const Palettes = require('./components/Palettes.js');
+// const History = require('./components/History.js');
 const Menus = require('./components/Menus');
 
 const shortcuts = require('./shortcuts');
 
 const conf = {
-  mode : 'col',
-  name : 'Main',
-  style : {
+  mode: 'col',
+  name: 'Main',
+  style: {
     height: 'calc(100% - 25px)',
     top: '25px'
   },
-  children : [
+  children: [
     {name: 'Left', width: 12, component: 'Left'},
     {name: 'Center', width: 73, component: 'Center'},
     {name: 'Right', width: 15, component: 'Right'}
   ],
-  float : [
-    {name : 'Tools', component: 'Tools'},
-    {name : 'ColorPicker', component: 'ColorPicker'}
+  float: [
+    {name: 'Tools', component: 'Tools'},
+    {name: 'ColorPicker', component: 'ColorPicker'}
   ]
 };
 
@@ -51,12 +50,12 @@ const obj = {};
 
 obj.displayName = 'Editor';
 
-obj.onClose = function (newSprite) {
-  this.setState({open : false});
+obj.onClose = function () {
+  this.setState({open: false});
 };
 
 obj.openNewSpriteModal = function () {
-  this.setState({open : true});
+  this.setState({open: true});
 };
 
 obj.render = function () {
@@ -72,16 +71,16 @@ obj.getInitialState = function () {
   if (this.props.params.id) {
     http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
   } else {
-    return {open : true};
+    return {open: true};
   }
-  return {open : false};
+  return {open: false};
 };
 
 obj.componentDidMount = function() {
   shortcuts.init();
   this.setState({
-    width : window.innerWidth,
-    height : window.innerHeight
+    width: window.innerWidth,
+    height: window.innerHeight
   });
   
 };
@@ -96,11 +95,11 @@ obj.onGetSprite = function (result) {
   context.canvas.width = width = sprite.width * sprite.layers;
   context.canvas.height = height = sprite.height;
   sprite.index = this.props.addSprite({
-    _id : sprite._id,
-    name : sprite.name,
-    width : sprite.width,
-    height : sprite.height,
-    colors : sprite.colors,
+    _id: sprite._id,
+    name: sprite.name,
+    width: sprite.width,
+    height: sprite.height,
+    colors: sprite.colors,
   });
   this.props.setCurrentSprite(sprite.index);
   image.onload = () => {
@@ -131,18 +130,18 @@ obj.createFrameFromContext = function(sprite, image) {
   contextTemp.canvas.width = context.canvas.width = sprite.width;
   contextTemp.canvas.height = context.canvas.height = sprite.height;
   
-  for (var j = sprite.layers -1; j >= 0; j--) {
+  for (var j = sprite.layers - 1; j >= 0; j--) {
     context.drawImage(image.canvas,
       sprite.width * j, 0, sprite.width, sprite.height,
       0, 0, sprite.width, sprite.height
     );
   }
   index = this.props.addFrame({
-    sprite : sprite.index,
-    width : sprite.width,
-    height : sprite.height,
-    context : context,
-    layers : []
+    sprite: sprite.index,
+    width: sprite.width,
+    height: sprite.height,
+    context: context,
+    layers: []
   });
   this.props.addFrameSprite(
     sprite.index,
@@ -173,12 +172,12 @@ obj.createLayersFromContext = function(sprite, image, frame, index) {
     0, 0, sprite.width, sprite.height
   );
   return this.props.addLayer({
-    context : context,
-    width : sprite.width,
-    height : sprite.height,
-    sprite : sprite.index,
-    frame : frame,
-    layerIndex : index
+    context: context,
+    width: sprite.width,
+    height: sprite.height,
+    sprite: sprite.index,
+    frame: frame,
+    layerIndex: index
   });
 };
 
@@ -195,7 +194,7 @@ obj.createFrame = function({sprite, context}){
   return frame;
 };
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     artboard: state.Editor.artboard,
     sprite: state.Editor.sprite,
@@ -205,7 +204,7 @@ function mapStateToProps(state, props) {
     filterSprites: state.Editor.sprites,
     frames: state.Editor.frames,
     layers: state.Editor.layers,
-    palettes:  state.Editor.palettes
+    palettes: state.Editor.palettes
   };
 }
 

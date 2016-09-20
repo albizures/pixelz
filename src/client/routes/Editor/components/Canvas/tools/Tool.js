@@ -5,7 +5,7 @@ const spriteActions = require('../../../../../ducks/sprites.js').actions;
 const historyActions = require('../../../ducks/history.js').actions;
 const { cloneContext } = require('utils/canvas.js');
 
-const { RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
+const { RIGHT_CLICK } = require('constants/index.js');
 
 const { abs } = Math;
 const common = {};
@@ -73,7 +73,6 @@ exports.create = function (name, custom) {
   let tool = Object.create(common);
   let keys = Object.keys(custom);
   for (var j = 0; j < keys.length; j++) {
-    var element = keys[j];
     if (typeof custom[[keys[j]]] === "function") {
       tool[keys[j]] = custom[[keys[j]]].bind(tool);
     }

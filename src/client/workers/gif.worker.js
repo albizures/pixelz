@@ -1,4 +1,3 @@
-'use strict';
 const GIFEncoder = require('utils/gif/GIFEncoder.js');
 
 function renderFrame(frame) {

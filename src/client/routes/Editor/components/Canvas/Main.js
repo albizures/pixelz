@@ -37,7 +37,7 @@ obj.paint = function (context, artboard, layer) {
     artboard.x, artboard.y, width, height);
 };
 
-obj.componentDidUpdate = function (prevProps, prevState) {
+obj.componentDidUpdate = function () {
   if (this.state.context && this.props.layer && this.props.artboard) {
     this.paint(this.state.context, this.props.artboard, this.props.layer);
   }

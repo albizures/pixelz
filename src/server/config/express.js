@@ -1,5 +1,4 @@
 const express = require('express');
-const livereload = require('express-livereload');
 const config = require('./environment');
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');

@@ -16,7 +16,7 @@ obj.componentDidMount = function() {
   this.props.setContext('mask', context);
 };
 
-obj.componentWillUpdate = function(nextProps, nextState) {
+obj.componentWillUpdate = function(nextProps) {
   return nextProps.size.width !== this.props.size.width
     || nextProps.size.height !== this.props.size.height;
 };
@@ -29,7 +29,7 @@ obj.paint = function(context, artboard, layer){
   context.clearRect(artboard.x, artboard.y, width, height);
 };
 
-obj.componentDidUpdate = function(prevProps, prevState) {
+obj.componentDidUpdate = function() {
   if (this.state.context && this.props.layer && this.props.artboard) {
     this.paint(this.state.context, this.props.artboard, this.props.layer);
   }

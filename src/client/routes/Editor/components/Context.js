@@ -16,14 +16,14 @@ obj.getInitialState = function() {
 };
 obj.getInitialProps = function () {
   return {
-    className : ''
+    className: ''
   };
 };
 
 obj.componentDidMount = function() {
   let context = ReactDOM.findDOMNode(this).getContext('2d');
   this.setState({
-    context : context
+    context: context
   });
   this.initContext(this.props);
 };
@@ -31,8 +31,8 @@ obj.initContext = function(props) {
   if (!this.state.context) {
     return;
   }
-  if(props.image) {
-    this.paint(props.image.canvas? props.image.canvas : props.image);
+  if (props.image) {
+    this.paint(props.image.canvas ? props.image.canvas : props.image);
   }
 };
 obj.shouldComponentUpdate = function(nextProps, nextState) {
@@ -55,7 +55,7 @@ obj.paint = function(image) {
     0, 0, this.props.width, this.props.height
   );
 };
-obj.componentDidUpdate = function(prevProps, prevState) {
+obj.componentDidUpdate = function() {
   this.initContext(this.props);
 };
 obj.render = function() {

@@ -1,4 +1,3 @@
-'use strict';
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const GridStore = mongodb.GridStore;
@@ -8,7 +7,7 @@ const config = require('../config/environment');
 const modelUsers = require('../api/users/users.mdl.js');
 
 let db;
-let option = {w : 1};
+let option = {w: 1};
 
 var url = 'mongodb://localhost:27017/pixelz';
 
@@ -21,7 +20,7 @@ exports.dbPromise = MongoClient.connect(url).then(function(result) {
       user: 'albizures'
     }, onSearch);
     function onSearch(result) {
-      if (result.code == 0 && !result.data && !result.data.length) {
+      if (result.code === 0 && !result.data && !result.data.length) {
         modelUsers.post({
           user: 'albizures'
         }, onPost);
@@ -109,7 +108,7 @@ exports.update = function (collection, id, data, cb) {
   });
   
   db.collection(collection).updateOne({
-    _id : new ObjectID(id)},
+    _id: new ObjectID(id)},
     {$set: data},
     onUpdate
   );
@@ -158,8 +157,8 @@ exports.getFile = function (id, cb) {
     } else {
       gridStore.read((err, data) => { 
         cb(response.commonResult( err, {
-          buffer : data,
-          meta : gridStore.metadata
+          buffer: data,
+          meta: gridStore.metadata
         }));
       });
     }

@@ -15,15 +15,15 @@ obj.displayName = 'Palette';
 
 obj.getInitialState = function () {
   return {
-    style : {
+    style: {
       position: 'initial',
-      width : '100%'
+      width: '100%'
     },
-    current : this.props.palettes.length < 1
+    current: this.props.palettes.length < 1
   };
 };
 
-obj.shouldComponentUpdate = function (nextProps, nextState) {
+obj.shouldComponentUpdate = function (nextProps) {
   if (this.props.sprite && this.props.sprite.version !== nextProps.sprite.version) {
     let spriteIndex = nextProps.sprite.index;
     if (this.props.sprite.frames.length > 1) {
@@ -42,13 +42,13 @@ obj.shouldComponentUpdate = function (nextProps, nextState) {
 
 obj.toggleCurrent = function () {
   this.setState({
-    current : !this.state.current
+    current: !this.state.current
   });
 };
 
 obj.onAddColor = function () {
   this.props.setStyle('colorPicker', {
-    visibility : 'visible'
+    visibility: 'visible'
   });
   
 
@@ -83,7 +83,7 @@ obj.render = function () {
     <button className='btn' >=</button>
     <button 
       disabled={this.props.palettes.length < 1}
-      className={'btn ' + (this.state.current? 'active' : '') } 
+      className={'btn ' + (this.state.current ? 'active' : '') } 
       title="Current Palette"
       onClick={this.toggleCurrent}
     >C</button>
@@ -92,7 +92,7 @@ obj.render = function () {
       disabled={this.state.current}
       onClick={this.onAddColor}
     >+</button>
-    {this.getPalette().unsaved? <span onClick={this.onSave}>!¡</span> : null}
+    {this.getPalette().unsaved ? <span onClick={this.onSave}>!¡</span> : null}
     <ContentColors 
       setPrimaryColor={this.props.setPrimaryColor} 
       setSecondaryColor={this.props.setSecondaryColor} 
@@ -107,7 +107,7 @@ obj.getPalette = function () {
     return this.props.sprite.palette.map((item, index) => {
       return {
         color: item,
-        position : {
+        position: {
           x: index,
           y: 0
         }
@@ -118,9 +118,9 @@ obj.getPalette = function () {
 };
 
 const Palette = connect(
-  function (state, props) {
+  function (state) {
     return {
-      sprite : state.sprites[state.Editor.sprite],
+      sprite: state.sprites[state.Editor.sprite],
       palettes: state.palettes,
       palette: state.Editor.palette,
       primaryColor: state.Editor.primaryColor

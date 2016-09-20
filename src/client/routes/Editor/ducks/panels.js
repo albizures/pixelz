@@ -1,32 +1,31 @@
-
-const { push, updateArrayItem, editProp } = require('utils/ducks.js');
+const { editProp } = require('utils/ducks.js');
 
 const SET_STYLE = 'SET_STYLE';
 const SET_PARAMS = 'SET_PARAMS';
 
 const def = {
-  colorPicker : {
-    style : {
-      visibility : 'hidden',
-      top : 100,
-      left : 300
+  colorPicker: {
+    style: {
+      visibility: 'hidden',
+      top: 100,
+      left: 300
     },
-    params : {
-      color : 'rgba(0, 0, 0, 1)'
+    params: {
+      color: 'rgba(0, 0, 0, 1)'
     }
   },
-  tools : {
-    style : {
-      top : 100,
-      left : 200,
-      width : 60
+  tools: {
+    style: {
+      top: 100,
+      left: 200,
+      width: 60
     }
   },
-  history : {
-    visible : false
+  history: {
+    visible: false
   }
 };
-exports.reducer = function (state = def, action) {
+exports.reducer = function(state = def, action) {
   switch (action.type) {
     case SET_STYLE:
       return editProp(
@@ -50,17 +49,17 @@ exports.init = def;
 
 exports.actions = {};
 
-exports.actions.setStyle = function (panel, style) {
+exports.actions.setStyle = function(panel, style) {
   return {
-    type : SET_STYLE,
+    type: SET_STYLE,
     panel,
     style
   };
 };
 
-exports.actions.setParams = function (panel, params) {
+exports.actions.setParams = function(panel, params) {
   return {
-    type : SET_PARAMS,
+    type: SET_PARAMS,
     panel,
     params
   };

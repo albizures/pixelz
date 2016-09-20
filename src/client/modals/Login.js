@@ -8,7 +8,7 @@ obj.displayName = 'Login';
 
 obj.getDefaultProps = function () {
   return {
-    onLogin : () => {}
+    onLogin: () => {}
   };
 };
 
@@ -29,7 +29,7 @@ obj.onLogin = function () {
 };
 
 obj.render = function () {
-  const { text, onRequestClose } = this.props;
+  const { onRequestClose } = this.props;
   return <Modal
     style={style}
     onRequestClose={onRequestClose}

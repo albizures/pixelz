@@ -13,11 +13,11 @@ obj.onClickAddLayer = function() {
   for (var j = 0; j < this.props.sprite.frames.length; j++) {
     var element = this.props.sprite.frames[j];
     var index = this.props.frame.layers.length;
-    let layer = this.createLayer({
-      sprite : this.props.frame.sprite,
-      frame : element
+    this.createLayer({
+      sprite: this.props.frame.sprite,
+      frame: element
     });
-    if (this.props.frame.index == element) {
+    if (this.props.frame.index === element) {
       this.props.setCurrentLayer(index);
     }
   }
@@ -25,12 +25,12 @@ obj.onClickAddLayer = function() {
 
 obj.getInitialState = function() {
   return {
-    size : 0
+    size: 0
   };
 };
 obj.componentDidMount = function () {
   this.setState({
-    size : this.refs.list.clientWidth
+    size: this.refs.list.clientWidth
   });
 };
 
@@ -51,9 +51,9 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
 
 obj.getDefaultProps = function() {
   return {
-    layers : [],
-    frame : {
-      layers : []
+    layers: [],
+    frame: {
+      layers: []
     }
   };
 };
@@ -63,7 +63,7 @@ obj.getList = function() {
     let children = [];
     for (let j = 0; j < this.props.frame.layers.length; j++) {
       let layer = this.props.layers[this.props.frame.layers[j]];
-      let className = 'preview-layer ' + (this.props.layer == j? 'active' : '');
+      let className = 'preview-layer ' + (this.props.layer === j ? 'active' : '');
       children.push(
         <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
           <Layer data={layer} size={this.state.size} index={j}/>
@@ -87,12 +87,12 @@ obj.render = function() {
 };
 
 const Layers = connect(
-  function (state, props) {
+  function (state) {
     return {
-      sprite : state.sprites[state.Editor.sprite],
-      layer : state.Editor.layer,
-      layers : state.Editor.layers,
-      frame : state.Editor.frames[state.Editor.frame]
+      sprite: state.sprites[state.Editor.sprite],
+      layer: state.Editor.layer,
+      layers: state.Editor.layers,
+      frame: state.Editor.frames[state.Editor.frame]
     };
   },
   { setCurrentLayer, addLayerFrame, addLayer }

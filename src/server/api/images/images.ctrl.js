@@ -1,5 +1,4 @@
-'use strict';
-const response = require('../../components/utils/response.js');
+// const response = require('../../components/utils/response.js');
 const config = require('../../config/environment');
 const path = require('path');
 

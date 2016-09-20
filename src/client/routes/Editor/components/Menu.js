@@ -21,18 +21,18 @@ obj.propTypes = {
         var element = prop[i];
         if (typeof element.type === 'function' && element.type.displayName !== 'Menu') {
           return getError(element.type);
-        } else if(typeof element.type === 'string' && element.type !== 'li') {
+        } else if (typeof element.type === 'string' && element.type !== 'li') {
           return getError(element.type);
         }
       }
     } else {
       if (typeof prop.type === 'function' && prop.type.displayName !== 'Menu') {
         return getError(prop.type);
-      } else if(typeof prop.type === 'string' && prop.type !== 'li') {
+      } else if (typeof prop.type === 'string' && prop.type !== 'li') {
         return getError(prop.type);
       }
     }
-    function getError(type) {
+    function getError() {
       return new Error(`${componentName} should have a single child of the following types: 'li, Menu'`);
     }
   }
@@ -49,8 +49,8 @@ obj.render = function () {
     left: this.props.position.x
   };
   let className = 'content-menu '; 
-  className += (this.props.inline? 'inline' : '');
-  className += (this.props.active? '' : 'hidden');
+  className += (this.props.inline ? 'inline' : '');
+  className += (this.props.active ? '' : 'hidden');
   
   return <div className={className} style={style} >
     <ul className='menu main'>

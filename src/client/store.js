@@ -9,24 +9,24 @@ const sprites = require('./ducks/sprites.js');
 
 
 const reducers = combineReducers({
-  Editor : Editor.reducer,
+  Editor: Editor.reducer,
   sprites: sprites.reducer,
   palettes: palettes.reducer,
-  Home : Home.reducer,
-  user : user.reducer
+  Home: Home.reducer,
+  user: user.reducer
 });
 
 
 const initialState = {
-  Editor : Editor.initialState,
-  Home : Home.initialState,
+  Editor: Editor.initialState,
+  Home: Home.initialState,
   palettes: palettes.initialState,
   user: user.initialState,
   sprites: sprites.initialState
 };
 
 console.log(initialState);
-const store = exports.store = createStore(
+exports.store = createStore(
   reducers,
   initialState,
   compose(
