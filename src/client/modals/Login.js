@@ -1,7 +1,7 @@
 const React = require('react');
 const { Modal, ModalManager, Effect } = require('react-dynamic-modal');
 
-const LoginButton = require('../components/LoginButton.js')
+const LoginButton = require('../components/LoginButton.js');
 const obj = {};
 
 obj.displayName = 'Login';
@@ -9,7 +9,7 @@ obj.displayName = 'Login';
 obj.getDefaultProps = function () {
   return {
     onLogin : () => {}
-  }
+  };
 };
 
 const style = {

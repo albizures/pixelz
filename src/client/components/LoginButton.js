@@ -11,8 +11,8 @@ obj.displayName = 'LoginButton';
 obj.getDefaultProps = function () {
   return {
     onLogin : () => {}
-  }
-}
+  };
+};
 
 obj.onClick = function () {
   let url = '';
@@ -39,16 +39,16 @@ obj.intervalClose = function () {
 
 obj.render = function () {
   let text = '';
-  let style = {}
+  let style = {};
   if (this.props.twitter) {
     text = 'Connect with Twitter';
     style.background = '#00aced';
   }
   return <a onClick={this.onClick} style={style} className={this.props.className}>
     {text}
-  </a>
-}
+  </a>;
+};
 
 const LoginButton = React.createClass(obj);
 
-module.exports = LoginButton
+module.exports = LoginButton;

@@ -18,7 +18,7 @@ const ContentSprites = React.createClass({
       <ul>
         {
           this.props.filter.map(index => {
-            let sprite = this.props.sprites[index]
+            let sprite = this.props.sprites[index];
             return <Sprite key={index} data={sprite}/>;
           })
         }
