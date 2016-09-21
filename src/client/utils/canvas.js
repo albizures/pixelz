@@ -34,6 +34,7 @@ function getPreviewSize(maxWidth, maxHeight, width, height) {
     marginLeft = (maxWidth - newWidth) / 2;
   }
   return {
+    maxSize,
     maxWidth,
     maxHeight,
     width: newWidth,
