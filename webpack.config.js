@@ -5,15 +5,15 @@ const path = require('path');
 const config = require('./src/server/config/environment');
 
 module.exports = {
-  watch : config.isDev,
-  devtool : 'source-map',
-  entry:[
+  watch: config.isDev,
+  devtool: 'source-map',
+  entry: [
     config.APP_PATH
   ],
   output: {
     path: config.PUBLIC_PATH,
     filename: "bundle.js",
-    publicPath : '/'
+    publicPath: '/'
   },
   plugins: [
     new ExtractTextPlugin("styles.css"),
@@ -23,7 +23,7 @@ module.exports = {
       filename: 'index.html',
       template: config.MAIN_TEMPLATE
     })
-  ].concat(config.isProd? [
+  ].concat(config.isProd ? [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
@@ -53,8 +53,8 @@ module.exports = {
       test: /\.styl?$/,
       loader: ExtractTextPlugin.extract('style', 'css!stylus')
     }, {
-      test : /\.worker\.js?$/,
-      loaders : ['worker?name=workers/[name].[ext]', 'babel']
+      test: /\.worker\.js?$/,
+      loaders: ['worker?name=workers/[name].[ext]', 'babel']
     }],
     preLoaders: [{
       test: /\.js?$/,
@@ -64,11 +64,11 @@ module.exports = {
   },
   resolve: {
     alias: {
-      workers : path.join(config.CLIENT_PATH, 'workers/'),
-      utils : path.join(config.CLIENT_PATH, 'utils/'),
-      constants : path.join(config.CLIENT_PATH, 'constants/'),
-      make : path.join(config.CLIENT_PATH, 'utils/make.js'),
-      http : path.join(config.CLIENT_PATH, 'utils/http.js')
+      workers: path.join(config.CLIENT_PATH, 'workers/'),
+      utils: path.join(config.CLIENT_PATH, 'utils/'),
+      constants: path.join(config.CLIENT_PATH, 'constants/'),
+      make: path.join(config.CLIENT_PATH, 'utils/make.js'),
+      http: path.join(config.CLIENT_PATH, 'utils/http.js')
     },
     extensions: ['', '.js', '.css', '.styl', '.jade']
   },
