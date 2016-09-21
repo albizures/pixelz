@@ -154,17 +154,21 @@ actions.putName = function(sprite, name) {
 
 actions.addSprites = function(sprites) {
   return (dispatch, getState) => {
-    setIndex(getState().sprites.length, sprites);
+    let newSprites = setIndex(getState().sprites.length, sprites);
     dispatch({
       type: ADD_SPRITES,
       sprites,
     });
+    return newSprites;
   };
 
   function setIndex(initIndex, sprites) {
+    let newSprites = [];
     for (var j = 0; j < sprites.length; j++) {
       sprites[j].index = j + initIndex;
+      newSprites.push(j + initIndex);
     }
+    return newSprites;
   }
 };
 

@@ -22,7 +22,7 @@ actions.addSpriteHome  = function (sprite) {
   };
 };
 
-actions.addSpritesHome  = function (sprites) {
+actions.addSpritesHome = function (sprites) {
   return {
     type: ADD_SPRITES_HOME,
     sprites,

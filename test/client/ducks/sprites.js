@@ -116,12 +116,13 @@ test('put name', t => {
 
 test('add sprites', t => {
   const action = {type: types.ADD_SPRITES, sprites: [{index: 0}, {index: 1}]};
-  const thunk = actions.addSprites([{}, {}]);
 
-  actions.addSprites([{}, {}])(
+  const result = actions.addSprites([{}, {}])(
     act => t.deepEqual(act, action),
     () => ({sprites: []})
   );
+  
+  t.deepEqual(result, [0, 1]);
 
   t.deepEqual(
     reducer([], action),
