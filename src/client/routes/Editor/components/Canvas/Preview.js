@@ -20,7 +20,7 @@ obj.clean = function(context) {
 obj.paintPreview = function (cord, context, artboard) {
   this.clean(context);
   if (artboard.select) {
-    console.log('select');
+    
     //this.paintAreaSelect();
   }
   let realCord = {

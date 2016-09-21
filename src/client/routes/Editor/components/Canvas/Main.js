@@ -23,8 +23,11 @@ obj.shouldComponentUpdate = function (nextProps, nextState) {
   if (this.state.context !== nextState.context || nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
     this.paint(nextState.context, nextProps.artboard, nextProps.layer);
   }
-  return nextProps.size.width !== this.props.size.width
-    || nextProps.size.height !== this.props.size.height;
+  return true;
+  // console.log('shouldComponentUpdate',nextProps.size.width !== this.props.size.width
+  //   || nextProps.size.height !== this.props.size.height);
+  // return nextProps.size.width !== this.props.size.width
+  //   || nextProps.size.height !== this.props.size.height;
 };
 
 obj.paint = function (context, artboard, layer) {

@@ -45,7 +45,7 @@ http.get('/api/auth/whoami').then(function (result) {
   if (!result) {
     return;
   }
-  console.log(result);
+  
 
   store.dispatch(user.actions.setUser(result.data));
 });

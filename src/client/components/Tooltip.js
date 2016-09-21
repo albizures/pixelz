@@ -5,7 +5,7 @@ const obj = {};
 obj.displayName = 'Tooltip';
 
 obj.getInitialState = function () {
-  console.log('getInitialState', require('./Tooltipy.js'));
+  //console.log('getInitialState', require('./Tooltipy.js'));
   onSetStatusTooltip(this.onSetStatus);
   return {
     top: 0,

@@ -24,6 +24,7 @@ obj.getInitialState = function() {
   };
 };
 obj.componentDidMount = function () {
+  console.log(this.refs.list.clientWidth);
   this.setState({
     size: this.refs.list.clientWidth
   });

@@ -25,7 +25,7 @@ obj.componentDidMount = function() {
 };
 
 obj.componentWillReceiveProps = function (nextProps) {
-  if (nextProps.data.index !== this.props.data.index) {
+  if (nextProps.data.index !== this.props.data.index || this.props.size !== nextProps.size) {
     this.setState(
       getPreviewSize(nextProps.size, nextProps.size, nextProps.data.width, nextProps.data.height)
     );

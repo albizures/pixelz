@@ -13,7 +13,6 @@ const obj = {};
 obj.displayName = 'Tools';
 
 obj.getInitialState = function(){
-  console.log(this.props.style);
   return {
     style: {
       top: 100,

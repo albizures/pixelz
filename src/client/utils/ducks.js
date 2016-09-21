@@ -22,5 +22,5 @@ exports.shiftPositions = function (arr, fromIndex, toIndex) {
   //a = [1,2,3,4,5,6]
   //b = [].concat(a.slice(0,y), a.slice(y + 1));
   //b.splice(1, 0, a[y]);
-  //console.log(b);
+  //
 };

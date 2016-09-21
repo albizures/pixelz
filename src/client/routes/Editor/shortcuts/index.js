@@ -28,6 +28,11 @@ exports.init = function() {
   $window.on('keydown.shortcuts', this.onKeydown.bind(this));
   $window.on('keyup.shortcuts', this.onKeyup.bind(this));
 };
+exports.off = function () {
+  $window.off('keydown.shortcuts');
+  $window.off('keyup.shortcuts');
+};
+
 exports.onKeydown = function(evt) {
   let key = evt.keyCode ? evt.keyCode : evt.which;
   (shortcuts[key] || noop)(evt.ctrlKey);

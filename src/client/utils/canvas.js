@@ -19,7 +19,7 @@ function imageSmoothingDisabled(ctx) {
 };
 
 function getPreviewSize(maxWidth, maxHeight, width, height) {
-  var newWidth, newHeight, scale;
+  var newWidth, newHeight, scale, maxSize;
   var marginTop = 0, marginLeft = 0;
 
   if (width > height) {

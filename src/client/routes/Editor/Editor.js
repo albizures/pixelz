@@ -70,11 +70,16 @@ obj.render = function () {
 obj.getInitialState = function () {
   if (this.props.params.id) {
     http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
-  } else {
+  } else if (this.props.filterSprites.length === 0) {
     return {open: true};
   }
   return {open: false};
 };
+
+obj.componentWillUnmount = function() {
+  shortcuts.off();
+};
+
 
 obj.componentDidMount = function() {
   shortcuts.init();

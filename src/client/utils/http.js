@@ -16,7 +16,7 @@ function request(url, method, cb, body, headers = true) {
   // if (body && !(body instanceof FormData)) {
   //   body = JSON.stringify(body);
   // }
-  console.log(method,body, body instanceof FormData, url);
+  //console.log(method,body, body instanceof FormData, url);
   return axios({
     url,
     headers: headers ? {

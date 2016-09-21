@@ -25,7 +25,7 @@ const initialState = {
   sprites: sprites.initialState
 };
 
-console.log(initialState);
+
 exports.store = createStore(
   reducers,
   initialState,

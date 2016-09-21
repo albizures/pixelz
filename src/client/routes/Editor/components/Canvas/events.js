@@ -23,7 +23,7 @@ exports.clean = function(context) {
 exports.paintPreview = function (cord, context, artboard) {
   this.clean(context);
   if (artboard.select) {
-    console.log('select');
+    
     //this.paintAreaSelect();
   }
   let realCord = {
@@ -85,7 +85,7 @@ exports.onMouseDown = function (evt) {
   if (evt.which === RIGHT_CLICK || evt.which === LEFT_CLICK) {
     this.clean(context);
     this.offMousePreview($canvas);
-    console.log('tools');
+    
     tools[this.props.tool].onMouseDownInit(
       evt,
       cord,

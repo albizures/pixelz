@@ -29,7 +29,7 @@ obj.intervalClose = function () {
   http.get('/api/auth/whoami').then(result => {
     if (!result) return;
     
-    console.log(result);
+    
     store.dispatch(setUser(result.data));
     this.props.onLogin();
   });

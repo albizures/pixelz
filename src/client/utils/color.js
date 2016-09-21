@@ -49,13 +49,13 @@ exports.isHSL = function (color) {
 };
 exports.colorIsLight = function (r, g, b) {
   var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  console.log(a);
+  
   return (a < 0.5);
 };
 
 
 exports.hexToRgb = function hexToRgb(hex) {
-  console.log(hex);
+  
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   hex = hex.replace(shorthandRegex, function(m, r, g, b) {

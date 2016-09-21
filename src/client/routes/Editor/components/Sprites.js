@@ -24,7 +24,7 @@ obj.getTabs = function () {
   let tabs = [];
   for (let j = 0; j < this.props.filter.length; j++) {
     let sprite = this.props.sprites[this.props.filter[j]];
-    let className = (j === this.props.sprite ? 'active' : '') + ' tab ' + sprite.name.replace(' ', '-').toLowerCase(); 
+    let className = (sprite.index === this.props.sprite ? 'active' : '') + ' tab ' + sprite.name.replace(' ', '-').toLowerCase(); 
     tabs.push(
       <div 
         className={className} 

@@ -243,7 +243,7 @@ Editor.prototype.contextMenu = {
     return handler;
   },
   onContextMenu : function (evt) {
-    console.log('onContextMenu');
+    
     this.context.setStructure(this.structure);
     this.context.el.style.top = evt.clientY + 'px';
     this.context.el.style.left = evt.clientX  + 'px';

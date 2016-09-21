@@ -63,7 +63,7 @@ Palettes.cancel = function () {
   this.hide();
 };
 Palettes.changePalette = function (current, callback) {
-  console.log(current);
+  
   this.current = current;
   this.callbackChange = callback;
   this.show();

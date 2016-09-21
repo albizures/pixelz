@@ -32,6 +32,6 @@ const Tooltipy = React.createClass(obj);
 
 exports.Tooltipy = Tooltipy;
 exports.onSetStatusTooltip = function (cb) {
-  console.log('set cb');
+  //console.log('set cb');
   setStatusTooltip = cb;
 };
