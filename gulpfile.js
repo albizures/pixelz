@@ -49,7 +49,7 @@ gulp.task('webpack', ['clean'], function (cb) {
   });
 });
 
-gulp.task('server', function () {
+gulp.task('server', ['webpack'], function () {
   const server = gls.new('./index.js');
 
   server.start();
@@ -70,7 +70,7 @@ gulp.task('clean', function (cb) {
     .pipe(clean());
 });
 
-gulp.task('default', ['set-dev', 'webpack', 'server'], function () {
+gulp.task('default', ['set-dev', 'server'], function () {
   var browser = os.platform() === 'linux' ? 'google-chrome' : (
     os.platform() === 'darwin' ? 'google chrome' : 'chrome');
   var options = {
