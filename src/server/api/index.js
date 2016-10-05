@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+
+router.use('/editor/', require('./editor/editor.js'));
 router.use('/things/', require('./things/things.js'));
 router.use('/users/', require('./users/users.js'));
 router.use('/sprites/', require('./sprites/sprites.js'));

@@ -54,9 +54,7 @@ exports.getOne = function (collection, data, fields, cb) {
   }
 };
 
-exports.collection = function (name) {
-  return db.collection(name);
-};
+exports.collection = name => db.collection(name);
 
 exports.newId = function (id) {
   return new ObjectID(id);

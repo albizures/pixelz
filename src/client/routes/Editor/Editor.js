@@ -87,7 +87,7 @@ obj.componentDidMount = function() {
     width: window.innerWidth,
     height: window.innerHeight
   });
-  
+  http.get('/api/editor').then(result => console.log(result));
 };
 
 obj.onGetSprite = function (result) {
