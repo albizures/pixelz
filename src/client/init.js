@@ -32,6 +32,7 @@ const http = require('http');
 const palettes = require('./ducks/palettes.js');
 const user = require('./ducks/user.js');
 const { currentActions: editorActions } = require('./routes/Editor/ducks');
+const { open } = require('./components/Modal.js');
 
 http.get('/api/palettes').then(function (result) {
   if (result.code !== 0 || !result.data) {
@@ -45,10 +46,13 @@ http.get('/api/auth/whoami').then(function (result) {
   if (!result) {
     return;
   }
-  
-
   store.dispatch(user.actions.setUser(result.data));
 });
+
+require('./modals/ModalTest.js');
+
+open('ModalTest');
+
 
 ReactDOM.render((
   <div className="root">
