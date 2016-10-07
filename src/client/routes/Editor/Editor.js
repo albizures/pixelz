@@ -4,6 +4,7 @@ const http = require('http');
 const { connect } = require('react-redux');
 
 const ducks = require('./ducks');
+const { addSprite, addFrameSprite } = require('../../ducks/sprites.js').actions;
 
 require('./components/Sprites.js');
 require('./components/Canvas');
@@ -68,12 +69,13 @@ obj.render = function () {
 
 
 obj.getInitialState = function () {
-  if (this.props.params.id) {
-    http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
-  } else if (this.props.filterSprites.length === 0) {
-    return {open: true};
-  }
+  //if (this.props.params.id) {
   return {open: false};
+    //http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
+  // } else if (this.props.filterSprites.length === 0) {
+  //   return {open: true};
+  // }
+  // return {open: false};
 };
 
 obj.componentWillUnmount = function() {
@@ -87,7 +89,19 @@ obj.componentDidMount = function() {
     width: window.innerWidth,
     height: window.innerHeight
   });
-  http.get('/api/editor').then(result => console.log(result));
+  http.get('/api/editor').then(this.onGetEditor);
+};
+obj.onGetEditor = function (result) {
+  // TODO: load sprites
+  if (!result || result.sprites.length === 0) {
+    this.setState({open: true});
+    return;
+  }
+  this.props.setEditorId(result._id);
+  for (var index = 0; index < result.sprites.length; index++) {
+    var sprite = result.sprites[index];
+    http.get('/api/sprites/' + sprite, this.onGetSprite);
+  }
 };
 
 obj.onGetSprite = function (result) {
@@ -106,6 +120,7 @@ obj.onGetSprite = function (result) {
     height: sprite.height,
     colors: sprite.colors,
   });
+  this.props.openSprite(sprite.index);
   this.props.setCurrentSprite(sprite.index);
   image.onload = () => {
     context.drawImage(image,
@@ -215,5 +230,5 @@ function mapStateToProps(state) {
 
 module.exports = connect(
   mapStateToProps,
-  ducks.actions
+  Object.assign({}, ducks.actions, {addSprite, addFrameSprite})
 )(React.createClass(obj));

@@ -3,7 +3,7 @@ const { connect } = require('react-redux');
 
 const { currentActions } = require('../ducks');
 const { register } = require('./Layout.js');
-
+const http = require('http');
 const obj = {};
 
 obj.displayName = 'Sprites';
@@ -19,6 +19,33 @@ obj.onClickTab = function (evt, sprite) {
   this.props.setCurrentLayer(0);
   this.props.setCurrentSprite(sprite.index);
 };
+
+obj.shouldComponentUpdate = function(nextProps) {
+  return nextProps.filter.length !== this.props.filter.length || 
+    nextProps.sprite !== this.props.sprite ||
+    nextProps.editorId !== this.props.editorId;
+};
+
+
+obj.componentDidUpdate = function(prevProps) {
+  console.log('didupdate', this.props.editorId);
+  if (prevProps.filter.length !== this.props.filter.length) {
+    let sprites = this.props.filter
+      .filter(index => !!this.props.sprites[index]._id)
+      .map(index => this.props.sprites[index]._id);
+    //this.props.filter.map(index => this.props.sprites[index]));
+    if (this.props.editorId) {
+      http.put('/api/editor/' + this.props.editorId, {
+        sprites
+      });
+    } else {
+      http.post('/api/editor/', {
+        sprites
+      });
+    }
+  }
+};
+
 
 obj.getTabs = function () {
   let tabs = [];
@@ -40,6 +67,7 @@ obj.getTabs = function () {
 function mapStateToProps(state) {
   return {
     filter: state.Editor.sprites,
+    editorId: state.Editor._id,
     sprites: state.sprites,
     sprite: state.Editor.sprite
   };

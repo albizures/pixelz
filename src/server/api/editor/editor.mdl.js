@@ -4,8 +4,8 @@ const collection = 'editor';
 
 
 const editorSchema = Joi.object().keys({
-  _id: Joi.object(),
-  user: Joi.object(),
+  _id: Joi.object().type(db.ObjectID),
+  user: Joi.object().type(db.ObjectID),
   modifiedAt: Joi.date().default(Date, 'time of modification'),
   palette: Joi.object(),
   layout: Joi.object(),
@@ -16,14 +16,14 @@ const editorSchema = Joi.object().keys({
 exports.post = function (data, cb) {
   const { value, err} = Joi.validate(
     data,
-    editorSchema.width('user')
+    editorSchema.without('post', '_id').with('post', 'user')
   );
   if (err) return Promise.reject(error);
   return db.post(collection, value, cb);
 };
 
-exports.getAll = function (cb) {
-  db.getAll(collection, cb);
+exports.getAll = function (user) {
+  return db.collection(collection).find({user}, {sort: {modifiedAt: 1}}).toArray();
 };
 
 exports.getLast = function (user) {
@@ -34,8 +34,20 @@ exports.getOne = function (id, cb) {
   db.getOne(collection, id, cb);
 };
 
-exports.put = function (id, data, cb) {
-  db.update(collection, id, data, cb);
+
+exports.put = function (id, user, data) {
+  id = db.newId(id);
+  user = db.newId(user);
+  const { value, err} = Joi.validate(
+    data,
+    editorSchema.without('put', ['user', '_id'])
+  );
+  if (err) return Promise.reject(error);
+
+  return db.updateOne(collection, {
+    _id: id,
+    user
+  }, value);
 };
 
 exports.collection = collection;

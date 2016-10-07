@@ -5,15 +5,25 @@ const response = require('../../components/utils/response.js');
 
 exports.getLast = function (req, res) {
   response.promise(
-    model.getLast(newId(req.user._id)),
+    model.getLast(req.user._id),
     res,
-    201,
+    200,
     500
   );
 };
 
+exports.getAll = function (req, res) {
+  response.promise(
+    model.getAll(newId(req.user._id)),
+    res
+  );
+};
+
 exports.put = function (req, res) {
-  res.json([]);
+  response.promise(
+    model.put(newId(req.params.id), newId(req.user._id), req.body),
+    res
+  );
 };
 
 exports.post = function (req, res) {

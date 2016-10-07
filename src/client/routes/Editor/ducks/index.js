@@ -15,6 +15,7 @@ const SET_CURRENT_ARTBOARD = 'SET_CURRENT_ARTBOARD';
 const SET_PRIMARY_COLOR = 'SET_PRIMARY_COLOR';
 const SET_SECONDARY_COLOR = 'SET_SECONDARY_COLOR';
 const SET_CURRENT_PALETTE = 'SET_CURRENT_PALETTE';
+const SET_EDITOR_ID = 'SET_EDITOR_ID';
 
 const tools = [
   'pencil',
@@ -49,6 +50,7 @@ exports.reducer = combineReducers({
   frames: frames.reducer,
   layers: layers.reducer,
   panels: panels.reducer,
+  _id: getReducer(SET_EDITOR_ID, '_id'),
   //palettes : palettes.reducer,
   tools: function tools(state = tools) {
     return state;
@@ -62,8 +64,6 @@ actions.setCurrentPalette = function(index) {
     index
   };
 };
-
-
 
 actions.setCurrentSprite = function(index) {
   return {
@@ -111,6 +111,13 @@ actions.setPrimaryColor = function(color) {
   return {
     type: SET_PRIMARY_COLOR,
     color
+  };
+};
+
+actions.setEditorId = function (_id) {
+  return {
+    type: SET_EDITOR_ID,
+    _id
   };
 };
 

@@ -56,6 +56,8 @@ exports.getOne = function (collection, data, fields, cb) {
 
 exports.collection = name => db.collection(name);
 
+exports.ObjectID = ObjectID;
+
 exports.newId = function (id) {
   return new ObjectID(id);
 };
@@ -96,6 +98,11 @@ exports.post = function (collection, data, cb) {
     resolve(r.insertedId);
   }
 };
+exports.updateOne = (collection, query, data) => db.collection(collection).updateOne(
+  query,
+  {$set: data}
+);
+
 exports.update = function (collection, id, data, cb) {
   let resolve;
   let reject;
