@@ -1,5 +1,6 @@
 
 const React = require('react');
+const classNames = require('classnames');
 const { store } = require('../store.js');
 const http = require('http');
 const { actions: {setUser} } = require('../ducks/user.js');
@@ -39,11 +40,16 @@ obj.intervalClose = function () {
 obj.render = function () {
   let text = '';
   let style = {};
+  let className = classNames(
+    this.props.className,
+    { 'twitter': this.props.twitter }
+  );
   if (this.props.twitter) {
     text = 'Connect with Twitter';
     style.background = '#00aced';
+
   }
-  return <a onClick={this.onClick} style={style} className={this.props.className}>
+  return <a onClick={this.onClick} style={style} className={className}>
     {text}
   </a>;
 };
