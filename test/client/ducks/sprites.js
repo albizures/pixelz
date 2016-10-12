@@ -129,6 +129,20 @@ test('set id', t => {
   );
 });
 
+test('set artboard', t => {
+  const action = {type: types.SET_SPRITE_ARTBOARD, sprite: 0, artboard: {x: 1, y: 1, scale: 1 }};
+
+  t.deepEqual(
+    actions.setSpriteArtboard(0, {x: 1, y: 1, scale: 1 }),
+    action
+  );
+
+  t.deepEqual(
+    reducer([{}], action),
+    [{artboard: {x: 1, y: 1, scale: 1 }}]
+  );
+});
+
 test('add sprites', t => {
   const action = {type: types.ADD_SPRITES, sprites: [{index: 0}, {index: 1}]};
 

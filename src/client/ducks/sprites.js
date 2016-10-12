@@ -10,7 +10,7 @@ const SET_CURRENT_PALETTE_SPRITE = 'SET_CURRENT_PALETTE_SPRITE';
 const PUT_NAME = 'PUT_NAME';
 const ADD_SPRITES = 'ADD_SPRITES';
 const SET_SPRITE_ID = 'SET_SPRITE_ID';
-
+const SET_SPRITE_ARTBOARD = 'SET_SPRITE_ARTBOARD';
 exports.initialState = [];
 
 exports.reducer = function(state = [], action) {
@@ -75,7 +75,13 @@ exports.reducer = function(state = [], action) {
         state,
         action.sprite,
         editProp(state[action.sprite], '_id', action.id)
-      ); 
+      );
+    case SET_SPRITE_ARTBOARD:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'artboard', action.artboard)
+      );  
     default:
       return state;
   }
@@ -187,6 +193,14 @@ actions.setSpriteId = function (sprite, id) {
   };
 };
 
+actions.setSpriteArtboard = function (sprite, artboard) {
+  return {
+    type: SET_SPRITE_ARTBOARD,
+    sprite,
+    artboard
+  };
+};
+
 exports.types = {
   ADD_SPRITE,
   ADD_SPRITE_FRAME,
@@ -196,7 +210,8 @@ exports.types = {
   SET_CURRENT_PALETTE_SPRITE,
   PUT_NAME,
   ADD_SPRITES,
-  SET_SPRITE_ID
+  SET_SPRITE_ID,
+  SET_SPRITE_ARTBOARD
 };
 
 exports.actions = actions;
