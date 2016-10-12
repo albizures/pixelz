@@ -9,6 +9,7 @@ const SET_TRANSPARENT_COLOR = 'SET_TRANSPARENT_COLOR';
 const SET_CURRENT_PALETTE_SPRITE = 'SET_CURRENT_PALETTE_SPRITE';
 const PUT_NAME = 'PUT_NAME';
 const ADD_SPRITES = 'ADD_SPRITES';
+const SET_SPRITE_ID = 'SET_SPRITE_ID';
 
 exports.initialState = [];
 
@@ -69,6 +70,12 @@ exports.reducer = function(state = [], action) {
         action.sprite,
         editProp(state[action.sprite], 'name', action.name)
       );
+    case SET_SPRITE_ID:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], '_id', action.id)
+      ); 
     default:
       return state;
   }
@@ -172,6 +179,14 @@ actions.addSprites = function(sprites) {
   }
 };
 
+actions.setSpriteId = function (sprite, id) {
+  return {
+    type: SET_SPRITE_ID,
+    sprite,
+    id
+  };
+};
+
 exports.types = {
   ADD_SPRITE,
   ADD_SPRITE_FRAME,
@@ -180,7 +195,8 @@ exports.types = {
   SET_TRANSPARENT_COLOR,
   SET_CURRENT_PALETTE_SPRITE,
   PUT_NAME,
-  ADD_SPRITES
+  ADD_SPRITES,
+  SET_SPRITE_ID
 };
 
 exports.actions = actions;

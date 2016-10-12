@@ -1,7 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 
-const { currentActions } = require('../ducks');
+const { currentActions, actions: {setEditorId} } = require('../ducks');
 const { register } = require('./Layout.js');
 const http = require('http');
 const obj = {};
@@ -41,7 +41,7 @@ obj.componentDidUpdate = function(prevProps) {
     } else {
       http.post('/api/editor/', {
         sprites
-      });
+      }).then(id => this.props.setEditorId(id)).catch(console.log);
     }
   }
 };
@@ -75,7 +75,7 @@ function mapStateToProps(state) {
 
 const Sprites = connect(
   mapStateToProps,
-  currentActions
+  Object.assign({}, currentActions, {setEditorId})
 )(React.createClass(obj));
 
 register(Sprites, obj.displayName);

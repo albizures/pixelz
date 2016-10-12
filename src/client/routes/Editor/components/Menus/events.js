@@ -21,7 +21,7 @@ exports.onSave = function () {
   if (!this.props.user) {
     return ModalManager.open(<Login onLogin={this.onLogin}/>);
   }
-
+  let self = this;
   let sprite = this.props.sprite;
   let numFrames = sprite.frames.length;
   let numLayers = this.props.frames[sprite.frames[0]].layers.length;
@@ -71,10 +71,13 @@ exports.onSave = function () {
       type: isGif ? 'gif' : 'png',
       private: false,
       colors: sprite.palette
-    }, files, method, onUpload);
+    }, files, method, onUpload.bind(self));
   }
 
   function onUpload(result) {
+    if (isNew) {
+      this.props.setSpriteId(this.props.sprite.index, result.description);
+    }
     console.log('save result', result);
   }
   return context.canvas;

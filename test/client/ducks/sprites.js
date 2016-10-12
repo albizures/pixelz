@@ -5,6 +5,7 @@ test('initialState is an empty array', t => {
   t.deepEqual(initialState, []);
 });
 
+
 test('types name', t => {
   const keys = Object.keys(types);
   t.plan(keys.length);
@@ -27,7 +28,7 @@ test('add a sprite', t => {
 
   t.deepEqual(
     reducer([], action),
-    [{name: data.name, index: 0, frames: [], palette:[], version: 0}]
+    [{name: data.name, index: 0, frames: [], palette: [], version: 0}]
   );
 });
 
@@ -98,7 +99,7 @@ test('set current palette', t => {
   t.deepEqual(
     reducer([{}], action),
     [{palette: ['#000']}]
-  )
+  );
 });
 
 test('put name', t => {
@@ -114,6 +115,20 @@ test('put name', t => {
   );
 });
 
+test('set id', t => {
+  const action = {type: types.SET_SPRITE_ID, sprite: 0, id: 'xxx'};
+
+  t.deepEqual(
+    actions.setSpriteId(0, 'xxx'),
+    action
+  );
+
+  t.deepEqual(
+    reducer([{}], action),
+    [{_id: 'xxx'}]
+  );
+});
+
 test('add sprites', t => {
   const action = {type: types.ADD_SPRITES, sprites: [{index: 0}, {index: 1}]};
 
@@ -126,6 +141,6 @@ test('add sprites', t => {
 
   t.deepEqual(
     reducer([], action),
-    [{index:0}, {index: 1}]
+    [{index: 0}, {index: 1}]
   );
 });
