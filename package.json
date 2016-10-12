@@ -22,7 +22,6 @@
     "plugins": [
       "transform-es2015-destructuring",
       "syntax-object-rest-spread"
-       
     ],
     "presets": [
       "es2015",
@@ -46,6 +45,7 @@
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.1",
     "bootstrap-grid": "^2.0.1",
+    "classnames": "^2.2.5",
     "co": "^4.6.0",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "^1.4.3",

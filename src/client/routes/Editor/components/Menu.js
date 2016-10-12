@@ -1,5 +1,5 @@
 const React = require('react');
-
+const classNames = require('classnames');
 const obj = {};
 obj.displayName = 'Menu';
 
@@ -48,10 +48,11 @@ obj.render = function () {
     top: this.props.position.y,
     left: this.props.position.x
   };
-  let className = 'content-menu '; 
-  className += (this.props.inline ? 'inline' : '');
-  className += (this.props.active ? '' : 'hidden');
-  
+  let className = classNames(
+    'content-menu',
+    { 'inline': this.props.inline,
+      'hidden': !this.props.active }
+  );
   return <div className={className} style={style} >
     <ul className='menu main'>
       {this.props.children}

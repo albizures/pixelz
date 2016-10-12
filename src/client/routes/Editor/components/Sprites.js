@@ -1,6 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
-
+const classNames = require('classnames');
 const { currentActions, actions: {setEditorId} } = require('../ducks');
 const { register } = require('./Layout.js');
 const http = require('http');
@@ -51,7 +51,11 @@ obj.getTabs = function () {
   let tabs = [];
   for (let j = 0; j < this.props.filter.length; j++) {
     let sprite = this.props.sprites[this.props.filter[j]];
-    let className = (sprite.index === this.props.sprite ? 'active' : '') + ' tab ' + sprite.name.replace(' ', '-').toLowerCase(); 
+    let className = classNames(
+      'tab',
+      sprite.name.replace(' ', '-').toLowerCase(),
+      { 'active': sprite.index === this.props.sprite }
+    );
     tabs.push(
       <div 
         className={className} 

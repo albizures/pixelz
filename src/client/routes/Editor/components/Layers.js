@@ -1,6 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
-
+const classNames = require('classnames');
 const { register } = require('./Layout');
 
 const Layer = require('./Layer.js');
@@ -63,7 +63,10 @@ obj.getList = function() {
     let children = [];
     for (let j = 0; j < this.props.frame.layers.length; j++) {
       let layer = this.props.layers[this.props.frame.layers[j]];
-      let className = 'preview-layer ' + (this.props.layer === j ? 'active' : '');
+      let className = classNames(
+        'preview-layer',
+        { 'active': this.props.layer === j }
+      );
       children.push(
         <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
           <Layer data={layer} size={this.state.size} index={j}/>

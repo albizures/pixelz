@@ -40,9 +40,9 @@ module.exports = {
     };
     data.sprite.resize(data.width, data.height);
     data.sprite.putImagesData(data.data);
-    if (Editor.canvas.artboard.layer.frame.sprite === data.sprite) {
-      Editor.canvas.center();
-    }
+    // if (Editor.canvas.artboard.layer.frame.sprite === data.sprite) {
+    //   Editor.canvas.center();
+    // }
     return newData;
   },
   'delete_layer': function(data) {

@@ -7,9 +7,16 @@ module.exports = {
       'jsx': true
     }
   },
+  globals: {
+    'Promise': true,
+    '$': true,
+    '$window': true
+  },
   parser: 'babel-eslint',
   rules: {
+    'max-lines': ['warn', {"max": 500, "skipBlankLines": true, "skipComments": true}],
     eqeqeq: ['error', 'always'],
+    'no-undef': 'error',
     strict: ['error', 'global'],
     'no-unused-vars': ['error', {
       vars: 'all',

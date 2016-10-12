@@ -18,7 +18,7 @@ obj.onMouseLeave = function (evt) {
   if (e !== document.children[0]) {
     return;
   }
-  let newPixel = calculatePosition(artboard, evt.clientX, evt.clientY);
+  let newPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);
   lastPixel = newPixel;
 };
 obj.clean = function (x, y) {

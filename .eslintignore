@@ -1,3 +1,4 @@
 build/
 node_modules/
 src/client/Editor
+src/client/utils/gif/

@@ -1,3 +1,4 @@
+const make = require('make');
 
 exports.downloadBlob = function downloadBlob(file, name) {
   var saveAs = window.saveAs || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator));

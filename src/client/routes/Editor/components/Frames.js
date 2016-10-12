@@ -1,5 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
+const classNames = require('classnames');
 
 const { register } = require('./Layout.js');
 const Frame = require('./Frame.js');
@@ -61,7 +62,10 @@ obj.getList = function() {
     let children = [];
     for (let j = 0; j < this.props.sprite.frames.length; j++) {
       let frame = this.props.frames[this.props.sprite.frames[j]];
-      let className = 'preview-frames ' + (this.props.frame.index === frame.index ? 'active' : '');
+      let className = classNames(
+        'preview-frames',
+        { 'active': this.props.frame.index === frame.index }
+      );
       children.push(
         <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
           <Frame data={frame} size={this.state.size} index={j}/>

@@ -1,5 +1,5 @@
 const React = require('react');
-
+const classNames = require('classnames');
 const components = {};
 
 const obj = {};
@@ -102,7 +102,12 @@ obj.getChildren = function () {
 };
 
 obj.render = function () {
-  let className = this.props.mode + ' layout ' + this.props.name.toLowerCase() + ' ' + (this.props.className || '');
+  let className = classNames(
+    this.props.mode,
+    'layout',
+    this.props.name.toLowerCase(),
+    this.props.className
+  );
   return <div className={className} style={this.props.style}>
     {this.getChildren()}
   </div>;

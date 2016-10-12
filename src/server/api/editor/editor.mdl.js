@@ -18,7 +18,7 @@ exports.post = function (data, cb) {
     data,
     editorSchema.without('post', '_id').with('post', 'user')
   );
-  if (err) return Promise.reject(error);
+  if (err) return Promise.reject(err);
   return db.post(collection, value, cb);
 };
 
@@ -42,7 +42,7 @@ exports.put = function (id, user, data) {
     data,
     editorSchema.without('put', ['user', '_id'])
   );
-  if (err) return Promise.reject(error);
+  if (err) return Promise.reject(err);
 
   return db.updateOne(collection, {
     _id: id,
