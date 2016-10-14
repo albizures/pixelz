@@ -11,6 +11,8 @@ const PUT_NAME = 'PUT_NAME';
 const ADD_SPRITES = 'ADD_SPRITES';
 const SET_SPRITE_ID = 'SET_SPRITE_ID';
 const SET_SPRITE_ARTBOARD = 'SET_SPRITE_ARTBOARD';
+const SELECT_SPRITE_LAYER = 'SELECT_SPRITE_LAYER';
+const SELECT_SPRITE_FRAME = 'SELECT_SPRITE_FRAME';
 exports.initialState = [];
 
 exports.reducer = function(state = [], action) {
@@ -81,7 +83,19 @@ exports.reducer = function(state = [], action) {
         state,
         action.sprite,
         editProp(state[action.sprite], 'artboard', action.artboard)
-      );  
+      );
+    case SELECT_SPRITE_FRAME:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'frame', action.frame)
+      );
+    case SELECT_SPRITE_LAYER:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'layer', action.layer)
+      );
     default:
       return state;
   }
@@ -201,6 +215,22 @@ actions.setSpriteArtboard = function (sprite, artboard) {
   };
 };
 
+actions.selectSpriteFrame = function (sprite, frame) {
+  return {
+    type: SELECT_SPRITE_FRAME,
+    sprite,
+    frame
+  };
+};
+
+actions.selectSpriteLayer = function (sprite, layer) {
+  return {
+    type: SELECT_SPRITE_LAYER,
+    sprite,
+    layer
+  };
+};
+
 exports.types = {
   ADD_SPRITE,
   ADD_SPRITE_FRAME,
@@ -211,7 +241,9 @@ exports.types = {
   PUT_NAME,
   ADD_SPRITES,
   SET_SPRITE_ID,
-  SET_SPRITE_ARTBOARD
+  SET_SPRITE_ARTBOARD,
+  SELECT_SPRITE_FRAME,
+  SELECT_SPRITE_LAYER
 };
 
 exports.actions = actions;

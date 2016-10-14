@@ -72,20 +72,6 @@ actions.setCurrentSprite = function(index) {
   };
 };
 
-actions.setCurrentFrame = function(index) {
-  return {
-    type: SET_CURRENT_FRAME,
-    index
-  };
-};
-
-actions.setCurrentLayer = function(index) {
-  return {
-    type: SET_CURRENT_LAYER,
-    index
-  };
-};
-
 actions.setCurrentTool = function(tool) {
   return {
     type: SET_CURRENT_TOOL,
@@ -93,12 +79,6 @@ actions.setCurrentTool = function(tool) {
   };
 };
 
-actions.setCurrentArtboard = function(artboard) {
-  return {
-    type: SET_CURRENT_ARTBOARD,
-    artboard
-  };
-};
 
 actions.setSecondaryColor = function(color) {
   return {

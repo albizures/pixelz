@@ -4,7 +4,6 @@ const { connect } = require('react-redux');
 const { getPreviewSize } = require('utils/canvas.js');
 const Context = require('./Context.js');
 const { changeLayerPosition } = require('../ducks/frames.js').actions;
-const { setCurrentLayer } = require('../ducks').actions;
 
 
 const obj = {};
@@ -35,7 +34,7 @@ obj.componentWillReceiveProps = function (nextProps) {
 };
 
 obj.onClick = function() {
-  this.props.setCurrentLayer(
+  this.props.onSelect(
     this.props.index
   );
 };
@@ -74,5 +73,5 @@ const Layer = React.createClass(obj);
 
 module.exports = connect(
   null,
-  { setCurrentLayer, changeLayerPosition }
+  { changeLayerPosition }
 )(Layer);

@@ -13,7 +13,7 @@ const conf = {
   active: 0,
   children: [
     {name: 'Sprites', style: {top: 0, height: 20, border: 0}, component: 'Sprites'},
-    {name: 'Canvas', style: {top: 20, height: 'calc(100% - 20px)', border: 0}, component: 'Canvas', props: windowSize}
+    {name: 'ContentCanvas', style: {top: 20, height: 'calc(100% - 20px)', border: 0}, component: 'ContentCanvas', props: windowSize}
   ]
 };
 

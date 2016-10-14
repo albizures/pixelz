@@ -7,9 +7,9 @@ exports.onMouseMove = function (evt) {
   let cord;
   if (evt.target.tagName === 'CANVAS') {
     evt.preventDefault();
-    cord = calculatePosition(this.props.artboard, evt.clientX, evt.clientY);
+    cord = calculatePosition(this.props.sprite.artboard, evt.clientX, evt.clientY);
     if (validCord(this.props.layer, cord)) {
-      this.paintPreview(cord, this.state.preview.context, this.props.artboard);
+      this.paintPreview(cord, this.state.preview.context, this.props.sprite.artboard);
     } else {
       this.clean(this.state.preview.context);
     }
@@ -49,7 +49,7 @@ exports.center = function (stats) {
   stats = stats || this.state.stats;
   let { sprite } = this.props;
   let size = getPreviewSize(stats.width, stats.height, sprite.width, sprite.height);
-  this.props.setCurrentArtboard({
+  this.props.setSpriteArtboard(this.props.sprite.index, {
     scale: size.scale,
     x: stats.left + size.marginLeft,
     y: stats.top + size.marginTop
@@ -67,7 +67,7 @@ exports.onMouseDown = function (evt) {
   let {$canvas, context} = this.state.preview;
   evt.stopImmediatePropagation();
   evt.preventDefault();
-  cord = calculatePosition(this.props.artboard, evt.clientX, evt.clientY);
+  cord = calculatePosition(this.props.sprite.artboard, evt.clientX, evt.clientY);
   if (!validCord(this.props.layer, cord)) {
     if (evt.which === RIGHT_CLICK) {
       this.openContextMenu(evt);
@@ -90,7 +90,7 @@ exports.onMouseDown = function (evt) {
       evt,
       cord,
       this.props.layer,
-      this.props.artboard,
+      this.props.sprite.artboard,
       this.state.main.context,
       this.state.preview.context,
       this.state.background.context,
@@ -131,9 +131,9 @@ exports.onDragMove = function (evt) {
   this.shiftDiff(diffX, diffY);
 };
 exports.shiftDiff = function (diffX, diffY) {
-  this.props.setCurrentArtboard({
-    scale: this.props.artboard.scale,
-    x: this.props.artboard.x + diffX,
-    y: this.props.artboard.y + diffY
+  this.props.setSpriteArtboard(this.props.sprite.index, {
+    scale: this.props.sprite.artboard.scale,
+    x: this.props.sprite.artboard.x + diffX,
+    y: this.props.sprite.artboard.y + diffY
   });
 };

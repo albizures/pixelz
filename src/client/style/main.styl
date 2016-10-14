@@ -63,14 +63,21 @@ body{
   overflow hidden
   background main-gray !important
 .content-canvas
-  position absolute
+  position relative
   overflow hidden
-  &>.background, &>.main, &>.canvas,&>.mask,&>.preview,.content-preview-animate
-    position absolute
-    top 0
-    left 0
-  &>.mask
-    pointer-events none
+  .canvas
+    position relative
+    //width 100%
+    //height 100%
+    //z-index 0
+    //top 0
+    //left 0
+    &>.background, &>.main, &>.canvas,&>.mask,&>.preview,.content-preview-animate
+      position absolute
+      top 0
+      left 0
+    &>.mask
+      pointer-events none
 .backdrop-context-menu
   width 100%
   height 100%

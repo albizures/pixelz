@@ -3,10 +3,10 @@ const { connect } = require('react-redux');
 
 const Panel = require('./Panel.js');
 
-const { actions: {addSprite, addFrameSprite} } = require('../../../ducks/sprites');
+const { actions: {addSprite, addFrameSprite, selectSpriteLayer, selectSpriteFrame} } = require('../../../ducks/sprites');
 
 const {
-  setCurrentSprite, setCurrentFrame, setCurrentLayer, 
+  setCurrentSprite, 
   openSprite,
   addFrame, addLayerFrame,
   addLayer 
@@ -43,9 +43,9 @@ obj.createSprite = function(name, width, height) {
   this.props.addFrameSprite(sprite, frame);
 
   this.props.setCurrentSprite(sprite);
-  this.props.setCurrentFrame(frame);
+  this.props.selectSpriteFrame(sprite, frame);
   this.createLayer({sprite, frame, width, height});
-  this.props.setCurrentLayer(0);
+  this.props.selectSpriteLayer(sprite, 0);
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
@@ -103,7 +103,7 @@ obj.render = function () {
 const NewSprite = connect(
   null,
   {   
-    setCurrentSprite, setCurrentFrame, setCurrentLayer, 
+    setCurrentSprite, selectSpriteLayer, selectSpriteFrame, 
     addSprite, addFrameSprite,
     addFrame, addLayerFrame,
     addLayer, openSprite

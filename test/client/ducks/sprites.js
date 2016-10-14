@@ -143,6 +143,34 @@ test('set artboard', t => {
   );
 });
 
+test('select frame', t => {
+  const action = {type: types.SELECT_SPRITE_FRAME, sprite: 0, frame: 0};
+
+  t.deepEqual(
+    actions.selectSpriteFrame(0, 0),
+    action
+  );
+
+  t.deepEqual(
+    reducer([{}], action),
+    [{frame: 0}]
+  );
+});
+
+test('select layer', t => {
+  const action = {type: types.SELECT_SPRITE_LAYER, sprite: 0, layer: 0};
+
+  t.deepEqual(
+    actions.selectSpriteLayer(0, 0),
+    action
+  );
+
+  t.deepEqual(
+    reducer([{}], action),
+    [{layer: 0}]
+  );
+});
+
 test('add sprites', t => {
   const action = {type: types.ADD_SPRITES, sprites: [{index: 0}, {index: 1}]};
 

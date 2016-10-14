@@ -1,6 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 const classNames = require('classnames');
+const { actions: { selectSpriteLayer, selectSpriteFrame} } = require('../../../ducks/sprites.js');
 const { currentActions, actions: {setEditorId} } = require('../ducks');
 const { register } = require('./Layout.js');
 const http = require('http');
@@ -15,9 +16,9 @@ obj.render = function () {
 };
 
 obj.onClickTab = function (evt, sprite) {
-  this.props.setCurrentFrame(sprite.frames[0]);
-  this.props.setCurrentLayer(0);
-  this.props.setCurrentSprite(sprite.index);
+  this.props.selectSpriteFrame(sprite, this.props.sprites[sprite].frames[0]);
+  this.props.selectSpriteLayer(sprite, 0);
+  this.props.setCurrentSprite(sprite);
 };
 
 obj.shouldComponentUpdate = function(nextProps) {
@@ -60,7 +61,7 @@ obj.getTabs = function () {
       <div 
         className={className} 
         key={j} 
-        onClick={evt => this.onClickTab(evt, sprite)}>
+        onClick={evt => this.onClickTab(evt, sprite.index)}>
           {sprite.name}
       </div>
     );
@@ -79,7 +80,7 @@ function mapStateToProps(state) {
 
 const Sprites = connect(
   mapStateToProps,
-  Object.assign({}, currentActions, {setEditorId})
+  Object.assign({}, currentActions, {setEditorId, selectSpriteLayer, selectSpriteFrame})
 )(React.createClass(obj));
 
 register(Sprites, obj.displayName);

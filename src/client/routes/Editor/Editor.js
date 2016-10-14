@@ -8,6 +8,7 @@ const { addSprite, addFrameSprite } = require('../../ducks/sprites.js').actions;
 
 require('./components/Sprites.js');
 require('./components/Canvas');
+require('./components/Canvas/ContentCanvas.js');
 require('./components/Preview.js');
 require('./components/Palette.js');
 require('./components/Layers.js');

@@ -4,7 +4,8 @@ const classNames = require('classnames');
 const { register } = require('./Layout');
 
 const Layer = require('./Layer.js');
-const { setCurrentLayer, addLayerFrame, addLayer } = require('../ducks').actions;
+const { addLayerFrame, addLayer } = require('../ducks').actions;
+const { actions: { selectSpriteLayer} } = require('../../../ducks/sprites.js');
 
 const obj = {};
 obj.displayName = 'Layers';
@@ -18,7 +19,7 @@ obj.onClickAddLayer = function() {
       frame: element
     });
     if (this.props.frame.index === element) {
-      this.props.setCurrentLayer(index);
+      this.props.selectSpriteLayer(this.props.sprite.index, index);
     }
   }
 };
@@ -58,24 +59,26 @@ obj.getDefaultProps = function() {
   };
 };
 
+obj.onSelect = function (index) {
+  this.props.selectSpriteLayer(this.props.sprite.index, index);
+};
+
 obj.getList = function() {
-  if (this.props.layer !== null) {
-    let children = [];
-    for (let j = 0; j < this.props.frame.layers.length; j++) {
-      let layer = this.props.layers[this.props.frame.layers[j]];
-      let className = classNames(
-        'preview-layer',
-        { 'active': this.props.layer === j }
-      );
-      children.push(
-        <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
-          <Layer data={layer} size={this.state.size} index={j}/>
-        </li>
-      );
-    }
-    return children;
-  } 
-  return [];
+  if (!this.props.sprite || !Number.isInteger(this.props.sprite.layer)) return [];
+  let children = [];
+  for (let j = 0; j < this.props.frame.layers.length; j++) {
+    let layer = this.props.layers[this.props.frame.layers[j]];
+    let className = classNames(
+      'preview-layer',
+      { 'active': this.props.sprite.layer === j }
+    );
+    children.push(
+      <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
+        <Layer data={layer} onSelect={this.onSelect} size={this.state.size} index={j}/>
+      </li>
+    );
+  }
+  return children;
 };
 
 obj.render = function() {
@@ -93,12 +96,11 @@ const Layers = connect(
   function (state) {
     return {
       sprite: state.sprites[state.Editor.sprite],
-      layer: state.Editor.layer,
-      layers: state.Editor.layers,
-      frame: state.Editor.frames[state.Editor.frame]
+      layers: state.Editor.layers || [],
+      frame: state.Editor.frames[(state.sprites[state.Editor.sprite] || {}).frame]
     };
   },
-  { setCurrentLayer, addLayerFrame, addLayer }
+  { selectSpriteLayer, addLayerFrame, addLayer }
 )(React.createClass(obj));
 
 register(Layers, obj.displayName);

@@ -33,8 +33,8 @@ obj.componentWillReceiveProps = function (nextProps) {
 };
 
 obj.onClick = function() {
-  this.props.setCurrentFrame(
-    this.props.index
+  this.props.onSelect(
+    this.props.data.index
   );
 };
 obj.onDragOver = function(e) {

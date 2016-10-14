@@ -1,11 +1,12 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+const { setSpriteArtboard } = require('../../../../ducks/sprites.js').actions;
 const { connect } = require('react-redux');
 
-const { noopFrame } = require('utils/noop.js');
-const { register } = require('../Layout.js');
-const { currentActions } = require('../../ducks');
+// const { noopFrame } = require('utils/noop.js');
+// const { register } = require('../Layout.js');
+// const { currentActions } = require('../../ducks');
 const Menu = require('../Menu.js');
 const Background = require('./Background.js');
 const Main = require('./Main.js');
@@ -15,6 +16,18 @@ const Mask = require('./Mask.js');
 const obj = require('./events.js');
 
 obj.displayName = 'Canvas';
+
+obj.propTypes = {
+  height: React.PropTypes.number.isRequired,
+  width: React.PropTypes.number.isRequired,
+  sprite: React.PropTypes.object.isRequired,
+  frame: React.PropTypes.object.isRequired,
+  layer: React.PropTypes.object.isRequired,
+  layers: React.PropTypes.array.isRequired,
+  primaryColor: React.PropTypes.string.isRequired,
+  secondaryColor: React.PropTypes.string.isRequired,
+  tool: React.PropTypes.string.isRequired
+};
 
 var out;
 obj.onWheel = function (evt) {
@@ -34,27 +47,29 @@ obj.onWheel = function (evt) {
       diff = 1.1;
       method = 'ceil';
     }
-    this.setScale(Math[method](this.props.artboard.scale * diff));
+    this.setScale(Math[method](this.props.sprite.artboard.scale * diff));
   }, 40);
 };
 obj.setScale = function (scale) {
-  var diffX, diffX;
+  let {sprite: {artboard}} = this.props;
+  let layer = this.props.layer;
+  let diffX, diffY;
   if (scale < 1) {
     return;
   }
 
-  var diffX = (this.props.layer.width * scale) - (this.props.artboard.scale * this.props.layer.width);
-  var diffY = (this.props.layer.height * scale) - (this.props.artboard.scale * this.props.layer.height);
+  diffX = (layer.width * scale) - (artboard.scale * layer.width);
+  diffY = (layer.height * scale) - (artboard.scale * layer.height);
 
-  this.props.setCurrentArtboard({
-    x: this.props.artboard.x - Math.round(diffX / 2),
-    y: this.props.artboard.y - Math.round(diffY / 2),
+  this.props.setSpriteArtboard(this.props.sprite.index, {
+    x: artboard.x - Math.round(diffX / 2),
+    y: artboard.y - Math.round(diffY / 2),
     scale: scale
   });
 };
 
 obj.componentDidUpdate = function() {
-  if (!this.props.artboard && this.props.layer !== undefined) {
+  if (!this.props.sprite.artboard) {
     this.center();
   }
 };
@@ -64,12 +79,15 @@ obj.getInitialState = function () {
 };
 obj.componentDidMount = function () {
   let el = ReactDOM.findDOMNode(this);
-  let stats = el.getBoundingClientRect();
+  let stats = el.parentElement.getBoundingClientRect();
   this.setState({
     stats,
     marginTop: -stats.top,
     marginLeft: -stats.left
   });
+  if (!this.props.sprite.artboard && this.props.layer !== undefined) {
+    this.center(stats);
+  }
 };
 
 obj.setContextType = function (type, context) {
@@ -88,56 +106,56 @@ obj.setContextType = function (type, context) {
 };
 
 obj.render = function() {
+  let style = {
+    width: this.props.width,
+    height: this.props.height,
+    marginLeft: this.state.marginLeft,
+    marginTop: this.state.marginTop
+  };
   let size = {
     width: this.props.width,
     height: this.props.height
   };
-  let style = {
-    marginLeft: this.state.marginLeft,
-    marginTop: this.state.marginTop//,
-    // width: '100%',
-    // height : '100%'
-  };
   var props = {
-    style,
+    // style: {
+    //   marginLeft: this.state.marginLeft,
+    //   marginTop: this.state.marginTop
+    // },
     size,
-    artboard: this.props.artboard,
+    artboard: this.props.sprite.artboard || {},
     layer: this.props.layer,
     setContext: this.setContextType
   };
-  if (this.props.layer && this.props.artboard !== null) {
-    return <div style={this.props.style} className={this.props.className + ' content-canvas'} onWheel={this.onWheel}>
-      <Background {...props}/>
-      <Main {...props}/>
-      <Preview {...props}/>
-      <Mask {...props}/>
-      <Menu active={this.state.activeContextMenu} position={this.state.contextMenuPosition}>
-        <li onClick={this.onCenter}>Center</li>
-      </Menu>
-    </div>;
-  }
-  return <div style={this.props.style} className={this.props.className + ' content-canvas'}></div>;
+  return <div style={style} className='canvas' onWheel={this.onWheel}>
+    <Background {...props}/>
+    <Main {...props}/>
+    <Preview {...props}/>
+    <Mask {...props}/>
+    <Menu active={this.state.activeContextMenu} position={this.state.contextMenuPosition}>
+      <li onClick={this.onCenter}>Center</li>
+    </Menu>
+  </div>;
 };
 
 
-
-function mapStateToProps(state) {
-  var frame = state.Editor.frames[state.Editor.frame] || noopFrame;
-  return {
-    sprite: state.sprites[state.Editor.sprite],
-    frame: frame,
-    layer: state.Editor.layers[frame.layers[state.Editor.layer]],
-    tool: state.Editor.tool,
-    artboard: state.Editor.artboard,
-    primaryColor: state.Editor.primaryColor
-  };
-}
+// function mapStateToProps(state) {
+//   var frame = state.Editor.frames[state.Editor.frame] || noopFrame;
+//   return {
+//     sprite: state.sprites[state.Editor.sprite],
+//     frame: frame,
+//     layer: state.Editor.layers[frame.layers[state.Editor.layer]],
+//     tool: state.Editor.tool,
+//     artboard: state.Editor.artboard,
+//     primaryColor: state.Editor.primaryColor
+//   };
+// }
 
 const Canvas = connect(
-  mapStateToProps,
-  currentActions
+  null,
+  { setSpriteArtboard }
 )(React.createClass(obj));
+// const Canvas = React.createClass(obj);
 
-register(Canvas, obj.displayName);
+//register(Canvas, obj.displayName);
 
 module.exports = Canvas;
