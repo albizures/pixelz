@@ -4,7 +4,7 @@ const http = require('http');
 const { connect } = require('react-redux');
 
 const ducks = require('./ducks');
-const { addSprite, addFrameSprite } = require('../../ducks/sprites.js').actions;
+const { addSprite, addFrameSprite, selectSpriteFrame, selectSpriteLayer } = require('../../ducks/sprites.js').actions;
 
 require('./components/Sprites.js');
 require('./components/Canvas');
@@ -128,10 +128,11 @@ obj.onGetSprite = function (result) {
       0, 0, width, height,
       0, 0, width, height
     );
-    this.props.setCurrentFrame(
+    this.props.selectSpriteFrame(
+      sprite.index, 
       this.createFrameFromContext(sprite, context)
     );
-    this.props.setCurrentLayer(0);
+    this.props.selectSpriteLayer(sprite.index,0);
     for (let j = 1; j < sprite.frames; j++) {
       context.canvas.height = height;// clean
       context.drawImage(image,
@@ -231,5 +232,5 @@ function mapStateToProps(state) {
 
 module.exports = connect(
   mapStateToProps,
-  Object.assign({}, ducks.actions, {addSprite, addFrameSprite})
+  Object.assign({}, ducks.actions, {addSprite, addFrameSprite, selectSpriteFrame, selectSpriteLayer})
 )(React.createClass(obj));
