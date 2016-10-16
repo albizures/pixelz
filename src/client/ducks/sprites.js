@@ -13,6 +13,8 @@ const SET_SPRITE_ID = 'SET_SPRITE_ID';
 const SET_SPRITE_ARTBOARD = 'SET_SPRITE_ARTBOARD';
 const SELECT_SPRITE_LAYER = 'SELECT_SPRITE_LAYER';
 const SELECT_SPRITE_FRAME = 'SELECT_SPRITE_FRAME';
+const SET_SPRITE_PRIMARY_COLOR = 'SET_SPRITE_PRIMARY_COLOR';
+const SET_SPRITE_SECONDARY_COLOR = 'SET_SPRITE_SECONDARY_COLOR';
 exports.initialState = [];
 
 exports.reducer = function(state = [], action) {
@@ -96,90 +98,88 @@ exports.reducer = function(state = [], action) {
         action.sprite,
         editProp(state[action.sprite], 'layer', action.layer)
       );
+    case SET_SPRITE_PRIMARY_COLOR:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'primaryColor', action.color)
+      );
+    case SET_SPRITE_SECONDARY_COLOR:
+      return updateArrayItem(
+        state,
+        action.sprite,
+        editProp(state[action.sprite], 'secondaryColor', action.color)
+      );
     default:
       return state;
   }
 };
 const actions = {};
 
-actions.addSprite = function(sprite) {
-  return (dispatch, getState) => {
-    let index = getState().sprites.length;
+actions.addSprite = (sprite) => (dispatch, getState) => {
+  let index = getState().sprites.length;
+  dispatch({
+    type: ADD_SPRITE,
+    sprite,
+    index
+  });
+  return index;
+};
+
+actions.addFrameSprite = (sprite, frame) => ({
+  type: ADD_SPRITE_FRAME,
+  sprite,
+  frame
+});
+
+actions.newSpriteVersion = (sprite) => ({
+  type: NEW_SPRITE_VERSION,
+  sprite
+});
+
+actions.changeFramePosition = (sprite, fromIndex, toIndex) => ({
+  type: CHANGE_FRAME_POSITION,
+  sprite,
+  fromIndex,
+  toIndex
+});
+
+actions.setTransparentColor = (sprite, transparent) => ({
+  type: SET_TRANSPARENT_COLOR,
+  sprite,
+  transparent
+});
+
+actions.setCurrentPalette = (sprite, palette) => ({
+  type: SET_CURRENT_PALETTE_SPRITE,
+  sprite,
+  palette
+});
+
+actions.putName = (sprite, name) => (dispatch) => {
+  if (sprite._id) {
+    return http.sprite.putName(sprite._id, name, onPut);
+  }
+  onPut({
+    code: 0
+  });
+  return Promise.resolve({
+    code: 0
+  });
+
+  function onPut(result) {
+    if (result.code !== 0) {
+      return; // alert
+    }
     dispatch({
-      type: ADD_SPRITE,
-      sprite,
-      index
+      type: PUT_NAME,
+      sprite: sprite.index,
+      name
     });
-    return index;
-  };
+  }
 };
 
-actions.addFrameSprite = function(sprite, frame) {
-  return {
-    type: ADD_SPRITE_FRAME,
-    sprite,
-    frame
-  };
-};
-
-actions.newSpriteVersion = function(sprite) {
-  return {
-    type: NEW_SPRITE_VERSION,
-    sprite
-  };
-};
-
-actions.changeFramePosition = function(sprite, fromIndex, toIndex) {
-  return {
-    type: CHANGE_FRAME_POSITION,
-    sprite,
-    fromIndex,
-    toIndex
-  };
-};
-
-actions.setTransparentColor = function(sprite, transparent) {
-  return {
-    type: SET_TRANSPARENT_COLOR,
-    sprite,
-    transparent
-  };
-};
-
-actions.setCurrentPalette = function(sprite, palette) {
-  return {
-    type: SET_CURRENT_PALETTE_SPRITE,
-    sprite,
-    palette
-  };
-};
-
-actions.putName = function(sprite, name) {
-  return (dispatch) => {
-    if (sprite._id) {
-      return http.sprite.putName(sprite._id, name, onPut);
-    }
-    onPut({
-      code: 0
-    });
-    return Promise.resolve({
-      code: 0
-    });
-
-    function onPut(result) {
-      if (result.code !== 0) {
-        return; // alert
-      }
-      dispatch({
-        type: PUT_NAME,
-        sprite: sprite.index,
-        name
-      });
-    }
-  };
-};
-
-actions.addSprites = function(sprites) {
+actions.addSprites = (sprites) => {
   return (dispatch, getState) => {
     let newSprites = setIndex(getState().sprites.length, sprites);
     dispatch({
@@ -199,37 +199,41 @@ actions.addSprites = function(sprites) {
   }
 };
 
-actions.setSpriteId = function (sprite, id) {
-  return {
-    type: SET_SPRITE_ID,
-    sprite,
-    id
-  };
-};
+actions.setSpriteId = (sprite, id) => ({
+  type: SET_SPRITE_ID,
+  sprite,
+  id
+});
 
-actions.setSpriteArtboard = function (sprite, artboard) {
-  return {
-    type: SET_SPRITE_ARTBOARD,
-    sprite,
-    artboard
-  };
-};
+actions.setSpriteArtboard = (sprite, artboard) => ({
+  type: SET_SPRITE_ARTBOARD,
+  sprite,
+  artboard
+});
 
-actions.selectSpriteFrame = function (sprite, frame) {
-  return {
-    type: SELECT_SPRITE_FRAME,
-    sprite,
-    frame
-  };
-};
+actions.selectSpriteFrame = (sprite, frame) => ({
+  type: SELECT_SPRITE_FRAME,
+  sprite,
+  frame
+});
 
-actions.selectSpriteLayer = function (sprite, layer) {
-  return {
-    type: SELECT_SPRITE_LAYER,
-    sprite,
-    layer
-  };
-};
+actions.selectSpriteLayer = (sprite, layer) => ({
+  type: SELECT_SPRITE_LAYER,
+  sprite,
+  layer
+});
+
+actions.setSpritePrimaryColor = (sprite, color) => ({
+  type: SET_SPRITE_PRIMARY_COLOR,
+  sprite,
+  color
+});
+
+actions.setSpriteSecundaryColor = (sprite, color) => ({
+  type: SET_SPRITE_SECONDARY_COLOR,
+  sprite,
+  color
+});
 
 exports.types = {
   ADD_SPRITE,
@@ -243,7 +247,9 @@ exports.types = {
   SET_SPRITE_ID,
   SET_SPRITE_ARTBOARD,
   SELECT_SPRITE_FRAME,
-  SELECT_SPRITE_LAYER
+  SELECT_SPRITE_LAYER,
+  SET_SPRITE_PRIMARY_COLOR,
+  SET_SPRITE_SECONDARY_COLOR
 };
 
 exports.actions = actions;

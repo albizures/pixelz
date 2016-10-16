@@ -12,8 +12,6 @@ const SET_CURRENT_FRAME = 'SET_CURRENT_FRAME';
 const SET_CURRENT_LAYER = 'SET_CURRENT_LAYER';
 const SET_CURRENT_TOOL = 'SET_CURRENT_TOOL';
 const SET_CURRENT_ARTBOARD = 'SET_CURRENT_ARTBOARD';
-const SET_PRIMARY_COLOR = 'SET_PRIMARY_COLOR';
-const SET_SECONDARY_COLOR = 'SET_SECONDARY_COLOR';
 const SET_CURRENT_PALETTE = 'SET_CURRENT_PALETTE';
 const SET_EDITOR_ID = 'SET_EDITOR_ID';
 
@@ -44,8 +42,6 @@ exports.reducer = combineReducers({
   layer: getReducer(SET_CURRENT_LAYER, 'index'),
   palette: getReducer(SET_CURRENT_PALETTE, 'index'),
   tool: getReducer(SET_CURRENT_TOOL, 'tool'),
-  primaryColor: getReducer(SET_PRIMARY_COLOR, 'color'),
-  secondaryColor: getReducer(SET_SECONDARY_COLOR, 'color'),
   sprites: sprites.reducer,
   frames: frames.reducer,
   layers: layers.reducer,
@@ -79,21 +75,6 @@ actions.setCurrentTool = function(tool) {
   };
 };
 
-
-actions.setSecondaryColor = function(color) {
-  return {
-    type: SET_SECONDARY_COLOR,
-    color
-  };
-};
-
-actions.setPrimaryColor = function(color) {
-  return {
-    type: SET_PRIMARY_COLOR,
-    color
-  };
-};
-
 actions.setEditorId = function (_id) {
   return {
     type: SET_EDITOR_ID,
@@ -104,8 +85,7 @@ actions.setEditorId = function (_id) {
 exports.initialState = {
   history: history.init,
   tools: tools,
-  primaryColor: 'rgba(0, 0, 0, 1)',
-  secondaryColor: 'rgba(0, 0, 0, 0)',
+  tool: tools[0],
   sprites: sprites.initialState,
   frames: [],
   layers: [],

@@ -1,7 +1,7 @@
 const { abs } = Math;
 const Tool = require('./Tool.js');
 const { calculatePosition, validCord } = require('utils/canvas.js');
-
+const $window = $(window);
 
 const obj = {};
 let lastPixel;

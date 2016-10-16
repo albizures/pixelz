@@ -56,7 +56,7 @@ ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory }>
         <Route path="/" component={Home} />
-        <Route path="/editor(/:id)" component={Editor} />
+        <Route path="/editor" component={Editor} />
       </Router>
     </Provider>
   </div>

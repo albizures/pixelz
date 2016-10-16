@@ -9,9 +9,10 @@ obj.getInitialState = function () {
 };
 
 obj.componentDidMount = function () {
-  this.props.loader(componentModule => {
+  this.props.loader((component, props) => {
     this.setState({
-      component: componentModule
+      component,
+      props
     });
   });
 };
@@ -22,7 +23,7 @@ obj.renderPlaceholder = function () {
 
 obj.render = function () {
   if (this.state.component) {
-    return <this.state.component {...this.props}/>;
+    return <this.state.component {...this.props} {...this.state.props}/>;
   }
   return (this.props.renderPlaceholder || this.renderPlaceholder)();
 };

@@ -5,7 +5,7 @@ const { register } = require('./Layout');
 const { hsvToRgb, rgbToHsv, getRGBAComponents} = require('utils/color.js');
 const { round } = Math;
 
-const { currentActions: {setSecondaryColor, setPrimaryColor} } = require('../ducks/index.js');
+const { actions: {setSpriteSecondaryColor, setSpritePrimaryColor} } = require('../../../ducks/sprites.js');
 const { actions: {addColor} } = require('../../../ducks/palettes.js');
 const { actions: {setStyle} } = require('../ducks/panels.js');
 
@@ -228,6 +228,7 @@ obj.onClickOK = function() {
   this.props.setStyle('colorPicker', {
     visibility: 'hidden'
   });
+  console.log(this.props, this.state);
   switch (params.action) {
     case 'addColor':
       this.props[params.action](
@@ -235,6 +236,18 @@ obj.onClickOK = function() {
           position: params.position,
           color: this.state.color
         }
+      );
+      break;
+    case 'setSpritePrimaryColor':
+      this.props.setSpritePrimaryColor(
+        params.sprite,
+        this.state.color
+      );
+      break;
+    case 'setSpriteSecondaryColor':
+      this.props.setSpriteSecondaryColor(
+        params.sprite,
+        this.state.color
       );
       break;
     default:
@@ -304,8 +317,8 @@ const ColorPicker = connect(
     return state.Editor.panels.colorPicker;
   }, {
     addColor,
-    setPrimaryColor,
-    setSecondaryColor,
+    setSpritePrimaryColor,
+    setSpriteSecondaryColor,
     setStyle
   }
 )(React.createClass(obj));

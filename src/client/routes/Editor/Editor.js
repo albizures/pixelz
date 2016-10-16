@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const http = require('http');
+// const http = require('http');
 const { connect } = require('react-redux');
 
 const ducks = require('./ducks');
@@ -23,9 +23,6 @@ require('./components/ColorPicker.js');
 const { Layout } = require('./components/Layout.js');
 
 const NewSprite = require('./components/NewSprite.js');
-// const Panel = require('./components/Panel.js');
-// const Palettes = require('./components/Palettes.js');
-// const History = require('./components/History.js');
 const Menus = require('./components/Menus');
 
 const shortcuts = require('./shortcuts');
@@ -70,13 +67,7 @@ obj.render = function () {
 
 
 obj.getInitialState = function () {
-  //if (this.props.params.id) {
   return {open: false};
-    //http.get('/api/sprites/' + this.props.params.id, this.onGetSprite);
-  // } else if (this.props.filterSprites.length === 0) {
-  //   return {open: true};
-  // }
-  // return {open: false};
 };
 
 obj.componentWillUnmount = function() {
@@ -90,130 +81,6 @@ obj.componentDidMount = function() {
     width: window.innerWidth,
     height: window.innerHeight
   });
-  http.get('/api/editor').then(this.onGetEditor);
-};
-obj.onGetEditor = function (result) {
-  // TODO: load sprites
-  if (!result || result.sprites.length === 0) {
-    this.setState({open: true});
-    return;
-  }
-  this.props.setEditorId(result._id);
-  for (var index = 0; index < result.sprites.length; index++) {
-    var sprite = result.sprites[index];
-    http.get('/api/sprites/' + sprite, this.onGetSprite);
-  }
-};
-
-obj.onGetSprite = function (result) {
-  let sprite, image = new Image(), width, height; 
-  let context = document.createElement('canvas').getContext('2d');
-  if (result.code !== 0) {
-    return; // TODO: create toast alerts
-  }
-  sprite = result.data;
-  context.canvas.width = width = sprite.width * sprite.layers;
-  context.canvas.height = height = sprite.height;
-  sprite.index = this.props.addSprite({
-    _id: sprite._id,
-    name: sprite.name,
-    width: sprite.width,
-    height: sprite.height,
-    colors: sprite.colors,
-  });
-  this.props.openSprite(sprite.index);
-  this.props.setCurrentSprite(sprite.index);
-  image.onload = () => {
-    context.drawImage(image,
-      0, 0, width, height,
-      0, 0, width, height
-    );
-    this.props.selectSpriteFrame(
-      sprite.index, 
-      this.createFrameFromContext(sprite, context)
-    );
-    this.props.selectSpriteLayer(sprite.index,0);
-    for (let j = 1; j < sprite.frames; j++) {
-      context.canvas.height = height;// clean
-      context.drawImage(image,
-        0, j * height, width, height,
-        0, 0, width, height
-      );
-      this.createFrameFromContext(sprite, context);
-    }
-  };
-  image.src = `/api/sprites/${sprite._id}/file`;
-};
-
-obj.createFrameFromContext = function(sprite, image) {
-  let context = document.createElement('canvas').getContext('2d');
-  let contextTemp = document.createElement('canvas').getContext('2d');
-  let index;
-  contextTemp.canvas.width = context.canvas.width = sprite.width;
-  contextTemp.canvas.height = context.canvas.height = sprite.height;
-  
-  for (var j = sprite.layers - 1; j >= 0; j--) {
-    context.drawImage(image.canvas,
-      sprite.width * j, 0, sprite.width, sprite.height,
-      0, 0, sprite.width, sprite.height
-    );
-  }
-  index = this.props.addFrame({
-    sprite: sprite.index,
-    width: sprite.width,
-    height: sprite.height,
-    context: context,
-    layers: []
-  });
-  this.props.addFrameSprite(
-    sprite.index,
-    index
-  );
-  for (let j = 0; j < sprite.layers; j++) {
-    let layer;
-    contextTemp.canvas.height = sprite.height;// clean
-    contextTemp.drawImage(image.canvas,
-      sprite.width * j, 0, sprite.width, sprite.height,
-      0, 0, sprite.width, sprite.height
-    );
-    layer = this.createLayersFromContext(sprite, contextTemp, index, j);
-    this.props.addLayerFrame(
-      index,
-      layer
-    );
-  }
-  return index;
-};
-
-obj.createLayersFromContext = function(sprite, image, frame, index) {
-  let context = document.createElement('canvas').getContext('2d');
-  context.canvas.width = sprite.width;
-  context.canvas.height = sprite.height;
-  context.drawImage(image.canvas,
-    0, 0, sprite.width, sprite.height,
-    0, 0, sprite.width, sprite.height
-  );
-  return this.props.addLayer({
-    context: context,
-    width: sprite.width,
-    height: sprite.height,
-    sprite: sprite.index,
-    frame: frame,
-    layerIndex: index
-  });
-};
-
-obj.createFrame = function({sprite, context}){
-  let width = this.props.sprites[sprite].width;
-  let height = this.props.sprites[sprite].height;
-  let frame = this.props.addFrame({
-    width,
-    height,
-    sprite,
-    context
-  });
-  this.props.addFrameSprite(sprite, frame);
-  return frame;
 };
 
 function mapStateToProps(state) {

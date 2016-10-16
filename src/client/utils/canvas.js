@@ -115,6 +115,15 @@ exports.noTransparent = function (context, scale, transparent) {
   return context;
 };
 
+
+exports.getColorPixel = function (layer, cord) {
+  var index = (cord.x + cord.y * layer.width) * 4;
+  var imageData = getImageData(layer.context);
+  if (index >= 0 && index <= imageData.length) {
+    return `rgba(${imageData[index]}, ${imageData[index + 1]}, ${imageData[index + 2]}, ${imageData[index + 3] / 255})`;
+  }
+};
+
 exports.getPreviewSize = getPreviewSize;
 exports.getImageData = getImageData;
 exports.imageSmoothing = imageSmoothing;

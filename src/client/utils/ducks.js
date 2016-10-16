@@ -1,4 +1,6 @@
 
+const { bindActionCreators } = require('redux');
+
 exports.updateArrayItem = function (arr, index, item) {
   return [].concat(arr.slice(0, index), item, arr.slice(index + 1));
 };
@@ -23,4 +25,15 @@ exports.shiftPositions = function (arr, fromIndex, toIndex) {
   //b = [].concat(a.slice(0,y), a.slice(y + 1));
   //b.splice(1, 0, a[y]);
   //
+};
+
+exports.wrapActionCreators = function (dispatch, actionCreators) {
+  let obj = {};
+  let keys = Object.keys(actionCreators);
+  for (let index = 0; index < keys.length; index++) {
+    let name = keys[index];
+    let creator = actionCreators[name];
+    obj[name] = bindActionCreators(creator, dispatch);
+  }
+  return obj;
 };

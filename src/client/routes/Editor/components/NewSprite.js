@@ -32,7 +32,9 @@ obj.createSprite = function(name, width, height) {
   sprite = this.props.addSprite({
     name,
     width,
-    height
+    height,
+    primaryColor: 'rgba(0, 0, 0, 1)',
+    secondaryColor: 'rgba(0, 0, 0, 0)'
   });
   this.props.openSprite(sprite);
   frame = this.props.addFrame({

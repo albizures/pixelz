@@ -34,7 +34,7 @@ obj.render = function () {
   if (!valid) {
     return <div></div>;
   }
-  let sprite = this.props.sprites[this.props.sprite]; 
+  let sprite = this.props.sprites[this.props.sprite];
   return <div style={this.props.style} className="content-canvas">
     <Canvas
       width={this.props.width}
@@ -43,8 +43,8 @@ obj.render = function () {
       frame={this.props.frames[sprite.frame]}
       layer={this.props.layers[this.props.frames[sprite.frame].layers[sprite.layer]]}
       layers={this.props.layers}
-      primaryColor={this.props.primaryColor}
-      secondaryColor={this.props.secondaryColor}
+      primaryColor={sprite.primaryColor}
+      secondaryColor={sprite.secondaryColor}
       tool={this.props.tool}
     ></Canvas>
   </div>;
@@ -59,9 +59,7 @@ function mapStateToProps(state) {
     frames: state.Editor.frames,
     layers: state.Editor.layers,
     tool: state.Editor.tool,
-    artboard: state.Editor.artboard,
-    primaryColor: state.Editor.primaryColor,
-    secondaryColor: state.Editor.secondaryColor
+    artboard: state.Editor.artboard
   };
 }
 

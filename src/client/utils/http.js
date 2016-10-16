@@ -13,11 +13,7 @@ function checkStatus(response) {
   }
 }
 function request(url, method, cb, body, headers = true) {
-  // if (body && !(body instanceof FormData)) {
-  //   body = JSON.stringify(body);
-  // }
-  //console.log(method,body, body instanceof FormData, url);
-  return axios({
+  let promise = axios({
     url,
     headers: headers ? {
       'Accept': 'application/json',
@@ -25,7 +21,11 @@ function request(url, method, cb, body, headers = true) {
     } : undefined,
     method,
     data: body
-  }).then(checkStatus).then(parseJSON).then(cb).catch(function (ex) {
+  }).then(checkStatus).then(parseJSON);
+  if (!cb) {
+    return promise;
+  }
+  promise.then(cb).catch(function (ex) {
     console.error(ex);
     if (cb) cb({code: 1, description: ex});
   });

@@ -42,7 +42,8 @@ obj.onClickPrimary = function (evt) {
   });
   this.props.setParams('colorPicker', {
     color: this.props.primaryColor,
-    action: 'setPrimaryColor'
+    action: 'setSpritePrimaryColor',
+    sprite: this.props.sprite
   });
 };
 
@@ -53,7 +54,8 @@ obj.onClickSecondary = function (evt) {
   });
   this.props.setParams('colorPicker', {
     color: this.props.secondaryColor,
-    action: 'setSecondaryColor'
+    action: 'setSpriteSecondaryColor',
+    sprite: this.props.sprite
   });
 };
 
@@ -85,12 +87,14 @@ obj.render = function() {
 
 
 function mapStateToProps(state) {
+  let sprite = state.sprites[state.Editor.sprite] || {};
   return {
+    sprite: sprite.index,
     tools: state.Editor.tools,
     tool: state.Editor.tool,
     style: state.Editor.panels.tools.style,
-    primaryColor: state.Editor.primaryColor,
-    secondaryColor: state.Editor.secondaryColor
+    primaryColor: sprite.primaryColor,
+    secondaryColor: sprite.secondaryColor
   };
 }
 

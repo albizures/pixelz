@@ -171,6 +171,36 @@ test('select layer', t => {
   );
 });
 
+test('set primary color', t => {
+  const action = {type: types.SET_SPRITE_PRIMARY_COLOR, sprite: 0, color: '#000'};
+
+  t.deepEqual(
+    actions.setSpritePrimaryColor(0, '#000'),
+    action
+  );
+
+  t.deepEqual(
+    reducer([{}], action),
+    [{primaryColor: '#000'}]
+  );
+});
+
+test('set secondary color', t => {
+  const action = {type: types.SET_SPRITE_SECONDARY_COLOR, sprite: 0, color: '#000'};
+
+  t.deepEqual(
+    actions.setSpriteSecundaryColor(0, '#000'),
+    action
+  );
+
+  t.deepEqual(
+    reducer([{}], action),
+    [{secondaryColor: '#000'}]
+  );
+});
+
+
+
 test('add sprites', t => {
   const action = {type: types.ADD_SPRITES, sprites: [{index: 0}, {index: 1}]};
 

@@ -21,3 +21,15 @@ exports.inheritanceObject = function (child, father) {
   child.prototype = Object.create(father.prototype);
   child.prototype.constructor = child;
 };
+
+
+exports.bindObject = function (obj, self) {
+  self = self || obj;
+  let keys = Object.keys(obj);
+  for (let j = 0; j < keys.length; j++) {
+    let prop = keys[j];
+    if (typeof obj[prop] === 'function') {
+      obj[prop] = obj[prop].bind(self);
+    }
+  }
+};
