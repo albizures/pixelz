@@ -29,12 +29,10 @@ obj.shouldComponentUpdate = function(nextProps) {
 
 
 obj.componentDidUpdate = function(prevProps) {
-  console.log('didupdate', this.props.editorId);
   if (prevProps.filter.length !== this.props.filter.length) {
     let sprites = this.props.filter
       .filter(index => !!this.props.sprites[index]._id)
       .map(index => this.props.sprites[index]._id);
-    //this.props.filter.map(index => this.props.sprites[index]));
     if (this.props.editorId) {
       http.put('/api/editor/' + this.props.editorId, {
         sprites

@@ -3,6 +3,7 @@ const { Link } = require('react-router');
 const { connect } = require('react-redux');
 
 const { actions } = require('../../ducks');
+const { saveEditor } = require('../../ducks').editorActions;
 const { setSpriteId } = require('../../../../ducks/sprites.js').actions;
 const Name = require('./Name.js');
 const Menu = require('../Menu.js');
@@ -88,5 +89,5 @@ function mapStateToProps(state) {
 
 module.exports = connect(
   mapStateToProps,
-  Object.assign({}, actions, {setSpriteId})
+  Object.assign({}, actions, {setSpriteId, saveEditor})
 )(Menus);

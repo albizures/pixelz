@@ -1,4 +1,5 @@
 const { combineReducers } = require('redux');
+const http = require('http');
 
 const sprites = require('./sprites.js');
 const frames = require('./frames.js');
@@ -82,6 +83,22 @@ actions.setEditorId = function (_id) {
   };
 };
 
+actions.saveEditor = () => (dispatch, getState) => {
+  let state = getState();
+  let sprites = state.Editor.sprites
+    .filter(index => !!state.sprites[index]._id)
+    .map(index => state.sprites[index]._id);
+  if (state.Editor._id) {
+    return http.put('/api/editor/' + state.Editor._id, {
+      sprites
+    });
+  } else {
+    return http.post('/api/editor/', {
+      sprites
+    }).then(id => dispatch(exports.actions.setEditorId(id)));
+  }
+};
+
 exports.initialState = {
   history: history.init,
   tools: tools,
@@ -92,7 +109,7 @@ exports.initialState = {
   panels: panels.init
 };
 
-exports.currentActions = actions;
+exports.editorActions = exports.currentActions = actions;
 
 exports.actions = Object.assign({},
   actions,
