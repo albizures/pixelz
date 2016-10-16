@@ -20,6 +20,11 @@ obj.componentDidMount = function() {
   this.setState({
     context: context
   });
+  if (this.props.frames && this.props.frames.length !== 0) {
+    setTimeout(() => {
+      this.initInterval(this.props, this.state);
+    }, 500);
+  }
 };
 
 obj.shouldComponentUpdate = function(nextProps, nextState) {
