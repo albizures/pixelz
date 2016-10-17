@@ -22,6 +22,16 @@ obj.getInitialState = function () {
   };
 };
 
+obj.componentDidMount = function () {
+  if (this.props.sprite) {
+    let spriteIndex = this.props.sprite.index;
+    getSpritePalette(
+      spriteIndex
+    ).then(result => this.props.setCurrentPalette(spriteIndex, result.array));
+  }
+};
+
+
 obj.shouldComponentUpdate = function (nextProps) {
   if (this.props.sprite && this.props.sprite.version !== nextProps.sprite.version) {
     let spriteIndex = nextProps.sprite.index;
@@ -32,9 +42,8 @@ obj.shouldComponentUpdate = function (nextProps) {
       );
     }
     getSpritePalette(
-      spriteIndex,
-      result => this.props.setCurrentPalette(spriteIndex, result.array)
-    );
+      spriteIndex
+    ).then(result => this.props.setCurrentPalette(spriteIndex, result.array));
   } 
   return true;
 };

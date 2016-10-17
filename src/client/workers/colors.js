@@ -31,7 +31,7 @@ function onMessage(evt) {
 
 
 
-exports.getSpritePalette = function (sprite, cb) {
+exports.getSpritePalette = (sprite, transparent = false) => new Promise(resolve => {
   const state = store.getState();
   const frames = state.sprites[sprite].frames;
 
@@ -45,7 +45,13 @@ exports.getSpritePalette = function (sprite, cb) {
   }
 
   colors.postMessage({type: 'palette', data: dataList});
-  cbs.palette.push(cb);
-};
+  cbs.palette.push(function (result) {
+    if (!transparent) {
+      result.array.splice(result.array.indexOf('rgba(0, 0, 0, 0)'), 1);
+      delete result.obj['rgba(0, 0, 0, 0)'];
+    }
+    resolve(result);
+  });
+});
 
 exports.worker = colors;
