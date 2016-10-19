@@ -1,8 +1,8 @@
 const { calculatePosition, validCord, getPreviewSize } = require('utils/canvas.js');
 const { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
 const tools = require('./tools');
+const { ceil, floor } = Math;
 let lastDragX, lastDragY;
-
 exports.onMouseMove = function (evt) {
   let cord;
   if (evt.target.tagName === 'CANVAS') {
@@ -50,9 +50,9 @@ exports.center = function (stats) {
   let { sprite } = this.props;
   let size = getPreviewSize(stats.width, stats.height, sprite.width, sprite.height);
   this.props.setSpriteArtboard(this.props.sprite.index, {
-    scale: size.scale,
-    x: stats.left + size.marginLeft,
-    y: stats.top + size.marginTop
+    scale: floor(size.scale),
+    x: Number.parseInt(stats.left + size.marginLeft),
+    y: floor(stats.top + size.marginTop)
   });
 };
 exports.onCenter = function () {
@@ -133,7 +133,7 @@ exports.onDragMove = function (evt) {
 exports.shiftDiff = function (diffX, diffY) {
   this.props.setSpriteArtboard(this.props.sprite.index, {
     scale: this.props.sprite.artboard.scale,
-    x: this.props.sprite.artboard.x + diffX,
-    y: this.props.sprite.artboard.y + diffY
+    x: ceil(this.props.sprite.artboard.x + diffX),
+    y: ceil(this.props.sprite.artboard.y + diffY)
   });
 };
