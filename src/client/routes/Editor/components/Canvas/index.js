@@ -3,10 +3,6 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const { setSpriteArtboard } = require('../../../../ducks/sprites.js').actions;
 const { connect } = require('react-redux');
-
-// const { noopFrame } = require('utils/noop.js');
-// const { register } = require('../Layout.js');
-// const { currentActions } = require('../../ducks');
 const Menu = require('../Menu.js');
 const Background = require('./Background.js');
 const Main = require('./Main.js');
@@ -106,56 +102,36 @@ obj.setContextType = function (type, context) {
 };
 
 obj.render = function() {
+  let {width, height, layer} = this.props;
+  let artboard = this.props.sprite.artboard || {};
+  let setContext = this.setContextType;
   let style = {
-    width: this.props.width,
-    height: this.props.height,
+    width,
+    height,
     marginLeft: this.state.marginLeft,
     marginTop: this.state.marginTop
   };
-  let size = {
-    width: this.props.width,
-    height: this.props.height
-  };
+  let size = { width, height };
   var props = {
-    // style: {
-    //   marginLeft: this.state.marginLeft,
-    //   marginTop: this.state.marginTop
-    // },
     size,
-    artboard: this.props.sprite.artboard || {},
-    layer: this.props.layer,
-    setContext: this.setContextType
+    artboard,
+    layer,
+    setContext
   };
   return <div style={style} className='canvas' onWheel={this.onWheel}>
-    <Background {...props}/>
+    <Background {...{width, height, artboard, layer, setContext}}/>
     <Main {...props}/>
     <Preview {...props}/>
-    <Mask {...props}/>
+    <Mask {...{width, height, artboard, layer, setContext}}/>
     <Menu active={this.state.activeContextMenu} position={this.state.contextMenuPosition}>
       <li onClick={this.onCenter}>Center</li>
     </Menu>
   </div>;
 };
 
-
-// function mapStateToProps(state) {
-//   var frame = state.Editor.frames[state.Editor.frame] || noopFrame;
-//   return {
-//     sprite: state.sprites[state.Editor.sprite],
-//     frame: frame,
-//     layer: state.Editor.layers[frame.layers[state.Editor.layer]],
-//     tool: state.Editor.tool,
-//     artboard: state.Editor.artboard,
-//     primaryColor: state.Editor.primaryColor
-//   };
-// }
-
 const Canvas = connect(
   null,
   { setSpriteArtboard }
 )(React.createClass(obj));
-// const Canvas = React.createClass(obj);
-
-//register(Canvas, obj.displayName);
 
 module.exports = Canvas;
