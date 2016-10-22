@@ -1,5 +1,6 @@
 const express = require('express');
 const config = require('./config/environment');
+console.log(config);
 const app = express();
 
 require('./config/express.js')(app);
