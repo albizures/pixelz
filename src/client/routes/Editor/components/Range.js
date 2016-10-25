@@ -49,8 +49,8 @@ obj.onMouseDown = function (evt) {
   var originalY = y; 
   var input = evt.target;
   document.body.style.cursor = 'ns-resize';
-  // input.requestPointerLock();
   $window.on('mousemove.range', evt => {
+    if (y === evt.clientY) return;
     if (y > evt.clientY) {
       this.setValue(this.props.value + this.getDiff());
     } else {
@@ -58,7 +58,6 @@ obj.onMouseDown = function (evt) {
     }
     y = evt.clientY;
   }).on('mouseup.range', evt =>{
-    //document.exitPointerLock();
     document.body.style.cursor = '';
     $window.off('mousemove.range').off('mouseup.range');
     evt.clientY === originalY && input.focus();
@@ -66,7 +65,7 @@ obj.onMouseDown = function (evt) {
 };
 
 obj.getBackground = function () {
-  var position = (( (this.props.value - this.props.min) / (this.props.max  - this.props.min)) * 100) + '%';
+  var position = (( (this.props.value - this.props.min) / (this.props.max - this.props.min)) * 100) + '%';
   return 'linear-gradient(to right, gray, gray ' + position + ', transparent ' + position + ')';
 };
 obj.componentWillReceiveProps = function(nextProps) {
