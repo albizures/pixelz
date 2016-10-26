@@ -5,10 +5,10 @@ const { setSpriteArtboard } = require('../../../../ducks/sprites.js').actions;
 const { connect } = require('react-redux');
 const Menu = require('../Menu.js');
 const Background = require('./Background.js');
-const Main = require('./Main.js');
+// const Main = require('./Main.js');
 const Preview = require('./Preview.js');
 const Mask = require('./Mask.js');
-
+const Layer = require('./Layer.js');
 const obj = require('./events.js');
 
 obj.displayName = 'Canvas';
@@ -101,6 +101,24 @@ obj.setContextType = function (type, context) {
   }
 };
 
+obj.getLayers = function (props) {
+  const layers = [];
+  for (let index = 0; index < this.props.frame.layers.length; index++) {
+    let layer = this.props.layers[this.props.frame.layers[index]];
+    let finalProps = Object.assign({/*, zIndex: index + 1*/}, props, {layer});
+    if (layer.index === this.props.layer.index) {
+      layers.push(
+        <Layer {...finalProps} ref='active' key={index} />
+      );
+    } else {
+      layers.push(
+        <Layer {...finalProps} key={index} />
+      );
+    }
+  }
+  return layers;
+};
+
 obj.render = function() {
   let {width, height, layer} = this.props;
   let artboard = this.props.sprite.artboard || {};
@@ -120,7 +138,7 @@ obj.render = function() {
   };
   return <div style={style} className='canvas' onWheel={this.onWheel}>
     <Background {...{width, height, artboard, layer, setContext}}/>
-    <Main {...props}/>
+    {this.getLayers({width, height, artboard, layer, setContext})}
     <Preview {...props}/>
     <Mask {...{width, height, artboard, layer, setContext}}/>
     <Menu active={this.state.activeContextMenu} position={this.state.contextMenuPosition}>

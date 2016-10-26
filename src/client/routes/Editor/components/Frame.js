@@ -37,14 +37,14 @@ obj.onClick = function() {
     this.props.data.index
   );
 };
-obj.onDragOver = function(e) {
-  e.preventDefault();
+obj.onDragOver = function(evt) {
+  evt.preventDefault();
 };
-obj.onDragStart = function(e){
-  e.dataTransfer.setData('index', this.props.index);
+obj.onDragStart = function(evt){
+  evt.dataTransfer.setData('index', this.props.index);
 };
-obj.onDrop = function (e) {
-  var toIndex = Number(e.dataTransfer.getData('index'));
+obj.onDrop = function (evt) {
+  var toIndex = Number(evt.dataTransfer.getData('index'));
   this.props.changeFramePosition(
     this.props.data.sprite,
     this.props.index,

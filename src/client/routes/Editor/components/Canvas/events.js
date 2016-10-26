@@ -91,10 +91,12 @@ exports.onMouseDown = function (evt) {
       cord,
       this.props.layer,
       this.props.sprite.artboard,
-      this.state.main.context,
-      this.state.preview.context,
-      this.state.background.context,
-      this.state.mask.context
+      {
+        main: this.refs.active.context,
+        preview: this.state.preview.context,
+        background: this.state.background.context,
+        mask: this.state.mask.context
+      }
     );
   }
   if (evt.which === MIDDLE_CLICK) {

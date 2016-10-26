@@ -2,18 +2,18 @@ const Selector = require('../Editor/prototypes/Selector.js');
 const AppendObject = require('../Editor/prototypes/AppendObject.js');
 
 //Returns true if it is a DOM node
-exports.isNode = function (o) {
+exports.isNode = function (obj) {
   return (
-    typeof Node === "object" ? o instanceof Node :
-    o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string"
+    typeof Node === "object" ? obj instanceof Node :
+    obj && typeof obj === "object" && typeof obj.nodeType === "number" && typeof obj.nodeName === "string"
   );
 };
 
 //Returns true if it is a DOM element
-exports.isElement = function (o) {
+exports.isElement = function (obj) {
   return (
-    typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
-    o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
+    typeof HTMLElement === "object" ? obj instanceof HTMLElement : //DOM2
+    obj && typeof obj === "object" && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === "string"
   );
 };
 

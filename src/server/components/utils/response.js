@@ -4,7 +4,7 @@ function generate(code, description, data) {
     description,
     data
   };
-};
+}
 
 exports.generate = generate;
 

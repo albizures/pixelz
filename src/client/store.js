@@ -34,7 +34,3 @@ exports.store = createStore(
     window.devToolsExtension && window.devToolsExtension()
   )
 );
-
-
-
-

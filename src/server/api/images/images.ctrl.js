@@ -8,8 +8,7 @@ exports.getFile = function (req, res) {
     if (err) {
       console.log(err);
       res.status(err.status).end();
-    }
-    else {
+    } else {
       console.log('Sent:', fileName);
     }
   });
@@ -21,8 +20,7 @@ exports.getProfile = function (req, res) {
     if (err) {
       console.log(err);
       res.status(err.status).end();
-    }
-    else {
+    } else {
       console.log('Sent:', fileName);
     }
   });

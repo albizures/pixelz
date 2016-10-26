@@ -40,7 +40,7 @@ function renderFrame(frame) {
   } else {
     return self.postMessage(frame);
   }
-};
+}
 
 self.onmessage = function (event) {
   return renderFrame(event.data);
