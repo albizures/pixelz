@@ -75,6 +75,15 @@ exports.getOne = function (req, res) {
   response.commonData(res, model.getOne, req.params.id);
 };
 
+exports.getPublic = function (req, res) {
+  response.promise(
+    model.getPublic(),
+    res,
+    200,
+    500
+  );
+};
+
 exports.getAll = function (req, res){
   response.common(res, model.getAll);
 };

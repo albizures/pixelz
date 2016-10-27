@@ -6,6 +6,7 @@ const multer  = require('multer');
 const upload = multer();
 
 router.get('/', controller.getAll);
+router.get('/public', controller.getPublic);
 router.get('/search', controller.getSearch);
 router.get('/:id', controller.getOne);
 router.get('/:id/file', ensureAuth, controller.getFile);

@@ -29,6 +29,30 @@ const spriteSchema = Joi.object().keys({
 });
 
 
+exports.getPublic = function () {
+  return db.collection(collection).aggregate([{
+    $match: {
+      private: false
+    }
+  }, {
+    $lookup: {
+      from: 'users',
+      localField: 'user',
+      foreignField: '_id',
+      as: 'user'
+    },
+  }, {
+    $project: {
+      name: 1,
+      createdAt: 1,
+      frames: 1,
+      layers: 1,
+      preview: 1,
+      user: {_id: 1, username: 1, displayName: 1, profileImage: 1}
+    }
+  }]).toArray();
+};
+
 exports.post = function (data, cb) {
   return db.post(collection, data, cb);
 };
