@@ -8,9 +8,9 @@ exports.defineGetter = function defineGetter(obj, name, fn) {
 };
 
 exports.extend = function extend(destination, source) {
-  for (let k in source) {
-    if (source.hasOwnProperty(k)) {
-      destination[k] = source[k];
+  for (let prop in source) {
+    if (source.hasOwnProperty(prop)) {
+      destination[prop] = source[prop];
     }
   }
   return destination;

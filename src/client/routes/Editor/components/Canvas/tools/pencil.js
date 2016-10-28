@@ -21,8 +21,8 @@ obj.onMouseDown = function (evt) {
   $window.off('mousemove.moveCanvas').on('mousemove.moveCanvas', this.onMouseMove, false);
 };
 obj.onMouseLeave = function (evt) {
-  let e = evt.toElement || evt.relatedTarget;
-  if (e !== document.children[0]) {
+  let el = evt.toElement || evt.relatedTarget;
+  if (el !== document.children[0]) {
     return;
   }
   lastPixel = calculatePosition(this.artboard, evt.clientX, evt.clientY);

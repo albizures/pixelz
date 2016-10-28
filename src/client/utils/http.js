@@ -46,7 +46,7 @@ exports.delete = function (url, cb) {
 
 function put (url, body, cb) {
   return request(url, 'PUT', cb, body);
-};
+}
 
 exports.upload = function (url, data, files, method, cb) {
   const form = new FormData();

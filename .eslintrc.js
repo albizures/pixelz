@@ -16,11 +16,10 @@ module.exports = {
   rules: {
     'no-multiple-empty-lines': 'error',
     'no-cond-assign': 'error',
-    'id-length': ["error", { "exceptions": ['_', '$', 'y', 'x', 'i', 'j']}],
+    'id-length': ["error", { "exceptions": ['_', '$', 'y', 'x', 'i', 'j', 'r', 'g', 'b', 'a', 'h', 's','l', 'w']}],
     'max-nested-callbacks': ["error", 3],
     'max-depth': ["error", 4],
     'max-params': ['warn', 5],
-    'max-len': ['warn', 100],
     'no-unneeded-ternary': 'error',
     'brace-style': 'error',
     'no-extra-semi': 'error',

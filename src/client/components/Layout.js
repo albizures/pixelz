@@ -92,7 +92,7 @@ function register(component, name) {
     throw 'Component \'' + name + '\' already exists';
   }
   components[name] = component;
-};
+}
 
 register(Layout);
 exports.register = register;

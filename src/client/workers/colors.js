@@ -30,7 +30,6 @@ function onMessage(evt) {
 }
 
 
-
 exports.getSpritePalette = (sprite, transparent = false) => new Promise(resolve => {
   const state = store.getState();
   const frames = state.sprites[sprite].frames;

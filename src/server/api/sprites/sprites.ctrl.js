@@ -63,8 +63,7 @@ exports.getFile = function (req, res) {
       if (err) {
         console.log(err);
         res.status(err.status).end();
-      }
-      else {
+      } else {
         console.log('Sent:',  result.data.file);
       }
     });

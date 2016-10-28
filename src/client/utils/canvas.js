@@ -12,11 +12,11 @@ function imageSmoothing(ctx, value) {
   ctx.imageSmoothingEnabled = value;
   ctx.mozImageSmoothingEnabled = value;
   ctx.msImageSmoothingEnabled = value;
-};
+}
 
 function imageSmoothingDisabled(ctx) {
   exports.imageSmoothing(ctx, false);
-};
+}
 
 function getPreviewSize(maxWidth, maxHeight, width, height) {
   var newWidth, newHeight, scale, maxSize;
@@ -75,7 +75,7 @@ function cloneContext(context) {
     0, 0, width, height
   );
   return clone;
-};
+}
 
 function scaleContext(context, scale = 1) {
   let { width, height } = context.canvas;
@@ -95,7 +95,7 @@ function scaleContext(context, scale = 1) {
 
 function getImageData(context) {
   return context.getImageData(0, 0, context.canvas.width, context.canvas.height).data;
-};
+}
 
 exports.noTransparent = function (context, scale, transparent) {
   let { width } = context.canvas;

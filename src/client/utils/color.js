@@ -1,3 +1,4 @@
+/*eslint id-length: ["error", {"exceptions": ['r','b','g','a','h','s','l','j','i','d','q','p','t', 'v','f'] }]*/
 const RGBA = 'rgba';
 const RGBA_PER = 'rgbaPer';
 const ABBR_HEX = 'abbrHex';
@@ -58,7 +59,7 @@ exports.hexToRgb = function hexToRgb(hex) {
   
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+  hex = hex.replace(shorthandRegex, function(match, r, g, b) {
     return r + r + g + g + b + b;
   });
 
@@ -81,7 +82,7 @@ function getRGBAComponents(color) {
     components[j] = Number(components[j]);
   }
   return components;
-};
+}
 exports.getRGBAComponents = getRGBAComponents;
 
 function isTransparent(color) {
@@ -103,8 +104,8 @@ exports.randomHex = function () {
   return color;
 };
 
-function componentToHex(c) {
-  var hex = Number(c).toString(16);
+function componentToHex(color) {
+  var hex = Number(color).toString(16);
   return hex.length === 1 ? "0" + hex : hex;
 }
 

@@ -41,7 +41,7 @@ inheritanceObject(GIF, EventEmitter);
 
 GIF.prototype.setOption = function (key, value) {
   this.options[key] = value;
-  if ((this._canvas !== null) && (key === 'width' || key === 'height')) {
+  if ((typeof this._canvas === 'object') && (key === 'width' || key === 'height')) {
     this._canvas[key] = value;
   }
 };

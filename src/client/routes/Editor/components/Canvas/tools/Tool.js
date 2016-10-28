@@ -78,7 +78,7 @@ common.lineBetween = function (x1, y1, x2, y2, fn) {
 
 common.onMouseDown = () => console.log('Create onMouseDown function');
 
-common.onMouseDownInit = function (evt, initCord, layer, artboard, main, preview, background, mask) {
+common.onMouseDownInit = function (evt, initCord, layer, artboard, {main, preview, background, mask}) {
   this.layer = layer;
   this.prevStatus = cloneContext(this.layer.context);
   this.artboard = artboard;
