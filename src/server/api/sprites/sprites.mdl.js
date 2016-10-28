@@ -50,6 +50,8 @@ exports.getPublic = function () {
       preview: 1,
       user: {_id: 1, username: 1, displayName: 1, profileImage: 1}
     }
+  }, {
+    $unwind: "$user"
   }]).toArray();
 };
 

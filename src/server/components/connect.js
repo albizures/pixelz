@@ -54,6 +54,11 @@ exports.getOne = function (collection, data, fields, cb) {
   }
 };
 
+
+/**
+ * collection
+ * @param {string} name
+ */
 exports.collection = name => db.collection(name);
 
 exports.ObjectID = ObjectID;
