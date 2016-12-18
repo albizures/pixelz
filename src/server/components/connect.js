@@ -1,4 +1,5 @@
 const mongodb = require('mongodb');
+const mongoose = require('mongoose');
 const MongoClient = mongodb.MongoClient;
 const GridStore = mongodb.GridStore;
 const ObjectID = mongodb.ObjectID;
@@ -10,7 +11,7 @@ let db;
 let option = {w: 1};
 
 var url = 'mongodb://localhost:27017/pixelz';
-
+mongoose.connect(url);
 exports.dbPromise = MongoClient.connect(url).then(function(result) {
   console.log("Connected correctly to server");
   db = result;

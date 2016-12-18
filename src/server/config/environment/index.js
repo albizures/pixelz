@@ -4,7 +4,7 @@ const path = require('path');
 
 const config = {};
 
-config.PORT = process.env.PORT || 8000;
+config.PORT = /*process.env.PORT ||*/ 8000;
 config.isDev = process.env.NODE_ENV === 'development';
 config.ROOT_PATH = path.join(__dirname, '..', '..', '..', '..');
 config.FILES_PATH = path.join(config.ROOT_PATH, 'files');

@@ -63,3 +63,16 @@ exports.commonPut = function (res, model, id, data) {
     }
   );
 };
+
+exports.notFound = res => result => {
+  if (!result) res.status(404);
+  return result;
+};
+exports.OK = res => result => res.json(result);
+
+exports.serverError = res => err => {
+  console.error(err);
+  res.status(500).json(err);
+};
+
+exports.created = res => result => res.status(201).json(result);

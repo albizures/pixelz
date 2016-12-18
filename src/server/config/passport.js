@@ -11,37 +11,23 @@ function TwitterStrategyCallback(token, tokenSecret, profile, done) {
     email: profile._json.email,
     twitterID: profile._json.id
   };
-  userModel.getByTwitterID(userProfile.twitterID, onGetUser);
 
-  function onGetUser(result) {
-    console.log('getByTwitterID', result);
-    if (result.code !== 0) {
-      return done(result);
+  userModel.getByTwitterID(
+    userProfile.twitterID
+  ).then(user => {
+    if (!user) {
+      return userModel.post(userProfile);
     }
-    if (result.data.length === 0) {
-      return userModel.post(userProfile, onPost);
-    }
-    let user = result.data[0];
+    return user;
+  }).then(user => {
     userProfile._id = user._id;
-    jwt.sign({_id: user._id}, config.secret, {}, onSign);
-  }
-  function onPost (result) {
-    if (result.code !== 0) {
-      return done(result);
-    }
-
-    jwt.sign({_id: result.data}, config.secret, {}, onSign);
-  }
-  
-  function onSign(err, token) {
-    if (err) {
-      return done(err);
-    }
-    return done(null, {
+    return jwt.sign({_id: user._id}, config.secret, {});
+  }).then(token => {
+    done(null, {
       _id: userProfile._id,
       token
     });
-  }
+  }).catch(done);
 }
 
 const twitterStrategy = new TwitterStrategy(config.auth.twitter,TwitterStrategyCallback);
@@ -52,9 +38,9 @@ const serializeUser = function(user, cb) {
 };
 
 const deserializeUser = function(obj, cb) {
-  userModel.getOne(obj._id, function (result) {
-    cb(result.description, result.data);
-  });
+  return userModel.getOne(obj._id)
+    .then(user => cb(null, user) || null) // return null
+    .catch(cb);
 };
 
 module.exports = function (app) {

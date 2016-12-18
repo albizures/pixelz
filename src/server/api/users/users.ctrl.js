@@ -1,18 +1,23 @@
 const model = require('./users.mdl.js');
 const response = require('../../components/utils/response.js');
 
-exports.post = function (req, res) {
-  response.commonData(res, model.post, req.body);
-};
+exports.post = (req, res) =>
+  model.post(req.body)
+    .then(response.created(res))
+    .catch(response.serverError(res));
 
-exports.getOne = function (req, res) {
-  response.commonData(res, model.getOne, req.params.id);
-};
+exports.getOne = (req, res) =>
+  model.getOne(req.params.id)
+    .then(response.notFound(res))
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 
-exports.getAll = function (req, res){
-  response.common(res, model.getAll);
-};
+exports.getAll = (req, res) =>
+  model.getAll()
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 
-exports.getSearch = function (req, res) {
-  response.commonData(res, model.getSearch, req.query);
-};
+exports.getSearch = (req, res) => 
+  model.getSearch(req.querymen)
+    .then(response.OK(res))
+    .catch(response.serverError(res));
