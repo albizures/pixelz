@@ -7,8 +7,10 @@ src/libs/gif/*.coffee
 # Logs
 logs
 *.log
+stats.json
 files
 env.sh
+.env
 .env.json
 
 npm-debug.log*

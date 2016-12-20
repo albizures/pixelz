@@ -9,7 +9,7 @@ require('./router.js')(app);
 require('./components/connect.js');
 require('./models');
 
-const port = config.PORT;
+const port = config.PORT + 1;
 const server = app.listen(port, function () {
   const host = server.address().address;
   const port = server.address().port;
