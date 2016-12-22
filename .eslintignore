@@ -3,3 +3,4 @@ node_modules/
 src/client/Editor
 src/client/utils/gif/
 src/client/polyfill.js
+*.spec.js

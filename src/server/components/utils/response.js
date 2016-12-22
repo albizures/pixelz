@@ -68,7 +68,10 @@ exports.notFound = res => result => {
   if (!result) res.status(404);
   return result;
 };
-exports.OK = res => result => res.json(result);
+exports.OK = res => result => {
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+};
 
 exports.serverError = res => err => {
   console.error(err);

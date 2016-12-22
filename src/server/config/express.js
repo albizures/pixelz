@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const config = require('./environment');
 const favicon = require('serve-favicon');
@@ -20,7 +21,8 @@ module.exports = function (app) {
     saveUninitialized: false,
     store: new MongoStore({dbPromise})
   }));
-  app.use(favicon('src/favicon.ico'));
+  console.log(__dirname);
+  app.use(favicon(path.join(__dirname, '../../favicon.ico')));
   app.use(express.static(config.PUBLIC_PATH));
   app.use(express.static(config.FILES_PATH));
   

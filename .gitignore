@@ -10,7 +10,7 @@ logs
 stats.json
 files
 env.sh
-.env
+.env*
 .env.json
 
 npm-debug.log*

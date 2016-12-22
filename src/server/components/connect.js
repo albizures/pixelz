@@ -10,7 +10,7 @@ const modelUsers = require('../api/users/users.mdl.js');
 let db;
 let option = {w: 1};
 
-var url = 'mongodb://localhost:27017/pixelz';
+var url = config.MONGODB_URI;
 mongoose.connect(url);
 exports.dbPromise = MongoClient.connect(url).then(function(result) {
   console.log("Connected correctly to server");
