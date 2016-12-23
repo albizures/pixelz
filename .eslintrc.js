@@ -10,7 +10,11 @@ module.exports = {
   globals: {
     'Promise': true,
     '$': true,
-    '$window': true
+    '$window': true,
+    'it': true,
+    'describe': true,
+    'before': true,
+    'beforeEach': true
   },
   parser: 'babel-eslint',
   rules: {
