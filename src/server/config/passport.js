@@ -12,7 +12,7 @@ function TwitterStrategyCallback(token, tokenSecret, profile, done) {
     twitterID: profile._json.id
   };
 
-  userModel.getByTwitterID(
+  userModel.findByTwitterID(
     userProfile.twitterID
   ).then(user => {
     if (!user) {

@@ -1,3 +1,5 @@
+const { isTest } = require('../../config/environment');
+
 function generate(code, description, data) {
   return {
     code,
@@ -74,7 +76,10 @@ exports.OK = res => result => {
 };
 
 exports.serverError = res => err => {
-  console.error(err);
+  res.setHeader('Content-Type', 'application/json');
+  if (!isTest) {
+    console.log('error', err);
+  }
   res.status(500).json(err);
 };
 

@@ -11,7 +11,9 @@ const MongoStore = require('connect-mongo')(session);
 const { dbPromise } = require('../components/connect.js');
 
 module.exports = function (app) {
+  // if (!config.isTest) {
   app.use(morgan('dev'));
+  // }
   app.use(cookieParser(config.secret));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,7 +23,6 @@ module.exports = function (app) {
     saveUninitialized: false,
     store: new MongoStore({dbPromise})
   }));
-  console.log(__dirname);
   app.use(favicon(path.join(__dirname, '../../favicon.ico')));
   app.use(express.static(config.PUBLIC_PATH));
   app.use(express.static(config.FILES_PATH));
