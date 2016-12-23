@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const Promise = require('bluebird');
-const { isTest } = require('../../config/environment');
+
+const validate = require('../../components/utils/validateSchema');
 const identicons = require('../../components/utils/identicons.js');
 const { User } = require('../../models');
 Joi.objectId = require('joi-objectid')(Joi);
@@ -15,22 +15,8 @@ const userSchema = Joi.object().keys({
   profileImage: Joi.string()
 });
 
-function validate(data, ...withParams) {
-  let { error } = Joi.validate(
-    data,
-    withParams.length === 0 ? userSchema : userSchema.with('sprite', ...withParams)
-  );
-  if (error) {
-    if (!isTest) {
-      console.log(data, withParams);
-    }
-    return Promise.reject(error.details[0]);
-  }
-  return Promise.resolve(data);
-}
-
 exports.create = data =>
-  validate(data, 'username', 'displayName', 'email')
+  validate(data, userSchema, 'username', 'displayName', 'email')
     .then(data => User.create(data))
     .then(user => {
       return identicons.generate({
@@ -44,7 +30,7 @@ exports.create = data =>
 exports.getAll = () => User.getAll();
 
 exports.findOne = id =>
-  validate({_id: id}, '_id')
+  validate({_id: id}, userSchema, '_id')
     .then(data => User.getOne(data));
 
 exports.getSearch = query => User.getSearch(query);
@@ -52,5 +38,5 @@ exports.getSearch = query => User.getSearch(query);
 exports.findByTwitterID = twitterID => User.findOne({twitterID});
 
 exports.update = (id, data) =>
-  validate(data)
+  validate(data, userSchema)
     .then(data => User.findByIdAndUpdate(id, {$set: data}, {new: true}));
