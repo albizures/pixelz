@@ -1,4 +1,3 @@
-const response = require('../../components/utils/response.js');
 
 exports.logout = function (req, res) {
   req.logout();
@@ -7,5 +6,9 @@ exports.logout = function (req, res) {
 };
 
 exports.whoAmI = function (req, res) {
-  res.json(response.generate(0, '', req.user));
+  res.setHeader('Content-Type', 'application/json');
+  if (!req.user) {
+    res.status(401);
+  }
+  res.json(req.user);
 };

@@ -6,7 +6,7 @@
   "homepage": "http://pixelzstudio.com",
   "scripts": {
     "server": "nodemon ./index.js",
-    "webpack": "echo webpack-dev-server --open --inline",
+    "webpack": "webpack-dev-server --open --inline",
     "start": "env-cmd ./.env concurrently \"npm run webpack\" \"npm run server\"",
     "lint": "eslint ./src",
     "test:server": "mocha ./src/server/**/*.spec.js",
@@ -49,6 +49,7 @@
     "express": "^4.13.3",
     "express-session": "^1.14.2",
     "joi": "^10.0.6",
+    "joi-objectid": "^2.0.0",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.2",
     "mongodb": "^2.2.16",

@@ -1,4 +1,3 @@
-const { isTest } = require('../../config/environment');
 
 function generate(code, description, data) {
   return {
@@ -76,10 +75,8 @@ exports.OK = res => result => {
 };
 
 exports.serverError = res => err => {
+  console.log('error', err);
   res.setHeader('Content-Type', 'application/json');
-  if (!isTest) {
-    console.log('error', err);
-  }
   res.status(500).json(err);
 };
 

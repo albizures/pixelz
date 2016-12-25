@@ -8,15 +8,14 @@ function TwitterStrategyCallback(token, tokenSecret, profile, done) {
   let userProfile = {
     username: profile._json.screen_name,
     displayName: profile._json.name,
-    email: profile._json.email,
+    email: profile._json.email || undefined,
     twitterID: profile._json.id
   };
-
   userModel.findByTwitterID(
     userProfile.twitterID
   ).then(user => {
     if (!user) {
-      return userModel.post(userProfile);
+      return userModel.create(userProfile);
     }
     return user;
   }).then(user => {
@@ -27,18 +26,19 @@ function TwitterStrategyCallback(token, tokenSecret, profile, done) {
       _id: userProfile._id,
       token
     });
-  }).catch(done);
+  }).catch(function (err) {
+    done(err);
+  });
 }
 
 const twitterStrategy = new TwitterStrategy(config.auth.twitter,TwitterStrategyCallback);
 
 const serializeUser = function(user, cb) {
-  console.log('serializeUser', user);
   cb(null, user);
 };
 
 const deserializeUser = function(obj, cb) {
-  return userModel.getOne(obj._id)
+  return userModel.findOne(obj._id)
     .then(user => cb(null, user) || null) // return null
     .catch(cb);
 };
@@ -49,6 +49,9 @@ module.exports = function (app) {
   passport.deserializeUser(deserializeUser);
   app.use(passport.initialize());
   app.use(passport.session());
+  if (config.isTest) {
+    require('../components/utils/passportStub.js').use(app);
+  }
 };
 
 module.exports.passport = passport;
