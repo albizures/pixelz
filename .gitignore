@@ -9,6 +9,7 @@ logs
 *.log
 stats.json
 files
+files-test
 env.sh
 .env*
 .env.json
