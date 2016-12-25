@@ -16,7 +16,7 @@ const userSchema = Joi.object().keys({
 });
 
 exports.create = data =>
-  validate(data, userSchema, 'username', 'displayName', 'email')
+  validate(data, userSchema, 'username', 'displayName')
     .then(data => User.create(data))
     .then(user => {
       return identicons.generate({

@@ -1,15 +1,14 @@
 const { expect } = require('chai');
 const request = require('supertest');
 
-const config = require('../../config/environment');
 const app = require('../../index');
 const { User } = require('../../models');
 
-before(function(){
-  return User.remove({});
-});
 describe('Users', () => {
   let id;
+  before(function(){
+    return User.remove({});
+  });
   it('GET / empty array', done => {
     request(app)
       .get('/api/users/')
@@ -17,7 +16,7 @@ describe('Users', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
-        expect(res.body).to.be.empty
+        expect(res.body).to.be.empty;
         expect(err).to.be.null;
         done();
       });
@@ -75,7 +74,7 @@ describe('Users', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
-        expect(res.body).to.have.all.keys('username', 'displayName', '_id', 'profileImage');
+        expect(res.body).to.have.any.keys('username', 'displayName', '_id', 'profileImage');
         expect(err).to.be.null;
         done();
       });
@@ -89,7 +88,7 @@ describe('Users', () => {
       .expect(500)
       .end(function(err, res) {
         expect(err).to.be.null;
-        expect(res.body).to.have.all.keys('message', 'path', 'type', 'context');
+        expect(res.body).to.have.any.keys('message', 'path', 'type', 'context');
         done();
       });
   });
@@ -105,7 +104,7 @@ describe('Users', () => {
       .expect('Content-Type', /json/)
       .expect(500)
       .end(function(err, res) {
-        expect(res.body).to.have.all.keys('message', 'path', 'type', 'context');
+        expect(res.body).to.have.any.keys('message', 'path', 'type', 'context');
         expect(err).to.be.null;
         done();
       });
@@ -122,7 +121,7 @@ describe('Users', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
-        expect(res.body).to.have.all.keys('__v', 'username', 'displayName', 'email', '_id', 'profileImage');
+        expect(res.body).to.have.any.keys('__v', 'username', 'displayName', 'email', '_id', 'profileImage');
         expect(res.body.username).to.equal('newusername');
         expect(res.body.displayName).to.equal('New Test Name');
         expect(res.body.email).to.equal('newemail@test.com');
@@ -134,7 +133,7 @@ describe('Users', () => {
     request(app)
       .put('/api/users/' + id)
       .send({
-       username: 'test-name',
+        username: 'test-name',
         displayName: 'Test Name',
         email: 'non-email'
       })
@@ -142,7 +141,7 @@ describe('Users', () => {
       .expect('Content-Type', /json/)
       .expect(500)
       .end(function(err, res) {
-        expect(res.body).to.have.all.keys('message', 'path', 'type', 'context');
+        expect(res.body).to.have.any.keys('message', 'path', 'type', 'context');
         expect(err).to.be.null;
         done();
       });

@@ -13,8 +13,7 @@ const schema = {
   },
   email: {
     type: String,
-    unique: true,
-    required: true
+    unique: true
   },
   displayName: {
     type: String,
