@@ -9,11 +9,11 @@ router.get('/', controller.getAll);
 router.get('/public', controller.getPublic);
 router.get('/search', controller.getSearch);
 router.get('/:id', controller.getOne);
-router.get('/:id/history', controller.getHistory);
+router.get('/:id/history', ensureAuth, controller.getHistory);
 router.get('/:id/file', ensureAuth, controller.getFile);
 
 router.post('/', upload.array('files'), parseFormData, controller.post);
 
-router.put('/:id', ensureAuth, upload.array('files'), parseFormData, controller.put);
-router.put('/:id/name', ensureAuth, controller.putName);
+router.put('/:id', ensureAuth, controller.isOwner, upload.array('files'), parseFormData, controller.put);
+router.put('/:id/name', ensureAuth, controller.isOwner, controller.putName);
 module.exports = router;

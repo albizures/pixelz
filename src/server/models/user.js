@@ -38,6 +38,11 @@ const querySchema = new querymen.Schema(
   )
 );
 
+userSchema.statics.findOrCreate = function (conditions, data){
+  return this.findOne(conditions)
+    .then(anonymous => anonymous || this.create(data));
+};
+
 userSchema.statics.getAll = function (cb) {
   return this.find({}, cb).select({ _id: 1, username: 1, displayName: 1, profileImage: 1});
 };

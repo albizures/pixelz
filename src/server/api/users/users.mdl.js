@@ -29,6 +29,12 @@ exports.create = data =>
 
 exports.getAll = () => User.getAll();
 
+exports.findOneByUsername = username => User.getOne({username});
+
+exports.findByUsernameOrCreate = (username, data) =>
+  validate(data, userSchema)
+    .then(data => User.findOrCreate({username}, data));
+
 exports.findOne = id =>
   validate({_id: id}, userSchema, '_id')
     .then(data => User.getOne(data));

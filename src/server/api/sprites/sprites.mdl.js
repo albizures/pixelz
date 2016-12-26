@@ -27,31 +27,10 @@ const spriteSchema = Joi.object().keys({
 });
 
 
-exports.getPublic = function () {
-  return db.collection(collection).aggregate([{
-    $match: {
-      private: false
-    }
-  }, {
-    $lookup: {
-      from: 'users',
-      localField: 'user',
-      foreignField: '_id',
-      as: 'user'
-    },
-  }, {
-    $project: {
-      name: 1,
-      createdAt: 1,
-      frames: 1,
-      layers: 1,
-      preview: 1,
-      user: {_id: 1, username: 1, displayName: 1, profileImage: 1}
-    }
-  }, {
-    $unwind: "$user"
-  }]).toArray();
-};
+exports.getPublic = () => 
+  Sprite.find({private: false})
+    .select({file: 0, history: 0, private: 0})
+    .populate('user username displayName profileImage _id');
 
 exports.create = data =>
   validate(data, spriteSchema,
@@ -63,7 +42,7 @@ exports.create = data =>
 exports.getAll = () => Sprite.getAll();
 
 
-exports.getOnePublic = _id => Sprite.getOne({_id});
+exports.getOnePublic = _id => Sprite.getOne({_id, private: false});
 
 exports.getOne = (_id, user) => Sprite.findOne({_id, user});
 
@@ -84,11 +63,7 @@ exports.getSearch = function (data, fields, cb) {
 exports.collection = collection;
 
 exports.createHistory = data =>
- validate(data, spriteHistorySchema, 'file', 'preview')
-    .then(data => {
-      console.log('history resive',data);
-      return data;
-    })
+  validate(data, spriteHistorySchema, 'file', 'preview')
     .then(data => SpriteHistory.create(data));
 
 exports.updateName = (id, name) =>

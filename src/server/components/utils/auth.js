@@ -3,5 +3,5 @@ exports.ensureAuth = function ensureAuth(req, res, next) {
     return next();
   }
 
-  res.status(401).send({error: 'not authenticated'});
+  res.status(401).send({error: 'Unauthorized'});
 };

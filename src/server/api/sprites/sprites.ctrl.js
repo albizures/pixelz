@@ -1,13 +1,37 @@
 const co = require('co');
 const model = require('./sprites.mdl.js');
+const modelUsers = require('../users/users.mdl.js');
 const response = require('../../components/utils/response.js');
 const files = require('../../components/utils/files.js');
 const db = require('../../components/connect.js');
 
+exports.isOwner = (req, res, next) => {
+  model.getOne(req.params.id, req.user._id)
+    .then(sprite => {
+      if (sprite) {
+        return next();
+      }
+      res.status(401);
+    }).catch(response.serverError(res));
+};
+
 exports.post = (req, res) => co(function* () {
   let type = req.body.type;
+  let user;
+  if (!req.user) {
+    let anonymous = yield modelUsers.findByUsernameOrCreate('anonymous', {
+      username: 'anonymous',
+      displayName: 'Anonymous',
+      email: 'anonymous@pixore.com',
+      twitterID: 0
+    });
+    user = anonymous._id;
+  } else {
+    user = req.user._id;
+  }
+
   var {_id: id} = yield model.create({
-    user: req.user._id,
+    user,
     title: req.body.title,
     width: req.body.width,
     height: req.body.height,
@@ -63,7 +87,9 @@ exports.getFile = function (req, res) {
 exports.getOne = (req, res) => {
   var promise;
   if (req.user) {
-    promise = model.getOne(req.params.id, req.user._id);
+    promise = model
+      .getOne(req.params.id, req.user._id)
+      .then(sprite => sprite || model.getOnePublic(req.params.id));
   } else {
     promise = model.getOnePublic(req.params.id);
   }
@@ -73,14 +99,10 @@ exports.getOne = (req, res) => {
     .catch(response.serverError(res));
 };
 
-exports.getPublic = function (req, res) {
-  response.promise(
-    model.getPublic(),
-    res,
-    200,
-    500
-  );
-};
+exports.getPublic = (req, res) =>
+  model.getPublic()
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 
 exports.getAll = (req, res) =>
   model.getAll()
@@ -94,12 +116,12 @@ exports.getSearch = function (req, res) {
 exports.put = (req, res) => co(function *() {
   let id = req.params.id;
   let type = req.body.type;
-  let sprite = yield model.getOne(id, req.user._id);
-  let fileTemp = sprite.file;
-  let previewTemp = sprite.preview;
-
-  let file = req.files.shift();
   let namePreview = Date.now() + '.' + type;
+  let file = req.files.shift();
+  let sprite = yield model.getOne(id, req.user._id);
+
+  let previewTemp = sprite.preview;
+  let fileTemp = sprite.file;
   yield files.write(namePreview, file.buffer);
 
   file = req.files.shift();
@@ -110,7 +132,6 @@ exports.put = (req, res) => co(function *() {
     file: fileTemp,
     preview: previewTemp
   });
-  console.log([history].concat(sprite.history));
   sprite = yield model.update(sprite._id, {
     title: req.body.title || sprite.title,
     width: req.body.width || sprite.width,
