@@ -1,39 +1,72 @@
-const db = require('../../components/connect.js');
+const co = require('co');
+const _ = require('lodash');
 const model = require('./palettes.mdl.js');
+const modelUsers = require('../users/users.mdl.js');
 const response = require('../../components/utils/response.js');
 
-exports.post = function (req, res) {
-  var date = new Date();
-  console.log(req.body);
-  response.commonData(res, model.post, {
-    name: req.body.name,
-    user: db.newId('5761fcf1a4a36ca01877f912'),
-    modificationDate: date,
-    creationDate: date,
-    colors: req.body.colors,
-    public: req.body.public
-  });
-};
+exports.isOwner = (req, res, next) =>
+  model.getOne(req.params.id, req.user._id)
+    .then(palette => {
+      if (palette) {
+        return next();
+      }
+      res.status(401);
+    }).catch(response.serverError(res));
 
-exports.getOne = function (req, res) {
-  if (!db.validId(req.params.id)) {
-    return res.json(response.commonResult('Invalid id'));
+
+exports.post = (req, res) => co(function* () {
+  let user;
+  if (!req.user) {
+    let anonymous = yield modelUsers.findByUsernameOrCreate('anonymous', {
+      username: 'anonymous',
+      displayName: 'Anonymous',
+      email: 'anonymous@pixore.com',
+      twitterID: 0
+    });
+    user = anonymous._id;
+  } else {
+    user = req.user._id;
   }
-  response.commonData(res, model.getOne, req.params.id);
+
+  let palette = yield model.create({
+    title: req.body.title,
+    user: user,
+    colors: req.body.colors,
+    private: req.body.private
+  });
+  return palette;
+}).then(response.created(res))
+  .catch(response.serverError(res));
+
+exports.getOne = (req, res) => {
+  var promise;
+  console.log('getOne', req.params.id);
+  if (req.user) {
+    promise = model
+      .getOne(req.params.id, req.user._id)
+      .then(palette => palette || model.getOnePublic(req.params.id));
+  } else {
+    promise = model.getOnePublic(req.params.id);
+  }
+  promise
+    .then(response.notFound(res))
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 };
 
-exports.getAll = function (req, res){
-  response.common(res, model.getAll);
-};
+exports.getPublic = (req, res) =>
+  model.getPublic()
+    .then(response.OK(res))
+    .catch(response.serverError(res));
+
 
 exports.getSearch = function (req, res) {
   response.commonData(res, model.getSearch, req.query);
 };
 
-exports.put = function (req, res) {
-  response.commonPut(res, model.put, req.params.id, {
-    colors: req.body.colors,
-    name: req.body.name,
-    modifiedAt: new Date()
-  });
-};
+exports.put = (req, res) =>
+  model.update(
+    req.params.id,
+    _.pick(req.body, ['title', 'colors', 'private'])
+  ).then(response.OK(res))
+    .catch(response.serverError(res));
