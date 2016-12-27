@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const controller = require('./editor.ctrl.js');
+const { ensureAuth } = require('../../components/utils/auth.js');
 
-router.get('/', controller.getLast);
-router.get('/user', controller.getAll);
-router.post('/', controller.post);
+router.get('/', ensureAuth, controller.getAll);
+router.get('/user', ensureAuth, controller.getAllOfUser);
+router.get('/user/last', ensureAuth, controller.getLast);
+router.post('/', ensureAuth, controller.post);
 
-router.put('/:id', controller.put);
+router.put('/:id', ensureAuth, controller.isOwner, controller.put);
 
 module.exports = router;

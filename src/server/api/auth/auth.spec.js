@@ -15,6 +15,7 @@ describe('auth', () => {
         username: 'testuser',
         displayName: 'Test user'
       })).then(user => {
+        console.log('create user', user);
         passportStub.login(user);
       });
   });

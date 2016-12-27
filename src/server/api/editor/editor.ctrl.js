@@ -1,37 +1,42 @@
-const { newId } = require('../../components/connect.js');
 const model = require('./editor.mdl.js');
 const response = require('../../components/utils/response.js');
+const pick = require('lodash.pick');
+
+exports.isOwner = (req, res, next) =>
+  model.findOneOfUser(req.params.id, req.user._id)
+    .then(palette => {
+      if (palette) {
+        return next();
+      }
+      res.status(401);
+    }).catch(response.serverError(res));
 
 
-exports.getLast = function (req, res) {
-  response.promise(
-    model.getLast(req.user._id),
-    res,
-    200,
-    500
-  );
-};
+exports.getAllOfUser = (req, res) =>
+  model.findAllOfUser(req.user._id)
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 
-exports.getAll = function (req, res) {
-  response.promise(
-    model.getAll(newId(req.user._id)),
-    res
-  );
-};
+exports.getLast = (req, res) =>
+  model.findLastOfUser(req.user._id)
+    .then(response.notFound(res))
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 
-exports.put = function (req, res) {
-  response.promise(
-    model.put(newId(req.params.id), newId(req.user._id), req.body),
-    res
-  );
+exports.getAll = (req, res) =>
+  model.findAll()
+    .then(response.OK(res))
+    .catch(response.serverError(res));
+
+exports.put = (req, res) => {
+  model.update(req.params.id, pick(req.body, ['title', 'palette', 'layout', 'sprites']))
+    .then(response.OK(res))
+    .catch(response.serverError(res));
 };
 
 exports.post = function (req, res) {
-  req.body.user = newId(req.user._id);
-  response.promise(
-    model.post(req.body),
-    res,
-    201,
-    500
-  );
+  req.body.user = req.user._id;
+  model.create(req.body)
+    .then(response.created(res))
+    .catch(response.serverError(res));
 };
