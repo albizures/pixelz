@@ -1,12 +1,22 @@
-const React = require('react');
+import React from 'react';
+import { register } from 'react-dynamic-layout';
+import { connect } from 'react-redux';
 
-const { register } = require('react-dynamic-layout');
-const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
-const { connect } = require('react-redux');
-const { actions: {setStyle, setParams} } = require('../ducks/panels.js');
-const { actions: {savePalette} } = require('../../../ducks/palettes.js');
-const { actions: {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor}} = require('../../../ducks/sprites.js');
-const ContentColors = require('./ContentColors.js');
+import { getTransparentColor, getSpritePalette } from '../../../workers/colors';
+import { actions as panelActions } from '../ducks/panels';
+import { actions as paletteActions } from '../../../ducks/palettes';
+import { actions as spriteActions } from '../../../ducks/sprites';
+import ContentColors from './ContentColors';
+
+const {
+  setTransparentColor,
+  setCurrentPalette,
+  setSpriteSecondaryColor,
+  setSpritePrimaryColor
+} = spriteActions;
+const {savePalette} = paletteActions;
+const {setStyle, setParams} = panelActions;
+
 const obj = {};
 
 obj.displayName = 'Palette';
@@ -138,4 +148,4 @@ const Palette = connect(
 
 register(Palette, obj.displayName);
 
-module.exports = Palette;
+export default Palette;

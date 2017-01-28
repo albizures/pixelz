@@ -1,5 +1,5 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 const obj = {};
 obj.displayName = 'Mask';
@@ -47,4 +47,4 @@ obj.render = function() {
 
 const Mask = React.createClass(obj);
 
-module.exports = Mask;
+export default Mask;

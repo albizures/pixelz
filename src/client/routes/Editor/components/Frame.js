@@ -1,11 +1,11 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React from 'react';
+import { connect } from 'react-redux';
 
-const frameActions = require('../ducks/frames.js').actions;
-const spriteActions = require('../ducks/sprites.js').actions;
-const { currentActions} = require('../ducks');
-const { getPreviewSize } = require('utils/canvas.js');
-const Context = require('./Context.js');
+import { actions as frameActions } from '../ducks/frames';
+import { actions as spriteActions } from '../ducks/sprites';
+import { currentActions } from '../ducks';
+import { getPreviewSize } from '../../../utils/canvas';
+import Context from './Context';
 
 const obj = {};
 obj.displayName = 'Frame';
@@ -67,7 +67,7 @@ obj.render = function(){
 };
 const Frame = React.createClass(obj);
 
-module.exports = connect(
+export default connect(
   null,
   Object.assign({}, frameActions, currentActions, spriteActions)
 )(Frame);

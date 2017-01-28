@@ -1,10 +1,13 @@
-require('./style/main.styl');
-require('./polyfill.js');
+import './style/main.styl';
+import './polyfill';
 
 window.hasVal = (val) => {
   return typeof val !== 'undefined' && val !== null;
 };
-window.$ = require('utils/dom.js').$;
+
+import { $ } from './utils/dom';
+
+window.$ = $;
 window.$window = $(window);
 
 const $window = $(window);
@@ -16,19 +19,19 @@ $window.on('keydown.general', evt =>{
   window.ALT_KEY = evt.altKey;
 });
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const {Router, Route, browserHistory } = require('react-router');
-const {Provider} = require('react-redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, browserHistory } from 'react-router';
+import {Provider} from 'react-redux';
 
-const store = require('./store.js').store;
-const Home = require('./routes/Home');
-const Editor = require('./routes/Editor');
-const Tooltip = require('./components/Tooltip.js');
-const http = require('http');
-const palettes = require('./ducks/palettes.js');
-const User = require('./ducks/user.js');
-const { currentActions: editorActions } = require('./routes/Editor/ducks');
+import { store } from './store';
+import Home from './routes/Home';
+import Editor from './routes/Editor';
+import Tooltip from './components/Tooltip';
+import http from './utils/http';
+import * as palettes from './ducks/palettes';
+import * as User from './ducks/user';
+import { currentActions as editorActions } from './routes/Editor/ducks';
 
 http.get('/api/palettes').then(function (result) {
   if (result.code !== 0 || !result.data) {

@@ -1,9 +1,12 @@
 
-const React = require('react');
-const classNames = require('classnames');
-const { store } = require('../store.js');
-const http = require('http');
-const { actions: {setUser} } = require('../ducks/user.js');
+import React from 'react';
+import classNames from 'classnames';
+import { store } from '../store';
+import http from '../utils/http';
+import { actions as userActions } from '../ducks/user';
+
+const {setUser} = userActions;
+
 const obj = {};
 
 obj.displayName = 'LoginButton';
@@ -56,4 +59,4 @@ obj.render = function () {
 
 const LoginButton = React.createClass(obj);
 
-module.exports = LoginButton;
+export default LoginButton;

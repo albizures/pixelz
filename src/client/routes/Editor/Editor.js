@@ -20,9 +20,9 @@ import './components/Palette';
 import './components/Layers';
 import './components/Frames';
 import Sprites from './components/Sprites';
-import Tools from './components/Tools.js';
+import Tools from './components/Tools';
 import Menus from './components/Menus';
-import ColorPicker from './components/ColorPicker.js';
+import ColorPicker from './components/ColorPicker';
 
 const ColorPickerId = cuid();
 
@@ -31,7 +31,7 @@ const windowSize = {
   height: window.innerHeight
 };
 
-module.exports = () => <Layout name='Main' type={ROW} hiddenType={OPACITY} resize={false}>
+export default () => <Layout name='Main' type={ROW} hiddenType={OPACITY} resize={false}>
   <Float width='65px' height='170px' x='250px' y='100px'>
     <Layout name='Float' type={ROW}>
       <Container size={100} tabs={false}>

@@ -1,9 +1,9 @@
 'use strict';
-const AppendObject = require('./AppendObject.js'),
-    { inheritanceObject } = require('utils/object.js'),
+const AppendObject = require('./AppendObject'),
+    { inheritanceObject } = require('utils/object'),
     make = require('make'),
     {TRANSPARENT_IMG_URL, RIGHT_CLICK, LEFT_CLICK} = require('../constants'),
-    Tools = require('../panels/Tools.js'),
+    Tools = require('../panels/Tools'),
     {SIZE_COLOR_BLOCK, CHANGE_COLOR} = require('../constants').palette;
 function Color(color, active, size, offEvents) {
   AppendObject.call(this, 'color');

@@ -1,14 +1,22 @@
-const React = require('react');
-const http = require('http');
-const { wrapActionCreators } = require('utils/ducks.js');
-const { bindObject } = require('../../utils/object.js');
-const { createSprite } = require('../../utils/sprites.js');
-const { store: { dispatch } } = require('../../store.js');
-const { addSprite, selectSpriteFrame, addFrameSprite, selectSpriteLayer } = require('../../ducks/sprites.js').actions;
-const { openSprite } = require('./ducks/sprites.js').actions;
-const { setEditorId, setCurrentSprite } = require('./ducks/index.js').currentActions;
-const { addFrame, addLayerFrame } = require('./ducks/frames.js').actions;
-const { addLayer } = require('./ducks/layers.js').actions;
+import React from 'react';
+
+import http from '../../utils/http';
+import { wrapActionCreators } from '../../utils/ducks';
+import { bindObject } from '../../utils/object';
+import { createSprite } from '../../utils/sprites';
+import { store } from '../../store';
+import { actions as spriteActions } from '../../ducks/sprites';
+import { actions as editorSpriteActions } from './ducks/sprites';
+import { currentActions } from './ducks/index';
+import { actions as frameActions } from './ducks/frames';
+import { actions as layersActions } from './ducks/layers';
+
+const { addLayer } = layersActions;
+const { openSprite } = editorSpriteActions;
+const { addFrame, addLayerFrame } = frameActions;
+const { setEditorId, setCurrentSprite } = currentActions;
+const { addSprite, selectSpriteFrame, addFrameSprite, selectSpriteLayer } = spriteActions;
+const { dispatch } = store;
 
 const actions = wrapActionCreators(dispatch, {
   setEditorId,
@@ -26,7 +34,7 @@ const actions = wrapActionCreators(dispatch, {
 const loader = {};
 
 loader.ensure = function () {
-  require.ensure([], (require) => this.cb(require('./Editor.js')));
+  require.ensure([], (require) => this.cb(require('./Editor').default));
 };
 
 loader.onClose = function () {
@@ -163,4 +171,4 @@ loader.init = function (cb) {
 
 bindObject(loader);
 
-module.exports = (cb) => loader.init(cb);
+export default (cb) => loader.init(cb);

@@ -1,5 +1,5 @@
 'use strict';
-const { defineGetter } = require('utils/object.js');
+const { defineGetter } = require('utils/object');
 
 function AppendObject() {
   this.el = document.createElement(this.$type);

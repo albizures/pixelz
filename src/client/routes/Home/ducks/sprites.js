@@ -1,9 +1,9 @@
 const ADD_SPRITE_HOME = 'ADD_SPRITE_HOME';
 const ADD_SPRITES_HOME = 'ADD_SPRITES_HOME';
 
-exports.initialState = [];
+export const initialState = [];
 
-exports.reducer = function (state = [], action) {
+export default function reducer(state = [], action) {
   switch (action.type) {
     case ADD_SPRITE_HOME:
       return state.concat([action.sprite]);
@@ -12,8 +12,9 @@ exports.reducer = function (state = [], action) {
     default:
       return state;
   }
-};
-const actions = {};
+}
+
+export const actions = {};
 
 actions.addSpriteHome = function (sprite) {
   return {
@@ -30,9 +31,7 @@ actions.addSpritesHome = function (sprites) {
 };
 
 
-exports.actions = actions;
-
-exports.types = {
+export const types = {
   ADD_SPRITE_HOME,
   ADD_SPRITES_HOME
 };

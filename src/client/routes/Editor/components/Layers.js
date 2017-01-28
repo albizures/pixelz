@@ -1,11 +1,14 @@
-const React = require('react');
-const { connect } = require('react-redux');
-const classNames = require('classnames');
-const { register } = require('react-dynamic-layout');
+import React from 'react';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
+import { register } from 'react-dynamic-layout';
 
-const Layer = require('./Layer.js');
-const { addLayerFrame, addLayer } = require('../ducks').actions;
-const { actions: { selectSpriteLayer} } = require('../../../ducks/sprites.js');
+import Layer from './Layer';
+import { actions } from '../ducks';
+import { actions as spriteActions } from '../../../ducks/sprites';
+
+const { selectSpriteLayer} = spriteActions;
+const { addLayerFrame, addLayer } = actions;
 
 const obj = {};
 obj.displayName = 'Layers';
@@ -111,4 +114,4 @@ const Layers = connect(
 
 register(Layers, obj.displayName);
 
-module.exports =  Layers;
+export default Layers;

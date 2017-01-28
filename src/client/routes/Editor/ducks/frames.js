@@ -1,5 +1,5 @@
-const { push, updateArrayItem, editProp, shiftPositions } = require('utils/ducks.js');
-const { getNewContext } = require('utils/canvas.js');
+import { push, updateArrayItem, editProp, shiftPositions } from 'utils/ducks';
+import { getNewContext } from 'utils/canvas';
 
 const ADD_FRAME = 'ADD_FRAME';
 const ADD_lAYER_FRAME = 'ADD_lAYER_FRAME';
@@ -7,7 +7,7 @@ const NEW_FRAME_VERSION = 'NEW_FRAME_VERSION';
 const CHANGE_LAYER_POSITION = 'CHANGE_LAYER_POSITION';
 
 
-exports.reducer = function(state = [], action) {
+export default function reducer(state = [], action) {
   switch (action.type) {
     case ADD_FRAME:
       return push(state, {
@@ -54,10 +54,10 @@ exports.reducer = function(state = [], action) {
     default:
       return state;
   }
-};
-exports.actions = {};
+}
+export const actions = {};
 
-exports.actions.addFrame = function(frame) {
+actions.addFrame = function(frame) {
   return (dispatch, getState) => {
     let index = getState().Editor.frames.length;
     dispatch({
@@ -68,7 +68,7 @@ exports.actions.addFrame = function(frame) {
     return index;
   };
 };
-exports.actions.addLayerFrame = function(frame, layer) {
+actions.addLayerFrame = function(frame, layer) {
   return {
     type: ADD_lAYER_FRAME,
     frame,
@@ -76,14 +76,14 @@ exports.actions.addLayerFrame = function(frame, layer) {
   };
 };
 
-exports.actions.newFrameVersion = function(frame) {
+actions.newFrameVersion = function(frame) {
   return {
     type: NEW_FRAME_VERSION,
     frame
   };
 };
 
-exports.actions.changeLayerPosition = function(frame, fromIndex, toIndex) {
+actions.changeLayerPosition = function(frame, fromIndex, toIndex) {
   return {
     type: CHANGE_LAYER_POSITION,
     frame,

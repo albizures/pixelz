@@ -1,11 +1,6 @@
 import { combineReducers } from 'redux';
-import http from 'http';
+import http from '../utils/http';
 
-import * as sprites from './sprites';
-import * as frames from './frames';
-import * as layers from './layers';
-import * as panels from './panels';
-import * as history from './history';
 
 const SET_CURRENT_SPRITE = 'SET_CURRENT_SPRITE';
 const SET_CURRENT_FRAME = 'SET_CURRENT_FRAME';
@@ -36,51 +31,33 @@ function getReducer(type, prop) {
 }
 export default combineReducers({
   artboard: getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
-  history: history.default,
   sprite: getReducer(SET_CURRENT_SPRITE, 'index'),
   frame: getReducer(SET_CURRENT_FRAME, 'index'),
   layer: getReducer(SET_CURRENT_LAYER, 'index'),
   palette: getReducer(SET_CURRENT_PALETTE, 'index'),
   tool: getReducer(SET_CURRENT_TOOL, 'tool'),
-  sprites: sprites.default,
-  frames: frames.default,
-  layers: layers.default,
-  panels: panels.default,
   _id: getReducer(SET_EDITOR_ID, '_id'),
-  //palettes : palettes.reducer,
   tools: function tools(state = tools) {
     return state;
   },
 });
 
-export const actions = Object.assign({},
-  history.actions,
-  sprites.actions,
-  panels.actions,
-  frames.actions,
-  layers.actions
-);
+export const actions = { };
 
-actions.setCurrentPalette = function(index) {
-  return {
-    type: SET_CURRENT_PALETTE,
-    index
-  };
-};
+actions.setCurrentPalette = index => ({
+  type: SET_CURRENT_PALETTE,
+  index
+});
 
-actions.setCurrentSprite = function(index) {
-  return {
-    type: SET_CURRENT_SPRITE,
-    index
-  };
-};
+actions.setCurrentSprite = index => ({
+  type: SET_CURRENT_SPRITE,
+  index
+});
 
-actions.setCurrentTool = function(tool) {
-  return {
-    type: SET_CURRENT_TOOL,
-    tool
-  };
-};
+actions.setCurrentTool = tool => ({
+  type: SET_CURRENT_TOOL,
+  tool
+});
 
 actions.setEditorId = function (_id) {
   return {
@@ -106,13 +83,8 @@ actions.saveEditor = () => (dispatch, getState) => {
 };
 
 export const initialState = {
-  history: history.init,
   tools: tools,
   tool: tools[0],
-  sprites: sprites.initialState,
-  frames: [],
-  layers: [],
-  panels: panels.init
 };
 
 export const editorActions = actions;

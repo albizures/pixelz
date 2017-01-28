@@ -1,11 +1,11 @@
 'use strict';
-console.log(require('../constants/index.js'));
-const {defineGetter, inheritanceObject } = require('utils/object.js'),
-      {SNAP, FLOAT, T, B, L, R, TL, TR, BL, BR} = require('../constants/index.js').panels,
+console.log(require('../constants/index'));
+const {defineGetter, inheritanceObject } = require('utils/object'),
+      {SNAP, FLOAT, T, B, L, R, TL, TR, BL, BR} = require('../constants/index').panels,
       resizeBars = [T, L, B, R],
       resizeCorners = [TL, BL, BR, TR],
-      AppendObject = require('./AppendObject.js'),
-      Vector = require('../prototypes/Vector.js');
+      AppendObject = require('./AppendObject'),
+      Vector = require('../prototypes/Vector');
 
 function ResizeBar(panel, type) {
   AppendObject.call(this, 'resize-bar', type);

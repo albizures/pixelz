@@ -1,11 +1,11 @@
-// test/test_index.js 
+// test/test_index 
 
 // This gets replaced by karma webpack with the updated files on rebuild 
 var __karmaWebpackManifest__ = [];
 
 // require all modules ending in "_test" from the 
 // current directory and all subdirectories 
-var testsContext = require.context('.', true, /.+\.spec\.js?$/);
+var testsContext = require.context('.', true, /.+\.spec\?$/);
 
 function inManifest(path) {
   return __karmaWebpackManifest__.indexOf(path) >= 0;

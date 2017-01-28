@@ -1,6 +1,6 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { transparent } = require('constants/index.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { transparent } from '../../../../constants';
 
 const obj = {};
 
@@ -50,4 +50,4 @@ obj.render = function() {
 
 const Background = React.createClass(obj);
 
-module.exports = Background;
+export default Background;

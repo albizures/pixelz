@@ -1,5 +1,5 @@
-const Vector = require('../Vector.js'),
-  Tools = require('../../panels/Tools.js'),
+const Vector = require('../Vector'),
+  Tools = require('../../panels/Tools'),
   {COLOR_POINTER_PREW_DEF, TRANSPARENT_IMG} = require('../../constants');
 
 module.exports.cleanPrev = function () {

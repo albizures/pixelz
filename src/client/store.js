@@ -1,19 +1,23 @@
-const { createStore, combineReducers, compose, applyMiddleware } = require('redux');
-const thunk = require('redux-thunk').default;
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
-const Editor = require('./routes/Editor/ducks');
-const Home = require('./routes/Home/ducks');
-const palettes = require('./ducks/palettes.js');
-const user = require('./ducks/user.js');
-const sprites = require('./ducks/sprites.js');
+import * as Editor from './routes/Editor/ducks';
+import * as Home from './routes/Home/ducks';
+
+
+import * as editorSprites from './ducks/editorSprites';
+import * as palettes from './ducks/palettes';
+import * as user from './ducks/user';
+import * as sprites from './ducks/sprites';
 
 
 const reducers = combineReducers({
-  Editor: Editor.reducer,
-  sprites: sprites.reducer,
-  palettes: palettes.reducer,
-  Home: Home.reducer,
-  user: user.reducer
+  Editor: Editor.default,
+  editorSprites: editorSprites.default,
+  sprites: sprites.default,
+  palettes: palettes.default,
+  Home: Home.default,
+  user: user.default
 });
 
 
@@ -22,7 +26,8 @@ const initialState = {
   Home: Home.initialState,
   palettes: palettes.initialState,
   user: user.initialState,
-  sprites: sprites.initialState
+  sprites: sprites.initialState,
+  editorSprites: editorSprites.initialState
 };
 
 
@@ -34,7 +39,7 @@ if (process.env.NODE_ENV === 'development' && window.devToolsExtension) {
   middlewares.push(window.devToolsExtension());
 }
 
-exports.store = createStore(
+export const store = createStore(
   reducers,
   initialState,
   compose.apply(undefined, middlewares)

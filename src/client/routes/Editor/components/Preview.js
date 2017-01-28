@@ -1,11 +1,11 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { connect } = require('react-redux');
-const { register } = require('react-dynamic-layout');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
 
-const { getPreviewSize } = require('../../../utils/canvas.js');
-const Sprite = require('./Sprite.js');
-const Range = require('./Range.js');
+import { getPreviewSize } from '../../../utils/canvas';
+import Sprite from './Sprite';
+import Range from './Range';
 
 const obj = {};
 
@@ -93,4 +93,4 @@ const Preview = connect(
 
 register(Preview, obj.displayName);
 
-module.exports = Preview;
+export default Preview;

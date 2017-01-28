@@ -1,13 +1,13 @@
 'use strict';
-const Frame = require('./Frame.js');
+const Frame = require('./Frame');
 const Palette = require('../panels/Palette');
-const Gif = require('./gif/gif.js');
-const Action = require('./Action.js');
-const Frames = require('../panels/Frames.js');
-const Actions = require('../panels/Actions.js');
-const colors = require('../workers/colors.js')();
-const { downloadBlob } = require('utils/file.js');
-const Preview = require('../panels/Preview.js');
+const Gif = require('./gif/gif');
+const Action = require('./Action');
+const Frames = require('../panels/Frames');
+const Actions = require('../panels/Actions');
+const colors = require('../workers/colors')();
+const { downloadBlob } = require('utils/file');
+const Preview = require('../panels/Preview');
 const http = require('http');
 
 /**

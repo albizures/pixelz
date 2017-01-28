@@ -1,9 +1,9 @@
 'use strict';
-const { imageSmoothing } = require('utils/canvas.js');
-const Layers = require('../panels/Layers.js');
-const Select = require('./Select.js');
-const Action = require('./Action.js');
-const Actions = require('../panels/Actions.js');
+const { imageSmoothing } = require('utils/canvas');
+const Layers = require('../panels/Layers');
+const Select = require('./Select');
+const Action = require('./Action');
+const Actions = require('../panels/Actions');
 const { TRANSPARENT_COLOR } = require('../constants');
 
 function Layer(frame, index, status, context, bitmap) {

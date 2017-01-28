@@ -1,5 +1,5 @@
-const React = require('react');
-const classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 const obj = {};
 obj.displayName = 'Menu';
 
@@ -63,4 +63,4 @@ obj.render = function () {
 const Menu = React.createClass(obj);
 
 
-module.exports = Menu;
+export default Menu;

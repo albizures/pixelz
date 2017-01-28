@@ -1,10 +1,15 @@
-const React = require('react');
-const { connect } = require('react-redux');
-const classNames = require('classnames');
-const { actions: { selectSpriteLayer, selectSpriteFrame} } = require('../../../ducks/sprites.js');
-const { currentActions, actions: {setEditorId} } = require('../ducks');
-const { register } = require('react-dynamic-layout');
-const http = require('http');
+import React from 'react';
+import { register } from 'react-dynamic-layout';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
+
+import { actions as actionsSprite } from '../../../ducks/sprites';
+import { currentActions, actions } from '../ducks';
+import http from '../../../utils/http';
+
+const {setEditorId} = actions;
+const { selectSpriteLayer, selectSpriteFrame } = actionsSprite;
+
 const obj = {};
 
 obj.displayName = 'Sprites';
@@ -83,4 +88,4 @@ const Sprites = connect(
 
 register(Sprites, obj.displayName);
 
-module.exports = Sprites;
+export default Sprites;

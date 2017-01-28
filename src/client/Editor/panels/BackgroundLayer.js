@@ -1,10 +1,10 @@
 'use strict';
-const Panel = require('../prototypes/Panel.js'),
-  Vector = require('../prototypes/Vector.js'),
+const Panel = require('../prototypes/Panel'),
+  Vector = require('../prototypes/Vector'),
   make = require('make'),
-  Action = require('../prototypes/Action.js'),
-  Range = require('../prototypes/Range.js'),
-  Actions = require('./Actions.js'),
+  Action = require('../prototypes/Action'),
+  Range = require('../prototypes/Range'),
+  Actions = require('./Actions'),
   BackgroundLayer = Panel.createFloatPanel('BackgroundLayer', new Vector((window.innerWidth / 2) - 100, 100), true);
 
 BackgroundLayer.mainInit = function () {

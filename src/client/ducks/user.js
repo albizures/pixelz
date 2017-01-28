@@ -1,23 +1,19 @@
 const SET_USER = 'SET_USER';
 
-exports.initialState = null;
+export const initialState = null;
 
-exports.reducer = function (state = null, action) {
+export default function (state = null, action) {
   switch (action.type) {
     case SET_USER:
       return action.user;
     default:
       return state;
   }
-};
+}
 
-const actions = {};
+export const actions = {};
 
-actions.setUser = function (user = null) {
-  return {
-    type: SET_USER,
-    user
-  };
-};
-
-exports.actions = actions;
+actions.setUser = (user = null) => ({
+  type: SET_USER,
+  user
+});

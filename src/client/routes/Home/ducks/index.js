@@ -1,13 +1,12 @@
-const { combineReducers } = require('redux');
+import { combineReducers } from 'redux';
+import * as sprites from './sprites';
 
-const sprites = require('./sprites.js');
-
-exports.initialState = {
+export const initialState = {
   sprites: sprites.initialState
 };
 
-exports.reducer = combineReducers({
-  sprites: sprites.reducer
+export default combineReducers({
+  sprites: sprites.default
 });
 
-exports.actions = Object.assign({}, sprites.actions);
+export const actions = Object.assign({}, sprites.actions);

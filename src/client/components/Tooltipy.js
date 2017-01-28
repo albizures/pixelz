@@ -1,5 +1,5 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 let setStatusTooltip;
 
@@ -28,10 +28,9 @@ obj.render = function () {
   return React.createElement(type, Object.assign({ref: 'el'}, props));
 };
 
-const Tooltipy = React.createClass(obj);
 
-exports.Tooltipy = Tooltipy;
-exports.onSetStatusTooltip = function (cb) {
+export const Tooltipy = React.createClass(obj);
+export const onSetStatusTooltip = function (cb) {
   //console.log('set cb');
   setStatusTooltip = cb;
 };

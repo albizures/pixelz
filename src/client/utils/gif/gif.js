@@ -2,10 +2,10 @@
   Johan Nordberg (origianl version - code@johan-nordberg.com)
 */
 
-const EventEmitter = require('events').EventEmitter;
-const browser = require('utils/browser.js');
-const {inheritanceObject} = require('utils/object.js');
-const gifWorker = require('workers/gif.worker.js');
+import {EventEmitter} from 'events'
+import browser from '../browser'
+import {inheritanceObject} from '../object'
+import gifWorker from '../../workers/gif.worker'
 
 let defaults = {
   workers: 2,

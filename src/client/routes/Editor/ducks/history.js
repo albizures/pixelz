@@ -1,4 +1,4 @@
-const { editProp } = require('utils/ducks.js');
+import { editProp } from 'utils/ducks';
 
 const ADD_UNDO = 'ADD_UNDO';
 const ADD_REDO = 'ADD_REDO';
@@ -17,7 +17,7 @@ const def = {
   redo: []
 };
 
-exports.reducer = function(state = def, {
+export default function reducer(state = def, {
   type,
   data,
   redo
@@ -36,28 +36,28 @@ exports.reducer = function(state = def, {
     default:
       return state;
   }
-};
+}
 
-exports.init = def;
+export const init = def;
 
-exports.actions = {};
+export const actions = {};
 
 
-exports.actions.deleteRedo = function(index) {
+actions.deleteRedo = function(index) {
   return {
     type: DELETE_REDO,
     index
   };
 };
 
-exports.actions.deleteUndo = function(index) {
+actions.deleteUndo = function(index) {
   return {
     type: DELETE_UNDO,
     index
   };
 };
 
-exports.actions.addUndoPaint = function(data, redo) {
+actions.addUndoPaint = function(data, redo) {
   return {
     type: ADD_UNDO,
     data: {
@@ -68,7 +68,7 @@ exports.actions.addUndoPaint = function(data, redo) {
   };
 };
 
-exports.actions.addRedoPaint = function(data) {
+actions.addRedoPaint = function(data) {
   return {
     type: ADD_REDO,
     data: {

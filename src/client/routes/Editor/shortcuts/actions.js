@@ -1,8 +1,8 @@
-const { actions } = require('../ducks/index.js');
-const { store } = require('../../../store.js');
-const { cloneContext } = require('utils/canvas.js');
+import { actions } from '../ducks/index';
+import { store } from '../../../store';
+import { cloneContext } from 'utils/canvas';
 
-module.exports = {
+export default {
   PAINT: function({
     layer,
     prevStatus

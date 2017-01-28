@@ -1,12 +1,12 @@
 'use strict';
-const AppendObject = require('./AppendObject.js'),
-      Vector = require('./Vector.js'),
-      Tools = require('../panels/Tools.js'),
+const AppendObject = require('./AppendObject'),
+      Vector = require('./Vector'),
+      Tools = require('../panels/Tools'),
       abs = Math.abs,
       { TRANSPARENT_COLOR } = require('../constants'),
       { SELECT_TOOL } = require('../constants').events,
-      { getRGBAComponents } = require('utils/color.js'),
-      { inheritanceObject, defineGetter} = require('utils/object.js');
+      { getRGBAComponents } = require('utils/color'),
+      { inheritanceObject, defineGetter} = require('utils/object');
 function Tool(name) {
   this.$type = 'button';
   AppendObject.call(this, 'tool');

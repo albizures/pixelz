@@ -1,4 +1,4 @@
-const GIFEncoder = require('utils/gif/GIFEncoder.js');
+import GIFEncoder from 'utils/gif/GIFEncoder';
 
 function renderFrame(frame) {
   var encoder, page, stream, transfer;

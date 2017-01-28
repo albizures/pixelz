@@ -1,11 +1,11 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { connect } = require('react-redux');
-const { register } = require('../Layout.js');
-const Canvas = require('./index.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
+import Canvas from './index';
 const obj = {};
 
-obj.displayName = 'ContentCanvas'; 
+obj.displayName = 'ContentCanvas';
 
 obj.getInitialState = function () {
   return {};
@@ -70,4 +70,4 @@ const ContentCanvas = connect(
 
 register(ContentCanvas, obj.displayName);
 
-module.exports = ContentCanvas;
+export default ContentCanvas;

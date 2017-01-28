@@ -1,6 +1,6 @@
-const React = require('react');
+import React from 'react';
+import { register } from 'react-dynamic-layout';
 
-const { register } = require('react-dynamic-layout');
 const obj = {};
 
 obj.displayName = 'Label';
@@ -15,4 +15,4 @@ const Label = React.createClass(obj);
 
 register(Label);
 
-module.exports = Label;
+export default Label;

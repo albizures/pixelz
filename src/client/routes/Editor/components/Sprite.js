@@ -1,7 +1,6 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-
-const { imageSmoothingDisabled } = require('utils/canvas.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { imageSmoothingDisabled } from 'utils/canvas';
 
 const obj = {};
 obj.displayName = 'Sprite';
@@ -72,4 +71,4 @@ obj.clean = function(context) {
 };
 const Sprite = React.createClass(obj);
 
-module.exports = Sprite;
+export default Sprite;

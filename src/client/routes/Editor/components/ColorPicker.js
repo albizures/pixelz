@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { register } from 'react-dynamic-layout';
-import { hsvToRgb, rgbToHsv, getRGBAComponents } from 'utils/color.js';
 
-const { actions: { setSpriteSecondaryColor, setSpritePrimaryColor } } = require('../../../ducks/sprites.js');
-const { actions: { addColor } } = require('../../../ducks/palettes.js');
-const { actions: { setStyle } } = require('../ducks/panels.js');
+import { hsvToRgb, rgbToHsv, getRGBAComponents } from '../../../utils/color';
 
-import Range from './Range.js';
-import Color from './Color.js';
+import { actions as spriteActions } from '../../../ducks/sprites';
+import { actions as palettesActions } from '../../../ducks/palettes';
+import { actions as panelActions} from '../ducks/panels';
+
+import Range from './Range';
+import Color from './Color';
+
+const { setSpriteSecondaryColor, setSpritePrimaryColor } = spriteActions;
+const { addColor } = palettesActions;
+const { setStyle } = panelActions;
 
 const { round } = Math;
 const $window = $(window);
@@ -323,4 +327,4 @@ const ColorPicker = connect(
 
 register(ColorPicker, obj.displayName);
 
-module.exports = ColorPicker;
+export default ColorPicker;

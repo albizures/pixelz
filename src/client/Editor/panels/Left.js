@@ -1,8 +1,8 @@
 'use strict';
 
-const ContentPanels =  require("../prototypes/ContentPanels.js");
-const Panel = require("../prototypes/Panel.js");
-const Vector = require("../prototypes/Vector.js");
+const ContentPanels =  require("../prototypes/ContentPanels");
+const Panel = require("../prototypes/Panel");
+const Vector = require("../prototypes/Vector");
 const Menus = require("./Menus");
 const make = require("make");
 const Left = new ContentPanels('Left', Panel.SNAP, new Vector(0, 0), 13, 100, Panel.TL, true, false, ContentPanels.TABS);

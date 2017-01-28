@@ -1,8 +1,7 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-// const { Link } = require('react-router');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-module.exports = React.createClass({
+export default React.createClass({
   render () {
       // <Link to={'/editor/' + this.props.data._id}>
       // </Link>

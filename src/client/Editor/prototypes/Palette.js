@@ -1,8 +1,8 @@
 'use strict';
-const AppendObject = require('./AppendObject.js'),
-  {inheritanceObject} = require('utils/object.js'),
+const AppendObject = require('./AppendObject'),
+  {inheritanceObject} = require('utils/object'),
   make = require('make'),
-  Color = require('./Color.js');
+  Color = require('./Color');
 
 function Palette(id, name = 'unnamed', colors = [], offEvents = false) {
   AppendObject.call(this, 'palette', name.toLowerCase().replace(/ /, '-'));

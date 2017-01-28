@@ -1,6 +1,6 @@
-const { expect } = require('chai');
-const {types, actions, reducer, initialState} = require('./sprites.js');
+import { expect } from 'chai';
 
+import reducer, {types, actions, initialState} from '../sprites';
 
 it('initialState is an empty array', () => {
   expect(initialState).to.deep.equal([]);

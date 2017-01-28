@@ -1,6 +1,6 @@
-const AppendObject = require('./AppendObject.js'),
+const AppendObject = require('./AppendObject'),
   make = require('make'),
-  { inheritanceObject } = require('utils/object.js'),
+  { inheritanceObject } = require('utils/object'),
   MENU = 'MENU', MENUS = 'MENUS';
 
 

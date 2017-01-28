@@ -1,6 +1,6 @@
-require('../assets/images/profile.png');
+import '../assets/images/profile.png';
 
-const make = require('make');
+import make from '../utils/make';
 
 const context = document.createElement('canvas').getContext('2d'); 
 
@@ -15,9 +15,9 @@ context.fillStyle = '#CCCCCC';
 context.fillRect(0, 32,  32, 32);
 context.fillRect(32, 0,  32, 32);
 
-exports.transparent = context.canvas;
-exports.transparentB64 = context.canvas.toDataURL();
-exports.transparentImage = 'url(\'' + exports.transparentB64 + '\')';
+export const transparent = context.canvas;
+export const transparentB64 = context.canvas.toDataURL();
+export const transparentImage = 'url(\'' + exports.transparentB64 + '\')';
 
 make([
   'style',
@@ -25,7 +25,7 @@ make([
   '.transparent-bkg{background-image:' + exports.transparentImage + '}'
 ]);
 
-exports.TRANSPARENT_COLOR = 'rgba(0, 0, 0, 0)';
-exports.LEFT_CLICK = 1;
-exports.MIDDLE_CLICK = 2;
-exports.RIGHT_CLICK = 3;
+export const TRANSPARENT_COLOR = 'rgba(0, 0, 0, 0)';
+export const LEFT_CLICK = 1;
+export const MIDDLE_CLICK = 2;
+export const RIGHT_CLICK = 3;

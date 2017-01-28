@@ -1,6 +1,6 @@
 const $window = $(window);
-const { store } = require('../../../store.js');
-const execute = require('./actions');
+import { store } from '../../../store';
+import execute from './actions';
 const noop = function() {};
 
 const shortcuts = {
@@ -24,19 +24,19 @@ const shortcuts = {
   }
 };
 
-exports.init = function() {
+export const init = function() {
   $window.on('keydown.shortcuts', this.onKeydown.bind(this));
   $window.on('keyup.shortcuts', this.onKeyup.bind(this));
 };
-exports.off = function () {
+export const off = function () {
   $window.off('keydown.shortcuts');
   $window.off('keyup.shortcuts');
 };
 
-exports.onKeydown = function(evt) {
+export const onKeydown = function(evt) {
   let key = evt.keyCode ? evt.keyCode : evt.which;
   (shortcuts[key] || noop)(evt.ctrlKey);
 };
-exports.onKeyup = function() {
+export const onKeyup = function() {
 
 };

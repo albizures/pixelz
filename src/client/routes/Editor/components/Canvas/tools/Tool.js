@@ -1,11 +1,13 @@
-const { store } = require('../../../../../store.js');
-const frameActions = require('../../../ducks/frames.js').actions;
-const layerActions = require('../../../ducks/layers.js').actions;
-const {setSpriteSecundaryColor, setSpritePrimaryColor, newSpriteVersion} = require('../../../../../ducks/sprites.js').actions;
-const historyActions = require('../../../ducks/history.js').actions;
-const { cloneContext } = require('utils/canvas.js');
+import { store } from '../../../../../store';
+import {actions as frameActions} from '../../../ducks/frames';
+import {actions as layerActions} from '../../../ducks/layers';
+import actions from '../../../../../ducks/sprites';
+import {actions as historyActions} from '../../../ducks/history';
+import { cloneContext } from '../../../../../utils/canvas';
 
-const { RIGHT_CLICK } = require('constants/index.js');
+import { RIGHT_CLICK } from 'constants/index';
+
+const {setSpriteSecundaryColor, setSpritePrimaryColor, newSpriteVersion} = actions;
 
 const { abs } = Math;
 const common = {};
@@ -90,7 +92,7 @@ common.onMouseDownInit = function (evt, initCord, layer, artboard, {main, previe
   this.onMouseDown(evt);
 };
 
-exports.create = function (name, custom) {
+export function create (name, custom) {
   let tool = Object.create(common);
   let keys = Object.keys(custom);
   for (var j = 0; j < keys.length; j++) {
@@ -100,4 +102,8 @@ exports.create = function (name, custom) {
   }
   tool.name = name;
   return tool;
+}
+
+export default {
+  create
 };

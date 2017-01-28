@@ -1,6 +1,6 @@
 
-const React = require('react');
-const { LEFT_CLICK } = require('constants/index.js');
+import React from 'react';
+import { LEFT_CLICK } from 'constants/index';
 const obj = {};
 
 obj.displayName = 'DragColor';
@@ -73,4 +73,4 @@ obj.render = function () {
 
 const Color = React.createClass(obj);
 
-module.exports = Color;
+export default Color;

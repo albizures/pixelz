@@ -1,6 +1,6 @@
-const colors = require('./colors.worker.js')();
-const { getImageData } = require('utils/canvas.js');
-const { store } = require('../store.js');
+const colors = require('./colors.worker')();
+import { getImageData } from 'utils/canvas';
+import { store } from '../store';
 
 const cbs = {
   transparent: [],
@@ -9,7 +9,7 @@ const cbs = {
 
 colors.onmessage = onMessage;
 
-exports.getTransparentColor = function (sprite, cb) {
+export const getTransparentColor = function (sprite, cb) {
   const state = store.getState();
   const frames = state.sprites[sprite].frames;
 
@@ -30,7 +30,7 @@ function onMessage(evt) {
 }
 
 
-exports.getSpritePalette = (sprite, transparent = false) => new Promise(resolve => {
+export const getSpritePalette = (sprite, transparent = false) => new Promise(resolve => {
   const state = store.getState();
   const frames = state.sprites[sprite].frames;
 
@@ -53,4 +53,4 @@ exports.getSpritePalette = (sprite, transparent = false) => new Promise(resolve 
   });
 });
 
-exports.worker = colors;
+export const worker = colors;

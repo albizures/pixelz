@@ -1,10 +1,10 @@
 'use strict';
-const Panel = require('../../prototypes/Panel.js'),
-  Vector = require('../../prototypes/Vector.js'),
+const Panel = require('../../prototypes/Panel'),
+  Vector = require('../../prototypes/Vector'),
   make = require('make'),
-  Action = require('../../prototypes/Action.js'),
-  Actions = require('../Actions.js'),
-  Palette = require('../../prototypes/Palette.js'),
+  Action = require('../../prototypes/Action'),
+  Actions = require('../Actions'),
+  Palette = require('../../prototypes/Palette'),
   Palettes = Panel.createFloatPanel('Palettes', new Vector((window.innerWidth / 2) - 100, 100), true);
 
 let colors = [{

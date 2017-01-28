@@ -1,5 +1,5 @@
 'use strict';
-const GIFEncoder = require('../prototypes/gif/GIFEncoder.js');
+const GIFEncoder = require('../prototypes/gif/GIFEncoder');
 
 function renderFrame(frame) {
   var encoder, page, stream, transfer;

@@ -1,9 +1,9 @@
-const defaults = require('lodash.defaults');
-const pick = require('lodash.pick');
-const { store } = require('../store.js');
-const { getNewContext } = require('./canvas.js');
-const { actions: spriteActions } = require('../ducks/sprites');
-const { actions: editorActions } = require('../routes/Editor/ducks/index');
+import defaults from 'lodash.defaults';
+import pick from 'lodash.pick';
+import { store } from '../store';
+import { getNewContext } from './canvas';
+import { actions as spriteActions } from '../ducks/sprites';
+import { actions as editorActions } from '../routes/Editor/ducks/index';
 
 const defaultsValues = {
   name: 'Untitled',
@@ -71,7 +71,7 @@ function createLayer(data) {
   }));
 }
 
-function createSprite (data) {
+export function createSprite (data) {
   const newData = defaults(data, defaultsValues);
   const { image, layers, frames, current, width, height } = newData;
   const dataSprite = pick(newData, [
@@ -116,7 +116,3 @@ function createSprite (data) {
     createFrame({sprite, context, width, height, layers});
   }
 }
-
-module.exports = {
-  createSprite
-};

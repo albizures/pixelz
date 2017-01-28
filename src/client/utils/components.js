@@ -21,7 +21,7 @@ function requestLoad() {
 }
 
 
-exports.scheduleLoad = function (loader) {
+export const scheduleLoad = function (loader) {
   queue.push(loader);
   requestLoad();
 };

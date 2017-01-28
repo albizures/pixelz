@@ -1,8 +1,8 @@
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const { imageSmoothingDisabled } = require('utils/canvas.js');
+import { imageSmoothingDisabled } from 'utils/canvas';
 
 const obj = {};
 obj.displayName = 'Context';
@@ -64,4 +64,4 @@ obj.render = function() {
   
 const Context = React.createClass(obj);
 
-module.exports = Context;
+export default Context;

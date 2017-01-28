@@ -1,9 +1,10 @@
-const { calculatePosition, validCord, getPreviewSize } = require('utils/canvas.js');
-const { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK } = require('constants/index.js');
-const tools = require('./tools');
+import { calculatePosition, validCord, getPreviewSize } from 'utils/canvas';
+import { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK } from '../../../../constants';
+import tools from './tools';
+
 const { ceil, floor } = Math;
 let lastDragX, lastDragY;
-exports.onMouseMove = function (evt) {
+export const onMouseMove = function (evt) {
   let cord;
   if (evt.target.tagName === 'CANVAS') {
     evt.preventDefault();
@@ -16,11 +17,11 @@ exports.onMouseMove = function (evt) {
   }
 };
 
-exports.clean = function(context) {
+export const clean = function(context) {
   context.canvas.width = context.canvas.width;
 };
 
-exports.paintPreview = function (cord, context, artboard) {
+export const paintPreview = function (cord, context, artboard) {
   this.clean(context);
   if (artboard.select) {
     
@@ -36,7 +37,7 @@ exports.paintPreview = function (cord, context, artboard) {
   context.fillRect(realCord.x, realCord.y, artboard.scale, artboard.scale);
 };
 
-exports.openContextMenu = function (evt) {
+export const openContextMenu = function (evt) {
   this.setState({
     activeContextMenu: true,
     contextMenuPosition: {
@@ -45,7 +46,7 @@ exports.openContextMenu = function (evt) {
     }
   });
 };
-exports.center = function (stats) {
+export const center = function (stats) {
   stats = stats || this.state.stats;
   let { sprite } = this.props;
   let size = getPreviewSize(stats.width, stats.height, sprite.width, sprite.height);
@@ -55,14 +56,14 @@ exports.center = function (stats) {
     y: floor(stats.top + size.marginTop)
   });
 };
-exports.onCenter = function () {
+export const onCenter = function () {
   this.setState({
     activeContextMenu: false
   });
   this.center();
 };
 
-exports.onMouseDown = function (evt) {
+export const onMouseDown = function (evt) {
   let cord; 
   let {$canvas, context} = this.state.preview;
   evt.stopImmediatePropagation();
@@ -107,7 +108,7 @@ exports.onMouseDown = function (evt) {
   }
 };
 
-exports.onDrag = function () {
+export const onDrag = function () {
   $window
     .off('mousemove.canvas')
     .on('mousemove.canvas', this.onDragMove, false)
@@ -118,13 +119,13 @@ exports.onDrag = function () {
     });
 };
 
-exports.offMousePreview = function ($canvas) {
+export const offMousePreview = function ($canvas) {
   $canvas.off('mousemove.preview').off('mouseup.preview').on('mouseup.preview', () => {
     $canvas.off('mouseup.preview').on('mousemove.preview', this.onMouseMove, false);
   }, false);
 };
 
-exports.onDragMove = function (evt) {
+export const onDragMove = function (evt) {
   evt.preventDefault();
   let diffX = evt.clientX - lastDragX;
   let diffY = evt.clientY - lastDragY;
@@ -132,7 +133,7 @@ exports.onDragMove = function (evt) {
   lastDragY = evt.clientY;
   this.shiftDiff(diffX, diffY);
 };
-exports.shiftDiff = function (diffX, diffY) {
+export const shiftDiff = function (diffX, diffY) {
   this.props.setSpriteArtboard(this.props.sprite.index, {
     scale: this.props.sprite.artboard.scale,
     x: ceil(this.props.sprite.artboard.x + diffX),

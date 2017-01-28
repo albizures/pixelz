@@ -1,5 +1,5 @@
-const http = require('../utils/http');
-const { editProp, updateArrayItem, shiftPositions } = require('../utils/ducks.js');
+import http from '../utils/http';
+import { editProp, updateArrayItem, shiftPositions } from '../utils/ducks';
 
 const ADD_SPRITE = 'ADD_SPRITE';
 const ADD_SPRITE_FRAME = 'ADD_SPRITE_FRAME';
@@ -15,9 +15,10 @@ const SELECT_SPRITE_LAYER = 'SELECT_SPRITE_LAYER';
 const SELECT_SPRITE_FRAME = 'SELECT_SPRITE_FRAME';
 const SET_SPRITE_PRIMARY_COLOR = 'SET_SPRITE_PRIMARY_COLOR';
 const SET_SPRITE_SECONDARY_COLOR = 'SET_SPRITE_SECONDARY_COLOR';
-exports.initialState = [];
 
-exports.reducer = function(state = [], action) {
+export const initialState = [];
+
+export default function(state = [], action) {
   switch (action.type) {
     case ADD_SPRITE:
       return state.concat([
@@ -113,8 +114,8 @@ exports.reducer = function(state = [], action) {
     default:
       return state;
   }
-};
-const actions = {};
+}
+export const actions = {};
 
 actions.addSprite = (sprite) => (dispatch, getState) => {
   let index = getState().sprites.length;
@@ -235,7 +236,8 @@ actions.setSpriteSecundaryColor = (sprite, color) => ({
   color
 });
 
-exports.types = {
+
+export const types = {
   ADD_SPRITE,
   ADD_SPRITE_FRAME,
   CHANGE_FRAME_POSITION,
@@ -246,10 +248,8 @@ exports.types = {
   ADD_SPRITES,
   SET_SPRITE_ID,
   SET_SPRITE_ARTBOARD,
-  SELECT_SPRITE_FRAME,
   SELECT_SPRITE_LAYER,
+  SELECT_SPRITE_FRAME,
   SET_SPRITE_PRIMARY_COLOR,
   SET_SPRITE_SECONDARY_COLOR
 };
-
-exports.actions = actions;

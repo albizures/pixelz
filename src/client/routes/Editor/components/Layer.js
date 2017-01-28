@@ -1,10 +1,10 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React from 'react';
+import { connect } from 'react-redux';
+import { getPreviewSize } from 'utils/canvas';
+import Context from './Context';
+import { actions as frameActions } from '../ducks/frames';
 
-const { getPreviewSize } = require('utils/canvas.js');
-const Context = require('./Context.js');
-const { changeLayerPosition } = require('../ducks/frames.js').actions;
-
+const { changeLayerPosition } = frameActions;
 
 const obj = {};
 
@@ -71,7 +71,7 @@ obj.render = function(){
 
 const Layer = React.createClass(obj);
 
-module.exports = connect(
+export default connect(
   null,
   { changeLayerPosition }
 )(Layer);

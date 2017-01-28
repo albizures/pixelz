@@ -1,9 +1,8 @@
-const React = require('react');
-const { connect } = require('react-redux');
-
-const Navbar = require('../../components/Navbar.js');
-const ducks = require('./ducks');
-const ContentSprites = require('./ContentSprites/ContentSprites.js');
+import React from 'react';
+import { connect } from 'react-redux';
+import Navbar from '../../components/Navbar';
+import { actions } from './ducks';
+import ContentSprites from './ContentSprites/ContentSprites';
 
 const Home = React.createClass({
   render () {
@@ -21,4 +20,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps, ducks.actions)(Home);
+export default connect(mapStateToProps, actions)(Home);

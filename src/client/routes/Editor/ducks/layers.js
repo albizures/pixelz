@@ -1,9 +1,10 @@
+import { editProp, updateArrayItem } from 'utils/ducks';
+import { getNewContext } from 'utils/canvas';
+
 const ADD_LAYER = 'ADD_LAYER';
 const NEW_LAYER_VERSION = 'NEW_LAYER_VERSION';
-const { editProp, updateArrayItem } = require('utils/ducks.js');
-const { getNewContext } = require('utils/canvas.js');
 
-exports.reducer = function(state = [], action) {
+export default function reducer(state = [], action) {
   switch (action.type) {
     case ADD_LAYER:
       return state.concat([{
@@ -24,10 +25,10 @@ exports.reducer = function(state = [], action) {
     default:
       return state;
   }
-};
-exports.actions = {};
+}
+export const actions = {};
 
-exports.actions.addLayer = function(layer) {
+actions.addLayer = function(layer) {
   return (dispatch, getState) => {
     let index = getState().Editor.layers.length;
     dispatch({
@@ -38,7 +39,7 @@ exports.actions.addLayer = function(layer) {
     return index;
   };
 };
-exports.actions.newLayerVersion = function(layer) {
+actions.newLayerVersion = function(layer) {
   return {
     type: NEW_LAYER_VERSION,
     layer: layer

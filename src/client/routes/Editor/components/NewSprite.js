@@ -1,16 +1,18 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React from 'react';
+import { connect } from 'react-redux';
 
-const Panel = require('./Panel.js');
+import Panel from './Panel';
+import { actions as spriteActions } from '../../../ducks/sprites';
+import { actions } from '../ducks';
 
-const { actions: {addSprite, addFrameSprite, selectSpriteLayer, selectSpriteFrame} } = require('../../../ducks/sprites');
+const {addSprite, addFrameSprite, selectSpriteLayer, selectSpriteFrame} = spriteActions;
 
 const {
-  setCurrentSprite, 
+  setCurrentSprite,
   openSprite,
   addFrame, addLayerFrame,
-  addLayer 
-} = require('../ducks/index.js').actions;
+  addLayer
+} = actions;
 
 const obj = {};
 
@@ -112,6 +114,4 @@ const NewSprite = connect(
   }
 )(React.createClass(obj));
 
-module.exports = NewSprite;
-
-
+export default NewSprite;

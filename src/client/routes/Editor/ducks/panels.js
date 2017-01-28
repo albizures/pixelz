@@ -1,4 +1,4 @@
-const { editProp } = require('utils/ducks.js');
+import { editProp } from 'utils/ducks';
 
 const SET_STYLE = 'SET_STYLE';
 const SET_PARAMS = 'SET_PARAMS';
@@ -25,7 +25,7 @@ const def = {
     visible: false
   }
 };
-exports.reducer = function(state = def, action) {
+export default function reducer(state = def, action) {
   switch (action.type) {
     case SET_STYLE:
       return editProp(
@@ -43,13 +43,13 @@ exports.reducer = function(state = def, action) {
     default:
       return state;
   }
-};
+}
 
-exports.init = def;
+export const init = def;
 
-exports.actions = {};
+export const actions = {};
 
-exports.actions.setStyle = function(panel, style) {
+actions.setStyle = function(panel, style) {
   return {
     type: SET_STYLE,
     panel,
@@ -57,7 +57,7 @@ exports.actions.setStyle = function(panel, style) {
   };
 };
 
-exports.actions.setParams = function(panel, params) {
+actions.setParams = function(panel, params) {
   return {
     type: SET_PARAMS,
     panel,

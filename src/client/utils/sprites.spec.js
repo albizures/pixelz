@@ -1,6 +1,6 @@
-const { expect } = require('chai');
-const { createSprite } = require('./sprites');
-const { store } = require('../store');
+import { expect } from 'chai';
+import { createSprite } from './sprites';
+import { store } from '../store';
 
 describe('utils sprite', function () {
   it('use all default params', function () {

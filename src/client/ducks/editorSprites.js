@@ -12,13 +12,10 @@ export default function reducer(state = [], action) {
 }
 export const actions = {};
 
-actions.openSprite = function(sprite) {
-  return {
-    type: OPEN_SPRITE,
-    sprite,
-  };
-};
-
+actions.openSprite = sprite => ({
+  type: OPEN_SPRITE,
+  sprite,
+});
 
 export const types = {
   OPEN_SPRITE

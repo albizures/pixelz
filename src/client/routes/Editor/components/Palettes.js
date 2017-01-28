@@ -1,6 +1,6 @@
-const React = require('react');
+import React from 'react';
 
-const Panel = require('./Panel.js');
+import Panel from './Panel';
 
 const obj = {};
 obj.displayName = 'Palettes';
@@ -22,4 +22,4 @@ obj.render = function () {
 
 const Palettes = React.createClass(obj);
 
-module.exports = Palettes;
+export default Palettes;

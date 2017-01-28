@@ -2,14 +2,14 @@
 
 const
   heightCanvasPicker = 250,
-  Panel = require('../prototypes/Panel.js'),
-  Vector = require('../prototypes/Vector.js'),
-  CanvasPicker = require('../prototypes/CanvasPicker.js'),
+  Panel = require('../prototypes/Panel'),
+  Vector = require('../prototypes/Vector'),
+  CanvasPicker = require('../prototypes/CanvasPicker'),
   make = require('make'),
   {FLOAT} = Panel,
   {R, G, B, A} = require('../constants').palette.picker,
-  {RGBA} = require('utils/color.js'),
-  Picker = require('../prototypes/Picker.js'),
+  {RGBA} = require('utils/color'),
+  Picker = require('../prototypes/Picker'),
   {RIGHT_CLICK, LEFT_CLICK} = require('../constants'),
   {CHANGE_SPRITE} = require('../constants').events,
   ColorPicker = new Panel('ColorPicker', FLOAT, new Vector(500, 500), undefined, undefined, undefined, false, true);
@@ -20,7 +20,7 @@ ColorPicker.mainInit = function () {
     sizeNewColor = 50,
     sizeOldColor = 50,
     width = sizeCanvasPicker + sizeNewColor + sizeOldColor + 100;
-  const Color = require('../prototypes/Color.js');
+  const Color = require('../prototypes/Color');
   this.el.style.width = width + 'px';
   this.canvasPicker = new CanvasPicker(sizeCanvasPicker, this.onChangeColorCanvasPicker.bind(this)).appendTo(this.el);
   this.color = new Color(undefined, false, sizeNewColor, true).appendTo(this.el);

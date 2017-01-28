@@ -1,14 +1,15 @@
 
-const http = require('http'); 
-const { editProp, updateArrayItem } = require('utils/ducks.js');
+import http from '../utils/http';
+import { editProp, updateArrayItem } from '../utils/ducks';
 
 const ADD_PALETTES = 'ADD_PALETTES';
 const ADD_PALETTE = 'ADD_PALETTE';
 const ADD_COLOR = 'ADD_COLOR';
 const SAVE_PALETTE = 'SAVE_PALETTE';
-exports.initialState = [];
 
-exports.reducer = function (state = [], action) {
+export const initialState = [];
+
+export default function (state = [], action) {
   switch (action.type) {
     case ADD_PALETTE:
       return state.concat([
@@ -16,7 +17,7 @@ exports.reducer = function (state = [], action) {
       ]);
     case ADD_PALETTES:
       return state.concat(action.palettes);
-    case ADD_COLOR: 
+    case ADD_COLOR:
       return updateArrayItem(
         state, action.palette,
         addColor(state[action.palette], action.color)
@@ -29,53 +30,43 @@ exports.reducer = function (state = [], action) {
     default:
       return state;
   }
-};
+}
 
-function addColor(palette, color) {
+const addColor = (palette, color) => {
   palette = editProp(palette, 'colors', palette.colors.concat([color]));
   palette.unsaved = true;
   return palette;
-}
-
-const actions = {};
-
-actions.savePalette = function (palette) {
-  return (dispatch, getState) => {
-    let pal = getState().palettes[palette];
-    return http.put('/api/palettes/' + pal._id, pal, function () {
-      dispatch({
-        type: SAVE_PALETTE,
-        palette
-      });
-    });
-  };
 };
 
-actions.addPalette = function (palette) {
-  return (dispatch, getState) => {
-    let index = getState().palettes.length;
+export const actions = {};
+
+actions.savePalette = (palette) => (dispatch, getState) => {
+  let pal = getState().palettes[palette];
+  return http.put('/api/palettes/' + pal._id, pal, function () {
     dispatch({
-      type: ADD_PALETTE,
-      palette,
-      index
+      type: SAVE_PALETTE,
+      palette
     });
-    return index;
-  };
+  });
 };
 
-actions.addPalettes = function (palettes) {
-  return {
-    type: ADD_PALETTES,
-    palettes
-  };
-};
-
-actions.addColor = function (palette, color) {
-  return {
-    type: ADD_COLOR,
+actions.addPalette = (palette) => (dispatch, getState) => {
+  let index = getState().palettes.length;
+  dispatch({
+    type: ADD_PALETTE,
     palette,
-    color
-  };
+    index
+  });
+  return index;
 };
 
-exports.actions = actions;
+actions.addPalettes = (palettes) => ({
+  type: ADD_PALETTES,
+  palettes
+});
+
+actions.addColor = (palette, color) => ({
+  type: ADD_COLOR,
+  palette,
+  color
+});

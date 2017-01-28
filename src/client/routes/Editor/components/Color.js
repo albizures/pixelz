@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react';
 
 const obj = {};
 
@@ -38,4 +38,4 @@ obj.render = function() {
 
 const Color = React.createClass(obj);
 
-module.exports = Color;
+export default Color;

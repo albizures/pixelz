@@ -1,11 +1,11 @@
 
-exports.proxy = function (cb, ...newParams) {
+export const proxy = function (cb, ...newParams) {
   return function (...originalParams) {
     cb.apply(null, originalParams.concat(newParams));
   };
 };
 
-exports.serial = function (array, cb, cbDone) {
+export const serial = function (array, cb, cbDone) {
   var index = 0;
   var length = array.length;
   var results = [];
@@ -22,7 +22,7 @@ exports.serial = function (array, cb, cbDone) {
   cb(array[index], index, done);
 };
 
-exports.parallel = function (array, cb, cbDone) {
+export const parallel = function (array, cb, cbDone) {
   var index = 0;
   var length = array.length;
   var results = [];

@@ -1,11 +1,11 @@
-const React = require('react');
-const { onSetStatusTooltip } = require('./Tooltipy.js');
+import React from 'react';
+import { onSetStatusTooltip } from './Tooltipy';
+
 const obj = {};
 
 obj.displayName = 'Tooltip';
 
 obj.getInitialState = function () {
-  //console.log('getInitialState', require('./Tooltipy.js'));
   onSetStatusTooltip(this.onSetStatus);
   return {
     top: 0,
@@ -54,4 +54,4 @@ obj.render = function () {
 
 const Tooltip = React.createClass(obj);
 
-module.exports = Tooltip;
+export default Tooltip;

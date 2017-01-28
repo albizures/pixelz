@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react';
 
 const obj = {};
 const $window = $(window);
@@ -84,4 +84,4 @@ obj.render = function() {
 
 const Range = React.createClass(obj);
 
-module.exports = Range;
+export default Range;

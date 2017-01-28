@@ -1,8 +1,8 @@
 'use strict';
-const AppendObject = require('./AppendObject.js'),
-      Vector = require('./Vector.js'),
+const AppendObject = require('./AppendObject'),
+      Vector = require('./Vector'),
       abs = Math.abs,
-      { inheritanceObject, defineGetter} = require('utils/object.js');
+      { inheritanceObject, defineGetter} = require('utils/object');
 let height;
 function List(name, elements, margin) {
   this.$type = 'ul';

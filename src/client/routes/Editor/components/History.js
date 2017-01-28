@@ -1,8 +1,7 @@
-const React = require('react');
-const { connect } = require('react-redux');
-
-const { actions } = require('../ducks/history.js');
-const Panel = require('./Panel.js');
+import React from 'react';
+import { connect } from 'react-redux';
+import { actions } from '../ducks/history';
+import Panel from './Panel';
 
 const obj = {};
 
@@ -28,7 +27,7 @@ obj.componentDidMount = function() {
 
 const History = React.createClass(obj);
 
-module.exports = connect(
+export default connect(
   function (state) {
     return {
       undo: state.Editor.history.undo,

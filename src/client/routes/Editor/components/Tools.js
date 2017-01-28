@@ -1,11 +1,10 @@
-const React = require('react');
-const { connect } = require('react-redux');
-
-const { register } = require('react-dynamic-layout');
-const { Tooltipy } = require('../../../components/Tooltipy.js');
-const Color = require('./Color.js');
-const { actions } = require('../ducks/panels.js');
-const { currentActions} = require('../ducks');
+import React from 'react';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
+import { Tooltipy } from '../../../components/Tooltipy';
+import Color from './Color';
+import { actions } from '../ducks/panels';
+import { currentActions} from '../ducks';
 
 const obj = {};
 
@@ -104,4 +103,4 @@ const Tools = connect(
 
 register(Tools, obj.displayName);
 
-module.exports = Tools;
+export default Tools;

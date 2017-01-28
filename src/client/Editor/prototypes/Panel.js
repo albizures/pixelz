@@ -1,9 +1,9 @@
 'use strict';
 const make = require('make'),
-  {inheritanceObject, defineGetter} = require('utils/object.js'),
-  AppendObject = require('./AppendObject.js'),
-  Vector = require('../prototypes/Vector.js');//,
-//ResizeBar = require('../prototypes/ResizeBar.js'),
+  {inheritanceObject, defineGetter} = require('utils/object'),
+  AppendObject = require('./AppendObject'),
+  Vector = require('../prototypes/Vector');//,
+//ResizeBar = require('../prototypes/ResizeBar'),
 //7resizeBars = [T, L, B, R, TL, BL, BR, TR];
 // IDEA: http://codepen.io/zz85/pen/gbOoVP?editors=001
 

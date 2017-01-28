@@ -1,12 +1,17 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const http = require('http');
-const { connect } = require('react-redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { CSSGrid, measureItems, makeResponsive, layout as layouts } from 'react-stonecutter';
 
-const { actions: {addSpritesHome} } = require('../ducks/sprites.js');
-const { actions: {addSprites} } = require('../../../ducks/sprites.js');
-const Sprite = require('./Sprite/Sprite.js');
-const { CSSGrid, measureItems, makeResponsive, layout: layouts } = require('react-stonecutter');
+import http from '../../../utils/http';
+import { actions as editorSpriteActions } from '../ducks/sprites';
+import { actions as spriteActions } from '../../../ducks/sprites';
+import Sprite from './Sprite/Sprite';
+
+const {addSprites} = spriteActions;
+const {addSpritesHome} = editorSpriteActions;
+
+
 const Grid = makeResponsive(measureItems(CSSGrid, {measureImages: true}), {
   maxWidth: 1920,
   minPadding: 100
@@ -49,7 +54,7 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(
+export default connect(
   mapStateToProps,
   {addSprites, addSpritesHome}
 )(ContentSprites);

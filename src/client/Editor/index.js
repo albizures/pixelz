@@ -1,34 +1,34 @@
 'use strict';
-const { WIDTH_DEF, HEIGHT_DEF} = require('./constants');
-const make = require('make');
-const {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = require('./prototypes/Panel');
-const Canvas = require('./prototypes/Canvas');
-const Sprite = require('./prototypes/Sprite.js');
-const Menu = require('./prototypes/Menu.js');
-const Vector = require('./prototypes/Vector.js');
+import { WIDTH_DEF, HEIGHT_DEF} from './constants';
+import make from '../utils/make';
+import {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} from './prototypes/Panel';
+import Canvas from './prototypes/Canvas';
+import Sprite from './prototypes/Sprite';
+import Menu from './prototypes/Menu';
+import Vector from './prototypes/Vector';
 
-const Left = require('./panels/Left.js');
-const Preview = require('./panels/Preview.js');
-const Palette = require('./panels/Palette/index.js');
-const Palettes = require('./panels/Palette/Palettes.js');
-const Frames = require('./panels/Frames.js');
-const Info = require('./panels/Info.js');
-const Menus = require('./panels/Menus');
-const Actions = require('./panels/Actions.js');
-const NewProject = require('./panels/NewProject.js');
-const ColorPicker = require('./panels/ColorPicker.js');
-const Tools = require('./panels/Tools.js');
-const Layers = require('./panels/Layers.js');
-const Resize = require('./panels/Resize.js');
-const BackgroundLayer = require('./panels/BackgroundLayer.js');
+import Left from './panels/Left';
+import Preview from './panels/Preview';
+import Palette from './panels/Palette';
+import Palettes from './panels/Palette/Palettes';
+import Frames from './panels/Frames';
+import Info from './panels/Info';
+import Menus from './panels/Me';
+import Actions from './panels/Actions';
+import NewProject from './panels/NewProject';
+import ColorPicker from './panels/ColorPicker';
+import Tools from './panels/Tools';
+import Layers from './panels/Layers';
+import Resize from './panels/Resize';
+import BackgroundLayer from './panels/BackgroundLayer';
 
-const bucket = require('./tools/bucket.js');
-const eraser = require('./tools/eraser.js');
-const pick = require('./tools/pick.js');
-const rectangle = require('./tools/rectangle.js');
-const line = require('./tools/line.js');
-const select = require('./tools/select.js');
-const pencil = require('./tools/pencil.js');
+import bucket from './tools/bucket';
+import eraser from './tools/eraser';
+import pick from './tools/pick';
+import rectangle from './tools/rectangle';
+import line from './tools/line';
+import select from './tools/select';
+import pencil from './tools/pencil';
 
 
 function Editor(parent) {
@@ -250,7 +250,7 @@ Editor.prototype.contextMenu = {
     this.show();
   }
 };
-Editor.prototype.shortcuts = require('./shortcuts.js');
-Editor.prototype.events = require('./events.js');
+Editor.prototype.shortcuts = require('./shortcuts');
+Editor.prototype.events = require('./events');
 
-module.exports = Editor;
+export default Editor;

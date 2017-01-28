@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 function parseJSON(response) {
   return response.data;
@@ -26,23 +26,23 @@ function request(url, method, body, headers = true) {
 }
 
 
-exports.post = function (url, body) {
+export const post = function (url, body) {
   return request(url, 'POST', body);
 };
 
-exports.get = function (url) {
+export const get = function (url) {
   return request(url, 'GET');
 };
 
-exports.delete = function (url) {
+export const del = function (url) {
   return request(url, 'DELETE');
 };
 
-function put (url, body) {
+export const put = function (url, body) {
   return request(url, 'PUT', body);
-}
+};
 
-exports.upload = function (url, data, files, method) {
+export const upload = function (url, data, files, method) {
   const form = new FormData();
   for (let j = 0; j < files.length; j++) {
     let element = files[j];
@@ -55,10 +55,16 @@ exports.upload = function (url, data, files, method) {
   request(url, method, form, false);
 };
 
-exports.put = put;
+export const sprite = {};
 
-exports.sprite = {};
-
-exports.sprite.putName = function (id, name, cb) {
+sprite.putName = function (id, name, cb) {
   return put('/api/sprites/' + id + '/name', {name}, cb);
+};
+
+export default {
+  post,
+  get,
+  upload,
+  put,
+  del
 };

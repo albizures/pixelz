@@ -1,16 +1,18 @@
-const React = require('react');
-const { Link } = require('react-router');
-const { connect } = require('react-redux');
-const { register } = require('react-dynamic-layout');
+import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
 
-const { actions } = require('../../ducks');
-const { saveEditor } = require('../../ducks').editorActions;
-const { setSpriteId } = require('../../../../ducks/sprites.js').actions;
-const Name = require('./Name.js');
-const Menu = require('../Menu.js');
-const Panel = require('../Panel.js');
-const { noopF } = require('utils/noop.js');
-const obj = require('./events.js');
+import { actions, editorActions } from '../../ducks';
+import { actions as spriteActions } from '../../../../ducks/sprites';
+import Name from './Name';
+import Menu from '../Menu';
+import Panel from '../Panel';
+import { noopF } from 'utils/noop';
+import * as obj from './events';
+
+const { saveEditor } = editorActions;
+const { setSpriteId } = spriteActions;
 
 obj.displayName = 'Menus';
 
@@ -97,4 +99,4 @@ const Menus = connect(
 
 register(Menus, obj.displayName);
 
-module.exports = Menus;
+export default Menus;

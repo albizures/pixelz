@@ -1,15 +1,16 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { setSpriteArtboard } = require('../../../../ducks/sprites.js').actions;
-const { connect } = require('react-redux');
-const Menu = require('../Menu.js');
-const Background = require('./Background.js');
-// const Main = require('./Main.js');
-const Preview = require('./Preview.js');
-const Mask = require('./Mask.js');
-const Layer = require('./Layer.js');
-const obj = require('./events.js');
+import { actions } from '../../../../ducks/sprites';
+import Menu from '../Menu';
+import Background from './Background';
+import Preview from './Preview';
+import Mask from './Mask';
+import Layer from './Layer';
+import * as obj from './events';
+
+const { setSpriteArtboard } = actions;
 
 obj.displayName = 'Canvas';
 
@@ -153,4 +154,4 @@ const Canvas = connect(
   { setSpriteArtboard }
 )(React.createClass(obj));
 
-module.exports = Canvas;
+export default Canvas;

@@ -1,12 +1,12 @@
 'use strict';
-const {TRANSPARENT_COLOR, PALETTE} = require('../../constants/index.js'),
-  {CHANGE_COLOR} = require('../../constants/index.js').palette,
+const {TRANSPARENT_COLOR, PALETTE} = require('../../constants/index'),
+  {CHANGE_COLOR} = require('../../constants/index').palette,
   make = require('make'),
-  Panel = require('../../prototypes/Panel.js'),
-  Tools = require('../Tools.js'),
-  Vector = require('../../prototypes/Vector.js'),
-  Color = require('../../prototypes/Color.js'),
-  Palettes = require('./Palettes.js'),
+  Panel = require('../../prototypes/Panel'),
+  Tools = require('../Tools'),
+  Vector = require('../../prototypes/Vector'),
+  Color = require('../../prototypes/Color'),
+  Palettes = require('./Palettes'),
   Palette = new Panel('Palette', Panel.SNAP, new Vector(100, 60), 15, 20, Panel.R);
 
 let divColors;

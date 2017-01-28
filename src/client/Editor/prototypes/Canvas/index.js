@@ -1,11 +1,11 @@
 'use strict';
-const Vector = require('../Vector.js'),
+const Vector = require('../Vector'),
   { floor, round} = Math,
-  Tools = require('../../panels/Tools.js'),
-  Preview = require('../../panels/Preview.js'),
+  Tools = require('../../panels/Tools'),
+  Preview = require('../../panels/Preview'),
   make = require('make'),
-  {extend} = require('utils/object.js'),
-  { imageSmoothing } = require('utils/canvas.js'),
+  {extend} = require('utils/object'),
+  { imageSmoothing } = require('utils/canvas'),
   Menu = require('../Menu'),
   {SCALE_DEF, SIZE_POINTER_DEF, MIDDLE_CLICK, TRANSPARENT_IMG,
     RIGHT_CLICK,LEFT_CLICK} = require('../../constants'),
@@ -251,9 +251,9 @@ Canvas.prototype.addAreaSelect = function (select) {
   this.artboard.select = select;
 };
 
-extend(Canvas.prototype, require('./main.js'));
-extend(Canvas.prototype, require('./preview.js'));
-extend(Canvas.prototype, require('./mask.js'));
-extend(Canvas.prototype, require('./background.js'));
+extend(Canvas.prototype, require('./main'));
+extend(Canvas.prototype, require('./preview'));
+extend(Canvas.prototype, require('./mask'));
+extend(Canvas.prototype, require('./background'));
 
 module.exports = Canvas;

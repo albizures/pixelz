@@ -1,4 +1,4 @@
-const {rgbToHex, unusedColor} = require("utils/color.js");
+import {rgbToHex, unusedColor} from 'utils/color';
 
 self.onmessage = function (evt) {
   var dataReturn;

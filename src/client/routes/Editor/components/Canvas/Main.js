@@ -1,7 +1,7 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const { imageSmoothingDisabled } = require('utils/canvas.js');
+import { imageSmoothingDisabled } from 'utils/canvas';
 const obj = {};
 
 obj.displayName = 'Main';
@@ -58,4 +58,4 @@ obj.render = function() {
 
 const Main = React.createClass(obj);
 
-module.exports = Main;
+export default Main;
