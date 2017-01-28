@@ -16,9 +16,9 @@ obj.propTypes = {
 };
 
 obj.componentDidMount = function() {
-  let canvas = ReactDOM.findDOMNode(this);
-  this.context = canvas.getContext('2d');
-  this.props.setContext('mask', this.context);
+  let context = this.refs.canvas.getContext('2d');
+  this.setState({ context });
+  this.props.setContext('mask', context);
 };
 
 obj.paint = function(context, artboard, layer){
@@ -31,13 +31,14 @@ obj.paint = function(context, artboard, layer){
 };
 
 obj.componentDidUpdate = function() {
-  if (this.props.layer && this.props.artboard) {
-    this.paint(this.context, this.props.artboard, this.props.layer);
+  if (this.state && this.state.context && this.props.layer && this.props.artboard) {
+    this.paint(this.state.context, this.props.artboard, this.props.layer);
   }
 };
 
 obj.render = function() {
   return <canvas
+    ref='canvas'
     width={this.props.width}
     height={this.props.height}
     className='mask'>

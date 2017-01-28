@@ -6,8 +6,6 @@ module.exports = React.createClass({
   render () {
       // <Link to={'/editor/' + this.props.data._id}>
       // </Link>
-
-    console.log(this.props.data);
         // <img src={this.props.user.profileImage}/>
     return <div className="sprite">
       <div className='header'>

@@ -1,6 +1,7 @@
 const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
+const { register } = require('react-dynamic-layout');
 
 const { actions } = require('../../ducks');
 const { saveEditor } = require('../../ducks').editorActions;
@@ -12,6 +13,12 @@ const { noopF } = require('utils/noop.js');
 const obj = require('./events.js');
 
 obj.displayName = 'Menus';
+
+obj.propTypes = {
+  openNewSpriteModal: React.PropTypes.func,
+  sprite: React.PropTypes.object,
+  spriteIndex: React.PropTypes.number
+};
 
 obj.getInitialState = function () {
   return {
@@ -73,10 +80,6 @@ obj.render = function () {
   </Panel>;
 };
 
-
-const Menus = React.createClass(obj);
-
-
 function mapStateToProps(state) {
   return {
     spriteIndex: state.Editor.sprite,
@@ -87,7 +90,11 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(
+const Menus = connect(
   mapStateToProps,
   Object.assign({}, actions, {setSpriteId, saveEditor})
-)(Menus);
+)(React.createClass(obj));
+
+register(Menus, obj.displayName);
+
+module.exports = Menus;

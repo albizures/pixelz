@@ -26,11 +26,16 @@ const initialState = {
 };
 
 
+let middlewares = [
+  applyMiddleware(thunk)
+];
+
+if (process.env.NODE_ENV === 'development' && window.devToolsExtension) {
+  middlewares.push(window.devToolsExtension());
+}
+
 exports.store = createStore(
   reducers,
   initialState,
-  compose(
-    applyMiddleware(thunk),
-    window.devToolsExtension && window.devToolsExtension()
-  )
+  compose.apply(undefined, middlewares)
 );

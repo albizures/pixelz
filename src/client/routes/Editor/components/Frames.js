@@ -2,7 +2,7 @@ const React = require('react');
 const { connect } = require('react-redux');
 const classNames = require('classnames');
 
-const { register } = require('./Layout.js');
+const { register } = require('react-dynamic-layout');
 const Frame = require('./Frame.js');
 const { actions: { addFrameSprite,  selectSpriteFrame} } = require('../../../ducks/sprites.js');
 const { addFrame,  addLayerFrame, addLayer } = require('../ducks').actions;
@@ -30,10 +30,18 @@ obj.getInitialState = function() {
   };
 };
 obj.componentDidMount = function () {
-  console.log(this.refs.list.clientWidth);
+  console.log(this.list.clientWidth);
   this.setState({
-    size: this.refs.list.clientWidth
+    size: this.list.clientWidth
   });
+};
+
+obj.componentWillReceiveProps = function (nextProps) {
+  if (this.props.rdWidth !== nextProps.rdWidth) {
+    this.setState({
+      size: this.list.clientWidth
+    });
+  }
 };
 
 obj.onClickAddFrame = function() {
@@ -90,7 +98,7 @@ obj.render = function() {
   return <div className={'frames ' + this.props.className} style={this.props.style}>
     <button className="add-frame btn" onClick={this.onClickAddFrame}>add frame</button>
     <div className='list-content'>
-      <ul className='list frames-list' ref='list'>
+      <ul className='list frames-list' ref={list => this.list = list }>
         {this.getList()}
       </ul>
     </div>

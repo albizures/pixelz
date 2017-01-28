@@ -7,9 +7,6 @@ window.hasVal = (val) => {
 window.$ = require('utils/dom.js').$;
 window.$window = $(window);
 
-Element.prototype.requestPointerLock = Element.prototype.requestPointerLock || Element.prototype.mozRequestPointerLock;
-document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
-
 const $window = $(window);
 $window.on('keydown.general', evt =>{
   window.CTRL_KEY = evt.ctrlKey;
@@ -30,7 +27,7 @@ const Editor = require('./routes/Editor');
 const Tooltip = require('./components/Tooltip.js');
 const http = require('http');
 const palettes = require('./ducks/palettes.js');
-const user = require('./ducks/user.js');
+const User = require('./ducks/user.js');
 const { currentActions: editorActions } = require('./routes/Editor/ducks');
 
 http.get('/api/palettes').then(function (result) {
@@ -41,17 +38,15 @@ http.get('/api/palettes').then(function (result) {
   store.dispatch(editorActions.setCurrentPalette(0));
 });
 
-http.get('/api/auth/whoami').then(function (result) {
-  if (!result) {
+http.get('/api/auth/whoami').then(function (user) {
+  if (!User) {
     return;
   }
-  
-
-  store.dispatch(user.actions.setUser(result.data));
+  store.dispatch(User.actions.setUser(user));
 });
 
 ReactDOM.render((
-  <div className="root">
+  <div className="root rdl-dark">
     <Tooltip/>
     <Provider store={store}>
       <Router history={browserHistory }>

@@ -1,7 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 const classNames = require('classnames');
-const { register } = require('./Layout');
+const { register } = require('react-dynamic-layout');
 
 const Layer = require('./Layer.js');
 const { addLayerFrame, addLayer } = require('../ducks').actions;
@@ -62,6 +62,12 @@ obj.getDefaultProps = function() {
 obj.onSelect = function (index) {
   this.props.selectSpriteLayer(this.props.sprite.index, index);
 };
+
+// obj.componentWillReceiveProps = function () {
+//   this.setState({
+//     size: this.refs.list.clientWidth
+//   });
+// };
 
 obj.getList = function() {
   if (!this.props.sprite || !Number.isInteger(this.props.sprite.layer)) return [];

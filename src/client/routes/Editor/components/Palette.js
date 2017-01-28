@@ -1,12 +1,11 @@
 const React = require('react');
 
-const { register } = require('./Layout.js');
+const { register } = require('react-dynamic-layout');
 const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
 const { connect } = require('react-redux');
 const { actions: {setStyle, setParams} } = require('../ducks/panels.js');
 const { actions: {savePalette} } = require('../../../ducks/palettes.js');
 const { actions: {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor}} = require('../../../ducks/sprites.js');
-const Panel = require('./Panel.js');
 const ContentColors = require('./ContentColors.js');
 const obj = {};
 
@@ -87,7 +86,7 @@ obj.getNextPosition = function() {
 };
 
 obj.render = function () {
-  return <Panel name='Palette' className={'palette ' + this.props.className} style={this.props.style}>
+  return <div className={'panel-palette palette ' + this.props.className} style={this.props.style}>
     <button className='btn' >=</button>
     <button 
       disabled={this.props.palettes.length < 1}
@@ -105,7 +104,7 @@ obj.render = function () {
       setPrimaryColor={color => this.props.setSpritePrimaryColor(this.props.sprite.index, color)}
       setSecondaryColor={color => this.props.setSpriteSecondaryColor(this.props.sprite.index, color)}
       colors={this.getPalette()}/>
-  </Panel>;
+  </div>;
 };
 obj.getPalette = function () {
   if (this.state.current) {

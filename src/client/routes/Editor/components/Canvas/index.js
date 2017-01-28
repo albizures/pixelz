@@ -89,6 +89,7 @@ obj.componentDidMount = function () {
 obj.setContextType = function (type, context) {
   let state = {};
   let $canvas = $(context.canvas);
+  console.log(type, 'set');
   state[type] = {
     context,
     $canvas

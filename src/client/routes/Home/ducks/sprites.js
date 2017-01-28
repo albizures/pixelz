@@ -15,7 +15,7 @@ exports.reducer = function (state = [], action) {
 };
 const actions = {};
 
-actions.addSpriteHome  = function (sprite) {
+actions.addSpriteHome = function (sprite) {
   return {
     type: ADD_SPRITE_HOME,
     sprite,

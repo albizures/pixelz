@@ -22,7 +22,7 @@ function getPreviewSize(maxWidth, maxHeight, width, height) {
   var newWidth, newHeight, scale, maxSize;
   var marginTop = 0, marginLeft = 0;
 
-  if (width > height) {
+  if (maxHeight > maxWidth) {
     maxSize = newWidth = maxWidth;
     scale = maxWidth / width;
     newHeight = height * scale;

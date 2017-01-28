@@ -14,7 +14,8 @@ obj.getDefaultProps = function () {
   };
 };
 
-obj.onClick = function () {
+obj.onClick = function (evt) {
+  evt.preventDefault();
   let url = '';
   if (this.props.twitter) {
     url = '/api/auth/twitter';
@@ -27,11 +28,10 @@ obj.onClick = function () {
 obj.intervalClose = function () {
   if (!this.newWin.closed) return;
 
-  http.get('/api/auth/whoami').then(result => {
-    if (!result) return;
-    
-    
-    store.dispatch(setUser(result.data));
+  http.get('/api/auth/whoami').then(user => {
+    console.log(user);
+    if (!user) return;
+    store.dispatch(setUser(user));
     this.props.onLogin();
   });
   clearInterval(this.intervalID);
@@ -49,7 +49,7 @@ obj.render = function () {
     style.background = '#00aced';
 
   }
-  return <a onClick={this.onClick} style={style} className={className}>
+  return <a href='' onClick={this.onClick} style={style} className={className}>
     {text}
   </a>;
 };

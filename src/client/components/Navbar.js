@@ -7,7 +7,8 @@ const obj = {};
 
 obj.displayName = 'Narbar';
 
-obj.onLogin = function () {
+obj.onLogin = function (evt) {
+  evt.preventDefault();
   ModalManager.open(<Login/>);
 };
 
@@ -18,7 +19,7 @@ obj.render = function () {
       <img src={this.props.user.profileImage}/>
     </div>;
   } else {
-    profile = <a className='nav-item' onClick={this.onLogin}>Login / Sign in</a>;
+    profile = <a href='' className='nav-item' onClick={this.onLogin}>Login / Sign in</a>;
   } 
 
   return <nav className='navbar'>

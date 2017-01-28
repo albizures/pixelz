@@ -3,7 +3,7 @@ const { connect } = require('react-redux');
 const classNames = require('classnames');
 const { actions: { selectSpriteLayer, selectSpriteFrame} } = require('../../../ducks/sprites.js');
 const { currentActions, actions: {setEditorId} } = require('../ducks');
-const { register } = require('./Layout.js');
+const { register } = require('react-dynamic-layout');
 const http = require('http');
 const obj = {};
 

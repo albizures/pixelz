@@ -42,10 +42,7 @@ const actions = {};
 actions.savePalette = function (palette) {
   return (dispatch, getState) => {
     let pal = getState().palettes[palette];
-    return http.put('/api/palettes/' + pal._id, pal, function (result) {
-      if (result.code !== 0) {
-        return; // alert
-      }
+    return http.put('/api/palettes/' + pal._id, pal, function () {
       dispatch({
         type: SAVE_PALETTE,
         palette

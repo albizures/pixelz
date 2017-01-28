@@ -1,6 +1,6 @@
 const React = require('react');
 
-const { register } = require('./Layout.js');
+const { register } = require('react-dynamic-layout');
 const obj = {};
 
 obj.displayName = 'Label';

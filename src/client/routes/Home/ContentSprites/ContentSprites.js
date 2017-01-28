@@ -11,15 +11,12 @@ const Grid = makeResponsive(measureItems(CSSGrid, {measureImages: true}), {
   maxWidth: 1920,
   minPadding: 100
 });
-console.log(layouts);
 
 const ContentSprites = React.createClass({
   componentDidMount() {
-    console.trace('http execute');
-    http.get('/api/sprites/public', result => {
-      console.trace('http result');
+    http.get('/api/sprites/public').then(sprites => {
       this.props.addSpritesHome(
-        this.props.addSprites(result)
+        this.props.addSprites(sprites)
       );
     });
   },

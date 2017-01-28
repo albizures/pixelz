@@ -1,11 +1,10 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const { connect } = require('react-redux');
+const { register } = require('react-dynamic-layout');
 
-const { register } = require('./Layout.js');
-const { getPreviewSize } = require('utils/canvas.js');
+const { getPreviewSize } = require('../../../utils/canvas.js');
 const Sprite = require('./Sprite.js');
-const Panel = require('./Panel.js');
 const Range = require('./Range.js');
 
 const obj = {};
@@ -25,10 +24,10 @@ obj.getInitialState = function(){
 };
 obj.initPreivew = function(props) {
   if (props.frames[0]) {
-    let el = ReactDOM.findDOMNode(this);
+    let el = this.refs.el;
     let size = getPreviewSize(
       el.clientWidth,
-      el.clientHeight - (25 + 20),
+      el.clientHeight - /*size of range div*/25,
       props.frames[0].width,
       props.frames[0].height
     );
@@ -66,7 +65,7 @@ obj.getSprite = function() {
 };
 
 obj.render = function(){
-  return <Panel name='Preview' className={'preview ' + this.props.className} style={this.props.style}>
+  return <div ref='el' className={'panel-preview preview ' + this.props.className} style={this.props.style}>
     {
       this.getSprite()
     }
@@ -79,7 +78,7 @@ obj.render = function(){
         <span>{this.state.fps}</span>
       </div>
     </div>
-  </Panel>;
+  </div>;
 };
 
 const Preview = connect(

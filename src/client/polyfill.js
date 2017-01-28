@@ -35,3 +35,6 @@ if (!Array.prototype.fill) {
     return O;
   };
 }
+
+Element.prototype.requestPointerLock = Element.prototype.requestPointerLock || Element.prototype.mozRequestPointerLock;
+document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
