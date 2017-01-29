@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Navbar from '../../components/Navbar';
-import { actions } from './ducks';
 import ContentSprites from './ContentSprites/ContentSprites';
 
 const Home = React.createClass({
@@ -20,4 +19,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(Home);
+export default connect(mapStateToProps)(Home);

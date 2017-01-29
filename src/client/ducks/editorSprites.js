@@ -1,22 +1,26 @@
 const OPEN_SPRITE = 'OPEN_SPRITE';
 
-export const initialState = [];
+const initialState = [];
 
-export default function reducer(state = [], action) {
+function reducer(state = [], action) {
   switch (action.type) {
     case OPEN_SPRITE:
-      return state.concat([action.sprite]);
+      return state.concat([action.payload]);
     default:
       return state;
   }
 }
-export const actions = {};
 
-actions.openSprite = sprite => ({
+export const openSprite = sprite => ({
   type: OPEN_SPRITE,
-  sprite,
+  payload: sprite,
 });
 
-export const types = {
-  OPEN_SPRITE
+// export const types = {
+//   OPEN_SPRITE
+// };
+
+export default {
+  reducer,
+  initialState
 };

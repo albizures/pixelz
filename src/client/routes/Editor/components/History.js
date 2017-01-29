@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { actions } from '../ducks/history';
+import {
+  redo,
+  undo
+} from '../../../ducks';
 import Panel from './Panel';
 
 const obj = {};
@@ -35,5 +38,5 @@ export default connect(
       visible: state.Editor.panels.history.visible
     };
   },
-  Object.assign({}, actions)
+  Object.assign({}, { redo, undo })
 )(History);

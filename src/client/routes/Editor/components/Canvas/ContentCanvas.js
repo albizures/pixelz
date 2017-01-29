@@ -54,12 +54,12 @@ obj.render = function () {
 
 function mapStateToProps(state) {
   return {
-    sprite: state.Editor.sprite,
+    sprite: state.editor.sprite,
     sprites: state.sprites,
-    frames: state.Editor.frames,
-    layers: state.Editor.layers,
-    tool: state.Editor.tool,
-    artboard: state.Editor.artboard
+    frames: state.frames,
+    layers: state.layers,
+    tool: state.editor.tool,
+    artboard: state.editor.artboard
   };
 }
 

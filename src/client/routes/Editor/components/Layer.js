@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getPreviewSize } from 'utils/canvas';
 import Context from './Context';
-import { actions as frameActions } from '../ducks/frames';
 
-const { changeLayerPosition } = frameActions;
+import {
+  changeLayerPosition
+} from '../../../utils/ducks';
 
 const obj = {};
 

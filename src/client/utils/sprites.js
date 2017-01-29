@@ -2,8 +2,18 @@ import defaults from 'lodash.defaults';
 import pick from 'lodash.pick';
 import { store } from '../store';
 import { getNewContext } from './canvas';
-import { actions as spriteActions } from '../ducks/sprites';
-import { actions as editorActions } from '../routes/Editor/ducks/index';
+
+import {
+  addSprite,
+  addFrame,
+  addLayer,
+  addFrameSprite,
+  addLayerFrame,
+  selectSpriteLayer,
+  selectSpriteFrame,
+  setCurrentSprite,
+  openSprite
+} from '../ducks';
 
 const defaultsValues = {
   name: 'Untitled',
@@ -32,16 +42,16 @@ function createFrame (data) {
     }
   }
 
-  const frame = store.dispatch(editorActions.addFrame({
+  const frame = store.dispatch(addFrame({
     width,
     height,
     sprite,
     context
   }));
 
-  store.dispatch(spriteActions.addFrameSprite(sprite, frame));
+  store.dispatch(addFrameSprite(sprite, frame));
   for (let x = 0; x < layers; x++) {
-    store.dispatch(editorActions.addLayerFrame(
+    store.dispatch(addLayerFrame(
       frame,
       createLayer({sprite, width, height, context: data.context, frame, index: x})
     ));
@@ -61,7 +71,7 @@ function createLayer(data) {
     );
   }
 
-  return store.dispatch(editorActions.addLayer({
+  return store.dispatch(addLayer({
     context,
     width,
     height,
@@ -83,15 +93,15 @@ export function createSprite (data) {
     'primaryColor',
     'secondaryColor'
   ]);
-  const sprite = store.dispatch(spriteActions.addSprite(dataSprite));
+  const sprite = store.dispatch(addSprite(dataSprite));
 
   const context = getNewContext({width: width * layers, height});
   
   // editor action!!!
-  store.dispatch(editorActions.openSprite(sprite));
+  store.dispatch(openSprite(sprite));
   
   if (current) {
-    store.dispatch(editorActions.setCurrentSprite(sprite));
+    store.dispatch(setCurrentSprite(sprite));
   }
 
   if (image) {
@@ -100,11 +110,11 @@ export function createSprite (data) {
       0, 0, width, height
     );
   }
-  store.dispatch(spriteActions.selectSpriteFrame(
+  store.dispatch(selectSpriteFrame(
     sprite,
     createFrame({sprite, context, width, height, layers})
   ));
-  store.dispatch(spriteActions.selectSpriteLayer(sprite, 0));
+  store.dispatch(selectSpriteLayer(sprite, 0));
   for (let j = 1; j < frames; j++) {
     context.canvas.height = height;// clean
     if (image) {

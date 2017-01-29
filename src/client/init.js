@@ -29,23 +29,23 @@ import Home from './routes/Home';
 import Editor from './routes/Editor';
 import Tooltip from './components/Tooltip';
 import http from './utils/http';
-import * as palettes from './ducks/palettes';
-import * as User from './ducks/user';
-import { currentActions as editorActions } from './routes/Editor/ducks';
+
+import {
+  setCurrentPalette,
+  addPalettes,
+  setUser
+} from './ducks';
 
 http.get('/api/palettes').then(function (result) {
   if (result.code !== 0 || !result.data) {
     return;
   }
-  store.dispatch(palettes.actions.addPalettes(result.data));
-  store.dispatch(editorActions.setCurrentPalette(0));
+  store.dispatch(addPalettes(result.data));
+  store.dispatch(setCurrentPalette(0));
 });
 
 http.get('/api/auth/whoami').then(function (user) {
-  if (!User) {
-    return;
-  }
-  store.dispatch(User.actions.setUser(user));
+  store.dispatch(setUser(user));
 });
 
 ReactDOM.render((

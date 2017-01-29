@@ -3,16 +3,18 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { register } from 'react-dynamic-layout';
 
-import { actions, editorActions } from '../../ducks';
-import { actions as spriteActions } from '../../../../ducks/sprites';
 import Name from './Name';
 import Menu from '../Menu';
 import Panel from '../Panel';
 import { noopF } from 'utils/noop';
 import * as obj from './events';
 
-const { saveEditor } = editorActions;
-const { setSpriteId } = spriteActions;
+import {
+  saveEditor,
+  setSpriteId,
+  putName
+} from '../../../../ducks';
+
 
 obj.displayName = 'Menus';
 
@@ -84,17 +86,15 @@ obj.render = function () {
 
 function mapStateToProps(state) {
   return {
-    spriteIndex: state.Editor.sprite,
-    sprite: state.sprites[state.Editor.sprite],
-    frames: state.Editor.frames,
-    layers: state.Editor.layers,
+    spriteIndex: state.editor.sprite,
+    sprite: state.sprites[state.editor.sprite],
     user: state.user
   };
 }
 
 const Menus = connect(
   mapStateToProps,
-  Object.assign({}, actions, {setSpriteId, saveEditor})
+  {setSpriteId, saveEditor, putName}
 )(React.createClass(obj));
 
 register(Menus, obj.displayName);

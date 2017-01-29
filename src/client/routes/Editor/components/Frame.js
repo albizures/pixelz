@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { actions as frameActions } from '../ducks/frames';
-import { actions as spriteActions } from '../ducks/sprites';
-import { currentActions } from '../ducks';
 import { getPreviewSize } from '../../../utils/canvas';
 import Context from './Context';
+
+import {
+  changeLayerPosition,
+  changeFramePosition
+} from '../../../utils/ducks';
 
 const obj = {};
 obj.displayName = 'Frame';
@@ -69,5 +71,5 @@ const Frame = React.createClass(obj);
 
 export default connect(
   null,
-  Object.assign({}, frameActions, currentActions, spriteActions)
+  Object.assign({}, { changeLayerPosition, changeFramePosition})
 )(Frame);

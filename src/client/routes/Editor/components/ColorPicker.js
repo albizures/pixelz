@@ -4,16 +4,15 @@ import { register } from 'react-dynamic-layout';
 
 import { hsvToRgb, rgbToHsv, getRGBAComponents } from '../../../utils/color';
 
-import { actions as spriteActions } from '../../../ducks/sprites';
-import { actions as palettesActions } from '../../../ducks/palettes';
-import { actions as panelActions} from '../ducks/panels';
-
 import Range from './Range';
 import Color from './Color';
 
-const { setSpriteSecondaryColor, setSpritePrimaryColor } = spriteActions;
-const { addColor } = palettesActions;
-const { setStyle } = panelActions;
+import {
+  setSpriteSecondaryColor,
+  setSpritePrimaryColor,
+  addColor,
+  setStyle
+} from '../../../ducks';
 
 const { round } = Math;
 const $window = $(window);
@@ -314,8 +313,12 @@ obj.render = function () {
 };
 
 const ColorPicker = connect(
-  function(state) {
-    return state.Editor.panels.colorPicker;
+  function(/* */) {
+    return {
+      params: {
+        color: 'rgba(0, 0, 0, 1)'
+      }
+    };
   }, {
     addColor,
     setSpritePrimaryColor,

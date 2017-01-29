@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 
 export default React.createClass({
   render () {
-      // <Link to={'/editor/' + this.props.data._id}>
-      // </Link>
-        // <img src={this.props.user.profileImage}/>
     return <div className="sprite">
       <div className='header'>
         <a>

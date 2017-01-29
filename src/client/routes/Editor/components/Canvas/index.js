@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-import { actions } from '../../../../ducks/sprites';
+import {
+  setSpriteArtboard
+} from '../../../../ducks';
 import Menu from '../Menu';
 import Background from './Background';
 import Preview from './Preview';
 import Mask from './Mask';
 import Layer from './Layer';
 import * as obj from './events';
-
-const { setSpriteArtboard } = actions;
 
 obj.displayName = 'Canvas';
 

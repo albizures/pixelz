@@ -1,19 +1,22 @@
 const SET_USER = 'SET_USER';
 
-export const initialState = null;
+const initialState = null;
 
-export default function (state = null, action) {
-  switch (action.type) {
+function reducer(state = null, {type, payload}) {
+  switch (type) {
     case SET_USER:
-      return action.user;
+      return payload;
     default:
       return state;
   }
 }
 
-export const actions = {};
-
-actions.setUser = (user = null) => ({
+export const setUser = (user = null) => ({
   type: SET_USER,
-  user
+  payload: user
 });
+
+export default {
+  reducer,
+  initialState
+};

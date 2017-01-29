@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { currentActions } from '../../ducks';
+import {
+
+} from '../../../../ducks';
+
+
 const obj = {};
 let canvas;
 let context;
@@ -52,8 +56,7 @@ const Preview = React.createClass(obj);
 export default connect(
   function (state) {
     return {
-      primaryColor: state.Editor.primaryColor
+      primaryColor: state.sprites[state.editor.sprite].primaryColor
     };
-  },
-  currentActions
+  }
 )(Preview);

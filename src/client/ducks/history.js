@@ -12,68 +12,64 @@ const PAINT = 'PAINT';
 // const DELETE_FRAME = 'DELETE_FRAME';
 const DELETE_UNDO = 'DELETE_UNDO';
 const DELETE_REDO = 'DELETE_REDO';
-const def = {
+const initialState = {
   undo: [],
   redo: []
 };
 
-export default function reducer(state = def, {
+function reducer(state = initialState, {
   type,
-  data,
-  redo
+  payload
 }) {
   switch (type) {
     case ADD_UNDO:
       return {
-        undo: state.undo.concat([editProp(data, 'index', state.undo.length)]),
-        redo: redo ? state.redo.slice(0, state.redo.length - 1) : []
+        undo: state.undo.concat([editProp(payload.data, 'index', state.undo.length)]),
+        redo: payload.redo ? state.redo.slice(0, state.redo.length - 1) : []
       };
     case ADD_REDO:
       return {
         undo: state.undo.slice(0, state.undo.length - 1),
-        redo: state.redo.concat([editProp(data, 'index', state.redo.length)])
+        redo: state.redo.concat([editProp(payload.data, 'index', state.redo.length)])
       };
     default:
       return state;
   }
 }
 
-export const init = def;
 
-export const actions = {};
+export const deleteRedo = index => ({
+  type: DELETE_REDO,
+  payload: index
+});
 
+export const deleteUndo = index => ({
+  type: DELETE_UNDO,
+  payload: index
+});
 
-actions.deleteRedo = function(index) {
-  return {
-    type: DELETE_REDO,
-    index
-  };
-};
-
-actions.deleteUndo = function(index) {
-  return {
-    type: DELETE_UNDO,
-    index
-  };
-};
-
-actions.addUndoPaint = function(data, redo) {
-  return {
-    type: ADD_UNDO,
+export const addUndoPaint = (data, redo) => ({
+  type: ADD_UNDO,
+  payload: {
     data: {
       type: PAINT,
       data
     },
     redo
-  };
-};
+  }
+});
 
-actions.addRedoPaint = function(data) {
-  return {
-    type: ADD_REDO,
+export const addRedoPaint = data => ({
+  type: ADD_REDO,
+  payload: {
     data: {
       type: PAINT,
       data
     }
-  };
+  }
+});
+
+export default {
+  reducer,
+  initialState
 };

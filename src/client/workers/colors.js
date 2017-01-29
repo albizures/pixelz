@@ -15,7 +15,7 @@ export const getTransparentColor = function (sprite, cb) {
 
   let dataList = [];
   for (let i = 0; i < frames.length; i++) {
-    dataList.push(getImageData(state.Editor.frames[frames[i]].context));
+    dataList.push(getImageData(state.frames[frames[i]].context));
   }
   colors.postMessage({type: 'transparent', data: dataList});
   cbs.transparent.push(cb);
@@ -36,10 +36,10 @@ export const getSpritePalette = (sprite, transparent = false) => new Promise(res
 
   let dataList = [];
   for (let i = 0; i < frames.length; i++) {
-    let layers = state.Editor.frames[frames[i]].layers;
+    let layers = state.frames[frames[i]].layers;
     for (let j = 0; j < layers.length; j++) {
       //console.log(typeof state.frames[layers[j]], layers[j], j, layers, );
-      dataList.push(getImageData(state.Editor.layers[layers[j]].context));
+      dataList.push(getImageData(state.layers[layers[j]].context));
     }
   }
 

@@ -3,12 +3,13 @@ import { register } from 'react-dynamic-layout';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { actions as actionsSprite } from '../../../ducks/sprites';
-import { currentActions, actions } from '../ducks';
+import {
+  setEditorId,
+  selectSpriteLayer,
+  selectSpriteFrame,
+  setCurrentSprite
+} from '../../../ducks';
 import http from '../../../utils/http';
-
-const {setEditorId} = actions;
-const { selectSpriteLayer, selectSpriteFrame } = actionsSprite;
 
 const obj = {};
 
@@ -74,16 +75,16 @@ obj.getTabs = function () {
 
 function mapStateToProps(state) {
   return {
-    filter: state.Editor.sprites,
-    editorId: state.Editor._id,
+    filter: state.editorSprites,
+    editorId: state.editor._id,
     sprites: state.sprites,
-    sprite: state.Editor.sprite
+    sprite: state.editor.sprite
   };
 }
 
 const Sprites = connect(
   mapStateToProps,
-  Object.assign({}, currentActions, {setEditorId, selectSpriteLayer, selectSpriteFrame})
+  Object.assign({}, {setEditorId, selectSpriteLayer, selectSpriteFrame, setCurrentSprite})
 )(React.createClass(obj));
 
 register(Sprites, obj.displayName);

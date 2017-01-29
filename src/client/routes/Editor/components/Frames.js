@@ -5,11 +5,14 @@ import { register } from 'react-dynamic-layout';
 
 import Frame from './Frame';
 
-import { actions as spriteActions } from '../../../ducks/sprites';
-import { actions } from '../ducks';
+import {
+  addFrameSprite,
+  selectSpriteFrame,
+  addFrame,
+  addLayerFrame,
+  addLayer
+} from '../../../ducks';
 
-const { addFrameSprite, selectSpriteFrame} = spriteActions;
-const { addFrame, addLayerFrame, addLayer } = actions;
 const obj = {};
 
 obj.displayName = 'Frames';
@@ -127,8 +130,8 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
 const Frames = connect(
   function (state) {
     return {
-      sprite: state.sprites[state.Editor.sprite],
-      frames: state.Editor.frames || []
+      sprite: state.sprites[state.editor.sprite],
+      frames: state.frames
     };
   },
   {selectSpriteFrame, addFrame, addFrameSprite, addLayerFrame, addLayer}

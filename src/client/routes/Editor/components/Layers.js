@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import { register } from 'react-dynamic-layout';
 
 import Layer from './Layer';
-import { actions } from '../ducks';
-import { actions as spriteActions } from '../../../ducks/sprites';
-
-const { selectSpriteLayer} = spriteActions;
-const { addLayerFrame, addLayer } = actions;
+import {
+  selectSpriteLayer,
+  addLayerFrame,
+  addLayer
+} from '../../../ducks';
 
 const obj = {};
 obj.displayName = 'Layers';
@@ -103,10 +103,11 @@ obj.render = function() {
 
 const Layers = connect(
   function (state) {
+    const sprite = state.sprites[state.editor.sprite];
     return {
-      sprite: state.sprites[state.Editor.sprite],
-      layers: state.Editor.layers || [],
-      frame: state.Editor.frames[(state.sprites[state.Editor.sprite] || {}).frame]
+      sprite,
+      layers: state.layers,
+      frame: state.frames[sprite.frame]
     };
   },
   { selectSpriteLayer, addLayerFrame, addLayer }

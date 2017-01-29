@@ -19,54 +19,45 @@ const tools = [
   'rect'
 ];
 
-function getReducer(type, prop) {
+function getReducer(type) {
   return function(state = null, action) {
     switch (action.type) {
       case type:
-        return action[prop];
+        return action.payload;
       default:
         return state;
     }
   };
 }
-export default combineReducers({
-  artboard: getReducer(SET_CURRENT_ARTBOARD, 'artboard'),
-  sprite: getReducer(SET_CURRENT_SPRITE, 'index'),
-  frame: getReducer(SET_CURRENT_FRAME, 'index'),
-  layer: getReducer(SET_CURRENT_LAYER, 'index'),
-  palette: getReducer(SET_CURRENT_PALETTE, 'index'),
-  tool: getReducer(SET_CURRENT_TOOL, 'tool'),
-  _id: getReducer(SET_EDITOR_ID, '_id'),
+const reducer = combineReducers({
+  artboard: getReducer(SET_CURRENT_ARTBOARD),
+  sprite: getReducer(SET_CURRENT_SPRITE),
+  frame: getReducer(SET_CURRENT_FRAME),
+  layer: getReducer(SET_CURRENT_LAYER),
+  palette: getReducer(SET_CURRENT_PALETTE),
+  tool: getReducer(SET_CURRENT_TOOL),
+  _id: getReducer(SET_EDITOR_ID),
   tools: function tools(state = tools) {
     return state;
   },
 });
 
-export const actions = { };
-
-actions.setCurrentPalette = index => ({
-  type: SET_CURRENT_PALETTE,
-  index
-});
-
-actions.setCurrentSprite = index => ({
+export const setCurrentSprite = index => ({
   type: SET_CURRENT_SPRITE,
-  index
+  payload: index
 });
 
-actions.setCurrentTool = tool => ({
+export const setCurrentTool = tool => ({
   type: SET_CURRENT_TOOL,
-  tool
+  payload: tool
 });
 
-actions.setEditorId = function (_id) {
-  return {
-    type: SET_EDITOR_ID,
-    _id
-  };
-};
+export const setEditorId = _id => ({
+  type: SET_EDITOR_ID,
+  payload: _id
+});
 
-actions.saveEditor = () => (dispatch, getState) => {
+export const saveEditor = () => (dispatch, getState) => {
   let state = getState();
   let sprites = state.Editor.sprites
     .filter(index => !!state.sprites[index]._id)
@@ -78,14 +69,16 @@ actions.saveEditor = () => (dispatch, getState) => {
   } else {
     return http.post('/api/editor/', {
       sprites
-    }).then(id => dispatch(actions.setEditorId(id)));
+    }).then(id => dispatch(setEditorId(id)));
   }
 };
 
-export const initialState = {
+const initialState = {
   tools: tools,
   tool: tools[0],
 };
 
-export const editorActions = actions;
-export const currentActions = actions;
+export default {
+  reducer,
+  initialState
+};

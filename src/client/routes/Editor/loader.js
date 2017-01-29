@@ -5,17 +5,20 @@ import { wrapActionCreators } from '../../utils/ducks';
 import { bindObject } from '../../utils/object';
 import { createSprite } from '../../utils/sprites';
 import { store } from '../../store';
-import { actions as spriteActions } from '../../ducks/sprites';
-import { actions as editorSpriteActions } from './ducks/sprites';
-import { currentActions } from './ducks/index';
-import { actions as frameActions } from './ducks/frames';
-import { actions as layersActions } from './ducks/layers';
 
-const { addLayer } = layersActions;
-const { openSprite } = editorSpriteActions;
-const { addFrame, addLayerFrame } = frameActions;
-const { setEditorId, setCurrentSprite } = currentActions;
-const { addSprite, selectSpriteFrame, addFrameSprite, selectSpriteLayer } = spriteActions;
+import {
+  setEditorId,
+  addSprite,
+  openSprite,
+  selectSpriteFrame,
+  setCurrentSprite,
+  addFrame,
+  addFrameSprite,
+  addLayer,
+  addLayerFrame,
+  selectSpriteLayer
+} from '../../ducks';
+
 const { dispatch } = store;
 
 const actions = wrapActionCreators(dispatch, {

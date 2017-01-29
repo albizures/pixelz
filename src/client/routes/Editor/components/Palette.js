@@ -3,19 +3,18 @@ import { register } from 'react-dynamic-layout';
 import { connect } from 'react-redux';
 
 import { getTransparentColor, getSpritePalette } from '../../../workers/colors';
-import { actions as panelActions } from '../ducks/panels';
-import { actions as paletteActions } from '../../../ducks/palettes';
-import { actions as spriteActions } from '../../../ducks/sprites';
 import ContentColors from './ContentColors';
 
-const {
+import {
   setTransparentColor,
   setCurrentPalette,
   setSpriteSecondaryColor,
-  setSpritePrimaryColor
-} = spriteActions;
-const {savePalette} = paletteActions;
-const {setStyle, setParams} = panelActions;
+  setSpritePrimaryColor,
+  savePalette,
+  setStyle,
+  setParams
+} from '../../../ducks';
+
 
 const obj = {};
 
@@ -136,11 +135,12 @@ obj.getPalette = function () {
 
 const Palette = connect(
   function (state) {
+    const sprite = state.sprites[state.editor.sprite];
     return {
-      sprite: state.sprites[state.Editor.sprite],
+      sprite,
       palettes: state.palettes,
-      palette: state.Editor.palette,
-      primaryColor: state.Editor.primaryColor
+      palette: sprite.palette,
+      primaryColor: sprite.primaryColor
     };
   },
   {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor, setStyle, setParams, savePalette}

@@ -3,9 +3,9 @@ import React from 'react';
 import classNames from 'classnames';
 import { store } from '../store';
 import http from '../utils/http';
-import { actions as userActions } from '../ducks/user';
-
-const {setUser} = userActions;
+import {
+  setUser
+} from '../ducks';
 
 const obj = {};
 

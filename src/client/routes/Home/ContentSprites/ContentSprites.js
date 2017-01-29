@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { CSSGrid, measureItems, makeResponsive, layout as layouts } from 'react-stonecutter';
 
 import http from '../../../utils/http';
-import { actions as editorSpriteActions } from '../ducks/sprites';
-import { actions as spriteActions } from '../../../ducks/sprites';
 import Sprite from './Sprite/Sprite';
 
-const {addSprites} = spriteActions;
-const {addSpritesHome} = editorSpriteActions;
-
+import {
+  addSprites,
+  addSpritesHome
+} from '../../../ducks';
 
 const Grid = makeResponsive(measureItems(CSSGrid, {measureImages: true}), {
   maxWidth: 1920,
@@ -50,7 +49,7 @@ const ContentSprites = React.createClass({
 function mapStateToProps(state) {
   return {
     sprites: state.sprites,
-    filter: state.Home.sprites
+    filter: state.homeSprites
   };
 }
 

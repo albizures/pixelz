@@ -14,8 +14,8 @@ import 'react-dynamic-layout/lib/style/base/index.styl';
 import 'react-dynamic-layout/lib/style/dark/index.styl';
 
 import ContentCanvas from './components/Canvas/ContentCanvas';
-import './components/Preview'; 
-import './components/Palette'; 
+import './components/Preview';
+import './components/Palette';
 
 import './components/Layers';
 import './components/Frames';

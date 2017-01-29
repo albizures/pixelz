@@ -3,22 +3,15 @@ import { connect } from 'react-redux';
 import { register } from 'react-dynamic-layout';
 import { Tooltipy } from '../../../components/Tooltipy';
 import Color from './Color';
-import { actions } from '../ducks/panels';
-import { currentActions} from '../ducks';
+import {
+  setCurrentTool,
+  setStyle,
+  setParams
+} from '../../../ducks';
 
 const obj = {};
 
 obj.displayName = 'Tools';
-
-obj.getInitialState = function(){
-  return {
-    style: {
-      top: 100,
-      left: 150,
-      width: 65
-    }
-  };
-};
 
 obj.componentDidMount = function() {
   if (!this.props.tool) {
@@ -29,7 +22,6 @@ obj.componentDidMount = function() {
 obj.shouldComponentUpdate = function(nextProps) {
   return nextProps.tools.length !== this.props.tools.length
     || nextProps.tool !== this.props.tool
-    || nextProps.style !== this.props.style
     || nextProps.secondaryColor !== this.props.secondaryColor
     || nextProps.primaryColor !== this.props.primaryColor;
 };
@@ -85,12 +77,11 @@ obj.render = function() {
 
 
 function mapStateToProps(state) {
-  let sprite = state.sprites[state.Editor.sprite] || {};
+  let sprite = state.sprites[state.editor.sprite];
   return {
     sprite: sprite.index,
-    tools: state.Editor.tools,
-    tool: state.Editor.tool,
-    style: state.Editor.panels.tools.style,
+    tools: state.editor.tools,
+    tool: state.editor.tool,
     primaryColor: sprite.primaryColor,
     secondaryColor: sprite.secondaryColor
   };
@@ -98,7 +89,7 @@ function mapStateToProps(state) {
 
 const Tools = connect(
   mapStateToProps,
-  Object.assign({}, currentActions, actions)
+  { setCurrentTool, setStyle, setParams}
 )(React.createClass(obj));
 
 register(Tools, obj.displayName);

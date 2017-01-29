@@ -23,10 +23,8 @@ obj.renderPlaceholder = function () {
 
 obj.render = function () {
   if (this.state.component) {
-    console.info(this.state.component);
     return <this.state.component {...this.props} {...this.state.props}/>;
   }
-  console.info(this.props.renderPlaceholder, this.renderPlaceholder, (this.props.renderPlaceholder || this.renderPlaceholder)());
   return (this.props.renderPlaceholder || this.renderPlaceholder)();
 };
 
