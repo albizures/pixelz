@@ -1,4 +1,5 @@
 import React from 'react';
+import { cuid } from 'react-dynamic-layout/lib';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { register } from 'react-dynamic-layout';
@@ -22,7 +23,7 @@ obj.onClickAddLayer = function() {
       frame: element
     });
     if (this.props.frame.index === element) {
-      this.props.selectSpriteLayer(this.props.sprite.index, index);
+      this.props.selectSpriteLayer(this.props.sprite.id, index);
     }
   }
 };
@@ -39,10 +40,11 @@ obj.componentDidMount = function () {
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
-  var layer;
+  const layer = cuid();
   width = width || this.props.frame.width;
   height = height || this.props.frame.height;
-  layer = this.props.addLayer({
+  this.props.addLayer({
+    id: layer,
     width,
     height,
     sprite,
@@ -63,7 +65,7 @@ obj.getDefaultProps = function() {
 };
 
 obj.onSelect = function (index) {
-  this.props.selectSpriteLayer(this.props.sprite.index, index);
+  this.props.selectSpriteLayer(this.props.sprite.id, index);
 };
 
 // obj.componentWillReceiveProps = function () {
@@ -83,7 +85,12 @@ obj.getList = function() {
     );
     children.push(
       <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
-        <Layer data={layer} onSelect={this.onSelect} size={this.state.size} index={j}/>
+        <Layer
+          data={layer}
+          onSelect={this.onSelect}
+          size={this.state.size}
+          index={j}
+        />
       </li>
     );
   }

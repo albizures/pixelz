@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { cuid } from 'react-dynamic-layout/lib';
 
 import Panel from './Panel';
-import { actions as spriteActions } from '../../../ducks/sprites';
-import { actions } from '../ducks';
-
-const {addSprite, addFrameSprite, selectSpriteLayer, selectSpriteFrame} = spriteActions;
-
-const {
+import {
+  addSprite,
+  addFrameSprite,
+  selectSpriteLayer,
+  selectSpriteFrame,
   setCurrentSprite,
   openSprite,
   addFrame, addLayerFrame,
   addLayer
-} = actions;
+} from '../ducks';
 
 const obj = {};
 
@@ -30,8 +30,10 @@ obj.onSubmit = function (evt) {
 };
 
 obj.createSprite = function(name, width, height) {
-  let sprite, frame;
-  sprite = this.props.addSprite({
+  const frame = cuid();
+  const sprite = cuid();
+  this.props.addSprite({
+    id: sprite,
     name,
     width,
     height,
@@ -39,7 +41,8 @@ obj.createSprite = function(name, width, height) {
     secondaryColor: 'rgba(0, 0, 0, 0)'
   });
   this.props.openSprite(sprite);
-  frame = this.props.addFrame({
+  this.props.addFrame({
+    id: frame,
     width,
     height,
     sprite
@@ -53,10 +56,11 @@ obj.createSprite = function(name, width, height) {
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
-  var layer;
+  const layer = cuid();
   width = width || this.props.sprites[sprite].width;
   height = height || this.props.sprites[sprite].height;
-  layer = this.props.addLayer({
+  this.props.addLayer({
+    id: layer,
     width,
     height,
     sprite,
@@ -106,7 +110,7 @@ obj.render = function () {
 
 const NewSprite = connect(
   null,
-  {   
+  {
     setCurrentSprite, selectSpriteLayer, selectSpriteFrame, 
     addSprite, addFrameSprite,
     addFrame, addLayerFrame,

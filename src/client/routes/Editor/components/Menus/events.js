@@ -76,7 +76,7 @@ export const onSave = function () {
 
   function onUpload(result) {
     if (isNew) {
-      this.props.setSpriteId(this.props.sprite.index, result.description);
+      this.props.setSpriteId(this.props.sprite.id, result.description);
       this.props.saveEditor();
     }
     console.log('save result', result);

@@ -1,5 +1,7 @@
 import http from '../utils/http';
-import { editProp, updateArrayItem, shiftPositions } from '../utils/ducks';
+import { cuid } from 'react-dynamic-layout/lib';
+import { add, update, addChild } from 'react-dynamic-layout/lib/store/reducer';
+import { shiftPositions } from '../utils/ducks';
 
 const ADD_SPRITE = 'ADD_SPRITE';
 const ADD_SPRITE_FRAME = 'ADD_SPRITE_FRAME';
@@ -16,123 +18,78 @@ const SELECT_SPRITE_FRAME = 'SELECT_SPRITE_FRAME';
 const SET_SPRITE_PRIMARY_COLOR = 'SET_SPRITE_PRIMARY_COLOR';
 const SET_SPRITE_SECONDARY_COLOR = 'SET_SPRITE_SECONDARY_COLOR';
 
-const initialState = [];
+const initialState = {};
 
 function reducer(state = initialState, {type, payload}) {
   switch (type) {
     case ADD_SPRITE:
-      return state.concat([
-        Object.assign({
-          frames: [],
-          version: 0,
-          palette: [],
-          index: payload.index
-        }, payload.sprite)
-      ]);
+      return add(state, payload);
     case ADD_SPRITE_FRAME:
-      return state.map((item, index) => {
-        if (index !== payload.sprite) {
-          return item;
-        }
-        return Object.assign({},
-          item, {
-            frames: item.frames.concat([payload.frame])
-          }
-        );
-      });
+      return addChild(state, payload, 'frames');
     case ADD_SPRITES:
-      return state.concat(payload);
+      return {
+        ...state,
+        ...payload
+      };
     case CHANGE_FRAME_POSITION:
-      return updateArrayItem(
-        state, payload.sprite,
-        editProp(
-          state[payload.sprite],
-          'frames',
-          shiftPositions(state[payload.sprite].frames, payload.fromIndex, payload.toIndex)
-        )
-      );
+      return update(state, {
+        id: payload.sprite,
+        frames: shiftPositions(state[payload.sprite].frames, payload.fromIndex, payload.toIndex)
+      });
     case NEW_SPRITE_VERSION:
-      return updateArrayItem(
-        state,
-        payload,
-        editProp(state[payload], 'version', state[payload].version + 1)
-      );
-    case SET_CURRENT_PALETTE_SPRITE:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'palette', payload.palette)
-      );
-    case SET_TRANSPARENT_COLOR:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'transparent', payload.transparent)
-      );
-    case PUT_NAME:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'name', payload.name)
-      );
-    case SET_SPRITE_ID:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], '_id', payload.id)
-      );
+      return update(state, {
+        id: payload,
+        version: state[payload].version + 1
+      });
     case SET_SPRITE_ARTBOARD:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'artboard', payload.artboard)
-      );
+      console.trace(payload);
+      return update(state, payload);
+    case SET_CURRENT_PALETTE_SPRITE:
+    case SET_TRANSPARENT_COLOR:
+    case PUT_NAME:
+    case SET_SPRITE_ID:
     case SELECT_SPRITE_FRAME:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'frame', payload.frame)
-      );
     case SELECT_SPRITE_LAYER:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'layer', payload.layer)
-      );
     case SET_SPRITE_PRIMARY_COLOR:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'primaryColor', payload.color)
-      );
     case SET_SPRITE_SECONDARY_COLOR:
-      return updateArrayItem(
-        state,
-        payload.sprite,
-        editProp(state[payload.sprite], 'secondaryColor', payload.color)
-      );
+      return update(state, payload);
     default:
       return state;
   }
 }
 
-export const addSprite = (sprite) => (dispatch, getState) => {
-  let index = getState().sprites.length;
-  dispatch({
-    type: ADD_SPRITE,
-    payload: {
-      sprite,
-      index
-    }
-  });
-  return index;
-};
+export const addSprite = ({
+  id = cuid(),
+  frames = [],
+  version = 0,
+  palette = [],
+  name,
+  _id,
+  width,
+  height,
+  primaryColor = 'rgba(0, 0, 0, 1)',
+  secondaryColor = 'rgba(0, 0, 0, 0)'
+}) => ({
+  type: ADD_SPRITE,
+  payload: {
+    id,
+    frames,
+    version,
+    palette,
+    name,
+    _id,
+    width,
+    height,
+    primaryColor,
+    secondaryColor
+  }
+});
 
 export const addFrameSprite = (sprite, frame) => ({
   type: ADD_SPRITE_FRAME,
   payload: {
-    sprite,
-    frame
+    id: sprite,
+    child: frame
   }
 });
 
@@ -153,7 +110,7 @@ export const changeFramePosition = (sprite, fromIndex, toIndex) => ({
 export const setTransparentColor = (sprite, transparent) => ({
   type: SET_TRANSPARENT_COLOR,
   payload: {
-    sprite,
+    id: sprite,
     transparent
   }
 });
@@ -161,7 +118,7 @@ export const setTransparentColor = (sprite, transparent) => ({
 export const setCurrentPalette = (sprite, palette) => ({
   type: SET_CURRENT_PALETTE_SPRITE,
   payload: {
-    sprite,
+    id: sprite,
     palette
   }
 });
@@ -184,45 +141,43 @@ export const putName = (sprite, name) => (dispatch) => {
     dispatch({
       type: PUT_NAME,
       payload: {
-        sprite: sprite.index,
+        id: sprite.id,
         name
       }
     });
   }
 };
 
-export const addSprites = (sprites) => {
-  return (dispatch, getState) => {
-    let newSprites = setIndex(getState().sprites.length, sprites);
-    dispatch({
-      type: ADD_SPRITES,
-      payload: sprites,
-    });
-    return newSprites;
-  };
-
-  function setIndex(initIndex, sprites) {
-    let newSprites = [];
-    for (var j = 0; j < sprites.length; j++) {
-      sprites[j].index = j + initIndex;
-      newSprites.push(j + initIndex);
-    }
-    return newSprites;
-  }
+export const addSprites = sprites => dispatch => {
+  const idNewSprites = [];
+  dispatch({
+    type: ADD_SPRITES,
+    // array => object
+    payload: sprites.reduce((before, current) => {
+      const id = cuid();
+      before[id] = {
+        ...current,
+        id
+      };
+      idNewSprites.push(id);
+      return before;
+    }, {}),
+  });
+  return idNewSprites;
 };
 
-export const setSpriteId = (sprite, id) => ({
+export const setSpriteId = (sprite, _id) => ({
   type: SET_SPRITE_ID,
   payload: {
-    sprite,
-    id
+    id: sprite,
+    _id
   }
 });
 
 export const setSpriteArtboard = (sprite, artboard) => ({
   type: SET_SPRITE_ARTBOARD,
   payload: {
-    sprite,
+    id: sprite,
     artboard
   }
 });
@@ -230,7 +185,7 @@ export const setSpriteArtboard = (sprite, artboard) => ({
 export const selectSpriteFrame = (sprite, frame) => ({
   type: SELECT_SPRITE_FRAME,
   payload: {
-    sprite,
+    id: sprite,
     frame
   }
 });
@@ -238,7 +193,7 @@ export const selectSpriteFrame = (sprite, frame) => ({
 export const selectSpriteLayer = (sprite, layer) => ({
   type: SELECT_SPRITE_LAYER,
   payload: {
-    sprite,
+    id: sprite,
     layer
   }
 });
@@ -246,7 +201,7 @@ export const selectSpriteLayer = (sprite, layer) => ({
 export const setSpritePrimaryColor = (sprite, color) => ({
   type: SET_SPRITE_PRIMARY_COLOR,
   payload: {
-    sprite,
+    id: sprite,
     color
   }
 });
@@ -254,7 +209,7 @@ export const setSpritePrimaryColor = (sprite, color) => ({
 export const setSpriteSecundaryColor = (sprite, color) => ({
   type: SET_SPRITE_SECONDARY_COLOR,
   payload: {
-    sprite,
+    id: sprite,
     color
   }
 });

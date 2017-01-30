@@ -50,7 +50,8 @@ export const center = function (stats) {
   stats = stats || this.state.stats;
   let { sprite } = this.props;
   let size = getPreviewSize(stats.width, stats.height, sprite.width, sprite.height);
-  this.props.setSpriteArtboard(this.props.sprite.index, {
+  console.log(size, stats, sprite);
+  this.props.setSpriteArtboard(this.props.sprite.id, {
     scale: floor(size.scale),
     x: Number.parseInt(stats.left + size.marginLeft),
     y: floor(stats.top + size.marginTop)
@@ -134,7 +135,7 @@ export const onDragMove = function (evt) {
   this.shiftDiff(diffX, diffY);
 };
 export const shiftDiff = function (diffX, diffY) {
-  this.props.setSpriteArtboard(this.props.sprite.index, {
+  this.props.setSpriteArtboard(this.props.sprite.id, {
     scale: this.props.sprite.artboard.scale,
     x: ceil(this.props.sprite.artboard.x + diffX),
     y: ceil(this.props.sprite.artboard.y + diffY)

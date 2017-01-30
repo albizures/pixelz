@@ -32,7 +32,7 @@ obj.getInitialState = function () {
 
 obj.componentDidMount = function () {
   if (this.props.sprite) {
-    let spriteIndex = this.props.sprite.index;
+    let spriteIndex = this.props.sprite.id;
     getSpritePalette(
       spriteIndex
     ).then(result => this.props.setCurrentPalette(spriteIndex, result.array));
@@ -42,7 +42,7 @@ obj.componentDidMount = function () {
 
 obj.shouldComponentUpdate = function (nextProps) {
   if (this.props.sprite && this.props.sprite.version !== nextProps.sprite.version) {
-    let spriteIndex = nextProps.sprite.index;
+    let spriteIndex = nextProps.sprite.id;
     if (this.props.sprite.frames.length > 1) {
       getTransparentColor(
         spriteIndex,
@@ -110,8 +110,8 @@ obj.render = function () {
     >+</button>
     {this.getPalette().unsaved ? <span onClick={this.onSave}>!¡</span> : null}
     <ContentColors 
-      setPrimaryColor={color => this.props.setSpritePrimaryColor(this.props.sprite.index, color)}
-      setSecondaryColor={color => this.props.setSpriteSecondaryColor(this.props.sprite.index, color)}
+      setPrimaryColor={color => this.props.setSpritePrimaryColor(this.props.sprite.id, color)}
+      setSecondaryColor={color => this.props.setSpriteSecondaryColor(this.props.sprite.id, color)}
       colors={this.getPalette()}/>
   </div>;
 };

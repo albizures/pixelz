@@ -1,5 +1,7 @@
+import { cuid } from 'react-dynamic-layout/lib';
 import defaults from 'lodash.defaults';
 import pick from 'lodash.pick';
+
 import { store } from '../store';
 import { getNewContext } from './canvas';
 
@@ -42,7 +44,9 @@ function createFrame (data) {
     }
   }
 
-  const frame = store.dispatch(addFrame({
+  const frame = cuid();
+  store.dispatch(addFrame({
+    id: frame,
     width,
     height,
     sprite,
@@ -60,6 +64,7 @@ function createFrame (data) {
 }
 
 function createLayer(data) {
+  const layer = cuid();
   const {index, width, height, frame, sprite} = data;
   const context = getNewContext({width, height});
 
@@ -70,8 +75,8 @@ function createLayer(data) {
             0      , 0, width, height
     );
   }
-
-  return store.dispatch(addLayer({
+  store.dispatch(addLayer({
+    id: layer,
     context,
     width,
     height,
@@ -79,9 +84,11 @@ function createLayer(data) {
     frame,
     layerIndex: index
   }));
+  return layer;
 }
 
 export function createSprite (data) {
+  const sprite = cuid();
   const newData = defaults(data, defaultsValues);
   const { image, layers, frames, current, width, height } = newData;
   const dataSprite = pick(newData, [
@@ -93,7 +100,8 @@ export function createSprite (data) {
     'primaryColor',
     'secondaryColor'
   ]);
-  const sprite = store.dispatch(addSprite(dataSprite));
+  dataSprite.id = sprite;
+  store.dispatch(addSprite(dataSprite));
 
   const context = getNewContext({width: width * layers, height});
   

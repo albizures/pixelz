@@ -18,7 +18,9 @@
   "babel": {
     "plugins": [
       "transform-es2015-destructuring",
-      "syntax-object-rest-spread"
+      "syntax-object-rest-spread",
+      "transform-object-rest-spread",
+      "transform-object-assign"
     ],
     "presets": [
       "es2015",
@@ -80,6 +82,8 @@
     "babel-loader": "^6.2.10",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-es2015-destructuring": "^6.19.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "chai": "^3.5.0",

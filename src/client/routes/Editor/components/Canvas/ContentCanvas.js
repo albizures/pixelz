@@ -28,13 +28,13 @@ obj.render = function () {
   //   width: this.props.width,
   //   height: this.props.height
   // };
-  let valid = Number.isInteger(this.props.sprite) &&
-    Number.isInteger(this.props.sprites[this.props.sprite].frame) &&
-    Number.isInteger(this.props.sprites[this.props.sprite].layer);
+  const sprite = this.props.sprites[this.props.sprite];
+  let valid = sprite &&
+    sprite.frame &&
+    Number.isInteger(sprite.layer);
   if (!valid) {
     return <div></div>;
   }
-  let sprite = this.props.sprites[this.props.sprite];
   return <div style={this.props.style} className="content-canvas">
     <Canvas
       width={this.props.width}

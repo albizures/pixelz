@@ -59,13 +59,13 @@ obj.getTabs = function () {
     let className = classNames(
       'tab',
       sprite.name.replace(' ', '-').toLowerCase(),
-      { 'active': sprite.index === this.props.sprite }
+      { 'active': sprite.id === this.props.sprite }
     );
     tabs.push(
       <div 
         className={className} 
         key={j} 
-        onClick={evt => this.onClickTab(evt, sprite.index)}>
+        onClick={evt => this.onClickTab(evt, sprite.id)}>
           {sprite.name}
       </div>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { cuid } from 'react-dynamic-layout/lib';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { register } from 'react-dynamic-layout';
@@ -19,12 +20,12 @@ obj.displayName = 'Frames';
 
 obj.propTypes = {
   sprite: React.PropTypes.object.isRequired,
-  frames: React.PropTypes.array.isRequired
+  frames: React.PropTypes.object.isRequired
 };
 
 obj.getDefaultProps = function() {
   return {
-    frames: [],
+    frames: {},
     sprite: {
       frames: []
     }
@@ -36,7 +37,6 @@ obj.getInitialState = function() {
   };
 };
 obj.componentDidMount = function () {
-  console.log(this.list.clientWidth);
   this.setState({
     size: this.list.clientWidth
   });
@@ -51,8 +51,8 @@ obj.componentWillReceiveProps = function (nextProps) {
 };
 
 obj.onClickAddFrame = function() {
-  let sprite = this.props.sprite.index;
-  let numLayers = this.props.frames[0].layers.length;
+  let sprite = this.props.sprite.id;
+  let numLayers = this.props.frames[this.props.frame].layers.length;
   let frame = this.createFrame({sprite});
   for (let j = 0; j < numLayers; j++) {
     this.createLayer({
@@ -60,14 +60,16 @@ obj.onClickAddFrame = function() {
       frame
     });
   }
-  this.props.selectSpriteFrame(this.props.sprite.index, frame);
+  this.props.selectSpriteFrame(this.props.sprite.id, frame);
 };
 
 obj.createFrame = function({sprite, context}){
-  var currentFrame = this.props.frames[this.props.sprite.frame];
+  var currentFrame = this.props.frames[this.props.frame];
   let width = currentFrame.width;
   let height = currentFrame.height;
-  let frame = this.props.addFrame({
+  let frame = cuid();
+  this.props.addFrame({
+    id: frame,
     width,
     height,
     sprite,
@@ -78,18 +80,18 @@ obj.createFrame = function({sprite, context}){
 };
 
 obj.onSelect = function (frame) {
-  this.props.selectSpriteFrame(this.props.sprite.index, frame);
+  this.props.selectSpriteFrame(this.props.sprite.id, frame);
 };
 
 obj.getList = function() {
-  if (!this.props.sprite || !Number.isInteger(this.props.sprite.frame)) return [];
+  if (!this.props.sprite || !this.props.frame) return [];
 
   let children = [];
   for (let j = 0; j < this.props.sprite.frames.length; j++) {
     let frame = this.props.frames[this.props.sprite.frames[j]];
     let className = classNames(
       'preview-frames',
-      { 'active': this.props.sprite.frame === frame.index }
+      { 'active': this.props.frame === frame.id }
     );
     children.push(
       <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
@@ -112,11 +114,12 @@ obj.render = function() {
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
-  var currentFrame = this.props.frames[this.props.sprite.frame];
-  var layer;
+  var currentFrame = this.props.frames[this.props.frame];
+  const layer = cuid();
   width = width || currentFrame.width;
   height = height || currentFrame.height;
-  layer = this.props.addLayer({
+  this.props.addLayer({
+    id: layer,
     width,
     height,
     sprite,
@@ -129,9 +132,11 @@ obj.createLayer = function({sprite, frame, context, width, height}) {
 
 const Frames = connect(
   function (state) {
+    const sprite = state.sprites[state.editor.sprite];
     return {
-      sprite: state.sprites[state.editor.sprite],
-      frames: state.frames
+      sprite,
+      frames: state.frames,
+      frame: sprite.frame
     };
   },
   {selectSpriteFrame, addFrame, addFrameSprite, addLayerFrame, addLayer}

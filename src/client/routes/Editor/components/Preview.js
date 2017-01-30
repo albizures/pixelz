@@ -13,23 +13,18 @@ obj.displayName = 'Preview';
 
 obj.getInitialState = function(){
   return {
-    style: {
-      position: 'initial',
-      top: 0,
-      left: 0,
-      width: '100%'
-    },
     fps: this.props.fps
   };
 };
 obj.initPreivew = function(props) {
-  if (props.frames[0]) {
-    let el = this.refs.el;
+  const frame = props.frames[props.sprite.frames[0]];
+  if (frame) {
+    let el = this.el;
     let size = getPreviewSize(
       el.clientWidth,
       el.clientHeight - /*size of range div*/25,
-      props.frames[0].width,
-      props.frames[0].height
+      frame.width,
+      frame.height
     );
     this.setState(size);
   }
@@ -44,14 +39,14 @@ obj.onChangeRange = function(value) {
     fps: value
   });
 };
-  
+
 obj.getSprite = function() {
   var style = {}, interval = 1000 / this.state.fps;
   style.width = this.state.maxWidth;
   style.height = this.state.maxHeight;
-  if (this.state.width && this.state.height && this.props.frames.length > 0) {
+  if (this.state.width && this.state.height) {
     return <div style={style} className='context-preview'> 
-      <Sprite 
+      <Sprite
         interval={interval}
         style={{marginTop: this.state.marginTop, marginLeft: this.state.marginLeft}}
         width={this.state.width}
@@ -64,8 +59,12 @@ obj.getSprite = function() {
   return <div></div>;
 };
 
+obj.setRef = function (el) {
+  this.el = el;
+};
+
 obj.render = function(){
-  return <div ref='el' className={'panel-preview preview ' + this.props.className} style={this.props.style}>
+  return <div ref={this.setRef} className={'panel-preview preview ' + this.props.className} style={this.props.style}>
     {
       this.getSprite()
     }

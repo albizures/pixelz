@@ -21,7 +21,7 @@ obj.displayName = 'Menus';
 obj.propTypes = {
   openNewSpriteModal: React.PropTypes.func,
   sprite: React.PropTypes.object,
-  spriteIndex: React.PropTypes.number
+  spriteId: React.PropTypes.string
 };
 
 obj.getInitialState = function () {
@@ -55,7 +55,7 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
   </li>;
 };
 obj.shouldComponentUpdate = function (nextProps) {
-  return nextProps.spriteIndex !== this.props.spriteIndex;
+  return nextProps.spriteId !== this.props.spriteId;
 };
 
 obj.onSubmitName = function (name) {
@@ -86,7 +86,7 @@ obj.render = function () {
 
 function mapStateToProps(state) {
   return {
-    spriteIndex: state.editor.sprite,
+    spriteId: state.editor.sprite,
     sprite: state.sprites[state.editor.sprite],
     user: state.user
   };

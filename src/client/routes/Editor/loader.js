@@ -1,4 +1,5 @@
 import React from 'react';
+import { cuid } from 'react-dynamic-layout/lib';
 
 import http from '../../utils/http';
 import { wrapActionCreators } from '../../utils/ducks';
@@ -66,7 +67,9 @@ loader.onGetSprite = function (sprite) {
   let context = document.createElement('canvas').getContext('2d');
   context.canvas.width = width = sprite.width * sprite.layers;
   context.canvas.height = height = sprite.height;
-  sprite.index = actions.addSprite({
+  sprite.id = cuid();
+  actions.addSprite({
+    id: sprite.id,
     _id: sprite._id,
     name: sprite.name,
     width: sprite.width,
@@ -75,8 +78,8 @@ loader.onGetSprite = function (sprite) {
     primaryColor: sprite.primaryColor || sprite.colors[0] || 'rgba(0, 0, 0, 1)',
     secondaryColor: sprite.secondaryColor || 'rgba(0, 0, 0, 0)'
   });
-  actions.openSprite(sprite.index);
-  actions.setCurrentSprite(sprite.index);
+  actions.openSprite(sprite.id);
+  actions.setCurrentSprite(sprite.id);
   return new Promise(reject => {
     image.onload = () => {
       context.drawImage(image,
@@ -84,10 +87,10 @@ loader.onGetSprite = function (sprite) {
         0, 0, width, height
       );
       actions.selectSpriteFrame(
-        sprite.index,
+        sprite.id,
         this.createFrameFromContext(sprite, context)
       );
-      actions.selectSpriteLayer(sprite.index,0);
+      actions.selectSpriteLayer(sprite.id, 0);
       for (let j = 1; j < sprite.frames; j++) {
         context.canvas.height = height;// clean
         context.drawImage(image,
@@ -105,7 +108,7 @@ loader.onGetSprite = function (sprite) {
 loader.createFrameFromContext = function(sprite, image) {
   let context = document.createElement('canvas').getContext('2d');
   let contextTemp = document.createElement('canvas').getContext('2d');
-  let index;
+  let frame = cuid();
   contextTemp.canvas.width = context.canvas.width = sprite.width;
   contextTemp.canvas.height = context.canvas.height = sprite.height;
   
@@ -115,16 +118,17 @@ loader.createFrameFromContext = function(sprite, image) {
       0, 0, sprite.width, sprite.height
     );
   }
-  index = actions.addFrame({
-    sprite: sprite.index,
+  actions.addFrame({
+    id: frame,
+    sprite: sprite.id,
     width: sprite.width,
     height: sprite.height,
     context: context,
     layers: []
   });
   actions.addFrameSprite(
-    sprite.index,
-    index
+    sprite.id,
+    frame
   );
   for (let j = 0; j < sprite.layers; j++) {
     let layer;
@@ -133,16 +137,17 @@ loader.createFrameFromContext = function(sprite, image) {
       sprite.width * j, 0, sprite.width, sprite.height,
       0, 0, sprite.width, sprite.height
     );
-    layer = this.createLayersFromContext(sprite, contextTemp, index, j);
+    layer = this.createLayersFromContext(sprite, contextTemp, frame, j);
     actions.addLayerFrame(
-      index,
+      frame,
       layer
     );
   }
-  return index;
+  return frame;
 };
 
 loader.createLayersFromContext = function(sprite, image, frame, index) {
+  const layer = cuid();
   let context = document.createElement('canvas').getContext('2d');
   context.canvas.width = sprite.width;
   context.canvas.height = sprite.height;
@@ -150,14 +155,16 @@ loader.createLayersFromContext = function(sprite, image, frame, index) {
     0, 0, sprite.width, sprite.height,
     0, 0, sprite.width, sprite.height
   );
-  return actions.addLayer({
+  actions.addLayer({
+    id: layer,
     context: context,
     width: sprite.width,
     height: sprite.height,
-    sprite: sprite.index,
+    sprite: sprite.id,
     frame: frame,
     layerIndex: index
   });
+  return layer;
 };
 
 

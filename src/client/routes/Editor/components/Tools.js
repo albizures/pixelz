@@ -79,7 +79,7 @@ obj.render = function() {
 function mapStateToProps(state) {
   let sprite = state.sprites[state.editor.sprite];
   return {
-    sprite: sprite.index,
+    sprite: sprite.id,
     tools: state.editor.tools,
     tool: state.editor.tool,
     primaryColor: sprite.primaryColor,
