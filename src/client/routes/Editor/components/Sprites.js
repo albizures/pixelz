@@ -1,10 +1,16 @@
-const React = require('react');
-const { connect } = require('react-redux');
-const classNames = require('classnames');
-const { actions: { selectSpriteLayer, selectSpriteFrame} } = require('../../../ducks/sprites.js');
-const { currentActions, actions: {setEditorId} } = require('../ducks');
-const { register } = require('./Layout.js');
-const http = require('http');
+import React from 'react';
+import { register } from 'react-dynamic-layout';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
+
+import {
+  setEditorId,
+  selectSpriteLayer,
+  selectSpriteFrame,
+  setCurrentSprite
+} from '../../../ducks';
+import http from '../../../utils/http';
+
 const obj = {};
 
 obj.displayName = 'Sprites';
@@ -53,13 +59,13 @@ obj.getTabs = function () {
     let className = classNames(
       'tab',
       sprite.name.replace(' ', '-').toLowerCase(),
-      { 'active': sprite.index === this.props.sprite }
+      { 'active': sprite.id === this.props.sprite }
     );
     tabs.push(
       <div 
         className={className} 
         key={j} 
-        onClick={evt => this.onClickTab(evt, sprite.index)}>
+        onClick={evt => this.onClickTab(evt, sprite.id)}>
           {sprite.name}
       </div>
     );
@@ -69,18 +75,18 @@ obj.getTabs = function () {
 
 function mapStateToProps(state) {
   return {
-    filter: state.Editor.sprites,
-    editorId: state.Editor._id,
+    filter: state.editorSprites,
+    editorId: state.editor._id,
     sprites: state.sprites,
-    sprite: state.Editor.sprite
+    sprite: state.editor.sprite
   };
 }
 
 const Sprites = connect(
   mapStateToProps,
-  Object.assign({}, currentActions, {setEditorId, selectSpriteLayer, selectSpriteFrame})
+  Object.assign({}, {setEditorId, selectSpriteLayer, selectSpriteFrame, setCurrentSprite})
 )(React.createClass(obj));
 
 register(Sprites, obj.displayName);
 
-module.exports = Sprites;
+export default Sprites;

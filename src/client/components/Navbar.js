@@ -1,13 +1,14 @@
-const React = require('react');
-const { Link } = require('react-router');
-const { connect } = require('react-redux');
-const { ModalManager } = require('react-dynamic-modal');
-const Login = require('../modals/Login.js');
+import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { ModalManager } from 'react-dynamic-modal';
+import Login from '../modals/Login';
 const obj = {};
 
 obj.displayName = 'Narbar';
 
-obj.onLogin = function () {
+obj.onLogin = function (evt) {
+  evt.preventDefault();
   ModalManager.open(<Login/>);
 };
 
@@ -18,7 +19,7 @@ obj.render = function () {
       <img src={this.props.user.profileImage}/>
     </div>;
   } else {
-    profile = <a className='nav-item' onClick={this.onLogin}>Login / Sign in</a>;
+    profile = <a href='' className='nav-item' onClick={this.onLogin}>Login / Sign in</a>;
   } 
 
   return <nav className='navbar'>
@@ -46,4 +47,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps)(Narbar);
+export default connect(mapStateToProps)(Narbar);

@@ -1,11 +1,11 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { connect } = require('react-redux');
-const { register } = require('../Layout.js');
-const Canvas = require('./index.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
+import Canvas from './index';
 const obj = {};
 
-obj.displayName = 'ContentCanvas'; 
+obj.displayName = 'ContentCanvas';
 
 obj.getInitialState = function () {
   return {};
@@ -28,13 +28,13 @@ obj.render = function () {
   //   width: this.props.width,
   //   height: this.props.height
   // };
-  let valid = Number.isInteger(this.props.sprite) &&
-    Number.isInteger(this.props.sprites[this.props.sprite].frame) &&
-    Number.isInteger(this.props.sprites[this.props.sprite].layer);
+  const sprite = this.props.sprites[this.props.sprite];
+  let valid = sprite &&
+    sprite.frame &&
+    Number.isInteger(sprite.layer);
   if (!valid) {
     return <div></div>;
   }
-  let sprite = this.props.sprites[this.props.sprite];
   return <div style={this.props.style} className="content-canvas">
     <Canvas
       width={this.props.width}
@@ -54,12 +54,12 @@ obj.render = function () {
 
 function mapStateToProps(state) {
   return {
-    sprite: state.Editor.sprite,
+    sprite: state.editor.sprite,
     sprites: state.sprites,
-    frames: state.Editor.frames,
-    layers: state.Editor.layers,
-    tool: state.Editor.tool,
-    artboard: state.Editor.artboard
+    frames: state.frames,
+    layers: state.layers,
+    tool: state.editor.tool,
+    artboard: state.editor.artboard
   };
 }
 
@@ -70,4 +70,4 @@ const ContentCanvas = connect(
 
 register(ContentCanvas, obj.displayName);
 
-module.exports = ContentCanvas;
+export default ContentCanvas;

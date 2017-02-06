@@ -1,7 +1,7 @@
 
 const React = require('react');
 
-const ListItem = require('./ListItem.js');
+const ListItem = require('./ListItem');
 function List(props) {
   return <ul className={props.name + '-list list'}>
     {

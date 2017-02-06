@@ -1,5 +1,5 @@
-const Tool = require('./Tool.js');
-const { calculatePosition, validCord, getColorPixel } = require('utils/canvas.js');
+import Tool from './Tool';
+import { calculatePosition, validCord, getColorPixel } from 'utils/canvas';
 
 const obj = {};
 // let lastPixel;
@@ -18,4 +18,4 @@ obj.onMouseDown = function (evt) {
 
 const pencil = Tool.create('pick', obj);
 
-module.exports = pencil;
+export default pencil;

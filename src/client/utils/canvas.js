@@ -1,28 +1,28 @@
 const { floor } = Math;
 
-exports.walkBitmap = function walkBitmap(bitmap, fn) {
+export function walkBitmap(bitmap, fn) {
   for (let x = 0; x < bitmap.length; x++) {
     for (let y = 0; y < bitmap[x].length; y++) {
       fn(bitmap[x][y], x, y);
     }
   }
-};
+}
 
-function imageSmoothing(ctx, value) {
+export function imageSmoothing(ctx, value) {
   ctx.imageSmoothingEnabled = value;
   ctx.mozImageSmoothingEnabled = value;
   ctx.msImageSmoothingEnabled = value;
 }
 
-function imageSmoothingDisabled(ctx) {
-  exports.imageSmoothing(ctx, false);
+export function imageSmoothingDisabled(ctx) {
+  imageSmoothing(ctx, false);
 }
 
-function getPreviewSize(maxWidth, maxHeight, width, height) {
+export function getPreviewSize(maxWidth, maxHeight, width, height) {
   var newWidth, newHeight, scale, maxSize;
   var marginTop = 0, marginLeft = 0;
 
-  if (width > height) {
+  if (maxHeight > maxWidth) {
     maxSize = newWidth = maxWidth;
     scale = maxWidth / width;
     newHeight = height * scale;
@@ -45,26 +45,26 @@ function getPreviewSize(maxWidth, maxHeight, width, height) {
   };
 }
 
-exports.getNewContext = function getNewContext(data) {
+export function getNewContext(data) {
   var newContext = data.context || document.createElement('canvas').getContext('2d');
   if (!data.context) {
     newContext.canvas.width = data.width;
     newContext.canvas.height = data.height;
   }
   return newContext;
-};
+}
 
-exports.calculatePosition = function calculatePosition(artboard, x, y) {
+export function calculatePosition(artboard, x, y) {
   x = floor((x - artboard.x) / artboard.scale);
   y = floor((y - artboard.y) / artboard.scale);
   return {x, y};
-};
+}
 
-exports.validCord = function validCord(layer, cord) {
+export function validCord(layer, cord) {
   return cord.x >= 0 && cord.x < layer.width && cord.y >= 0 && cord.y < layer.height;
-};
+}
 
-function cloneContext(context) {
+export function cloneContext(context) {
   let { width, height } = context.canvas;
   let clone = document.createElement('canvas');
   clone.width = width;
@@ -93,11 +93,11 @@ function scaleContext(context, scale = 1) {
   return clone;
 }
 
-function getImageData(context) {
+export function getImageData(context) {
   return context.getImageData(0, 0, context.canvas.width, context.canvas.height).data;
 }
 
-exports.noTransparent = function (context, scale, transparent) {
+export function noTransparent(context, scale, transparent) {
   let { width } = context.canvas;
   let data = getImageData(context);
   context = scaleContext(context, scale);
@@ -113,19 +113,12 @@ exports.noTransparent = function (context, scale, transparent) {
     }
   }
   return context;
-};
+}
 
-
-exports.getColorPixel = function (layer, cord) {
+export function getColorPixel(layer, cord) {
   var index = (cord.x + cord.y * layer.width) * 4;
   var imageData = getImageData(layer.context);
   if (index >= 0 && index <= imageData.length) {
     return `rgba(${imageData[index]}, ${imageData[index + 1]}, ${imageData[index + 2]}, ${imageData[index + 3] / 255})`;
   }
-};
-
-exports.getPreviewSize = getPreviewSize;
-exports.getImageData = getImageData;
-exports.imageSmoothing = imageSmoothing;
-exports.cloneContext = cloneContext;
-exports.imageSmoothingDisabled = imageSmoothingDisabled;
+}

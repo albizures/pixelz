@@ -1,6 +1,6 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { imageSmoothingDisabled } = require('utils/canvas.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { imageSmoothingDisabled } from 'utils/canvas';
 
 const obj = {};
 
@@ -17,13 +17,13 @@ obj.propTypes = {
 
 obj.componentDidUpdate = function () {
   if (this.props.layer && this.props.artboard) {
-    this.paint(this.context, this.props.artboard, this.props.layer);
+    this.paint(this.state.context, this.props.artboard, this.props.layer);
   }
 };
 
 obj.shouldComponentUpdate = function (nextProps) {
-  if (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
-    this.paint(this.context, nextProps.artboard, nextProps.layer);
+  if (this.state && this.state.context && (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index)) {
+    this.paint(this.state.context, nextProps.artboard, nextProps.layer);
   }
   return true;
   // console.log('shouldComponentUpdate',nextProps.size.width !== this.props.size.width
@@ -38,7 +38,7 @@ obj.clean = function(context) {
 };
 
 obj.paint = function (context, artboard, layer) {
-  context = context || this.context;
+  context = context || this.state.context;
   artboard = artboard || this.props.artboard;
   layer = layer || this.props.layer;
   let width = (layer.width * artboard.scale);
@@ -55,12 +55,14 @@ obj.componentDidUpdate = function () {
 };
 
 obj.componentDidMount = function() {
-  let canvas = ReactDOM.findDOMNode(this);
-  this.context = canvas.getContext('2d');
+  this.setState({
+    context: this.refs.canvas.getContext('2d')
+  });
 };
 
 obj.render = function() {
   return <canvas
+    ref='canvas'
     width={this.props.width}
     height={this.props.height}
     className='layer'>
@@ -69,4 +71,4 @@ obj.render = function() {
 
 const Layer = React.createClass(obj);
 
-module.exports = Layer;
+export default Layer;

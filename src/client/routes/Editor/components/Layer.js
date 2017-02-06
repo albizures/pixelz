@@ -1,14 +1,22 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React from 'react';
+import { connect } from 'react-redux';
+import { getPreviewSize } from '../../../utils/canvas';
+import Context from './Context';
 
-const { getPreviewSize } = require('utils/canvas.js');
-const Context = require('./Context.js');
-const { changeLayerPosition } = require('../ducks/frames.js').actions;
-
+import {
+  changeLayerPosition
+} from '../../../ducks';
 
 const obj = {};
 
 obj.displayName = 'Layer';
+
+obj.propTypes = {
+  onSelect: React.PropTypes.func.isRequired,
+  size: React.PropTypes.number.isRequired,
+  data: React.PropTypes.object.isRequired,
+  index: React.PropTypes.number.isRequired
+};
 
 obj.getInitialState = function(){
   return {
@@ -21,12 +29,17 @@ obj.getInitialState = function(){
 
 obj.componentDidMount = function() {
   this.setState(
-    getPreviewSize(this.props.size, this.props.size, this.props.data.width, this.props.data.height)
+    getPreviewSize(
+      this.props.size,
+      this.props.size,
+      this.props.data.width,
+      this.props.data.height
+    )
   );
 };
 
 obj.componentWillReceiveProps = function (nextProps) {
-  if (nextProps.data.index !== this.props.data.index  || this.props.size !== nextProps.size) {
+  if (nextProps.data.id !== this.props.data.id || this.props.size !== nextProps.size) {
     this.setState(
       getPreviewSize(nextProps.size, nextProps.size, nextProps.data.width, nextProps.data.height)
     );
@@ -35,7 +48,7 @@ obj.componentWillReceiveProps = function (nextProps) {
 
 obj.onClick = function() {
   this.props.onSelect(
-    this.props.index
+    this.props.data.id
   );
 };
 
@@ -71,7 +84,7 @@ obj.render = function(){
 
 const Layer = React.createClass(obj);
 
-module.exports = connect(
+export default connect(
   null,
   { changeLayerPosition }
 )(Layer);

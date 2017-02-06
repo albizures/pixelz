@@ -3,7 +3,7 @@ const ReactDOM = require('react-dom');
 const React = require('react');
 
 const { TRANSPARENT_IMG } = require('../../../constants');
-const {imageSmoothingDisabled} = require('utils/canvas.js');
+const {imageSmoothingDisabled} = require('utils/canvas');
 const ListItemFrame = React.createClass({
   getInitialState () {
     return {};

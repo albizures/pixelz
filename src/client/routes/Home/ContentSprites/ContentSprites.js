@@ -1,25 +1,26 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const http = require('http');
-const { connect } = require('react-redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { CSSGrid, measureItems, makeResponsive, layout as layouts } from 'react-stonecutter';
 
-const { actions: {addSpritesHome} } = require('../ducks/sprites.js');
-const { actions: {addSprites} } = require('../../../ducks/sprites.js');
-const Sprite = require('./Sprite/Sprite.js');
-const { CSSGrid, measureItems, makeResponsive, layout: layouts } = require('react-stonecutter');
+import http from '../../../utils/http';
+import Sprite from './Sprite/Sprite';
+
+import {
+  addSprites,
+  addSpritesHome
+} from '../../../ducks';
+
 const Grid = makeResponsive(measureItems(CSSGrid, {measureImages: true}), {
   maxWidth: 1920,
   minPadding: 100
 });
-console.log(layouts);
 
 const ContentSprites = React.createClass({
   componentDidMount() {
-    console.trace('http execute');
-    http.get('/api/sprites/public', result => {
-      console.trace('http result');
+    http.get('/api/sprites/public').then(sprites => {
       this.props.addSpritesHome(
-        this.props.addSprites(result)
+        this.props.addSprites(sprites)
       );
     });
   },
@@ -48,11 +49,11 @@ const ContentSprites = React.createClass({
 function mapStateToProps(state) {
   return {
     sprites: state.sprites,
-    filter: state.Home.sprites
+    filter: state.homeSprites
   };
 }
 
-module.exports = connect(
+export default connect(
   mapStateToProps,
   {addSprites, addSpritesHome}
 )(ContentSprites);

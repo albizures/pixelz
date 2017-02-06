@@ -13,25 +13,26 @@ backgroundTransparent.canvas.img = transparent;
 rainbow.src = require('../../assets/images/rainbow.png');
 gradient.src = require('../../assets/images/gradient.png');
 transparent.src = require('../../assets/images/transparent.png');
-module.exports = {
-  GRADIENT : gradient,
-  RAINBOW : rainbow,
-  HEIGHT_DEF : 40,
-  WIDTH_DEF : 40,
-  SCALE_DEF : 10,
-  TRANSPARENT_IMG_URL : require('../../assets/images/transparent.png'),
-  TRANSPARENT_IMG : backgroundTransparent.canvas,
-  TRANSPARENT_COLOR : 'rgba(0, 0, 0, 0)',
-  TRANSPARENT_COLOR_VALUE : '',
-  SIZE_POINTER_DEF : 1,
-  COLOR_POINTER_PREW_DEF : 'rgba(255, 255, 255, 0.6)',
-  SECOND_COLOR_POINTER_PREW_DEF : 'rgba(0, 0, 0, 0.2)',
-  RIGHT_CLICK : 3,
-  LEFT_CLICK : 1,
-  MIDDLE_CLICK : 2,
-  PALETTE : 'Palette',
-  FRAMES : 'Frames'
-};
-module.exports.palette  = require("./palette.js");
-module.exports.events = require("./events.js");
-module.exports.actions = require("./actions.js");
+
+export const GRADIENT = gradient;
+export const RAINBOW = rainbow;
+export const HEIGHT_DEF = 40;
+export const WIDTH_DEF = 40;
+export const SCALE_DEF = 10;
+export const TRANSPARENT_IMG = backgroundTransparent.canvas;
+export const TRANSPARENT_COLOR = 'rgba(0, 0, 0, 0)';
+export const TRANSPARENT_COLOR_VALUE = '';
+export const SIZE_POINTER_DEF = 1;
+export const COLOR_POINTER_PREW_DEF = 'rgba(255, 255, 255, 0.6)';
+export const SECOND_COLOR_POINTER_PREW_DEF = 'rgba(0, 0, 0, 0.2)';
+export const RIGHT_CLICK = 3;
+export const LEFT_CLICK = 1;
+export const MIDDLE_CLICK = 2;
+export const PALETTE = 'Palette';
+export const FRAMES = 'Frames';
+
+
+export * from '../../assets/images/transparent.png';
+export * from './palette';
+export * from './events';
+export * from './actions';

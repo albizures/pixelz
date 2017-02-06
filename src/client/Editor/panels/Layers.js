@@ -1,11 +1,11 @@
 'use strict';
 
-const Panel = require('../prototypes/Panel.js'),
-  PreviewLayer = require('../prototypes/Layers/PreviewLayer.js'),
+const Panel = require('../prototypes/Panel'),
+  PreviewLayer = require('../prototypes/Layers/PreviewLayer'),
   {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
   make = require('make'),
-  Vector = require('../prototypes/Vector.js'),
-  List = require('../prototypes/List.js'),
+  Vector = require('../prototypes/Vector'),
+  List = require('../prototypes/List'),
   btnAdd = make('button', {className : 'add-layer'}, 'add layer'),
   Layers = new Panel('Layers', SNAP, new Vector(0, 0), 100, 100, L, true);
 

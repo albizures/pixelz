@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react';
 
 const $window = $(window);
 const obj = {};
@@ -144,4 +144,4 @@ obj.render = function(){
 };
 const Panel = React.createClass(obj);
 
-module.exports = Panel;
+export default Panel;

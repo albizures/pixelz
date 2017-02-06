@@ -1,7 +1,5 @@
 
-module.exports = {
-  pencil: require('./pencil.js'),
-  eraser: require('./eraser.js'),
-  line: require('./line.js'),
-  pick: require('./pick.js')
-};
+export * from './pencil';
+export * from './eraser';
+export * from './line';
+export * from './pick';

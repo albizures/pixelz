@@ -1,9 +1,9 @@
 'use strict';
-const AppendObject = require('../../prototypes/AppendObject.js'),
+const AppendObject = require('../../prototypes/AppendObject'),
   { TRANSPARENT_IMG } = require('../../constants'),
   make = require('make'),
-  {imageSmoothingDisabled} = require('utils/canvas.js'),
-  {inheritanceObject, defineGetter} = require('utils/object.js');
+  {imageSmoothingDisabled} = require('utils/canvas'),
+  {inheritanceObject, defineGetter} = require('utils/object');
 
 function PreviewFrame(frame, selected, list) {
   this.$type = 'li';

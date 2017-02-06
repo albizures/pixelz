@@ -1,11 +1,15 @@
-const React = require('react');
-const { connect } = require('react-redux');
-const classNames = require('classnames');
-const { register } = require('./Layout');
+import React from 'react';
+import { cuid } from 'react-dynamic-layout/lib';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
+import { register } from 'react-dynamic-layout';
 
-const Layer = require('./Layer.js');
-const { addLayerFrame, addLayer } = require('../ducks').actions;
-const { actions: { selectSpriteLayer} } = require('../../../ducks/sprites.js');
+import Layer from './Layer';
+import {
+  selectSpriteLayer,
+  addLayerFrame,
+  addLayer
+} from '../../../ducks';
 
 const obj = {};
 obj.displayName = 'Layers';
@@ -19,7 +23,7 @@ obj.onClickAddLayer = function() {
       frame: element
     });
     if (this.props.frame.index === element) {
-      this.props.selectSpriteLayer(this.props.sprite.index, index);
+      this.props.selectSpriteLayer(this.props.sprite.id, index);
     }
   }
 };
@@ -36,10 +40,11 @@ obj.componentDidMount = function () {
 };
 
 obj.createLayer = function({sprite, frame, context, width, height}) {
-  var layer;
+  const layer = cuid();
   width = width || this.props.frame.width;
   height = height || this.props.frame.height;
-  layer = this.props.addLayer({
+  this.props.addLayer({
+    id: layer,
     width,
     height,
     sprite,
@@ -60,8 +65,14 @@ obj.getDefaultProps = function() {
 };
 
 obj.onSelect = function (index) {
-  this.props.selectSpriteLayer(this.props.sprite.index, index);
+  this.props.selectSpriteLayer(this.props.sprite.id, index);
 };
+
+// obj.componentWillReceiveProps = function () {
+//   this.setState({
+//     size: this.refs.list.clientWidth
+//   });
+// };
 
 obj.getList = function() {
   if (!this.props.sprite || !Number.isInteger(this.props.sprite.layer)) return [];
@@ -74,7 +85,12 @@ obj.getList = function() {
     );
     children.push(
       <li className={className} style={{width: this.state.size, height: this.state.size}} key={j}>
-        <Layer data={layer} onSelect={this.onSelect} size={this.state.size} index={j}/>
+        <Layer
+          data={layer}
+          onSelect={this.onSelect}
+          size={this.state.size}
+          index={j}
+        />
       </li>
     );
   }
@@ -94,10 +110,11 @@ obj.render = function() {
 
 const Layers = connect(
   function (state) {
+    const sprite = state.sprites[state.editor.sprite];
     return {
-      sprite: state.sprites[state.Editor.sprite],
-      layers: state.Editor.layers || [],
-      frame: state.Editor.frames[(state.sprites[state.Editor.sprite] || {}).frame]
+      sprite,
+      layers: state.layers,
+      frame: state.frames[sprite.frame]
     };
   },
   { selectSpriteLayer, addLayerFrame, addLayer }
@@ -105,4 +122,4 @@ const Layers = connect(
 
 register(Layers, obj.displayName);
 
-module.exports =  Layers;
+export default Layers;

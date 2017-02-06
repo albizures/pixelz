@@ -1,6 +1,10 @@
-const React = require('react');
-const AsyncComponent = require('../../components/AsyncComponent.js');
+import React from 'react';
+import AsyncComponent from '../../components/AsyncComponent';
 
-const loader = require('./loader.js');
+import loader from './loader';
 
-module.exports = (props) => <AsyncComponent {...props} loader={loader}/>;
+
+export default (props) => {
+  console.log(props);
+  return <AsyncComponent {...props} loader={loader}/>;
+};

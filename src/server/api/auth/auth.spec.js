@@ -15,6 +15,7 @@ describe('auth', () => {
         username: 'testuser',
         displayName: 'Test user'
       })).then(user => {
+        console.log('create user', user);
         passportStub.login(user);
       });
   });
@@ -25,6 +26,7 @@ describe('auth', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
+        console.log(err, res.body);
         expect(res.body).to.have.any.keys('username', '_id', 'displayName', 'profileImage');
         expect(err).to.be.null;
         done();

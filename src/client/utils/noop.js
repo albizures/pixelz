@@ -1,6 +1,6 @@
 
 
-exports.noopF = function () {};
+export const noopF = function () {};
 
-exports.noopA = [];
-exports.noopFrame = {layers: []};
+export const noopA = [];
+export const noopFrame = {layers: []};

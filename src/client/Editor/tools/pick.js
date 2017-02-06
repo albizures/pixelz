@@ -1,8 +1,8 @@
 'use strict';
-const Tool = require('../prototypes/Tool.js'),
+const Tool = require('../prototypes/Tool'),
       { RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR } = require('../constants'),
-      Vector = require('../prototypes/Vector.js'),
-      Tools = require('../panels/Tools.js'),
+      Vector = require('../prototypes/Vector'),
+      Tools = require('../panels/Tools'),
       pick = new Tool('pick');
 
 pick.onMouseDown = function (evt) {

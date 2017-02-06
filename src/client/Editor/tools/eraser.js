@@ -1,11 +1,11 @@
 'use strict';
-const Tool = require('../prototypes/Tool.js'),
+const Tool = require('../prototypes/Tool'),
   abs = Math.abs,
   { RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR, actions } = require('../constants'),
-  Vector = require('../prototypes/Vector.js'),
-  Action = require('../prototypes/Action.js'),
-  Actions = require('../panels/Actions.js'),
-  Layers = require('../panels/Layers.js'),
+  Vector = require('../prototypes/Vector'),
+  Action = require('../prototypes/Action'),
+  Actions = require('../panels/Actions'),
+  Layers = require('../panels/Layers'),
   eraser = new Tool('eraser');
 
 let lastPixel;

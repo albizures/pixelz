@@ -1,5 +1,5 @@
 'use strict';
-const {imageSmoothing} = require('utils/canvas.js');
+const {imageSmoothing} = require('utils/canvas');
 
 /**
  * Prototype of select

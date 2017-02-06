@@ -1,8 +1,8 @@
 'use strict';
-const AppendObject = require("./AppendObject.js"),
+const AppendObject = require("./AppendObject"),
   { GRADIENT, RAINBOW } = require('../constants'),
-  { hsvToRgb, rgbToHsv, getRGBAComponents} = require('utils/color.js'),
-  {inheritanceObject} = require("utils/object.js"),
+  { hsvToRgb, rgbToHsv, getRGBAComponents} = require('utils/color'),
+  {inheritanceObject} = require("utils/object"),
   make = require("make");
 
 function CanvasPicker(size, cbChange) {

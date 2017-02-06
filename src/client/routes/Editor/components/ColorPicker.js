@@ -1,18 +1,20 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React from 'react';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
 
-const { register } = require('./Layout');
-const { hsvToRgb, rgbToHsv, getRGBAComponents} = require('utils/color.js');
+import { hsvToRgb, rgbToHsv, getRGBAComponents } from '../../../utils/color';
+
+import Range from './Range';
+import Color from './Color';
+
+import {
+  setSpriteSecondaryColor,
+  setSpritePrimaryColor,
+  addColor,
+  setStyle
+} from '../../../ducks';
+
 const { round } = Math;
-
-const { actions: {setSpriteSecondaryColor, setSpritePrimaryColor} } = require('../../../ducks/sprites.js');
-const { actions: {addColor} } = require('../../../ducks/palettes.js');
-const { actions: {setStyle} } = require('../ducks/panels.js');
-
-const Range = require('./Range.js');
-const Color = require('./Color.js');
-const Panel = require('./Panel.js');
-
 const $window = $(window);
 const noop = function() {};
 
@@ -271,50 +273,52 @@ obj.render = function () {
   var gradient = 'linear-gradient(to right, transparent 0%, ' + background + ' 100%)';
   var rgba = getRGBAComponents(this.state.color);
   rgba[3] = round(rgba[3] * 100);
-  return <Panel style={this.props.style} name='Color Picker' float={true}>
-    <div style={{width: '400px'}} className='color-picker'>
-      <div className='hsla' style={{height: totalSize, width: totalSize}}>
-        <div className='sl' onMouseDown={this.onMouseDownSB} style={{height: size, width: size, background: background}}>
-          <div className='l'></div>
-          <div className='s'></div>
-          <div className='picker' style={this.state.SBPicker}></div>
-        </div>
-        <div className='h' onMouseDown={this.onMouseDownH} style={{height: size, width: bar}}>
-          <div className='picker' style={this.state.HPicker}></div>
-        </div>
-        <div className='alpha' onMouseDown={this.onMouseDownA} style={{height: bar, width: totalSize}}>
-          <div className='background transparent-bkg'></div>
-          <div className='a' style={{'backgroundImage': gradient}}></div>
-          <div className='picker' style={this.state.APicker}></div>
-        </div>
+  return <div className='color-picker'>
+    <div className='hsla' style={{height: totalSize, width: totalSize}}>
+      <div className='sl' onMouseDown={this.onMouseDownSB} style={{height: size, width: size, background: background}}>
+        <div className='l'></div>
+        <div className='s'></div>
+        <div className='picker' style={this.state.SBPicker}></div>
       </div>
-      <Color color={this.props.params.color} size={36} onClick={noop}/>
-      <Color color={this.state.color} size={36} onClick={noop}/>
-      <div className='input-group' >
-        <label>R</label>
-        <Range value={rgba[0]} onChange={this.getHandleRGBA(0)} min={0} max={255} />
+      <div className='h' onMouseDown={this.onMouseDownH} style={{height: size, width: bar}}>
+        <div className='picker' style={this.state.HPicker}></div>
       </div>
-      <div className='input-group' >
-        <label>G</label>
-        <Range value={rgba[1]} onChange={this.getHandleRGBA(1)} min={0} max={255} />
+      <div className='alpha' onMouseDown={this.onMouseDownA} style={{height: bar, width: totalSize}}>
+        <div className='background transparent-bkg'></div>
+        <div className='a' style={{'backgroundImage': gradient}}></div>
+        <div className='picker' style={this.state.APicker}></div>
       </div>
-      <div className='input-group' >
-        <label>B</label>
-        <Range value={rgba[2]} onChange={this.getHandleRGBA(2)} min={0} max={255} />
-      </div>
-      <div className='input-group' >
-        <label>A</label>
-        <Range value={rgba[3]} onChange={this.getHandleRGBA(3)} min={0} max={100} />
-      </div>
-      <button className='btn' onClick={this.onClickOK}>OK</button>
-      <button className='btn' onClick={this.onClickCancel}>Cancel</button>
     </div>
-  </Panel>;
+    <Color color={this.props.params.color} size={36} onClick={noop}/>
+    <Color color={this.state.color} size={36} onClick={noop}/>
+    <div className='input-group' >
+      <label>R</label>
+      <Range value={rgba[0]} onChange={this.getHandleRGBA(0)} min={0} max={255} />
+    </div>
+    <div className='input-group' >
+      <label>G</label>
+      <Range value={rgba[1]} onChange={this.getHandleRGBA(1)} min={0} max={255} />
+    </div>
+    <div className='input-group' >
+      <label>B</label>
+      <Range value={rgba[2]} onChange={this.getHandleRGBA(2)} min={0} max={255} />
+    </div>
+    <div className='input-group' >
+      <label>A</label>
+      <Range value={rgba[3]} onChange={this.getHandleRGBA(3)} min={0} max={100} />
+    </div>
+    <button className='btn' onClick={this.onClickOK}>OK</button>
+    <button className='btn' onClick={this.onClickCancel}>Cancel</button>
+  </div>;
 };
 
 const ColorPicker = connect(
-  function(state) {
-    return state.Editor.panels.colorPicker;
+  function(state, props) {
+    return {
+      params: {
+        color: props.color
+      }
+    };
   }, {
     addColor,
     setSpritePrimaryColor,
@@ -326,4 +330,4 @@ const ColorPicker = connect(
 
 register(ColorPicker, obj.displayName);
 
-module.exports = ColorPicker;
+export default ColorPicker;

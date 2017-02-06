@@ -4,12 +4,12 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const make = require('make');
 
-const List = require('./Frames/Components/List.js');
-const Panel = require('../prototypes/Panel.js');
-const PreviewFrame = require('../prototypes/Frames/PreviewFrame.js');
+const List = require('./Frames/Components/List');
+const Panel = require('../prototypes/Panel');
+const PreviewFrame = require('../prototypes/Frames/PreviewFrame');
 const {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel;
-const Vector = require('../prototypes/Vector.js');
-//const List = require('../prototypes/List.js');
+const Vector = require('../prototypes/Vector');
+//const List = require('../prototypes/List');
 const btnAdd = make('button', {className : 'add-frame'}, 'add frame');
 const Frames = new Panel('Frames', SNAP, new Vector(0, 0), 100, 100, TL, true);
 

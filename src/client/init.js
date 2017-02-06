@@ -1,14 +1,14 @@
-require('./style/main.styl');
-require('./polyfill.js');
+import './style/main.styl';
+import './polyfill';
 
 window.hasVal = (val) => {
   return typeof val !== 'undefined' && val !== null;
 };
-window.$ = require('utils/dom.js').$;
-window.$window = $(window);
 
-Element.prototype.requestPointerLock = Element.prototype.requestPointerLock || Element.prototype.mozRequestPointerLock;
-document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
+import { $ } from './utils/dom';
+
+window.$ = $;
+window.$window = $(window);
 
 const $window = $(window);
 $window.on('keydown.general', evt =>{
@@ -19,39 +19,37 @@ $window.on('keydown.general', evt =>{
   window.ALT_KEY = evt.altKey;
 });
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const {Router, Route, browserHistory } = require('react-router');
-const {Provider} = require('react-redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, browserHistory } from 'react-router';
+import {Provider} from 'react-redux';
 
-const store = require('./store.js').store;
-const Home = require('./routes/Home');
-const Editor = require('./routes/Editor');
-const Tooltip = require('./components/Tooltip.js');
-const http = require('http');
-const palettes = require('./ducks/palettes.js');
-const user = require('./ducks/user.js');
-const { currentActions: editorActions } = require('./routes/Editor/ducks');
+import { store } from './store';
+import Home from './routes/Home';
+import Editor from './routes/Editor';
+import Tooltip from './components/Tooltip';
+import http from './utils/http';
+
+import {
+  setCurrentPalette,
+  addPalettes,
+  setUser
+} from './ducks';
 
 http.get('/api/palettes').then(function (result) {
   if (result.code !== 0 || !result.data) {
     return;
   }
-  store.dispatch(palettes.actions.addPalettes(result.data));
-  store.dispatch(editorActions.setCurrentPalette(0));
+  store.dispatch(addPalettes(result.data));
+  store.dispatch(setCurrentPalette(0));
 });
 
-http.get('/api/auth/whoami').then(function (result) {
-  if (!result) {
-    return;
-  }
-  
-
-  store.dispatch(user.actions.setUser(result.data));
+http.get('/api/auth/whoami').then(function (user) {
+  store.dispatch(setUser(user));
 });
 
 ReactDOM.render((
-  <div className="root">
+  <div className="root rdl-dark">
     <Tooltip/>
     <Provider store={store}>
       <Router history={browserHistory }>

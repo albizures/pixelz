@@ -1,5 +1,5 @@
 /*
-  GIFEncoder.js
+  GIFEncoder
 
   Authors
   Kevin Weiner (original Java version - kweiner@fmsware.com)
@@ -7,9 +7,9 @@
   Johan Nordberg (JS version - code@johan-nordberg.com)
 */
 
-const NeuQuant = require('../../libs/gif/TypedNeuQuant.js'),
-  SimpleQuant = require('./SimpleQuant.js'),
-  LZWEncoder = require('../../libs/gif/LZWEncoder.js');
+const NeuQuant = require('../../libs/gif/TypedNeuQuant'),
+  SimpleQuant = require('./SimpleQuant'),
+  LZWEncoder = require('../../libs/gif/LZWEncoder');
 
 function ByteArray() {
   this.page = -1;

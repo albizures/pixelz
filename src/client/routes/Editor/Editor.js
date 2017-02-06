@@ -1,103 +1,81 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-// const http = require('http');
-const { connect } = require('react-redux');
+import React from 'react';
+import {
+  Layout,
+  Float,
+  Register,
+  Container,
+  ROW,
+  COLUMN,
+  RENDER,
+  cuid
+} from 'react-dynamic-layout/lib';
 
-const ducks = require('./ducks');
-const { addSprite, addFrameSprite, selectSpriteFrame, selectSpriteLayer } = require('../../ducks/sprites.js').actions;
+import 'react-dynamic-layout/lib/style/base/index.styl';
+import 'react-dynamic-layout/lib/style/dark/index.styl';
 
-require('./components/Sprites.js');
-require('./components/Canvas');
-require('./components/Canvas/ContentCanvas.js');
-require('./components/Preview.js');
-require('./components/Palette.js');
-require('./components/Layers.js');
-require('./components/Frames.js');
-require('./components/Label.js');
-require('./components/Left.js');
-require('./components/Center.js');
-require('./components/Right.js');
-require('./components/Tools.js');
-require('./components/ColorPicker.js');
+import ContentCanvas from './components/Canvas/ContentCanvas';
+import './components/Preview';
+import './components/Palette';
 
-const { Layout } = require('./components/Layout.js');
+import './components/Layers';
+import './components/Frames';
+import Sprites from './components/Sprites';
+import Tools from './components/Tools';
+import Menus from './components/Menus';
+import ColorPicker from './components/ColorPicker';
 
-const NewSprite = require('./components/NewSprite.js');
-const Menus = require('./components/Menus');
+const elementColorPickerId = cuid();
+const modalColorPickerId = cuid();
 
-const shortcuts = require('./shortcuts');
-
-const conf = {
-  mode: 'col',
-  name: 'Main',
-  style: {
-    height: 'calc(100% - 25px)',
-    top: '25px'
-  },
-  children: [
-    {name: 'Left', width: 12, component: 'Left'},
-    {name: 'Center', width: 73, component: 'Center'},
-    {name: 'Right', width: 15, component: 'Right'}
-  ],
-  float: [
-    {name: 'Tools', component: 'Tools'},
-    {name: 'ColorPicker', component: 'ColorPicker'}
-  ]
+const windowSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
 };
 
-const obj = {};
-
-obj.displayName = 'Editor';
-
-obj.onClose = function () {
-  this.setState({open: false});
-};
-
-obj.openNewSpriteModal = function () {
-  this.setState({open: true});
-};
-
-obj.render = function () {
-  return <div className='editor-content'>
-    <Menus openNewSpriteModal={this.openNewSpriteModal}/>
-    <Layout {...conf}/>
-    <NewSprite modalOpen={this.state.open} onClose={this.onClose} />
-  </div>;
-};
-
-
-obj.getInitialState = function () {
-  return {open: false};
-};
-
-obj.componentWillUnmount = function() {
-  shortcuts.off();
-};
-
-
-obj.componentDidMount = function() {
-  shortcuts.init();
-  this.setState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
-};
-
-function mapStateToProps(state) {
-  return {
-    artboard: state.Editor.artboard,
-    sprite: state.Editor.sprite,
-    frame: state.Editor.frame,
-    layer: state.Editor.layer,
-    sprites: state.sprites,
-    filterSprites: state.Editor.sprites,
-    frames: state.Editor.frames,
-    layers: state.Editor.layers,
-    palettes: state.Editor.palettes
-  };
-}
-
-module.exports = connect(
-  mapStateToProps,
-  Object.assign({}, ducks.actions, {addSprite, addFrameSprite, selectSpriteFrame, selectSpriteLayer})
-)(React.createClass(obj));
+export default () => <Layout name='Main' type={ROW} hiddenType={RENDER} resize={false}>
+  <Float width='65px' height='170px' x='250px' y='100px'>
+    <Layout name='Float' type={ROW}>
+      <Container size={100} tabs={false}>
+        <Register type={Tools} props={{ text: 'Float', modalColorPickerId, elementColorPickerId}}/>
+      </Container>
+    </Layout>
+  </Float>
+  <Float width='400px' height='320px' x='300px' y='100px' id={modalColorPickerId} open={false}>
+    <Layout name='Float' type={ROW}>
+      <Container size={100} tabs={false}>
+        <Register type={ColorPicker} id={elementColorPickerId} props={{}}/>
+      </Container>
+    </Layout>
+  </Float>
+  <Container size='25px' tabs={false}>
+    <Register type={Menus} props={{ text: 'Top' }}/>
+  </Container>
+  <Container size='calc(100% - 25px)' tabs={false}>
+    <Layout type={COLUMN} name='Left'>
+      <Container size={15}>
+        <Register name='Frames' type={{}} props={{ text: 'Left top' }}/>
+        <Register name='Layers' type={{}} props={{ text: 'Left bottom' }}/>
+      </Container>
+      <Container size={70} tabs={false}>
+        <Layout type={ROW} name='Center' resize={false}>
+          <Container size='16px' tabs={false}>
+            <Register type={Sprites} props={{ text: 'Center top' }}/>
+          </Container>
+          <Container size='calc(100% - 16px)' tabs={false}>
+            <Register name='Canvas' type={ContentCanvas} props={windowSize}/>
+          </Container>
+        </Layout>
+      </Container>
+      <Container size={15} tabs={false}>
+        <Layout type={ROW} name='Right'>
+          <Container size={50}>
+            <Register name='Preview' type={{}} props={{ text: 'Right top' }}/>
+          </Container>
+          <Container size={50}>
+            <Register name='Palette' type={{}} props={{ text: 'Right bottom' }}/>
+          </Container>
+        </Layout>
+      </Container>
+    </Layout>
+  </Container>
+</Layout>;

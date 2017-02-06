@@ -1,11 +1,13 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React from 'react';
+import { connect } from 'react-redux';
 
-const frameActions = require('../ducks/frames.js').actions;
-const spriteActions = require('../ducks/sprites.js').actions;
-const { currentActions} = require('../ducks');
-const { getPreviewSize } = require('utils/canvas.js');
-const Context = require('./Context.js');
+import { getPreviewSize } from '../../../utils/canvas';
+import Context from './Context';
+
+import {
+  changeLayerPosition,
+  changeFramePosition
+} from '../../../ducks';
 
 const obj = {};
 obj.displayName = 'Frame';
@@ -25,7 +27,7 @@ obj.componentDidMount = function() {
 };
 
 obj.componentWillReceiveProps = function (nextProps) {
-  if (nextProps.data.index !== this.props.data.index || this.props.size !== nextProps.size) {
+  if (nextProps.data.id !== this.props.data.id || this.props.size !== nextProps.size) {
     this.setState(
       getPreviewSize(nextProps.size, nextProps.size, nextProps.data.width, nextProps.data.height)
     );
@@ -34,7 +36,7 @@ obj.componentWillReceiveProps = function (nextProps) {
 
 obj.onClick = function() {
   this.props.onSelect(
-    this.props.data.index
+    this.props.data.id
   );
 };
 obj.onDragOver = function(evt) {
@@ -67,7 +69,7 @@ obj.render = function(){
 };
 const Frame = React.createClass(obj);
 
-module.exports = connect(
+export default connect(
   null,
-  Object.assign({}, frameActions, currentActions, spriteActions)
+  Object.assign({}, { changeLayerPosition, changeFramePosition})
 )(Frame);

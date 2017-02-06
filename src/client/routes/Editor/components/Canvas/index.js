@@ -1,15 +1,16 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { setSpriteArtboard } = require('../../../../ducks/sprites.js').actions;
-const { connect } = require('react-redux');
-const Menu = require('../Menu.js');
-const Background = require('./Background.js');
-// const Main = require('./Main.js');
-const Preview = require('./Preview.js');
-const Mask = require('./Mask.js');
-const Layer = require('./Layer.js');
-const obj = require('./events.js');
+import {
+  setSpriteArtboard
+} from '../../../../ducks';
+import Menu from '../Menu';
+import Background from './Background';
+import Preview from './Preview';
+import Mask from './Mask';
+import Layer from './Layer';
+import * as obj from './events';
 
 obj.displayName = 'Canvas';
 
@@ -19,7 +20,7 @@ obj.propTypes = {
   sprite: React.PropTypes.object.isRequired,
   frame: React.PropTypes.object.isRequired,
   layer: React.PropTypes.object.isRequired,
-  layers: React.PropTypes.array.isRequired,
+  layers: React.PropTypes.object.isRequired,
   primaryColor: React.PropTypes.string.isRequired,
   secondaryColor: React.PropTypes.string.isRequired,
   tool: React.PropTypes.string.isRequired
@@ -57,7 +58,7 @@ obj.setScale = function (scale) {
   diffX = (layer.width * scale) - (artboard.scale * layer.width);
   diffY = (layer.height * scale) - (artboard.scale * layer.height);
 
-  this.props.setSpriteArtboard(this.props.sprite.index, {
+  this.props.setSpriteArtboard(this.props.sprite.id, {
     x: artboard.x - Math.round(diffX / 2),
     y: artboard.y - Math.round(diffY / 2),
     scale: scale
@@ -89,6 +90,7 @@ obj.componentDidMount = function () {
 obj.setContextType = function (type, context) {
   let state = {};
   let $canvas = $(context.canvas);
+  console.log(type, 'set');
   state[type] = {
     context,
     $canvas
@@ -106,7 +108,7 @@ obj.getLayers = function (props) {
   for (let index = 0; index < this.props.frame.layers.length; index++) {
     let layer = this.props.layers[this.props.frame.layers[index]];
     let finalProps = Object.assign({/*, zIndex: index + 1*/}, props, {layer});
-    if (layer.index === this.props.layer.index) {
+    if (layer.id === this.props.layer.id) {
       layers.push(
         <Layer {...finalProps} ref='active' key={index} />
       );
@@ -152,4 +154,4 @@ const Canvas = connect(
   { setSpriteArtboard }
 )(React.createClass(obj));
 
-module.exports = Canvas;
+export default Canvas;

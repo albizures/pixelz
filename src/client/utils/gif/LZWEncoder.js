@@ -1,5 +1,5 @@
 /*
-  LZWEncoder.js
+  LZWEncoder
 
   Authors
   Kevin Weiner (original Java version - kweiner@fmsware.com)

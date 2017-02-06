@@ -1,10 +1,10 @@
 'use strict';
-const Tool = require('../prototypes/Tool.js'),
+const Tool = require('../prototypes/Tool'),
   { RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR, actions } = require('../constants'),
-  Tools = require('../panels/Tools.js'),
-  Actions = require('../panels/Actions.js'),
-  Vector = require('../prototypes/Vector.js'),
-  Action = require('../prototypes/Action.js'),
+  Tools = require('../panels/Tools'),
+  Actions = require('../panels/Actions'),
+  Vector = require('../prototypes/Vector'),
+  Action = require('../prototypes/Action'),
   bucket = new Tool('bucket');
 let color,oldColor;
 bucket.active = function () {

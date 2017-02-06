@@ -4,9 +4,9 @@
 
 'use strict';
 const EventEmitter = require('events').EventEmitter,
-  browser = require('utils/browser.js'),
-  {inheritanceObject} = require('utils/object.js'),
-  gifWorker = require('../../workers/gif.js');
+  browser = require('utils/browser'),
+  {inheritanceObject} = require('utils/object'),
+  gifWorker = require('../../workers/gif');
 
 let defaults = {
   workers: 2,

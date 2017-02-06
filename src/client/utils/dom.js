@@ -1,8 +1,8 @@
-const Selector = require('../Editor/prototypes/Selector.js');
-const AppendObject = require('../Editor/prototypes/AppendObject.js');
+import Selector from '../Editor/prototypes/Selector';
+import AppendObject from '../Editor/prototypes/AppendObject';
 
 //Returns true if it is a DOM node
-exports.isNode = function (obj) {
+export const isNode = function (obj) {
   return (
     typeof Node === "object" ? obj instanceof Node :
     obj && typeof obj === "object" && typeof obj.nodeType === "number" && typeof obj.nodeName === "string"
@@ -10,7 +10,7 @@ exports.isNode = function (obj) {
 };
 
 //Returns true if it is a DOM element
-exports.isElement = function (obj) {
+export const isElement = function (obj) {
   return (
     typeof HTMLElement === "object" ? obj instanceof HTMLElement : //DOM2
     obj && typeof obj === "object" && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === "string"
@@ -26,7 +26,7 @@ exports.isElement = function (obj) {
 //     enumerable: false
 //   });
 // }
-let $ = function () {
+export const $ = function () {
   if (arguments.length === 0) {
     return;
   }
@@ -59,4 +59,3 @@ let $ = function () {
     return new Selector(element);
   }
 };
-exports.$ = $;

@@ -1,9 +1,12 @@
 
-const React = require('react');
-const classNames = require('classnames');
-const { store } = require('../store.js');
-const http = require('http');
-const { actions: {setUser} } = require('../ducks/user.js');
+import React from 'react';
+import classNames from 'classnames';
+import { store } from '../store';
+import http from '../utils/http';
+import {
+  setUser
+} from '../ducks';
+
 const obj = {};
 
 obj.displayName = 'LoginButton';
@@ -14,7 +17,8 @@ obj.getDefaultProps = function () {
   };
 };
 
-obj.onClick = function () {
+obj.onClick = function (evt) {
+  evt.preventDefault();
   let url = '';
   if (this.props.twitter) {
     url = '/api/auth/twitter';
@@ -27,11 +31,10 @@ obj.onClick = function () {
 obj.intervalClose = function () {
   if (!this.newWin.closed) return;
 
-  http.get('/api/auth/whoami').then(result => {
-    if (!result) return;
-    
-    
-    store.dispatch(setUser(result.data));
+  http.get('/api/auth/whoami').then(user => {
+    console.log(user);
+    if (!user) return;
+    store.dispatch(setUser(user));
     this.props.onLogin();
   });
   clearInterval(this.intervalID);
@@ -49,11 +52,11 @@ obj.render = function () {
     style.background = '#00aced';
 
   }
-  return <a onClick={this.onClick} style={style} className={className}>
+  return <a href='' onClick={this.onClick} style={style} className={className}>
     {text}
   </a>;
 };
 
 const LoginButton = React.createClass(obj);
 
-module.exports = LoginButton;
+export default LoginButton;

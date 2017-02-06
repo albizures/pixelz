@@ -1,7 +1,7 @@
+import React from 'react';
 
-const React = require('react');
+import Color from './DragColor';
 
-const Color = require('./DragColor.js');
 const obj = {};
 
 obj.displayName = 'ContentColors';
@@ -46,4 +46,4 @@ obj.render = function () {
 
 const ContentColors = React.createClass(obj);
 
-module.exports = ContentColors;
+export default ContentColors;

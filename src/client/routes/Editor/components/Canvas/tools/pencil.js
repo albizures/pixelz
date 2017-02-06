@@ -1,9 +1,8 @@
+import Tool from './Tool';
+import { isTransparent } from '../../../../../utils/color';
+import { calculatePosition, validCord } from '../../../../../utils/canvas';
+
 const { abs } = Math;
-const Tool = require('./Tool.js');
-const { calculatePosition, validCord } = require('utils/canvas.js');
-const { isTransparent } = require('utils/color.js');
-
-
 const obj = {};
 let lastPixel, color, at;
 
@@ -75,4 +74,4 @@ obj.onMouseUp = function (evt) {
 
 const pencil = Tool.create('pencil', obj);
 
-module.exports = pencil;
+export default pencil;

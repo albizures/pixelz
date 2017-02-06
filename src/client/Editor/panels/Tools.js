@@ -1,17 +1,17 @@
 'use strict';
 
-const Panel = require('../prototypes/Panel.js'),
-  ColorPicker = require('./ColorPicker.js'),
+const Panel = require('../prototypes/Panel'),
+  ColorPicker = require('./ColorPicker'),
   make = require('make'),
-  Vector = require('../prototypes/Vector.js'),
-  {TRANSPARENT_COLOR, RIGHT_CLICK, LEFT_CLICK} = require('../constants/index.js'),
+  Vector = require('../prototypes/Vector'),
+  {TRANSPARENT_COLOR, RIGHT_CLICK, LEFT_CLICK} = require('../constants/index'),
   {SNAP, FLOAT, B, L, R, TL, TR, BL, BR} = Panel,
   { SELECT_TOOL } = require('../constants').events,
   Tools = new Panel('Tools', FLOAT, new Vector(500, 500), 60);
 Tools.tools = {};
 Tools.mainInit = function () {
   var position = JSON.parse(localStorage.getItem('panel-' + this.name.toLowerCase()) || '{"x": 500, "y": 500}');
-  const Color = require('../prototypes/Color.js');
+  const Color = require('../prototypes/Color');
   this.el.style['z-index'] = '9';
 
   let parentColors = make('div', {parent : this.el, className : 'colors'});

@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 function parseJSON(response) {
   return response.data;
@@ -12,7 +12,7 @@ function checkStatus(response) {
     throw error;
   }
 }
-function request(url, method, cb, body, headers = true) {
+function request(url, method, body, headers = true) {
   let promise = axios({
     url,
     headers: headers ? {
@@ -22,33 +22,27 @@ function request(url, method, cb, body, headers = true) {
     method,
     data: body
   }).then(checkStatus).then(parseJSON);
-  if (!cb) {
-    return promise;
-  }
-  promise.then(cb).catch(function (ex) {
-    console.error(ex);
-    if (cb) cb({code: 1, description: ex});
-  });
+  return promise;
 }
 
 
-exports.post = function (url, body, cb) {
-  return request(url, 'POST', cb, body);
+export const post = function (url, body) {
+  return request(url, 'POST', body);
 };
 
-exports.get = function (url, cb) {
-  return request(url, 'GET', cb);
+export const get = function (url) {
+  return request(url, 'GET');
 };
 
-exports.delete = function (url, cb) {
-  return request(url, 'DELETE', cb);
+export const del = function (url) {
+  return request(url, 'DELETE');
 };
 
-function put (url, body, cb) {
-  return request(url, 'PUT', cb, body);
-}
+export const put = function (url, body) {
+  return request(url, 'PUT', body);
+};
 
-exports.upload = function (url, data, files, method, cb) {
+export const upload = function (url, data, files, method) {
   const form = new FormData();
   for (let j = 0; j < files.length; j++) {
     let element = files[j];
@@ -58,13 +52,19 @@ exports.upload = function (url, data, files, method, cb) {
   for (var key of form.values()) {
     console.log(typeof key);
   }
-  request(url, method, cb, form, false);
+  request(url, method, form, false);
 };
 
-exports.put = put;
+export const sprite = {};
 
-exports.sprite = {};
-
-exports.sprite.putName = function (id, name, cb) {
+sprite.putName = function (id, name, cb) {
   return put('/api/sprites/' + id + '/name', {name}, cb);
+};
+
+export default {
+  post,
+  get,
+  upload,
+  put,
+  del
 };

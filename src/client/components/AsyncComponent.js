@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react';
 
 const obj = {};
 
@@ -35,4 +35,4 @@ obj.propTypes = {
 
 const AsyncComponent = React.createClass(obj);
 
-module.exports = AsyncComponent;
+export default AsyncComponent;

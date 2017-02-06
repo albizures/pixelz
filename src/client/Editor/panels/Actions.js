@@ -1,7 +1,7 @@
 'use strict';
 
-const Panel = require('../prototypes/Panel.js'),
-  Vector = require('../prototypes/Vector.js'),
+const Panel = require('../prototypes/Panel'),
+  Vector = require('../prototypes/Vector'),
   make = require('make'),
   {SNAP, B, L, R, TL, TR, BL, BR} = Panel,
   {CHANGE_SPRITE} = require('../constants').events,

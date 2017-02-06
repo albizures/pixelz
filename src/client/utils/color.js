@@ -11,51 +11,48 @@ const rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*(
 const perRgba = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/;
 const hsl = /^hsla?\(\s*([+-]?\d*[\.]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
 
-function isValid(color) {
+export function isValid(color) {
   return NAC !== detectType(color);
 }
 function detectType(color) {
-  if (exports.isAbbrHex(color)) {
+  if (isAbbrHex(color)) {
     return ABBR_HEX;
-  } else if (exports.isHex(color)) {
+  } else if (isHex(color)) {
     return HEX;
-  } else if (exports.isRGBA(color)) {
+  } else if (isRGBA(color)) {
     return RGBA;
-  } else if (exports.isRGBAPer(color)) {
+  } else if (isRGBAPer(color)) {
     return RGBA_PER;
-  } else if (exports.isHSL(color)) {
+  } else if (isHSL(color)) {
     return HSL;
   } else {
     return NAC;
   }
 }
-exports.isValid = isValid;
-exports.detectType = detectType;
 
-
-exports.isAbbrHex = function (color) {
+export function isAbbrHex(color) {
   return color.match(abbrHex) || false;
-};
-exports.isHex = function (color) {
+}
+export function isHex(color) {
   return color.match(hex) || false;
-};
-exports.isRGBA = function (color) {
+}
+export function isRGBA(color) {
   return color.match(rgba) || false;
-};
-exports.isRGBAPer = function (color) {
+}
+export function isRGBAPer(color) {
   return color.match(perRgba) || false;
-};
-exports.isHSL = function (color) {
+}
+export function isHSL(color) {
   return color.match(hsl) || false;
-};
-exports.colorIsLight = function (r, g, b) {
+}
+export function colorIsLight(r, g, b) {
   var a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   
   return (a < 0.5);
-};
+}
 
 
-exports.hexToRgb = function hexToRgb(hex) {
+export const hexToRgb = function hexToRgb(hex) {
   
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -76,46 +73,44 @@ const rand = function (max) {
   return Math.floor(Math.random() * max);
 };
 
-function getRGBAComponents(color) {
+export function getRGBAComponents(color) {
   let components = color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
   for (let j = 0; j < components.length; j++) {
     components[j] = Number(components[j]);
   }
   return components;
 }
-exports.getRGBAComponents = getRGBAComponents;
 
-function isTransparent(color) {
+export function isTransparent(color) {
   return 0 === getRGBAComponents(color)[3];
 }
 
-exports.isTransparent = isTransparent;
 
-exports.randomRGB = function () {
+export function randomRGB() {
   return 'rgb(' + rand(255) + ', ' + rand(255) + ', ' + rand(255) + ')';
-};
+}
 
-exports.randomHex = function () {
+export function randomHex() {
   var letters = '0123456789ABCDEF'.split('');
   var color = '#';
   for (var i = 0; i < 6; i++) {
     color += letters[rand(16)];
   }
   return color;
-};
+}
 
 function componentToHex(color) {
   var hex = Number(color).toString(16);
   return hex.length === 1 ? "0" + hex : hex;
 }
 
-exports.rgbToHex = function (r, g, b) {
+export function rgbToHex(r, g, b) {
   console.log(r, g, b);
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-};
+}
 
 
-exports.unusedColor = function unusedColor (usedColors) {
+export function unusedColor (usedColors) {
 
   for (let i = 0; i < uglyColors.length; i++) {
     if (!usedColors[uglyColors[i]]) {
@@ -133,8 +128,7 @@ exports.unusedColor = function unusedColor (usedColors) {
       }
     }
   }
-};
-
+}
 
 // code from http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 
@@ -149,7 +143,7 @@ exports.unusedColor = function unusedColor (usedColors) {
  * @param   Number  b       The blue color value
  * @return  Array           The HSL representation
  */
-exports.rgbToHsl = function rgbToHsl(r, g, b) {
+export function rgbToHsl(r, g, b) {
   var max, min, h, s, l, d;
   r /= 255, g /= 255, b /= 255;
   max = Math.max(r, g, b);
@@ -179,7 +173,7 @@ exports.rgbToHsl = function rgbToHsl(r, g, b) {
   }
 
   return [h, s, l];
-};
+}
 
 /**
  * Converts an HSL color value to RGB. Conversion formula
@@ -192,7 +186,7 @@ exports.rgbToHsl = function rgbToHsl(r, g, b) {
  * @param   Number  l       The lightness
  * @return  Array           The RGB representation
  */
-exports.hslToRgb = function hslToRgb(h, s, l) {
+export function hslToRgb(h, s, l) {
   var r, g, b, q, p;
 
   if (s === 0) {
@@ -225,7 +219,7 @@ exports.hslToRgb = function hslToRgb(h, s, l) {
   }
 
   return [r * 255, g * 255, b * 255];
-};
+}
 
 /**
  * Converts an RGB color value to HSV. Conversion formula
@@ -238,7 +232,7 @@ exports.hslToRgb = function hslToRgb(h, s, l) {
  * @param   Number  b       The blue color value
  * @return  Array           The HSV representation
  */
-exports.rgbToHsv = function rgbToHsv(r, g, b) {
+export function rgbToHsv(r, g, b) {
   var max, min, h, s, v, d;
   r = r / 255, g = g / 255, b = b / 255;
   max = Math.max(r, g, b);
@@ -269,7 +263,7 @@ exports.rgbToHsv = function rgbToHsv(r, g, b) {
   }
 
   return [h, s, v];
-};
+}
 
 /**
  * Converts an HSV color value to RGB. Conversion formula
@@ -282,7 +276,7 @@ exports.rgbToHsv = function rgbToHsv(r, g, b) {
  * @param   Number  v       The value
  * @return  Array           The RGB representation
  */
-exports.hsvToRgb = function hsvToRgb(h, s, v) {
+export function hsvToRgb(h, s, v) {
   var r, g, b,
 
     i = Math.floor(h * 6),
@@ -319,4 +313,4 @@ exports.hsvToRgb = function hsvToRgb(h, s, v) {
   }
 
   return [r * 255, g * 255, b * 255];
-};
+}

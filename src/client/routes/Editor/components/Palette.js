@@ -1,13 +1,21 @@
-const React = require('react');
+import React from 'react';
+import { register } from 'react-dynamic-layout';
+import { connect } from 'react-redux';
 
-const { register } = require('./Layout.js');
-const { getTransparentColor, getSpritePalette } = require('workers/colors.js');
-const { connect } = require('react-redux');
-const { actions: {setStyle, setParams} } = require('../ducks/panels.js');
-const { actions: {savePalette} } = require('../../../ducks/palettes.js');
-const { actions: {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor}} = require('../../../ducks/sprites.js');
-const Panel = require('./Panel.js');
-const ContentColors = require('./ContentColors.js');
+import { getTransparentColor, getSpritePalette } from '../../../workers/colors';
+import ContentColors from './ContentColors';
+
+import {
+  setTransparentColor,
+  setCurrentPalette,
+  setSpriteSecondaryColor,
+  setSpritePrimaryColor,
+  savePalette,
+  setStyle,
+  setParams
+} from '../../../ducks';
+
+
 const obj = {};
 
 obj.displayName = 'Palette';
@@ -24,7 +32,7 @@ obj.getInitialState = function () {
 
 obj.componentDidMount = function () {
   if (this.props.sprite) {
-    let spriteIndex = this.props.sprite.index;
+    let spriteIndex = this.props.sprite.id;
     getSpritePalette(
       spriteIndex
     ).then(result => this.props.setCurrentPalette(spriteIndex, result.array));
@@ -34,7 +42,7 @@ obj.componentDidMount = function () {
 
 obj.shouldComponentUpdate = function (nextProps) {
   if (this.props.sprite && this.props.sprite.version !== nextProps.sprite.version) {
-    let spriteIndex = nextProps.sprite.index;
+    let spriteIndex = nextProps.sprite.id;
     if (this.props.sprite.frames.length > 1) {
       getTransparentColor(
         spriteIndex,
@@ -87,7 +95,7 @@ obj.getNextPosition = function() {
 };
 
 obj.render = function () {
-  return <Panel name='Palette' className={'palette ' + this.props.className} style={this.props.style}>
+  return <div className={'panel-palette palette ' + this.props.className} style={this.props.style}>
     <button className='btn' >=</button>
     <button 
       disabled={this.props.palettes.length < 1}
@@ -102,10 +110,10 @@ obj.render = function () {
     >+</button>
     {this.getPalette().unsaved ? <span onClick={this.onSave}>!¡</span> : null}
     <ContentColors 
-      setPrimaryColor={color => this.props.setSpritePrimaryColor(this.props.sprite.index, color)}
-      setSecondaryColor={color => this.props.setSpriteSecondaryColor(this.props.sprite.index, color)}
+      setPrimaryColor={color => this.props.setSpritePrimaryColor(this.props.sprite.id, color)}
+      setSecondaryColor={color => this.props.setSpriteSecondaryColor(this.props.sprite.id, color)}
       colors={this.getPalette()}/>
-  </Panel>;
+  </div>;
 };
 obj.getPalette = function () {
   if (this.state.current) {
@@ -127,11 +135,12 @@ obj.getPalette = function () {
 
 const Palette = connect(
   function (state) {
+    const sprite = state.sprites[state.editor.sprite];
     return {
-      sprite: state.sprites[state.Editor.sprite],
+      sprite,
       palettes: state.palettes,
-      palette: state.Editor.palette,
-      primaryColor: state.Editor.primaryColor
+      palette: sprite.palette,
+      primaryColor: sprite.primaryColor
     };
   },
   {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor, setStyle, setParams, savePalette}
@@ -139,4 +148,4 @@ const Palette = connect(
 
 register(Palette, obj.displayName);
 
-module.exports = Palette;
+export default Palette;

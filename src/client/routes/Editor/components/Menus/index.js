@@ -1,17 +1,28 @@
-const React = require('react');
-const { Link } = require('react-router');
-const { connect } = require('react-redux');
+import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
 
-const { actions } = require('../../ducks');
-const { saveEditor } = require('../../ducks').editorActions;
-const { setSpriteId } = require('../../../../ducks/sprites.js').actions;
-const Name = require('./Name.js');
-const Menu = require('../Menu.js');
-const Panel = require('../Panel.js');
-const { noopF } = require('utils/noop.js');
-const obj = require('./events.js');
+import Name from './Name';
+import Menu from '../Menu';
+import Panel from '../Panel';
+import { noopF } from 'utils/noop';
+import * as obj from './events';
+
+import {
+  saveEditor,
+  setSpriteId,
+  putName
+} from '../../../../ducks';
+
 
 obj.displayName = 'Menus';
+
+obj.propTypes = {
+  openNewSpriteModal: React.PropTypes.func,
+  sprite: React.PropTypes.object,
+  spriteId: React.PropTypes.string
+};
 
 obj.getInitialState = function () {
   return {
@@ -44,7 +55,7 @@ obj.getMenu = function (name = 'menu unname', handle = noopF, children = []) {
   </li>;
 };
 obj.shouldComponentUpdate = function (nextProps) {
-  return nextProps.spriteIndex !== this.props.spriteIndex;
+  return nextProps.spriteId !== this.props.spriteId;
 };
 
 obj.onSubmitName = function (name) {
@@ -73,21 +84,19 @@ obj.render = function () {
   </Panel>;
 };
 
-
-const Menus = React.createClass(obj);
-
-
 function mapStateToProps(state) {
   return {
-    spriteIndex: state.Editor.sprite,
-    sprite: state.sprites[state.Editor.sprite],
-    frames: state.Editor.frames,
-    layers: state.Editor.layers,
+    spriteId: state.editor.sprite,
+    sprite: state.sprites[state.editor.sprite],
     user: state.user
   };
 }
 
-module.exports = connect(
+const Menus = connect(
   mapStateToProps,
-  Object.assign({}, actions, {setSpriteId, saveEditor})
-)(Menus);
+  {setSpriteId, saveEditor, putName}
+)(React.createClass(obj));
+
+register(Menus, obj.displayName);
+
+export default Menus;

@@ -1,5 +1,5 @@
 
-exports.defineGetter = function defineGetter(obj, name, fn) {
+export const defineGetter = function defineGetter(obj, name, fn) {
   Object.defineProperty(obj, name, {
     get: fn,
     enumerable: true,
@@ -7,7 +7,7 @@ exports.defineGetter = function defineGetter(obj, name, fn) {
   });
 };
 
-exports.extend = function extend(destination, source) {
+export const extend = function extend(destination, source) {
   for (let prop in source) {
     if (source.hasOwnProperty(prop)) {
       destination[prop] = source[prop];
@@ -17,13 +17,13 @@ exports.extend = function extend(destination, source) {
 };
 
 
-exports.inheritanceObject = function (child, father) {
+export const inheritanceObject = function (child, father) {
   child.prototype = Object.create(father.prototype);
   child.prototype.constructor = child;
 };
 
 
-exports.bindObject = function (obj, self) {
+export const bindObject = function (obj, self) {
   self = self || obj;
   let keys = Object.keys(obj);
   for (let j = 0; j < keys.length; j++) {

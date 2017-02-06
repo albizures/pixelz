@@ -6,7 +6,11 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 const config = require('./src/server/config/environment');
 const isProd = process.env.NODE_ENV === 'production';
 
-const plugins = [];
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  })
+];
 let devtool;
 let entry;
 let devServer;
@@ -97,9 +101,16 @@ if (isProd) {
       chunks: false,
       chunkModules: false
     },
+    historyApiFallback: true,
     port: config.PORT,
     proxy: {
-      '**': {
+      '/api/**': {
+        target: `http://127.0.0.1:${config.PORT + 1}`
+      },
+      '**/*.gif': {
+        target: `http://127.0.0.1:${config.PORT + 1}`
+      },
+      '**/*.png': {
         target: `http://127.0.0.1:${config.PORT + 1}`
       }
     }

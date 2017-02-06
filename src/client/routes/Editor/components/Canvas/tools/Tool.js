@@ -1,11 +1,15 @@
-const { store } = require('../../../../../store.js');
-const frameActions = require('../../../ducks/frames.js').actions;
-const layerActions = require('../../../ducks/layers.js').actions;
-const {setSpriteSecundaryColor, setSpritePrimaryColor, newSpriteVersion} = require('../../../../../ducks/sprites.js').actions;
-const historyActions = require('../../../ducks/history.js').actions;
-const { cloneContext } = require('utils/canvas.js');
+import { store } from '../../../../../store';
+import { cloneContext } from '../../../../../utils/canvas';
+import {
+  setSpriteSecundaryColor,
+  setSpritePrimaryColor,
+  newSpriteVersion,
+  addUndoPaint,
+  newLayerVersion,
+  newFrameVersion
+} from '../../../../../ducks/sprites';
 
-const { RIGHT_CLICK } = require('constants/index.js');
+import { RIGHT_CLICK } from 'constants/index';
 
 const { abs } = Math;
 const common = {};
@@ -19,7 +23,7 @@ common.getColor = function (which) {
 };
 
 common.addUndo = function (data) {
-  store.dispatch(historyActions.addUndoPaint(data));
+  store.dispatch(addUndoPaint(data));
 };
 
 common.setPrimaryColor = function (color) {
@@ -52,8 +56,8 @@ common.newVersion = function (layer) {
       0, 0, frame.width, frame.height
     );
   });
-  store.dispatch(layerActions.newLayerVersion(layer.index));
-  store.dispatch(frameActions.newFrameVersion(layer.frame));
+  store.dispatch(newLayerVersion(layer.index));
+  store.dispatch(newFrameVersion(layer.frame));
   store.dispatch(newSpriteVersion(layer.sprite));
 };
 
@@ -90,7 +94,7 @@ common.onMouseDownInit = function (evt, initCord, layer, artboard, {main, previe
   this.onMouseDown(evt);
 };
 
-exports.create = function (name, custom) {
+export function create (name, custom) {
   let tool = Object.create(common);
   let keys = Object.keys(custom);
   for (var j = 0; j < keys.length; j++) {
@@ -100,4 +104,8 @@ exports.create = function (name, custom) {
   }
   tool.name = name;
   return tool;
+}
+
+export default {
+  create
 };

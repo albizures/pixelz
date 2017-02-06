@@ -1,24 +1,29 @@
 const db = require('../../components/connect.js');
 const collection = 'palettes';
+const { Palette } = require('../../models');
 
-exports.post = function (data, cb) {
-  db.post(collection, data, cb);
-};
+exports.create = data => Palette.create(data);
 
-exports.getAll = function (cb) {
-  db.getAll(collection, cb);
-};
+exports.getPublic = () =>
+  Palette.find({private: false, available: true})
+    .select({private: 0})
+    .populate('user username displayName profileImage _id');
 
-exports.getOne = function (id, cb) {
-  db.getOne(collection, id, cb);
-};
+exports.getAll = () => Palette.getAll();
+
+exports.getOnePublic = _id =>
+  Palette.findOne({_id, private: false, available: true})
+    .select({private: 0, available: 0});
+
+exports.getOne = (_id, user) =>
+  Palette.findOne({_id, user, available: true})
+    .select({available: 0});
 
 exports.getSearch = function (data, cb) {
   db.getSearch(collection, data, cb);
 };
 
-exports.put = function (id, data, cb) {
-  db.update(collection, id, data, cb);
-};
+exports.update = (id, data) =>
+  Palette.findByIdAndUpdate(id, {$set: data}, {new: true});
 
 exports.collection = collection;

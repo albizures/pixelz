@@ -1,9 +1,9 @@
 'use strict';
-const Panel = require('../../prototypes/Panel.js'),
+const Panel = require('../../prototypes/Panel'),
   make = require('make'),
-  Vector = require('../../prototypes/Vector.js'),
-  Menu = require('../../prototypes/Menu.js'),
-  {TRANSPARENT_COLOR} = require('../../constants/index.js'),
+  Vector = require('../../prototypes/Vector'),
+  Menu = require('../../prototypes/Menu'),
+  {TRANSPARENT_COLOR} = require('../../constants/index'),
   {SNAP, FLOAT, T, B} = Panel,
   { SELECT_TOOL } = require('../../constants').events,
   Menus = new Panel('Menus', SNAP, undefined, 100, 25, T, true);

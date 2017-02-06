@@ -1,11 +1,11 @@
 'use strict';
-const Tool = require('../prototypes/Tool.js'),
+const Tool = require('../prototypes/Tool'),
   { RIGHT_CLICK, LEFT_CLICK, TRANSPARENT_COLOR } = require('../constants'),
-  Vector = require('../prototypes/Vector.js'),
-  Action = require('../prototypes/Action.js'),
-  Actions = require('../panels/Actions.js'),
+  Vector = require('../prototypes/Vector'),
+  Action = require('../prototypes/Action'),
+  Actions = require('../panels/Actions'),
   actions = require('../constants').actions,
-  Tools = require('../panels/Tools.js'),
+  Tools = require('../panels/Tools'),
   rectangle = new Tool('rectangle');
 let firstPixel, lastPixel, color, at;
 rectangle.onMouseDown = function (evt) {

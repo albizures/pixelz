@@ -1,12 +1,11 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { connect } = require('react-redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
 
-const { register } = require('./Layout.js');
-const { getPreviewSize } = require('utils/canvas.js');
-const Sprite = require('./Sprite.js');
-const Panel = require('./Panel.js');
-const Range = require('./Range.js');
+import { getPreviewSize } from '../../../utils/canvas';
+import Sprite from './Sprite';
+import Range from './Range';
 
 const obj = {};
 
@@ -14,23 +13,18 @@ obj.displayName = 'Preview';
 
 obj.getInitialState = function(){
   return {
-    style: {
-      position: 'initial',
-      top: 0,
-      left: 0,
-      width: '100%'
-    },
     fps: this.props.fps
   };
 };
 obj.initPreivew = function(props) {
-  if (props.frames[0]) {
-    let el = ReactDOM.findDOMNode(this);
+  const frame = props.frames[props.sprite.frames[0]];
+  if (frame) {
+    let el = this.el;
     let size = getPreviewSize(
       el.clientWidth,
-      el.clientHeight - (25 + 20),
-      props.frames[0].width,
-      props.frames[0].height
+      el.clientHeight - /*size of range div*/25,
+      frame.width,
+      frame.height
     );
     this.setState(size);
   }
@@ -45,14 +39,14 @@ obj.onChangeRange = function(value) {
     fps: value
   });
 };
-  
+
 obj.getSprite = function() {
   var style = {}, interval = 1000 / this.state.fps;
   style.width = this.state.maxWidth;
   style.height = this.state.maxHeight;
-  if (this.state.width && this.state.height && this.props.frames.length > 0) {
+  if (this.state.width && this.state.height) {
     return <div style={style} className='context-preview'> 
-      <Sprite 
+      <Sprite
         interval={interval}
         style={{marginTop: this.state.marginTop, marginLeft: this.state.marginLeft}}
         width={this.state.width}
@@ -65,8 +59,12 @@ obj.getSprite = function() {
   return <div></div>;
 };
 
+obj.setRef = function (el) {
+  this.el = el;
+};
+
 obj.render = function(){
-  return <Panel name='Preview' className={'preview ' + this.props.className} style={this.props.style}>
+  return <div ref={this.setRef} className={'panel-preview preview ' + this.props.className} style={this.props.style}>
     {
       this.getSprite()
     }
@@ -79,14 +77,14 @@ obj.render = function(){
         <span>{this.state.fps}</span>
       </div>
     </div>
-  </Panel>;
+  </div>;
 };
 
 const Preview = connect(
   function (state) {
     return {
-      sprite: state.sprites[state.Editor.sprite],
-      frames: state.Editor.frames,
+      sprite: state.sprites[state.editor.sprite],
+      frames: state.frames,
       fps: 5
     };
   }
@@ -94,4 +92,4 @@ const Preview = connect(
 
 register(Preview, obj.displayName);
 
-module.exports = Preview;
+export default Preview;

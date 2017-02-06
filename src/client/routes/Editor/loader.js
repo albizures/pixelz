@@ -1,14 +1,26 @@
-const React = require('react');
-const http = require('http');
-const {wrapActionCreators} = require('utils/ducks.js');
-const {bindObject} = require('utils/object.js');
-const NewSprite = require('./components/NewSprite.js');
-const {store: {dispatch}} = require('../../store.js');
-const {addSprite, selectSpriteFrame, addFrameSprite, selectSpriteLayer} = require('../../ducks/sprites.js').actions;
-const {openSprite} = require('./ducks/sprites.js').actions;
-const {setEditorId, setCurrentSprite} = require('./ducks/index.js').currentActions;
-const {addFrame, addLayerFrame} = require('./ducks/frames.js').actions;
-const {addLayer} = require('./ducks/layers.js').actions;
+import React from 'react';
+import { cuid } from 'react-dynamic-layout/lib';
+
+import http from '../../utils/http';
+import { wrapActionCreators } from '../../utils/ducks';
+import { bindObject } from '../../utils/object';
+import { createSprite } from '../../utils/sprites';
+import { store } from '../../store';
+
+import {
+  setEditorId,
+  addSprite,
+  openSprite,
+  selectSpriteFrame,
+  setCurrentSprite,
+  addFrame,
+  addFrameSprite,
+  addLayer,
+  addLayerFrame,
+  selectSpriteLayer
+} from '../../ducks';
+
+const { dispatch } = store;
 
 const actions = wrapActionCreators(dispatch, {
   setEditorId,
@@ -23,14 +35,10 @@ const actions = wrapActionCreators(dispatch, {
   selectSpriteLayer
 });
 
-const InitNewSprite = (props) => <div className='editor-content'>
-  <NewSprite modalOpen={true} onClose={props.onClose} />
-</div>;
-
 const loader = {};
 
 loader.ensure = function () {
-  require.ensure([], (require) => this.cb(require('./Editor.js')));
+  require.ensure([], (require) => this.cb(require('./Editor').default));
 };
 
 loader.onClose = function () {
@@ -38,17 +46,15 @@ loader.onClose = function () {
 };
 
 loader.onGetEditor = function (result) {
-  if (!result || result.sprites.length === 0) {
-    return this.cb(InitNewSprite, {
-      onClose: this.onClose
-    });
-  }
   actions.setEditorId(result._id);
   let promises = [];
   for (var index = 0; index < result.sprites.length; index++) {
     var sprite = result.sprites[index];
     promises.push(
-      http.get('/api/sprites/' + sprite).then(this.onGetSprite)
+      http.get('/api/sprites/' + sprite)
+        .then(this.onGetSprite)
+        //.catch()
+        // TODO: create toast alerts
     );
   }
   Promise.all(promises)
@@ -56,26 +62,24 @@ loader.onGetEditor = function (result) {
     .catch(console.error);
 };
 
-loader.onGetSprite = function (result) {
-  let sprite, image = new Image(), width, height;
+loader.onGetSprite = function (sprite) {
+  let image = new Image(), width, height;
   let context = document.createElement('canvas').getContext('2d');
-  if (result.code !== 0) {
-    return Promise.reject(result); // TODO: create toast alerts
-  }
-  sprite = result.data;
   context.canvas.width = width = sprite.width * sprite.layers;
   context.canvas.height = height = sprite.height;
-  sprite.index = actions.addSprite({
+  sprite.id = cuid();
+  actions.addSprite({
+    id: sprite.id,
     _id: sprite._id,
     name: sprite.name,
     width: sprite.width,
     height: sprite.height,
     colors: sprite.colors,
-    primaryColor: sprite.primaryColor || sprite.colors[0] || 'rgba(0, 0, 0, 1)',
+    primaryColor: sprite.primaryColor || sprite.colors[0] || 'rgba(0, 255, 0, 1)',
     secondaryColor: sprite.secondaryColor || 'rgba(0, 0, 0, 0)'
   });
-  actions.openSprite(sprite.index);
-  actions.setCurrentSprite(sprite.index);
+  actions.openSprite(sprite.id);
+  actions.setCurrentSprite(sprite.id);
   return new Promise(reject => {
     image.onload = () => {
       context.drawImage(image,
@@ -83,10 +87,10 @@ loader.onGetSprite = function (result) {
         0, 0, width, height
       );
       actions.selectSpriteFrame(
-        sprite.index,
+        sprite.id,
         this.createFrameFromContext(sprite, context)
       );
-      actions.selectSpriteLayer(sprite.index,0);
+      actions.selectSpriteLayer(sprite.id, 0);
       for (let j = 1; j < sprite.frames; j++) {
         context.canvas.height = height;// clean
         context.drawImage(image,
@@ -104,7 +108,7 @@ loader.onGetSprite = function (result) {
 loader.createFrameFromContext = function(sprite, image) {
   let context = document.createElement('canvas').getContext('2d');
   let contextTemp = document.createElement('canvas').getContext('2d');
-  let index;
+  let frame = cuid();
   contextTemp.canvas.width = context.canvas.width = sprite.width;
   contextTemp.canvas.height = context.canvas.height = sprite.height;
   
@@ -114,16 +118,17 @@ loader.createFrameFromContext = function(sprite, image) {
       0, 0, sprite.width, sprite.height
     );
   }
-  index = actions.addFrame({
-    sprite: sprite.index,
+  actions.addFrame({
+    id: frame,
+    sprite: sprite.id,
     width: sprite.width,
     height: sprite.height,
     context: context,
     layers: []
   });
   actions.addFrameSprite(
-    sprite.index,
-    index
+    sprite.id,
+    frame
   );
   for (let j = 0; j < sprite.layers; j++) {
     let layer;
@@ -132,16 +137,17 @@ loader.createFrameFromContext = function(sprite, image) {
       sprite.width * j, 0, sprite.width, sprite.height,
       0, 0, sprite.width, sprite.height
     );
-    layer = this.createLayersFromContext(sprite, contextTemp, index, j);
+    layer = this.createLayersFromContext(sprite, contextTemp, frame, j);
     actions.addLayerFrame(
-      index,
+      frame,
       layer
     );
   }
-  return index;
+  return frame;
 };
 
 loader.createLayersFromContext = function(sprite, image, frame, index) {
+  const layer = cuid();
   let context = document.createElement('canvas').getContext('2d');
   context.canvas.width = sprite.width;
   context.canvas.height = sprite.height;
@@ -149,22 +155,30 @@ loader.createLayersFromContext = function(sprite, image, frame, index) {
     0, 0, sprite.width, sprite.height,
     0, 0, sprite.width, sprite.height
   );
-  return actions.addLayer({
+  actions.addLayer({
+    id: layer,
     context: context,
     width: sprite.width,
     height: sprite.height,
-    sprite: sprite.index,
+    sprite: sprite.id,
     frame: frame,
     layerIndex: index
   });
+  return layer;
 };
 
 
 loader.init = function (cb) {
-  http.get('/api/editor').then(this.onGetEditor);
+  http.get('/api/editor/user/last')
+    .then(this.onGetEditor)
+    .catch(err => {
+      console.log(err);
+      createSprite({current: true});
+      this.ensure();
+    });
   this.cb = cb;
 };
 
 bindObject(loader);
 
-module.exports = (cb) => loader.init(cb);
+export default (cb) => loader.init(cb);

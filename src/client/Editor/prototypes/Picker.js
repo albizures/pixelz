@@ -1,8 +1,8 @@
 'use strict';
-const Range = require('./Range.js'),
-  AppendObject = require('../prototypes/AppendObject.js'),
-  {inheritanceObject} = require('utils/object.js'),
-  {getRGBAComponents} = require('utils/color.js');
+const Range = require('./Range'),
+  AppendObject = require('../prototypes/AppendObject'),
+  {inheritanceObject} = require('utils/object'),
+  {getRGBAComponents} = require('utils/color');
 function Picker(name,callback) {
   AppendObject.call(this, 'picker');
   this.name = name + 'Picker';

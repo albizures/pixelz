@@ -1,8 +1,8 @@
-const { abs } = Math;
-const Tool = require('./Tool.js');
-const { calculatePosition, validCord } = require('utils/canvas.js');
+import Tool from './Tool';
+import { calculatePosition, validCord } from 'utils/canvas';
 const $window = $(window);
 
+const { abs } = Math;
 const obj = {};
 let lastPixel;
 
@@ -60,4 +60,4 @@ obj.onMouseUp = function (evt) {
 
 const pencil = Tool.create('erase', obj);
 
-module.exports = pencil;
+export default pencil;

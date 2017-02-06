@@ -1,5 +1,5 @@
 /*
-  Julian Descottes (origianl version - https://github.com/juliandescottes/gif.js)
+  Julian Descottes (origianl version - https://github.com/juliandescottes/gif)
 */
 
 function getPaletteKey(r, g, b) {

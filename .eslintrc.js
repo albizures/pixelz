@@ -1,10 +1,12 @@
 module.exports = {
   plugins: [
-    'react'
+    'react',
+    'import'
   ],
   parserOptions: {
     ecmaFeatures: {
-      'jsx': true
+      jsx: true,
+      ecmaVersion: 6,
     }
   },
   globals: {
@@ -63,6 +65,7 @@ module.exports = {
   },
   env: {
     browser: true,
-    node: true
+    node: true,
+    es6: true
   }
 };

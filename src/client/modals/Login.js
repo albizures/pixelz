@@ -1,7 +1,7 @@
-const React = require('react');
-const { Modal, ModalManager, Effect } = require('react-dynamic-modal');
+import React from 'react';
+import { Modal, ModalManager, Effect } from 'react-dynamic-modal';
 
-const LoginButton = require('../components/LoginButton.js');
+import LoginButton from '../components/LoginButton';
 const obj = {};
 
 obj.displayName = 'Login';
@@ -53,4 +53,4 @@ obj.render = function () {
 
 const Login = React.createClass(obj);
 
-module.exports = Login;
+export default Login;

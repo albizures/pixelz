@@ -1,23 +1,23 @@
-const http = require('http');
-const React = require('react');
-const Gif = require('utils/gif/gif.js');
-const { noTransparent } = require('utils/canvas.js');
-const { ModalManager } = require('react-dynamic-modal');
-const Login = require('../../../../modals/Login.js');
+import http from 'http';
+import React from 'react';
+import Gif from 'utils/gif/gif';
+import { noTransparent } from 'utils/canvas';
+import { ModalManager } from 'react-dynamic-modal';
+import Login from '../../../../modals/Login';
 
-exports.onResize = function () {
+export const onResize = function () {
   alert('resize');
 };
 
-exports.onSetBackground = function () {
+export const onSetBackground = function () {
   alert('setBackgroud');
 };
 
-exports.onLogin = function () {
+export const onLogin = function () {
   console.log('now save the sprite');
 };
 
-exports.onSave = function () {
+export const onSave = function () {
   if (!this.props.user) {
     return ModalManager.open(<Login onLogin={this.onLogin}/>);
   }
@@ -76,7 +76,7 @@ exports.onSave = function () {
 
   function onUpload(result) {
     if (isNew) {
-      this.props.setSpriteId(this.props.sprite.index, result.description);
+      this.props.setSpriteId(this.props.sprite.id, result.description);
       this.props.saveEditor();
     }
     console.log('save result', result);
@@ -85,7 +85,7 @@ exports.onSave = function () {
 };
 
 
-exports.generateGif = function (sprite, scale, cb) {
+export const generateGif = function (sprite, scale, cb) {
   let gif = new Gif({
     quality: 1,
     repeat: 0,
@@ -112,7 +112,7 @@ exports.generateGif = function (sprite, scale, cb) {
 };
 
 
-exports.saveFrame = function (index) {
+export const saveFrame = function (index) {
   let frame = this.props.frames[index];
   let context = document.createElement('canvas').getContext('2d');
   context.canvas.width = frame.layers.length * frame.width;

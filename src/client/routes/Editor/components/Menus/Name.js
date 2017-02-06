@@ -1,5 +1,5 @@
-const React = require('react');
-const { Tooltipy } = require('../../../../components/Tooltipy.js');
+import React from 'react';
+import { Tooltipy } from '../../../../components/Tooltipy';
 const obj = {};
 
 obj.displayName = 'Name';
@@ -43,4 +43,4 @@ obj.render = function () {
 
 const Name = React.createClass(obj);
 
-module.exports = Name;
+export default Name;

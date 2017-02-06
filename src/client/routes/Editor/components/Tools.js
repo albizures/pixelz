@@ -1,26 +1,17 @@
-const React = require('react');
-const { connect } = require('react-redux');
-
-const { register } = require('./Layout.js');
-const { Tooltipy } = require('../../../components/Tooltipy.js');
-const Panel = require('./Panel.js');
-const Color = require('./Color.js');
-const { actions } = require('../ducks/panels.js');
-const { currentActions} = require('../ducks');
+import React from 'react';
+import { connect } from 'react-redux';
+import { register } from 'react-dynamic-layout';
+import { Tooltipy } from '../../../components/Tooltipy';
+import Color from './Color';
+import {
+  setCurrentTool,
+  setStyle,
+  setParams
+} from '../../../ducks';
 
 const obj = {};
 
 obj.displayName = 'Tools';
-
-obj.getInitialState = function(){
-  return {
-    style: {
-      top: 100,
-      left: 150,
-      width: 65
-    }
-  };
-};
 
 obj.componentDidMount = function() {
   if (!this.props.tool) {
@@ -31,32 +22,33 @@ obj.componentDidMount = function() {
 obj.shouldComponentUpdate = function(nextProps) {
   return nextProps.tools.length !== this.props.tools.length
     || nextProps.tool !== this.props.tool
-    || nextProps.style !== this.props.style
     || nextProps.secondaryColor !== this.props.secondaryColor
     || nextProps.primaryColor !== this.props.primaryColor;
 };
 obj.onClickPrimary = function (evt) {
   evt.preventDefault();
-  this.props.setStyle('colorPicker', {
-    visibility: 'visible'
-  });
-  this.props.setParams('colorPicker', {
-    color: this.props.primaryColor,
-    action: 'setSpritePrimaryColor',
-    sprite: this.props.sprite
-  });
+  this.props.rdChangeProps(
+    this.props.elementColorPickerId,
+    {
+      color: this.props.primaryColor,
+      action: 'setSpritePrimaryColor',
+      sprite: this.props.sprite
+    }
+  );
+  this.props.rdOpenFloat(this.props.modalColorPickerId);
 };
 
 obj.onClickSecondary = function (evt) {
   evt.preventDefault();
-  this.props.setStyle('colorPicker', {
-    visibility: 'visible'
-  });
-  this.props.setParams('colorPicker', {
-    color: this.props.secondaryColor,
-    action: 'setSpriteSecondaryColor',
-    sprite: this.props.sprite
-  });
+  this.props.rdChangeProps(
+    this.props.elementColorPickerId,
+    {
+      color: this.props.secondaryColor,
+      action: 'setSpriteSecondaryColor',
+      sprite: this.props.sprite
+    }
+  );
+  this.props.rdOpenFloat(this.props.modalColorPickerId);
 };
 
 obj.onClickTool = function (name) {
@@ -64,7 +56,7 @@ obj.onClickTool = function (name) {
 };
 
 obj.render = function() {
-  return <Panel name="Tools" style={this.props.style} float={true}>
+  return <div className='panel-tools'>
     <div className='colors'>
       <Color onClick={this.onClickSecondary} color={this.props.secondaryColor} size={35} className={'secondary'}/>
       <Color onClick={this.onClickPrimary} color={this.props.primaryColor} size={35} className={'primary'}/>
@@ -82,17 +74,16 @@ obj.render = function() {
         )
       }
     </div>
-  </Panel>;
+  </div>;
 };
 
 
 function mapStateToProps(state) {
-  let sprite = state.sprites[state.Editor.sprite] || {};
+  let sprite = state.sprites[state.editor.sprite];
   return {
-    sprite: sprite.index,
-    tools: state.Editor.tools,
-    tool: state.Editor.tool,
-    style: state.Editor.panels.tools.style,
+    sprite: sprite.id,
+    tools: state.editor.tools,
+    tool: state.editor.tool,
     primaryColor: sprite.primaryColor,
     secondaryColor: sprite.secondaryColor
   };
@@ -100,9 +91,9 @@ function mapStateToProps(state) {
 
 const Tools = connect(
   mapStateToProps,
-  Object.assign({}, currentActions, actions)
+  { setCurrentTool, setStyle, setParams}
 )(React.createClass(obj));
 
 register(Tools, obj.displayName);
 
-module.exports = Tools;
+export default Tools;

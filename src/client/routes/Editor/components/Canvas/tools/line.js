@@ -1,6 +1,6 @@
-const Tool = require('./Tool.js');
-const { calculatePosition, validCord } = require('utils/canvas.js');
-const { isTransparent } = require('utils/color.js');
+import Tool from './Tool';
+import { calculatePosition, validCord } from 'utils/canvas';
+import { isTransparent } from 'utils/color';
 
 
 const obj = {};
@@ -74,4 +74,4 @@ obj.onMouseUp = function (evt) {
 
 const pencil = Tool.create('pencil', obj);
 
-module.exports = pencil;
+export default pencil;

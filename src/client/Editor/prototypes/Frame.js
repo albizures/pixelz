@@ -1,11 +1,11 @@
 'use strict';
-const {walkBitmap, imageSmoothingDisabled} = require('utils/canvas.js');
+const {walkBitmap, imageSmoothingDisabled} = require('utils/canvas');
 const { TRANSPARENT_COLOR } = require('../constants');
-const Layer = require('./Layer.js');
-const Action = require('./Action.js');
-const Actions = require('../panels/Actions.js');
-const Frames = require('../panels/Frames.js');
-const Layers = require('../panels/Layers.js');
+const Layer = require('./Layer');
+const Action = require('./Action');
+const Actions = require('../panels/Actions');
+const Frames = require('../panels/Frames');
+const Layers = require('../panels/Layers');
 const { UPDATE_FRAME } = require('../constants').events;
 
 function Frame(sprite, index, status, layers, clone, image) {

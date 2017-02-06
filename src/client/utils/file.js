@@ -1,6 +1,6 @@
-const make = require('make');
+import make from '../make';
 
-exports.downloadBlob = function downloadBlob(file, name) {
+export const downloadBlob = function downloadBlob(file, name) {
   var saveAs = window.saveAs || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator));
   if (saveAs) {
     saveAs(file, name);

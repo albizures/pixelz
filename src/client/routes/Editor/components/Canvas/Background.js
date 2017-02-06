@@ -1,6 +1,6 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { transparent } = require('constants/index.js');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { transparent } from '../../../../constants';
 
 const obj = {};
 
@@ -14,9 +14,9 @@ obj.propTypes = {
 };
 
 obj.componentDidMount = function() {
-  let canvas = ReactDOM.findDOMNode(this);
-  this.context = canvas.getContext('2d');
-  this.props.setContext('background', this.context);
+  let context = this.refs.canvas.getContext('2d');
+  this.setState({ context });
+  this.props.setContext('background', context);
 };
 
 obj.componentWillUpdate = function(nextProps) {
@@ -24,7 +24,7 @@ obj.componentWillUpdate = function(nextProps) {
     || nextProps.height !== this.props.height;
 };
 obj.paint = function(context, artboard, layer) {
-  context = context || this.context;
+  context = context || this.state.context;
   let pattern = context.createPattern(transparent, "repeat");
   context.fillStyle = pattern;
   context.fillRect(
@@ -36,11 +36,12 @@ obj.clean = function(context) {
 };
 obj.componentDidUpdate = function() {
   if (this.props.artboard) {
-    this.paint(this.context, this.props.artboard, this.props.layer);
+    this.paint(this.state.context, this.props.artboard, this.props.layer);
   }
 };
 obj.render = function() {
   return <canvas
+    ref='canvas'
     width={this.props.width}
     height={this.props.height}
     className='background' >
@@ -49,4 +50,4 @@ obj.render = function() {
 
 const Background = React.createClass(obj);
 
-module.exports = Background;
+export default Background;

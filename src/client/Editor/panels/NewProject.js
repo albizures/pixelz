@@ -1,7 +1,7 @@
 'use strict';
-const Panel = require('../prototypes/Panel.js'),
+const Panel = require('../prototypes/Panel'),
   make = require('make'),
-  Vector = require('../prototypes/Vector.js'),
+  Vector = require('../prototypes/Vector'),
   { SELECT_TOOL } = require('../constants').events,
   {WIDTH_DEF, HEIGHT_DEF} = require('../constants'),
   NewProject = Panel.createModalPanel('NewProject');

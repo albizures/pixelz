@@ -1,9 +1,7 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const { imageSmoothingDisabled } = require('utils/canvas.js');
-let canvas;
-let context;
+import { imageSmoothingDisabled } from 'utils/canvas';
 const obj = {};
 
 obj.displayName = 'Main';
@@ -13,14 +11,13 @@ obj.getInitialState = function () {
 };
 
 obj.componentDidMount = function() {
-  canvas = ReactDOM.findDOMNode(this);
-  context = canvas.getContext('2d');
-  this.setState({context});
+  let context = this.refs.canvas.getContext('2d');
+  this.setState({ context });
   this.props.setContext('main', context);
 };
 
 obj.shouldComponentUpdate = function (nextProps, nextState) {
-  if (this.state.context !== nextState.context || nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index) {
+  if (this.state && this.state.context && (nextProps.layer.version !== this.props.layer.version || this.props.artboard !== nextProps.artboard || this.props.layer.index !== nextProps.layer.index)) {
     this.paint(nextState.context, nextProps.artboard, nextProps.layer);
   }
   return true;
@@ -41,7 +38,7 @@ obj.paint = function (context, artboard, layer) {
 };
 
 obj.componentDidUpdate = function () {
-  if (this.state.context && this.props.layer && this.props.artboard) {
+  if (this.state && this.state.context && this.props.layer && this.props.artboard) {
     this.paint(this.state.context, this.props.artboard, this.props.layer);
   }
 };
@@ -61,4 +58,4 @@ obj.render = function() {
 
 const Main = React.createClass(obj);
 
-module.exports = Main;
+export default Main;
