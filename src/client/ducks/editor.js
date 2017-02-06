@@ -80,5 +80,14 @@ const initialState = {
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    SET_CURRENT_SPRITE,
+    SET_CURRENT_FRAME,
+    SET_CURRENT_LAYER,
+    SET_CURRENT_TOOL,
+    SET_CURRENT_ARTBOARD,
+    SET_CURRENT_PALETTE,
+    SET_EDITOR_ID
+  }
 };

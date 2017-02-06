@@ -22,5 +22,8 @@ export const openSprite = sprite => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    OPEN_SPRITE
+  }
 };

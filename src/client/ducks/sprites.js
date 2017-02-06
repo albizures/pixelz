@@ -214,25 +214,23 @@ export const setSpriteSecundaryColor = (sprite, color) => ({
   }
 });
 
-
-// export const types = {
-//   ADD_SPRITE,
-//   ADD_SPRITE_FRAME,
-//   CHANGE_FRAME_POSITION,
-//   NEW_SPRITE_VERSION,
-//   SET_TRANSPARENT_COLOR,
-//   SET_CURRENT_PALETTE_SPRITE,
-//   PUT_NAME,
-//   ADD_SPRITES,
-//   SET_SPRITE_ID,
-//   SET_SPRITE_ARTBOARD,
-//   SELECT_SPRITE_LAYER,
-//   SELECT_SPRITE_FRAME,
-//   SET_SPRITE_PRIMARY_COLOR,
-//   SET_SPRITE_SECONDARY_COLOR
-// };
-
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    ADD_SPRITE,
+    ADD_SPRITE_FRAME,
+    CHANGE_FRAME_POSITION,
+    NEW_SPRITE_VERSION,
+    SET_TRANSPARENT_COLOR,
+    SET_CURRENT_PALETTE_SPRITE,
+    PUT_NAME,
+    ADD_SPRITES,
+    SET_SPRITE_ID,
+    SET_SPRITE_ARTBOARD,
+    SELECT_SPRITE_LAYER,
+    SELECT_SPRITE_FRAME,
+    SET_SPRITE_PRIMARY_COLOR,
+    SET_SPRITE_SECONDARY_COLOR
+  }
 };

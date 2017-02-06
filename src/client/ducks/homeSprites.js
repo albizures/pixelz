@@ -26,7 +26,11 @@ export const addSpritesHome = sprites => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    ADD_SPRITE_HOME,
+    ADD_SPRITES_HOME
+  }
 };
 
 // export const types = {

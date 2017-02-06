@@ -76,5 +76,11 @@ export const addColor = (palette, color) => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    ADD_PALETTES,
+    ADD_PALETTE,
+    ADD_COLOR,
+    SAVE_PALETTE
+  }
 };

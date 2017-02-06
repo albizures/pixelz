@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import {types, actions, reducer, initialState} from '../editorSprites';
+import  duck, { openSprite } from '../editorSprites';
+
+const { types, reducer, initialState } = duck;
+
 
 it('initialState is an empty array', () => {
   expect(initialState).to.deep.equal([]);
@@ -14,10 +17,10 @@ it('types name', () => {
 });
 
 it('open sprite', () => {
-  const action = {type: types.OPEN_SPRITE, sprite: 0};
+  const action = {type: types.OPEN_SPRITE, payload: 0};
 
   expect(
-    actions.openSprite(0)
+    openSprite(0)
   ).to.deep.equal(
     action
   );

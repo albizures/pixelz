@@ -2,16 +2,11 @@ import { editProp } from 'utils/ducks';
 
 const ADD_UNDO = 'ADD_UNDO';
 const ADD_REDO = 'ADD_REDO';
-
 const PAINT = 'PAINT';
-// const ERASE = 'ERASE';
-// const RESIZE = 'RESIZE';
-// const ADD_LAYER = 'ADD_LAYER';
-// const DELETE_LAYER = 'DELETE_LAYER';
-// const ADD_FRAME = 'ADD_FRAME';
-// const DELETE_FRAME = 'DELETE_FRAME';
+
 const DELETE_UNDO = 'DELETE_UNDO';
 const DELETE_REDO = 'DELETE_REDO';
+
 const initialState = {
   undo: [],
   redo: []
@@ -71,5 +66,12 @@ export const addRedoPaint = data => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    ADD_UNDO,
+    ADD_REDO,
+    PAINT,
+    DELETE_UNDO,
+    DELETE_REDO
+  }
 };

@@ -85,5 +85,12 @@ export const changeLayerPosition = (frame, fromIndex, toIndex) => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    ADD_FRAME,
+    REMOVE_FRAME,
+    ADD_lAYER_FRAME,
+    NEW_FRAME_VERSION,
+    CHANGE_LAYER_POSITION
+  }
 };

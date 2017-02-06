@@ -18,5 +18,8 @@ export const setUser = (user = null) => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    SET_USER
+  }
 };

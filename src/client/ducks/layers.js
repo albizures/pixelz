@@ -58,5 +58,10 @@ export const newLayerVersion = layer => ({
 
 export default {
   reducer,
-  initialState
+  initialState,
+  types: {
+    ADD_LAYER,
+    REMOVE_LAYER,
+    NEW_LAYER_VERSION
+  }
 };
