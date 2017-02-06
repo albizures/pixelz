@@ -313,10 +313,10 @@ obj.render = function () {
 };
 
 const ColorPicker = connect(
-  function(/* */) {
+  function(state, props) {
     return {
       params: {
-        color: 'rgba(0, 0, 0, 1)'
+        color: props.color
       }
     };
   }, {

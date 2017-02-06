@@ -75,7 +75,7 @@ loader.onGetSprite = function (sprite) {
     width: sprite.width,
     height: sprite.height,
     colors: sprite.colors,
-    primaryColor: sprite.primaryColor || sprite.colors[0] || 'rgba(0, 0, 0, 1)',
+    primaryColor: sprite.primaryColor || sprite.colors[0] || 'rgba(0, 255, 0, 1)',
     secondaryColor: sprite.secondaryColor || 'rgba(0, 0, 0, 0)'
   });
   actions.openSprite(sprite.id);

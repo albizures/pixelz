@@ -6,7 +6,7 @@ import {
   Container,
   ROW,
   COLUMN,
-  OPACITY,
+  RENDER,
   cuid
 } from 'react-dynamic-layout/lib';
 
@@ -24,25 +24,26 @@ import Tools from './components/Tools';
 import Menus from './components/Menus';
 import ColorPicker from './components/ColorPicker';
 
-const ColorPickerId = cuid();
+const elementColorPickerId = cuid();
+const modalColorPickerId = cuid();
 
 const windowSize = {
   width: window.innerWidth,
   height: window.innerHeight
 };
 
-export default () => <Layout name='Main' type={ROW} hiddenType={OPACITY} resize={false}>
+export default () => <Layout name='Main' type={ROW} hiddenType={RENDER} resize={false}>
   <Float width='65px' height='170px' x='250px' y='100px'>
     <Layout name='Float' type={ROW}>
       <Container size={100} tabs={false}>
-        <Register type={Tools} props={{ text: 'Float', ColorPickerId }}/>
+        <Register type={Tools} props={{ text: 'Float', modalColorPickerId, elementColorPickerId}}/>
       </Container>
     </Layout>
   </Float>
-  <Float width='400px' height='320px' x='300px' y='100px' id={ColorPickerId}>
+  <Float width='400px' height='320px' x='300px' y='100px' id={modalColorPickerId} open={false}>
     <Layout name='Float' type={ROW}>
       <Container size={100} tabs={false}>
-        <Register type={ColorPicker} props={{ text: 'Float', ColorPickerId }}/>
+        <Register type={ColorPicker} id={elementColorPickerId} props={{}}/>
       </Container>
     </Layout>
   </Float>

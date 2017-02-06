@@ -27,26 +27,28 @@ obj.shouldComponentUpdate = function(nextProps) {
 };
 obj.onClickPrimary = function (evt) {
   evt.preventDefault();
-  this.props.setStyle('colorPicker', {
-    visibility: 'visible'
-  });
-  this.props.setParams('colorPicker', {
-    color: this.props.primaryColor,
-    action: 'setSpritePrimaryColor',
-    sprite: this.props.sprite
-  });
+  this.props.rdChangeProps(
+    this.props.elementColorPickerId,
+    {
+      color: this.props.primaryColor,
+      action: 'setSpritePrimaryColor',
+      sprite: this.props.sprite
+    }
+  );
+  this.props.rdOpenFloat(this.props.modalColorPickerId);
 };
 
 obj.onClickSecondary = function (evt) {
   evt.preventDefault();
-  this.props.setStyle('colorPicker', {
-    visibility: 'visible'
-  });
-  this.props.setParams('colorPicker', {
-    color: this.props.secondaryColor,
-    action: 'setSpriteSecondaryColor',
-    sprite: this.props.sprite
-  });
+  this.props.rdChangeProps(
+    this.props.elementColorPickerId,
+    {
+      color: this.props.secondaryColor,
+      action: 'setSpriteSecondaryColor',
+      sprite: this.props.sprite
+    }
+  );
+  this.props.rdOpenFloat(this.props.modalColorPickerId);
 };
 
 obj.onClickTool = function (name) {
