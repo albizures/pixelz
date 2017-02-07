@@ -23,7 +23,7 @@
       "transform-object-assign"
     ],
     "presets": [
-      "es2015",
+      ["es2015", {"modules": false}],
       "react"
     ]
   },
@@ -98,7 +98,7 @@
     "eslint-plugin-react": "^6.8.0",
     "eslint-plugin-standard": "^2.0.1",
     "exports-loader": "^0.6.3",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.9.0",
     "get-port": "^2.1.0",
     "html-webpack-plugin": "^2.24.1",
@@ -123,7 +123,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^2.4.0",
     "supertest": "^2.0.1",
-    "webpack": "^1.14.0",
+    "webpack": "^2.2.1",
     "webpack-dev-server": "^1.16.2",
     "worker-loader": "^0.7.1"
   }
