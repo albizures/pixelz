@@ -206,7 +206,7 @@ export const setSpritePrimaryColor = (sprite, color) => ({
   }
 });
 
-export const setSpriteSecundaryColor = (sprite, color) => ({
+export const setSpriteSecondaryColor = (sprite, color) => ({
   type: SET_SPRITE_SECONDARY_COLOR,
   payload: {
     id: sprite,

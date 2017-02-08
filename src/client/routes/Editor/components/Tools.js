@@ -4,9 +4,7 @@ import { register } from 'react-dynamic-layout';
 import { Tooltipy } from '../../../components/Tooltipy';
 import Color from './Color';
 import {
-  setCurrentTool,
-  setStyle,
-  setParams
+  setCurrentTool
 } from '../../../ducks';
 
 const obj = {};
@@ -91,7 +89,7 @@ function mapStateToProps(state) {
 
 const Tools = connect(
   mapStateToProps,
-  { setCurrentTool, setStyle, setParams}
+  { setCurrentTool}
 )(React.createClass(obj));
 
 register(Tools, obj.displayName);

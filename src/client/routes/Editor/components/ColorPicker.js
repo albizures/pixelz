@@ -10,8 +10,7 @@ import Color from './Color';
 import {
   setSpriteSecondaryColor,
   setSpritePrimaryColor,
-  addColor,
-  setStyle
+  addColor
 } from '../../../ducks';
 
 const { round } = Math;
@@ -227,9 +226,9 @@ obj.getHandleRGBA = function(position) {
 
 obj.onClickOK = function() {
   let params = this.props.params;
-  this.props.setStyle('colorPicker', {
-    visibility: 'hidden'
-  });
+  // this.props.setStyle('colorPicker', {
+  //   visibility: 'hidden'
+  // });
   console.log(this.props, this.state);
   switch (params.action) {
     case 'addColor':
@@ -322,8 +321,7 @@ const ColorPicker = connect(
   }, {
     addColor,
     setSpritePrimaryColor,
-    setSpriteSecondaryColor,
-    setStyle
+    setSpriteSecondaryColor
   }
 )(React.createClass(obj));
 

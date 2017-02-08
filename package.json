@@ -23,7 +23,7 @@
       "transform-object-assign"
     ],
     "presets": [
-      ["es2015", {"modules": false}],
+      ["es2015", {"modules": "umd"}],
       "react"
     ]
   },

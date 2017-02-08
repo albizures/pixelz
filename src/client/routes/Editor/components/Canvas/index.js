@@ -10,7 +10,9 @@ import Background from './Background';
 import Preview from './Preview';
 import Mask from './Mask';
 import Layer from './Layer';
-import * as obj from './events';
+import * as events from './events';
+
+const obj = Object.assign({}, events);
 
 obj.displayName = 'Canvas';
 

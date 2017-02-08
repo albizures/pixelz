@@ -10,9 +10,7 @@ import {
   setCurrentPalette,
   setSpriteSecondaryColor,
   setSpritePrimaryColor,
-  savePalette,
-  setStyle,
-  setParams
+  savePalette
 } from '../../../ducks';
 
 
@@ -63,17 +61,17 @@ obj.toggleCurrent = function () {
 };
 
 obj.onAddColor = function () {
-  this.props.setStyle('colorPicker', {
-    visibility: 'visible'
-  });
+  // this.props.setStyle('colorPicker', {
+  //   visibility: 'visible'
+  // });
   
 
-  this.props.setParams('colorPicker', {
-    color: this.props.primaryColor,
-    action: 'addColor',
-    palette: this.props.palette,
-    position: this.getNextPosition()
-  });
+  // this.props.setParams('colorPicker', {
+  //   color: this.props.primaryColor,
+  //   action: 'addColor',
+  //   palette: this.props.palette,
+  //   position: this.getNextPosition()
+  // });
 };
 
 obj.onSave = function () {
@@ -133,6 +131,8 @@ obj.getPalette = function () {
   return this.props.palettes[this.props.palette].colors;
 };
 
+console.log(setSpritePrimaryColor, setSpritePrimaryColor);
+
 const Palette = connect(
   function (state) {
     const sprite = state.sprites[state.editor.sprite];
@@ -143,7 +143,7 @@ const Palette = connect(
       primaryColor: sprite.primaryColor
     };
   },
-  {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor, setStyle, setParams, savePalette}
+  {setTransparentColor, setCurrentPalette, setSpriteSecondaryColor, setSpritePrimaryColor, savePalette}
 )(React.createClass(obj));
 
 register(Palette, obj.displayName);
