@@ -1,6 +1,6 @@
 import { calculatePosition, validCord, getPreviewSize } from 'utils/canvas';
 import { MIDDLE_CLICK, RIGHT_CLICK, LEFT_CLICK } from '../../../../constants';
-import tools from './tools';
+import * as tools from './tools';
 
 const { ceil, floor } = Math;
 let lastDragX, lastDragY;

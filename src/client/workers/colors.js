@@ -1,11 +1,13 @@
-const colors = require('./colors.worker')();
+import colorsWorker from './colors.worker';
 import { getImageData } from 'utils/canvas';
 import { store } from '../store';
+
 
 const cbs = {
   transparent: [],
   palette: []
 }; 
+const colors = colorsWorker();
 
 colors.onmessage = onMessage;
 

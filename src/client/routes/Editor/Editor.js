@@ -43,7 +43,7 @@ export default () => <Layout name='Main' type={ROW} hiddenType={RENDER} resize={
   <Float width='400px' height='320px' x='300px' y='100px' id={modalColorPickerId} open={false}>
     <Layout name='Float' type={ROW}>
       <Container size={100} tabs={false}>
-        <Register type={ColorPicker} id={elementColorPickerId} props={{}}/>
+        <Register type={ColorPicker} id={elementColorPickerId} props={{modalColorPickerId}}/>
       </Container>
     </Layout>
   </Float>

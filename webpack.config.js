@@ -17,25 +17,48 @@ let devServer;
 let externals = [];
 
 const modules = {
-  preLoaders: [{
+  rules: [{
     test: /\.js$/,
-    loader: 'eslint',
+    loader: 'eslint-loader',
+    enforce: 'pre',
     exclude: /node_modules/
-  }],
-  loaders: [
-    { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
-    { test: /\.json$/, loader: 'json' },
-    { test: /\.(jade|pug)$/, loader: 'pug' },
-    { test: /\.css?$/, loader: ExtractTextPlugin.extract('style', 'css') },
-    { test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css!stylus') },
-    { test: /\.worker\.js?$/,loaders: ['worker?name=workers/[name].[ext]', 'babel'] },
-    { test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-      loader: 'file',
-      query: {
-        name: 'assets/[name].[hash:8].[ext]'
+  }, {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    loader: 'babel-loader'
+  }, {
+    test: /\.(jade|pug)$/,
+    loader: 'pug-loader'
+  }, {
+    test: /\.css?$/,
+    loader: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: 'css-loader'
+    })
+  }, {
+    test: /\.styl$/,
+    loader: ExtractTextPlugin.extract({
+      fallbackLoader: 'style-loader',
+      loader: [
+        'css-loader',
+        'stylus-loader'
+      ]
+    }),
+  }, {
+    test: /\.worker\.js?$/,
+    use: [{
+      loader: 'worker-loader',
+      options: {
+        name: 'workers/[name].[ext]'
       }
+    }, 'babel-loader'],
+  }, {
+    test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+    loader: 'file-loader',
+    options: {
+      name: 'assets/[name].[hash:8].[ext]'
     }
-  ]
+  }]
 };
 
 const resolve = {
@@ -46,10 +69,7 @@ const resolve = {
     make: path.join(config.CLIENT_PATH, 'utils/make.js'),
     http: path.join(config.CLIENT_PATH, 'utils/http.js')
   },
-  extensions: ['', '.js', '.css', '.styl', '.jade']
-};
-const resolveLoader = {
-  root: config.MODULES_PATH
+  extensions: ['.js', '.css', '.styl', '.jade']
 };
 const output = {
   path: config.PUBLIC_PATH,
@@ -63,17 +83,15 @@ if (isProd) {
   };
   plugins.push(
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
     new HtmlWebpackPlugin({
       title: 'Pixore',
       filename: 'index.html',
       template: config.MAIN_TEMPLATE
     }),
-    new ExtractTextPlugin('[name].css')
+    new ExtractTextPlugin({
+      filename: '[name].css'
+    })
   );
 } else {
   entry = [
@@ -89,7 +107,9 @@ if (isProd) {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new WatchMissingNodeModulesPlugin(path.resolve('node_modules')),
-    new ExtractTextPlugin('[name].css')
+    new ExtractTextPlugin({
+      filename: '[name].css'
+    })
   );
   devServer = {
     stats: {
@@ -125,6 +145,8 @@ module.exports = {
   module: modules,
   plugins,
   resolve,
-  resolveLoader,
-  devServer
+  devServer,
+  performance: {
+    hints: false
+  }
 };

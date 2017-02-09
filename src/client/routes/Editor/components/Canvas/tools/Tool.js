@@ -1,13 +1,13 @@
 import { store } from '../../../../../store';
 import { cloneContext } from '../../../../../utils/canvas';
 import {
-  setSpriteSecundaryColor,
+  setSpriteSecondaryColor,
   setSpritePrimaryColor,
   newSpriteVersion,
   addUndoPaint,
   newLayerVersion,
   newFrameVersion
-} from '../../../../../ducks/sprites';
+} from '../../../../../ducks';
 
 import { RIGHT_CLICK } from 'constants/index';
 
@@ -37,7 +37,7 @@ common.setPrimaryColor = function (color) {
 
 common.setSecondaryColor = function (color) {
   store.dispatch(
-    setSpriteSecundaryColor(
+    setSpriteSecondaryColor(
       this.layer.sprite,
       color
     )

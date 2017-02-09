@@ -7,7 +7,7 @@ import Name from './Name';
 import Menu from '../Menu';
 import Panel from '../Panel';
 import { noopF } from 'utils/noop';
-import * as obj from './events';
+import * as events from './events';
 
 import {
   saveEditor,
@@ -15,6 +15,8 @@ import {
   putName
 } from '../../../../ducks';
 
+
+const obj = Object.assign({}, events);
 
 obj.displayName = 'Menus';
 
