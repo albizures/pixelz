@@ -24,10 +24,10 @@ obj.displayName = 'ColorPicker';
 obj.getInitialState = function() {
   var size = 280;
   var bar = 20;
-  var [r, g, b, a] = getRGBAComponents(this.props.params.color);
+  var [r, g, b, a] = getRGBAComponents(this.props.color);
   var [h, s, b] = rgbToHsv(r, g, b);
   return {
-    color: this.props.params.color,
+    color: this.props.color,
     size,
     bar,
     SBPicker: {
@@ -48,8 +48,8 @@ obj.getInitialState = function() {
 };
 
 obj.componentWillReceiveProps = function(nextProps) {
-  if (this.props.params.color !== nextProps.params.color) {
-    this.initColor(nextProps.params.color);
+  if (this.props.color !== nextProps.color) {
+    this.initColor(nextProps.color);
   }
 };
 obj.initColor = function(color) {
@@ -225,41 +225,39 @@ obj.getHandleRGBA = function(position) {
 };
 
 obj.onClickOK = function() {
-  let params = this.props.params;
+  const { action, palette, position, sprite } = this.props;
   // this.props.setStyle('colorPicker', {
   //   visibility: 'hidden'
   // });
-  console.log(this.props, this.state);
-  switch (params.action) {
+  console.log(action, palette, this.state.color);
+  switch (action) {
     case 'addColor':
-      this.props[params.action](
-        params.palette, {
-          position: params.position,
+      this.props.addColor(
+        palette, {
+          position: position,
           color: this.state.color
         }
       );
       break;
     case 'setSpritePrimaryColor':
       this.props.setSpritePrimaryColor(
-        params.sprite,
+        sprite,
         this.state.color
       );
       break;
     case 'setSpriteSecondaryColor':
       this.props.setSpriteSecondaryColor(
-        params.sprite,
+        sprite,
         this.state.color
       );
       break;
     default:
-      this.props[params.action](this.state.color);
+      this.props[action](this.state.color);
       break;
   }
 };
 obj.onClickCancel = function() {
-  this.props.setStyle('colorPicker', {
-    visibility: 'hidden'
-  });
+  this.props.rdCloseFloat(this.props.modalColorPickerId);
 };
 
 obj.render = function () {
@@ -288,7 +286,7 @@ obj.render = function () {
         <div className='picker' style={this.state.APicker}></div>
       </div>
     </div>
-    <Color color={this.props.params.color} size={36} onClick={noop}/>
+    <Color color={this.props.color} size={36} onClick={noop}/>
     <Color color={this.state.color} size={36} onClick={noop}/>
     <div className='input-group' >
       <label>R</label>
@@ -311,19 +309,11 @@ obj.render = function () {
   </div>;
 };
 
-const ColorPicker = connect(
-  function(state, props) {
-    return {
-      params: {
-        color: props.color
-      }
-    };
-  }, {
-    addColor,
-    setSpritePrimaryColor,
-    setSpriteSecondaryColor
-  }
-)(React.createClass(obj));
+const ColorPicker = connect(null, {
+  addColor,
+  setSpritePrimaryColor,
+  setSpriteSecondaryColor
+})(React.createClass(obj));
 
 
 register(ColorPicker, obj.displayName);

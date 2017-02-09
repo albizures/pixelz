@@ -41,16 +41,14 @@ function reducer(state = initialState, {type, payload}) {
         id: payload,
         version: state[payload].version + 1
       });
+    case SET_SPRITE_PRIMARY_COLOR:
     case SET_SPRITE_ARTBOARD:
-      console.trace(payload);
-      return update(state, payload);
     case SET_CURRENT_PALETTE_SPRITE:
     case SET_TRANSPARENT_COLOR:
     case PUT_NAME:
     case SET_SPRITE_ID:
     case SELECT_SPRITE_FRAME:
     case SELECT_SPRITE_LAYER:
-    case SET_SPRITE_PRIMARY_COLOR:
     case SET_SPRITE_SECONDARY_COLOR:
       return update(state, payload);
     default:
@@ -202,7 +200,7 @@ export const setSpritePrimaryColor = (sprite, color) => ({
   type: SET_SPRITE_PRIMARY_COLOR,
   payload: {
     id: sprite,
-    color
+    primaryColor: color
   }
 });
 
@@ -210,7 +208,7 @@ export const setSpriteSecondaryColor = (sprite, color) => ({
   type: SET_SPRITE_SECONDARY_COLOR,
   payload: {
     id: sprite,
-    color
+    secondaryColor: color
   }
 });
 
